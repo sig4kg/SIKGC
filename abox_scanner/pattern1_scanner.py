@@ -1,13 +1,12 @@
-from abox_scanner.abox_utils import PatternScanner
+from abox_scanner.abox_utils import PatternScanner, ContextResources
 
 # domain
 
 
 class Pattern1(PatternScanner):
-    def __init__(self, class2int, node2class_int) -> None:
-        self._class2int = class2int
-        self._node2class_int = node2class_int
+    def __init__(self, context_resources: ContextResources) -> None:
         self._pattern_dict = None
+        self._context_resources = context_resources
 
     def scan_pattern_df_rel(self, aggregated_triples):
         # for df in aggregated_triples:
@@ -18,7 +17,7 @@ class Pattern1(PatternScanner):
         else:
             invalid = self._pattern_dict[rel]['invalid']
             for idx, row in df.iterrows():
-                if self._node2class_int[row['head']] in invalid:
+                if self._context_resources.entid2classid[row['head']] in invalid:
                     df.loc[idx, 'is_valid'] = False
         return df
     #   input the path of TBox scanner output, including a class list and 7 rule patterns
@@ -29,8 +28,8 @@ class Pattern1(PatternScanner):
             lines = f.readlines()
             for l in lines:
                 items = l.split('\t')
-                ont1 = self._class2int[items[0][1:][:-1].split('/')[-1]]
-                ont2 = self._class2int[items[1][1:][:-1].split('/')[-1]]
-                disjoint = [self._class2int[ii[1:][:-1].split('/')[-1]] for ii in items[2][:-2].split('\"') if ii not in ['owl:Nothing']]
-                pattern_dict.update({ont1: {'valid': ont2, 'invalid': disjoint}})
+                op = self._context_resources.op2id[items[0][1:][:-1].split('/')[-1]]
+                ont2 = self._context_resources.class2id[items[1][1:][:-1].split('/')[-1]]
+                disjoint = [self._context_resources.class2id[ii[1:][:-1].split('/')[-1]] for ii in items[2][:-2].split('\"') if ii not in ['owl:Nothing']]
+                pattern_dict.update({op: {'valid': ont2, 'invalid': disjoint}})
             self._pattern_dict = pattern_dict

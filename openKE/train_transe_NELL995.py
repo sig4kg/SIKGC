@@ -1,11 +1,11 @@
-from .openke.config import Trainer, TripleProducer
-from .openke.module.model import TransE
-from .openke.module.loss import MarginLoss
-from .openke.module.strategy import NegativeSampling
-from .openke.data import TrainDataLoader, TestDataLoader
+from openKE.openke.config import Trainer, TripleProducer
+from openKE.openke.module.model import TransE
+from openKE.openke.module.loss import MarginLoss
+from openKE.openke.module.strategy import NegativeSampling
+from openKE.openke.data import TrainDataLoader, TestDataLoader
 
 
-def train(in_path):
+def train(in_path, use_gpu=False):
     # dataloader for training
     train_dataloader = TrainDataLoader(
         in_path=in_path,
@@ -33,7 +33,7 @@ def train(in_path):
     )
 
     # train the model
-    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=1000, alpha=1.0, use_gpu=True)
+    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=1000, alpha=1.0, use_gpu=use_gpu)
     trainer.run()
     transe.save_checkpoint('./checkpoint/transe.ckpt')
     # transe.save_checkpoint(out_dir + '/transe.ckpt')
@@ -55,5 +55,6 @@ def produce(in_path, out_file):
 
 
 
-
+# train("../resources/NELL-995/")
+train("../outputs/train/")
 

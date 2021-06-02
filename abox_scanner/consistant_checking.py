@@ -1,5 +1,4 @@
-import pandas as pd
-from abox_scanner import abox_utils, AboxScannerScheduler
+from abox_scanner import AboxScannerScheduler
 from abox_scanner.abox_utils import ContextResources
 
 

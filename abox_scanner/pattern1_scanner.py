@@ -20,8 +20,7 @@ class Pattern1(PatternScanner):
                 if self._context_resources.entid2classid[row['head']] in invalid:
                     df.loc[idx, 'is_valid'] = False
         return df
-    #   input the path of TBox scanner output, including a class list and 7 rule patterns
-    #   return class2int dict and rule2int dict
+
     def pattern_to_int(self, entry: str):
         with open(entry) as f:
             pattern_dict = dict()

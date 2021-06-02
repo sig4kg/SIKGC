@@ -1,7 +1,7 @@
-#range
 from abox_scanner.abox_utils import PatternScanner, ContextResources
 
 
+#range
 class Pattern2(PatternScanner):
     def __init__(self, context_resources: ContextResources) -> None:
         self._pattern_dict = None
@@ -19,8 +19,6 @@ class Pattern2(PatternScanner):
                     df.loc[idx, 'is_valid'] = False
         return df
 
-    #   input the path of TBox scanner output, including a class list and 7 rule patterns
-    #   return class2int dict and rule2int dict
     def pattern_to_int(self, entry: str):
         with open(entry) as f:
             pattern_dict = dict()

@@ -17,7 +17,7 @@ def c_t_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
     abox_utils.hrt_df2htr_transE(context_resource.hrt_tris_int_df, work_dir + "train/train2id.txt")
     with tqdm(total=max_epoch, colour="green") as pbar:
         for ep in range(max_epoch):
-            pbar.set_description(f"Triple Producer processing, round={ep}")
+            pbar.set_description(f"T Triple Producer processing, round={ep}")
             # train transE
             train_transe_NELL995.train(work_dir + "train/")
             # produce triples

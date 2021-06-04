@@ -2,7 +2,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from pathlib import Path
 import pandas as pd
-
+import os
+import time
 
 
 ONTOLOGY_PATH = "../resources/NELL.ontology.ttl"
@@ -46,17 +47,18 @@ def hrt_original2int(hrt_triples, out_dir, create_id_file=False):
             rel2id.update({tri[1]: r_id})
             r_id +=1
         hrt_int.append([ent2id[tri[0]], rel2id[tri[1]], ent2id[tri[2]]])
+    hrt_int_df = pd.DataFrame(data=hrt_int, columns=['head', 'rel', 'tail'])
     if create_id_file:
-        htr_new_lines = ''.join([f"{tri[0]} {tri[2]} {tri[1]}\n" for tri in hrt_int])
-        htr_new_lines = f"{len(hrt_int)}\n" + htr_new_lines
-        save_file(htr_new_lines, out_dir + "/train2id.txt")
+        # htr_new_lines = ''.join([f"{tri[0]} {tri[2]} {tri[1]}\n" for tri in hrt_int])
+        # htr_new_lines = f"{len(hrt_int)}\n" + htr_new_lines
+        # save_file(htr_new_lines, out_dir + "/train2id.txt")
         ent2id_lines = ''.join([f"{ent}\t{id}\n" for ent, id in ent2id.items()])
         ent2id_lines = f"{len(ent2id)}\n" + ent2id_lines
         save_file(ent2id_lines, out_dir + "/entity2id.txt")
         rel2id_lines = ''.join([f"{rel}\t{id}\n" for rel, id in rel2id.items()])
         rel2id_lines = f"{len(rel2id)}\n" + rel2id_lines
         save_file(rel2id_lines, out_dir + "/relation2id.txt")
-    return ent2id, rel2id, hrt_int
+    return ent2id, rel2id, hrt_int_df
 
 
 def read_hrt_2_df(hrt_triples_file):
@@ -80,13 +82,33 @@ def read_htr_transE_2_hrt_df(htr_with_count_file):
     return count, df
 
 
+def read_hrt_rumis_2_hrt_int_df(hrt_rumis_file, context_resource: ContextResources):
+    df = pd.read_csv(
+        hrt_rumis_file, header=None, names=['head', 'rel', 'tail'], sep="\t")
+    df = df.apply(lambda x: x.str[1:-1])
+    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.ent2id[x])  # to int
+    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.rel2id[x])  # to int
+    return df
+
+
+def read_hrt_original_2_hrt_rumis(hrt_original, hrt_rumis_file):
+    df = read_hrt_2_df(hrt_original)
+    df = df.apply(lambda x: '<' + x + '>')
+    df[['head', 'rel', 'tail']].to_csv(hrt_rumis_file, header=None, index=None, sep='\t')
+
+
+def hrt_int_df_2_hrt_rumis(hrt_int_df, context_resource: ContextResources, hrt_rumis_file):
+    df = hrt_int_df
+    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + context_resource.id2ent[x] + '>')  # to int
+    df[['rel']] = df[['rel']].applymap(lambda x: '<' + context_resource.id2rel[x] + '>')  # to int
+    df[['head', 'rel', 'tail']].to_csv(hrt_rumis_file, header=None, index=None, sep='\t')
+
+
 def hrt_df2htr_transE(hrt_df, transE_train_file):
     count = hrt_df.count()
     first_line_df = pd.DataFrame(data=[[count[0], '', '']], columns=['head', 'tail', 'rel'])
     df2 = pd.concat([first_line_df, hrt_df], 0)
-    outfile = open(transE_train_file, 'wb')
-    df2[['head', 'tail', 'rel']].to_csv(outfile, header=None, index=None, sep='\t')
-    outfile.close() # wait until file is saved
+    df2[['head', 'tail', 'rel']].to_csv(transE_train_file, header=None, index=None, sep='\t')
 
 
 def read_hrt2htr_transE(hrt_triples_file, transE_train_file):
@@ -132,6 +154,21 @@ def save_file(text, out_filename):
     out_f.close()   # wait until file is saved
 
 
+def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
+    time_counter = 0
+    interval = int(timeout_sec / 10) if timeout_sec > 10 else 1
+    print(f"waiting for saving {file_path} ...")
+    while not os.path.exists(file_path):
+        time.sleep(interval)
+        time_counter += interval
+        print(f"waiting {time_counter} sec.")
+        if time_counter > timeout_sec:
+            print(f"saving {file_path} timeout")
+            break
+    return os.path.exists(file_path)
+
+
+
 def entid2classid_nell(ent2id, class2id):
     entid2classid = dict()
     for ent in ent2id:
@@ -158,10 +195,14 @@ class ContextResources:
     def __init__(self, original_hrt_triple_file_path, work_dir, create_id_file=False):
          # h, r, t
         all_triples = read_original_hrt_triples(original_hrt_triple_file_path)
-        self.ent2id, self.rel2id, self.hrt_tris_int = hrt_original2int(all_triples, f"{work_dir}train/", create_id_file=create_id_file)
+        self.ent2id, self.rel2id, self.hrt_tris_int_df = hrt_original2int(all_triples,
+                                                                          f"{work_dir}train/",
+                                                                          create_id_file=create_id_file)
         self.class2id = class2id(ALL_CLASS_FILE)
         self.op2id = op2id(ALL_OP_FILE, self.rel2id)
         self.entid2classid = entid2classid_nell(self.ent2id, self.class2id)
+        self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
+        self.id2rel = {self.rel2id[key]: key for key in self.rel2id}
 
 
 def test():
@@ -179,8 +220,10 @@ def test():
 
 if __name__ == "__main__":
     # test()
-    ot = read_original_hrt_triples("../resources/NELL-995/NELLKG0.txt")
-    hrt_original2int(ot, "../outputs/train/")
+    # read_hrt_original_2_hrt_rumis("../resources/NELL-995/NELLKG0.txt", "../outputs/rumis/ideal.data.txt")
+    read_hrt_rumis_2_hrt_int_df("../outputs/rumis/DLV/extension.opm.kg.pos.10.needcheck")
+    # ot = read_original_hrt_triples("../resources/NELL-995/NELLKG0.txt")
+    # hrt_original2int(ot, "../outputs/train/")
     # hrtdf = read_hrt_2_df("../outputs/valid_hrt.txt")
     # hrtdf2 = read_hrts_2_hrt_df("../outputs/transE_hrts.txt")
     # hrt_df2htr_transE(hrtdf, "../outputs/test1.txt")

@@ -25,7 +25,7 @@ class Pattern2(PatternScanner):
             lines = f.readlines()
             for l in lines:
                 items = l.split('\t')
-                rel = self._context_resources.rel2id[items[0][1:][:-1].split('/')[-1]]
+                rel = self._context_resources.op2id[items[0][1:][:-1].split('/')[-1]]
                 ont2 = self._context_resources.class2id[items[1][1:][:-1].split('/')[-1]]
                 disjoint = [self._context_resources.class2id[ii[1:][:-1].split('/')[-1]] for ii in items[2][:-2].split('\"') if ii not in ['owl:Nothing']]
                 pattern_dict.update({rel: {'valid': ont2, 'invalid': disjoint}})

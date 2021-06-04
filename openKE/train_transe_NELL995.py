@@ -3,7 +3,7 @@ from openKE.openke.module.model import TransE
 from openKE.openke.module.loss import MarginLoss
 from openKE.openke.module.strategy import NegativeSampling
 from openKE.openke.data import TrainDataLoader, TestDataLoader
-
+from pathlib import Path
 
 def train(in_path, use_gpu=False):
     # dataloader for training
@@ -33,9 +33,12 @@ def train(in_path, use_gpu=False):
     )
 
     # train the model
-    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=1000, alpha=1.0, use_gpu=use_gpu)
+    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=2, alpha=1.0, use_gpu=use_gpu)
     trainer.run()
-    transe.save_checkpoint('./checkpoint/transe.ckpt')
+    out_path = Path(in_path + '../checkpoint/transe.ckpt')
+    if not out_path.parent.exists():
+        out_path.parent.mkdir(exist_ok=False)
+    transe.save_checkpoint(in_path + '../checkpoint/transe.ckpt')
     # transe.save_checkpoint(out_dir + '/transe.ckpt')
 
 
@@ -49,12 +52,12 @@ def produce(in_path, out_file):
         p_norm=1,
         norm_flag=True)
     # test the model
-    transe.load_checkpoint('./checkpoint/transe.ckpt')
+    transe.load_checkpoint(in_path + '../checkpoint/transe.ckpt')
     producer = TripleProducer(model=transe, data_loader=test_dataloader, use_gpu=False, output_file=out_file)
     producer.produce_triples(type_constrain=False)
 
 
 
 # train("../resources/NELL-995/")
-train("../outputs/train/")
+# train("../outputs/ctc/train/")
 

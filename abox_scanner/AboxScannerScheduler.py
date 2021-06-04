@@ -1,7 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
 import os
-import pandas as pd
 from abox_scanner.pattern1_scanner import Pattern1
 from abox_scanner.pattern2_scanner import Pattern2
 from abox_scanner.abox_utils import ContextResources
@@ -23,8 +22,8 @@ class AboxScannerScheduler:
         self._id2patternfile = {1: "TBoxPattern_1.txt", 2: "TBoxPattern_2.txt"}
         self._id2strategy = {1: Pattern1, 2: Pattern2}
 
-    def set_triples_int(self, hrt_int) -> AboxScannerScheduler:
-        self._all_triples_int = hrt_int
+    def set_triples_int_df(self, hrt_int_df) -> AboxScannerScheduler:
+        self._context_resources.hrt_tris_int_df = hrt_int_df
         return self
 
 
@@ -49,20 +48,17 @@ class AboxScannerScheduler:
         implementing multiple versions of the algorithm on its own.
         """
         # aggregate triples by relation
-        df = pd.DataFrame(self._context_resources.hrt_tris_int, columns=['head', 'rel', 'tail'])
+        df = self._context_resources.hrt_tris_int_df[['head', 'rel', 'tail']]
         df['is_valid'] = True
         for scanner in self._strategies:
             df = df.query("is_valid == True").groupby('rel').apply(lambda x: scanner.scan_pattern_df_rel(x))
         out_path = Path(work_dir)
         if not out_path.parent.exists():
             out_path.parent.mkdir(exist_ok=False)
-        outfile_invalid = open(f"{work_dir}invalid_hrt.txt", 'wb')
-        outfile_valid = open(f"{work_dir}valid_hrt.txt", 'wb')
-        df.query("is_valid == False")[['head', 'rel', 'tail']].to_csv(outfile_invalid, header=None, index=None, sep='\t', mode='a')
-        df.query("is_valid == True")[['head', 'rel', 'tail']].to_csv(outfile_valid, header=None, index=None, sep='\t', mode='a')
-        outfile_valid.close()
-        outfile_invalid.close()
-        print("done")
+        df.query("is_valid == False")[['head', 'rel', 'tail']].to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        df.query("is_valid == True")[['head', 'rel', 'tail']].to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
+
 
 
 

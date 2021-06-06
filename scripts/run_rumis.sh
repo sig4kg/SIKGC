@@ -24,9 +24,9 @@ echo "learning nonmonotonic rule..."
 java -jar $WORK_DIR/rumis-1.0.jar -e=neg -p=horn-rules.txt -l=$WORK_DIR/ideal.data.txt -r=2 -t=10
 echo "Spliting train data..."
 java -jar $WORK_DIR/rumis-1.0.jar -e=new -l=$WORK_DIR/ideal.data.txt -o=0.9 1>$WORK_DIR/training.data.txt
-mv horn-rules.txt $WORK_DIR/
-mv horn-rules-stats.txt $WORK_DIR/
-mv revised-rules.txt $WORK_DIR/
+[ -f "horn-rules.txt" ] && mv horn-rules.txt $WORK_DIR/
+[ -f "horn-rules-stats.txt" ] && mv horn-rules-stats.txt $WORK_DIR/
+[ -f "revised-rules.txt" ] && mv revised-rules.txt $WORK_DIR/
 echo "Learning new triples..."
 java -jar $WORK_DIR/rumis-1.0.jar -e=exp -f=$WORK_DIR -r=2 -t=10 -d -s 1>$WORK_DIR/experiment.txt
 echo "Done with Rumis."

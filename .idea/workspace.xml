@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/run_rumis.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/run_rumis.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/run_rumis.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+            <state relative-caret-position="332">
+              <caret line="27" column="67" lean-forward="true" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -75,10 +75,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_R_C.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-252">
+            <state relative-caret-position="153">
               <caret line="20" column="66" selection-start-line="20" selection-start-column="66" selection-end-line="20" selection-end-column="66" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -215,9 +215,9 @@
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_T_C.py" />
         <option value="$PROJECT_DIR$/abox_scanner/rumis_util.py" />
         <option value="$PROJECT_DIR$/scripts/run_scripts.py" />
-        <option value="$PROJECT_DIR$/scripts/run_rumis.sh" />
         <option value="$PROJECT_DIR$/scripts/rumis_clean.sh" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" />
+        <option value="$PROJECT_DIR$/scripts/run_rumis.sh" />
       </list>
     </option>
   </component>
@@ -510,6 +510,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="330" y="25" width="1478" height="971" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3252089" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1007,13 +1008,6 @@ t = t[1:][:-1]</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/run_rumis.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/abox_scanner/abox_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
@@ -1026,11 +1020,18 @@ t = t[1:][:-1]</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_R_C.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-252">
+        <state relative-caret-position="153">
           <caret line="20" column="66" selection-start-line="20" selection-start-column="66" selection-end-line="20" selection-end-column="66" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/run_rumis.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="27" column="67" lean-forward="true" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
         </state>
       </provider>
     </entry>

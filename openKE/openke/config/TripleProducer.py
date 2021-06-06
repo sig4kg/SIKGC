@@ -79,20 +79,23 @@ class TripleProducer(object):
             type_constrain = 0
         training_range = self.data_loader
         self.lib.setOutPath(ctypes.create_string_buffer(self.out_file.encode(), len(self.out_file) * 2))
-        for index, [data_head, data_tail] in enumerate(training_range):
-            score = self.test_one_step(data_head)
-            order = np.argsort(score)
-            self.lib.produceHead(score.__array_interface__["data"][0],
-                                 order.__array_interface__["data"][0],
-                                 index,
-                                 float(0.5),
-                                 type_constrain)
-            score = self.test_one_step(data_tail)
-            order = np.argsort(score)
-            self.lib.produceTail(score.__array_interface__["data"][0],
-                                 order.__array_interface__["data"][0],
-                                 index,
-                                 float(0.5),
-                                 type_constrain)
+        with tqdm(total=len(training_range), colour="green", position=0, leave=True) as pbar:
+            pbar.set_description(f"TripleProducer")
+            for index, [data_head, data_tail] in enumerate(training_range):
+                score = self.test_one_step(data_head)
+                order = np.argsort(score)
+                self.lib.produceHead(score.__array_interface__["data"][0],
+                                     order.__array_interface__["data"][0],
+                                     index,
+                                     float(0.5),
+                                     type_constrain)
+                score = self.test_one_step(data_tail)
+                order = np.argsort(score)
+                self.lib.produceTail(score.__array_interface__["data"][0],
+                                     order.__array_interface__["data"][0],
+                                     index,
+                                     float(0.5),
+                                     type_constrain)
+                pbar.update(1)
 
 

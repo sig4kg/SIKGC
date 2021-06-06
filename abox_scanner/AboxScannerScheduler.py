@@ -23,7 +23,7 @@ class AboxScannerScheduler:
         self._id2strategy = {1: Pattern1, 2: Pattern2}
 
     def set_triples_int_df(self, hrt_int_df) -> AboxScannerScheduler:
-        self._context_resources.hrt_tris_int_df = hrt_int_df
+        self._context_resources.hrt_to_scan_df = hrt_int_df
         return self
 
 
@@ -48,7 +48,7 @@ class AboxScannerScheduler:
         implementing multiple versions of the algorithm on its own.
         """
         # aggregate triples by relation
-        df = self._context_resources.hrt_tris_int_df[['head', 'rel', 'tail']]
+        df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
         df['is_valid'] = True
         for scanner in self._strategies:
             df = df.query("is_valid == True").groupby('rel').apply(lambda x: scanner.scan_pattern_df_rel(x))

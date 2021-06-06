@@ -46,8 +46,8 @@ def produce(in_path, out_file):
     # dataloader for test
     test_dataloader = TestDataLoader(in_path, "link")
     transe = TransE(
-        # ent_tot=train_dataloader.get_ent_tot(),
-        # rel_tot=train_dataloader.get_rel_tot(),
+        ent_tot=test_dataloader.get_ent_tot(),
+        rel_tot=test_dataloader.get_rel_tot(),
         dim=200,
         p_norm=1,
         norm_flag=True)
@@ -57,7 +57,8 @@ def produce(in_path, out_file):
     producer.produce_triples(type_constrain=False)
 
 
-
 # train("../resources/NELL-995/")
 # train("../outputs/ctc/train/")
-
+# produce("../resources/NELL-995/", "../outputs/ctc/test.txt")
+# produce("../outputs/ctc/NELL-995/", "../outputs/ctc/test.txt")
+# produce("../outputs/ctc/train/", "../outputs/ctc/test.txt")

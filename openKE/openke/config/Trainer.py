@@ -84,15 +84,15 @@ class Trainer(object):
 				lr = self.alpha,
 				weight_decay=self.weight_decay,
 			)
-		print("Finish initializing...")
+		# print("Finish initializing...")
 		
-		training_range = tqdm(range(self.train_times))
+		training_range = tqdm(range(self.train_times), position=0, leave=True)
 		for epoch in training_range:
 			res = 0.0
 			for data in self.data_loader:
 				loss = self.train_one_step(data)
 				res += loss
-			training_range.set_description("Epoch %d | loss: %f" % (epoch, res))
+			training_range.set_description("Training Epoch %d | loss: %f" % (epoch, res))
 			
 			if self.save_steps and self.checkpoint_dir and (epoch + 1) % self.save_steps == 0:
 				print("Epoch %d has finished, saving..." % (epoch))

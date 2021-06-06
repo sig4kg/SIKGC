@@ -64,7 +64,7 @@ void produceHead(REAL *con, INT *order, INT lastHead, REAL threshold, bool type_
         INT j = results[i];
         if (j != initValue) {
 //            std::cout<< j << " " << t << " " << r << " " << con[j] << "\n";
-            fprintf(fptr, "%ld\t%ld\t%ld\t%f\n", j, t, r, con[j]);
+            fprintf(fptr, "%ld\t%ld\t%ld\t%f\n", j, r, t, con[j]);
         } else {
             break;
         }
@@ -128,7 +128,7 @@ void produceTail(REAL *con, INT *order, INT lastTail, REAL threshold, bool type_
         INT j = results[i];
         if (j != initValue) {
 //            std::cout<< h << " " << j << " " << r << " " << con[j] << "\n";
-            fprintf(fptr, "%ld\t%ld\t%ld\t%f\n", j, t, r, con[j]);
+            fprintf(fptr, "%ld\t%ld\t%ld\t%f\n", j, r, t, con[j]);
         } else {
             break;
         }

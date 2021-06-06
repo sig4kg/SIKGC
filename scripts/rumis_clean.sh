@@ -19,8 +19,9 @@ if [ ! -d "$LAST_ROUND" ];then
   mkdir "$LAST_ROUND"
 fi
 
-if [ ! -d "$WORK_DIR/DLV" ];then
-    mv $WORK_DIR/DLV/* $LAST_ROUND
+if [ -d "$WORK_DIR/DLV" ];then
+    mv -r $WORK_DIR/DLV $LAST_ROUND
 fi
-mv $WORK_DIR/*.txt $LAST_ROUND
+[ -f "$WORK_DIR/ideal.data.txt" ] && mv $WORK_DIR/ideal.data.txt $LAST_ROUND
+[ -f "$WORK_DIR/invalid_hrt.txt" ] && mv $WORK_DIR/ideal.data.txt $LAST_ROUND
 

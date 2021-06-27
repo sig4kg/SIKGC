@@ -33,7 +33,7 @@ def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
         new_hrt_df1 = read_hrt_rumis_2_hrt_int_df(work_dir + "DLV/extension.opm.kg.pos.10.needcheck", context_resource)
         new_hrt_df2 = read_hrt_rumis_2_hrt_int_df(work_dir + "DLV/extension.opm.kg.neg.10.needcheck", context_resource)
         new_hrt_df = pd.concat([new_hrt_df1, new_hrt_df2], 0)
-        abox_scanner_scheduler.set_triples_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
 
         # get valid new triples
         if abox_utils.wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):

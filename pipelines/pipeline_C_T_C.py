@@ -33,7 +33,7 @@ def c_t_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
         # 3. consistency checking for new triples
         new_hrt_df = read_hrts_2_hrt_df(work_dir + "transE_raw_hrts.txt")
         run_scripts.clean_tranE(work_dir)
-        abox_scanner_scheduler.set_triples_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
         wait_until_file_is_saved(work_dir + "valid_hrt.txt")
 
         # 4. get valid new triples

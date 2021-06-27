@@ -22,7 +22,7 @@ class AboxScannerScheduler:
         self._id2patternfile = {1: "TBoxPattern_1.txt", 2: "TBoxPattern_2.txt"}
         self._id2strategy = {1: Pattern1, 2: Pattern2}
 
-    def set_triples_int_df(self, hrt_int_df) -> AboxScannerScheduler:
+    def set_triples_to_scan_int_df(self, hrt_int_df) -> AboxScannerScheduler:
         self._context_resources.hrt_to_scan_df = hrt_int_df
         return self
 

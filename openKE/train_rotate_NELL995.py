@@ -53,4 +53,4 @@ def train(in_path, use_gpu=False):
 
 
 if __name__ == "__main__":
-    train("../resources/NELL-995/", use_gpu=True)
+    train("../resources/NELL-995/", use_gpu=False)

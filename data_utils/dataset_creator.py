@@ -4,10 +4,12 @@ from pathlib import Path
 from owlready2 import *
 from rdflib import Graph
 
-def load_nell_sentense():
+
+def load_nell_sentense(output_dir):
     # Load a dataset and print the first example in the training set
     nell_dataset = load_dataset('nell', 'nell_belief_sentences')
-    print(nell_dataset['train'][0:10])
+    df = pd.DataFrame(nell_dataset['train'][:])
+    df.to_csv(output_dir + 'nell_sentences.csv', sep='\t')
 
 
 def nell_ent_to_sentenses(data_file, output_dir):
@@ -96,8 +98,7 @@ def nell_tidyup_text_files(work_dir):
     rel_text_df.to_csv(work_dir + "relation2text.txt", header=None, index=None, sep='\t', mode='a')
 
 
-
-# nell_ent_to_sentenses("../resources/nell100.csv", output_dir="../outputs/test_nell/")
-# nell_ent_to_description("../resources/bri.csv", output_dir='../resources/NELL-995_2/')
+# load_nell_sentense()
+nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")
+nell_ent_to_description("../resources/NELL-995_2/NELL.08m.1115.esv.csv", output_dir='../resources/NELL-995_2/')
 # nell_tidyup_text_files('../resources/NELL-995_2/')
-load_nell_sentense()

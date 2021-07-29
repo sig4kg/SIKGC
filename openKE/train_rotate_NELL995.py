@@ -41,7 +41,7 @@ def train(in_path, use_gpu=False):
     # train the model
     trainer = Trainer(model=model,
                       data_loader=train_dataloader,
-                      train_times=6000, alpha=2e-5,
+                      train_times=600, alpha=2e-5,
                       use_gpu=use_gpu, opt_method="adam")
     trainer.run()
     rotate.save_checkpoint('./checkpoint/rotate.ckpt')

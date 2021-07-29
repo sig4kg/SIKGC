@@ -34,9 +34,13 @@ def gen_pred_transE(work_dir):
     os.system(f"cp {work_dir}train/train2id.txt {work_dir}train/valid2id.txt")
 
 
+def gen_pred_blp(work_dir):
+    wait_until_file_is_saved(f"{work_dir}all_triples.tsv", 120)
+
+
 def run_materialization(work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]
 
 
-clean_tranE("../outputs/ctc/")
+# clean_tranE("../outputs/ctc/")

@@ -1,8 +1,7 @@
 from datasets import list_datasets, load_dataset, list_metrics, load_metric
 import pandas as pd
 from pathlib import Path
-from owlready2 import *
-from rdflib import Graph
+from tqdm import tqdm
 
 
 def load_nell_sentense(output_dir):
@@ -27,13 +26,13 @@ def nell_ent_to_sentenses(data_file, output_dir):
     if not out_file1.parent.exists():
         out_file1.parent.mkdir(exist_ok=False)
     with open(out_file1, 'w') as f:
-        for entity, group in entity_sents:
+        for entity, group in tqdm(entity_sents):
             tris_s = group['sentence']
             first_s_per_tri = [s_l[0] for s_l in tris_s]
             entity_sents = '. '.join(first_s_per_tri)
             entity_sents = entity_sents.replace('..', '.').replace('[[ ', '').replace(' ]]', '')
             f.write(f"{entity.replace(':', '_')}\t{entity_sents}\n")
-    filtered[['entity']] = filtered[['entity']].applymap(lambda x: x.replace(":", "_"))
+    filtered['entity'] = filtered['entity'].apply(lambda x: x.replace(":", "_"))
     filtered.to_csv(output_dir + "tri-sents.csv", header=None, index=None, sep='\t', mode='a')
 
 
@@ -51,7 +50,7 @@ def nell_ent_to_description(data_file, output_dir):
     ent_g = all_entities.groupby(['entity'], group_keys=False, as_index=False).agg(list)
     # rel_view = keep_info[['Relation']].drop_duplicates(keep=False)
 
-    for idx, row in ent_g.iterrows():
+    for idx, row in tqdm(ent_g.iterrows()):
         entity = row['entity'].replace('concept:', '').replace(':', '_')
         concept = row['entity'].split(':')[1] if ':' in row['entity'] else ''
         ent_str = row['text'][0] if not pd.isna(row['text']) else entity.split('_')[-1]
@@ -100,5 +99,6 @@ def nell_tidyup_text_files(work_dir):
 
 # load_nell_sentense()
 nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")
-nell_ent_to_description("../resources/NELL-995_2/NELL.08m.1115.esv.csv", output_dir='../resources/NELL-995_2/')
+nell_ent_to_description("../resources/NELL-995_2/NELL.08m.1115.esv.csv", output_dir='../outputs/test_nell/')
+# nell_ent_to_sentenses("../resources/nell100.csv", output_dir="../outputs/test/")
 # nell_tidyup_text_files('../resources/NELL-995_2/')

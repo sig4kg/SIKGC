@@ -36,21 +36,28 @@ def nell_ent_to_sentenses(data_file, output_dir):
     filtered.to_csv(output_dir + "tri-sents.csv", header=None, index=None, sep='\t', mode='a')
 
 
-def nell_ent_to_description(data_file, output_dir):
-    df = pd.read_csv(
-        data_file, sep="\t")
+def nell_ent_to_description(data_files, output_dir):
+    entities = []
+    all_entities = pd.DataFrame(columns=['entity', 'text'])
+    for in_file in tqdm(data_files):
+        with open(in_file) as f:
+            lines = f.readlines()
+            for l in lines:
+                items = l.split('\t')
+                entity = items[0].strip()
+                entity_str = items[-5].strip()
+                value = items[2].strip()
+                value_str = items[-4].strip()
+                entities.append([entity, entity_str])
+                if value_str != '':
+                    entities.append([value, value_str])
+            tmp_df = pd.DataFrame(data=entities, columns=['entity', 'text'])
+            all_entities = pd.merge(all_entities, tmp_df, how='outer').drop_duplicates(keep=False).dropna(axis=0, how='any')
     ent2Category = dict()
     ent2literal = dict()
-    keep_info = df[['Entity', 'Relation', 'Value', 'Best Entity literalString', 'Best Value literalString']]
-    entities_view = keep_info[['Entity', 'Best Entity literalString']].\
-        rename(columns={'Entity': 'entity', 'Best Entity literalString': 'text'})
-    values_view = keep_info[['Value', 'Best Value literalString']].\
-        rename(columns={'Value': 'entity', 'Best Value literalString': 'text'})
-    all_entities = pd.merge(entities_view, values_view, how='outer').drop_duplicates(keep=False)
-    ent_g = all_entities.groupby(['entity'], group_keys=False, as_index=False).agg(list)
+    # ent_g = all_entities.groupby(['entity'], group_keys=False, as_index=False).agg(list)
     # rel_view = keep_info[['Relation']].drop_duplicates(keep=False)
-
-    for idx, row in tqdm(ent_g.iterrows()):
+    for idx, row in tqdm(all_entities.iterrows()):
         entity = row['entity'].replace('concept:', '').replace(':', '_')
         concept = row['entity'].split(':')[1] if ':' in row['entity'] else ''
         ent_str = row['text'][0] if not pd.isna(row['text']) else entity.split('_')[-1]
@@ -99,6 +106,10 @@ def nell_tidyup_text_files(work_dir):
 
 # load_nell_sentense()
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")
-nell_ent_to_description("../resources/NELL-995_2/NELL.08m.1115.esv.csv", output_dir='../outputs/test_nell/')
+nell_ent_to_description(["../resources/NELL-995_2/nell115.csvaa",
+                         "../resources/NELL-995_2/nell115.csvab",
+                         "../resources/NELL-995_2/nell115.csvac",
+                         "../resources/NELL-995_2/nell115.csvad"],
+                        output_dir='../outputs/test_nell/')
 # nell_ent_to_sentenses("../resources/nell100.csv", output_dir="../outputs/test/")
 # nell_tidyup_text_files('../resources/NELL-995_2/')

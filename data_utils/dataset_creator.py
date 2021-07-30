@@ -110,11 +110,10 @@ def nell_tidyup_text_files(work_dir):
 
 # load_nell_sentense()
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")
-nell_ent_to_description([
-    "../resources/NELL-995_2/nell115.csvaa",
-    "../resources/NELL-995_2/nell115.csvab",
-    "../resources/NELL-995_2/nell115.csvac",
-    "../resources/NELL-995_2/nell115.csvad"],
-    output_dir='../outputs/test_nell/')
-# nell_ent_to_sentenses("../resources/nell100.csv", output_dir="../outputs/test/")
-# nell_tidyup_text_files('../resources/NELL-995_2/')
+# nell_ent_to_description([
+#     "../resources/NELL-995_2/nell115.csvaa",
+#     "../resources/NELL-995_2/nell115.csvab",
+#     "../resources/NELL-995_2/nell115.csvac",
+#     "../resources/NELL-995_2/nell115.csvad"],
+#     output_dir='../outputs/test_nell/')
+nell_tidyup_text_files('../resources/NELL-995_2/')

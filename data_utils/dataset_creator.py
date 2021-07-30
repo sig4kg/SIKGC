@@ -48,7 +48,8 @@ def nell_ent_to_description(data_files, output_dir):
                 entity_str = items[-5].strip()
                 value = items[2].strip()
                 value_str = items[-4].strip()
-                entities.append([entity, entity_str])
+                if entity_str != '':
+                    entities.append([entity, entity_str])
                 if value_str != '':
                     entities.append([value, value_str])
             tmp_df = pd.DataFrame(data=entities, columns=['entity', 'text'])
@@ -60,8 +61,8 @@ def nell_ent_to_description(data_files, output_dir):
     for idx, row in tqdm(all_entities.iterrows()):
         entity = row['entity'].replace('concept:', '').replace(':', '_')
         concept = row['entity'].split(':')[1] if ':' in row['entity'] else ''
-        ent_str = row['text'][0] if not pd.isna(row['text']) else entity.split('_')[-1]
-        if entity != '':
+        ent_str = row['text'] if not pd.isna(row['text']) else entity.split('_')[-1]
+        if entity != '' and entity_str != '':
             ent2literal.update({entity: ent_str})
         if concept != '':
             ent2Category.update({entity: concept})
@@ -106,9 +107,10 @@ def nell_tidyup_text_files(work_dir):
 
 # load_nell_sentense()
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")
-nell_ent_to_description(["../resources/NELL-995_2/nell115.csvaa",
-                         "../resources/NELL-995_2/nell115.csvab",
-                         "../resources/NELL-995_2/nell115.csvac",
+nell_ent_to_description([
+    # "../resources/NELL-995_2/nell115.csvaa",
+#                          "../resources/NELL-995_2/nell115.csvab",
+#                          "../resources/NELL-995_2/nell115.csvac",
                          "../resources/NELL-995_2/nell115.csvad"],
                         output_dir='../outputs/test_nell/')
 # nell_ent_to_sentenses("../resources/nell100.csv", output_dir="../outputs/test/")

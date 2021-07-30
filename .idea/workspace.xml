@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_utils/dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/dataset_creator.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -97,8 +96,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data_utils/dataset_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="110" column="65" lean-forward="true" selection-start-line="110" selection-start-column="65" selection-end-line="110" selection-end-column="65" />
+            <state relative-caret-position="142">
+              <caret line="64" column="43" selection-start-line="64" selection-start-column="43" selection-end-line="64" selection-end-column="43" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
@@ -485,7 +484,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32839224" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.38030097" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.25171" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.45417237" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -667,12 +666,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
-          <line>78</line>
+          <line>79</line>
           <option name="timeStamp" value="232" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
-          <line>92</line>
+          <line>93</line>
           <option name="timeStamp" value="249" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -692,14 +691,24 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
-          <line>68</line>
+          <line>69</line>
           <option name="timeStamp" value="262" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="263" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>row['text']</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>filtered['entity'] = filtered['entity'].apply(lambda x: x.replace(&quot;:&quot;, &quot;_&quot;))</expression-string>
         <language-id>Python</language-id>
@@ -1025,8 +1034,8 @@ filtered[:, 0] = t</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_utils/dataset_creator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="110" column="65" lean-forward="true" selection-start-line="110" selection-start-column="65" selection-end-line="110" selection-end-column="65" />
+        <state relative-caret-position="142">
+          <caret line="64" column="43" selection-start-line="64" selection-start-column="43" selection-end-line="64" selection-end-column="43" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>

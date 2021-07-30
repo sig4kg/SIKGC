@@ -53,7 +53,8 @@ def nell_ent_to_description(data_files, output_dir):
                 if value_str != '':
                     entities.append([value, value_str])
             tmp_df = pd.DataFrame(data=entities, columns=['entity', 'text'])
-            all_entities = pd.merge(all_entities, tmp_df, how='outer').drop_duplicates(keep=False).dropna(axis=0, how='any')
+            all_entities = pd.merge(all_entities, tmp_df, how='outer').drop_duplicates(keep=False).dropna(axis=0,
+                                                                                                          how='any')
     ent2Category = dict()
     ent2literal = dict()
     # ent_g = all_entities.groupby(['entity'], group_keys=False, as_index=False).agg(list)
@@ -81,7 +82,9 @@ def nell_ent_to_description(data_files, output_dir):
 
 def nell_tidyup_text_files(work_dir):
     nell_tris = pd.read_csv(work_dir + 'NELLKG0.txt', header=None, names=['head', 'relation', 'tail'], sep='\t')
-    all_entities = pd.merge(nell_tris[['head']].rename(columns={'head': 'entity'}), nell_tris[['tail']].rename(columns={'tail': 'entity'}), how='outer').drop_duplicates(keep=False)
+    all_entities = pd.merge(nell_tris[['head']].rename(columns={'head': 'entity'}),
+                            nell_tris[['tail']].rename(columns={'tail': 'entity'}), how='outer').drop_duplicates(
+        keep=False)
     all_relations = nell_tris[['relation']].drop_duplicates(keep=False)
     entity_text = pd.read_csv(work_dir + 'entity2text_all.txt', header=None, names=['entity', 'text'], sep='\t')
     entity_type = pd.read_csv(work_dir + 'entity2type_all.txt', header=None, names=['entity', 'type'], sep='\t')
@@ -108,10 +111,10 @@ def nell_tidyup_text_files(work_dir):
 # load_nell_sentense()
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")
 nell_ent_to_description([
-    # "../resources/NELL-995_2/nell115.csvaa",
-#                          "../resources/NELL-995_2/nell115.csvab",
-#                          "../resources/NELL-995_2/nell115.csvac",
-                         "../resources/NELL-995_2/nell115.csvad"],
-                        output_dir='../outputs/test_nell/')
+    "../resources/NELL-995_2/nell115.csvaa",
+    "../resources/NELL-995_2/nell115.csvab",
+    "../resources/NELL-995_2/nell115.csvac",
+    "../resources/NELL-995_2/nell115.csvad"],
+    output_dir='../outputs/test_nell/')
 # nell_ent_to_sentenses("../resources/nell100.csv", output_dir="../outputs/test/")
 # nell_tidyup_text_files('../resources/NELL-995_2/')

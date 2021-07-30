@@ -2,5 +2,6 @@
 **/checkpoint
 **/release
 .idea
+.pyenv
 **/workspace.xml
 **/__pycache__

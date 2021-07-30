@@ -81,15 +81,15 @@ def nell_ent_to_description(data_files, output_dir):
 
 
 def nell_tidyup_text_files(work_dir):
-    nell_tris = pd.read_csv(work_dir + 'NELLKG0.txt', header=None, names=['head', 'relation', 'tail'], sep='\t')
+    nell_tris = pd.read_csv(work_dir + 'NELLKG0.txt', header=None, names=['head', 'relation', 'tail'], sep='\t', error_bad_lines=False, engine="python")
     all_entities = pd.merge(nell_tris[['head']].rename(columns={'head': 'entity'}),
                             nell_tris[['tail']].rename(columns={'tail': 'entity'}), how='outer').drop_duplicates(
         keep=False)
     all_relations = nell_tris[['relation']].drop_duplicates(keep=False)
-    entity_text = pd.read_csv(work_dir + 'entity2text_all.txt', header=None, names=['entity', 'text'], sep='\t')
-    entity_type = pd.read_csv(work_dir + 'entity2type_all.txt', header=None, names=['entity', 'type'], sep='\t')
-    rel_text = pd.read_csv(work_dir + 'relation2text_all.txt', header=None, names=['relation', 'text'], sep='\t')
-    entity_longtext = pd.read_csv(work_dir + 'entity2textlong_all.txt', header=None, names=['entity', 'text'], sep='\t')
+    entity_text = pd.read_csv(work_dir + 'entity2text_all.txt', header=None, names=['entity', 'text'], sep='\t', error_bad_lines=False, engine="python")
+    entity_type = pd.read_csv(work_dir + 'entity2type_all.txt', header=None, names=['entity', 'type'], sep='\t', error_bad_lines=False, engine="python")
+    rel_text = pd.read_csv(work_dir + 'relation2text_all.txt', header=None, names=['relation', 'text'], sep='\t', error_bad_lines=False, engine="python")
+    entity_longtext = pd.read_csv(work_dir + 'entity2textlong_all.txt', header=None, names=['entity', 'text'], sep='\t', error_bad_lines=False, engine="python")
     entity2text = {row['entity']: row['text'] for _, row in entity_text.iterrows()}
     entity2type = {row['entity']: row['type'] for _, row in entity_type.iterrows()}
     entity2textlong = {row['entity']: row['text'] for _, row in entity_longtext.iterrows()}

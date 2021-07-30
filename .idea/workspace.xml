@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/data_utils/dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/dataset_creator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,15 +58,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/relation2text_all.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15360">
-              <caret line="1024" column="17" selection-start-line="1024" selection-start-column="17" selection-end-line="1024" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/pandas/io/common.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="9165">
@@ -93,14 +84,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_utils/dataset_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
+            <state relative-caret-position="460">
               <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -172,7 +172,6 @@
         <option value="$PROJECT_DIR$/outputs/valid_hrt.txt" />
         <option value="$PROJECT_DIR$/outputs/train/train2id.txt" />
         <option value="$PROJECT_DIR$/outputs/train/relation2id.txt" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" />
         <option value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
         <option value="$PROJECT_DIR$/scripts/materialize.py" />
@@ -218,6 +217,7 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/fact_checking/run_glue_no_trainer.py" />
         <option value="$PROJECT_DIR$/data_utils/dataset_creator.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -759,12 +759,6 @@ filtered[:, 0] = t</expression-string>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/outputs/umls/blp_new_triples.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/abox_scanner/blp_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1034,11 +1028,18 @@ filtered[:, 0] = t</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_utils/dataset_creator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
+        <state relative-caret-position="460">
           <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
         </state>
       </provider>
     </entry>

@@ -134,5 +134,5 @@ def nell_tidyup_text_files(work_dir):
 #     "../resources/NELL-995_2/nell115.csvac",
 #     "../resources/NELL-995_2/nell115.csvad"],
 #     output_dir='../outputs/test_nell/')
-# nell_tidyup_text_files('../resources/NELL-995_2/')
-read_file_to_dict('../resources/NELL-995_2/relation2text_all.txt')
+nell_tidyup_text_files('../resources/NELL-995_2/')
+# read_file_to_dict('../resources/NELL-995_2/relation2text_all.txt')

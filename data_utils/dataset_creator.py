@@ -37,7 +37,6 @@ def nell_ent_to_sentenses(data_file, output_dir):
                 if s_l.count(' ') <= 64:
                     first_s_per_tri.append(s_l.replace("\"", ''))
                     break
-            first_s_per_tri = [s_l[0] for s_l in tris_s]
             entity_sents = '. '.join(first_s_per_tri)
             entity_sents = entity_sents.replace('..', '.').replace('[[ ', '').replace(' ]]', '')
             f.write(f"{entity.replace(':', '_')}\t{entity_sents}\n")

@@ -86,6 +86,8 @@ def read_file_to_dict(filename):
         lines = f.readlines()
         for l in lines:
             items = l.split('\t')
+            if len(items) != 2:
+                print(l)
             key = items[0].strip()
             value = items[1].strip()
             result.update({key: value})
@@ -132,4 +134,5 @@ def nell_tidyup_text_files(work_dir):
 #     "../resources/NELL-995_2/nell115.csvac",
 #     "../resources/NELL-995_2/nell115.csvad"],
 #     output_dir='../outputs/test_nell/')
-nell_tidyup_text_files('../resources/NELL-995_2/')
+# nell_tidyup_text_files('../resources/NELL-995_2/')
+read_file_to_dict('../resources/NELL-995_2/relation2text_all.txt')

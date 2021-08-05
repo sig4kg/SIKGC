@@ -112,6 +112,12 @@ def nell_tidyup_text_files(work_dir):
     entity2type = read_file_to_dict(work_dir + 'entity2type_all.txt')
     entity2textlong = read_file_to_dict(work_dir + 'entity2textlong_all.txt')
     rel2text = read_file_to_dict(work_dir + 'relation2text_all.txt')
+
+    for _, ent in all_entities.iterrows():
+        if ent['entity'] not in entity2text:
+            print(ent['entity'])
+
+
     ent_text_df = all_entities[['entity']]
     ent_text_df['text'] = ent_text_df.apply(lambda row: entity2text[row.entity], axis=1)
     ent_text_df.to_csv(work_dir + "entity2text.txt", header=None, index=None, sep='\t', mode='a')

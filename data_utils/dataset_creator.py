@@ -7,8 +7,12 @@ from tqdm import tqdm
 def load_nell_sentense(output_dir):
     # Load a dataset and print the first example in the training set
     nell_dataset = load_dataset('nell', 'nell_belief_sentences')
+    # with open(output_dir + 'nell_sentences.csv', 'w') as f:
+    #     for line in nell_dataset['train'][0:10]:
+    #         f.write(line + "\n")
     df = pd.DataFrame(nell_dataset['train'][:])
     df.to_csv(output_dir + 'nell_sentences.csv', sep='\t')
+
 
 
 def nell_ent_to_sentenses(data_file, output_dir):
@@ -28,6 +32,11 @@ def nell_ent_to_sentenses(data_file, output_dir):
     with open(out_file1, 'w') as f:
         for entity, group in tqdm(entity_sents):
             tris_s = group['sentence']
+            first_s_per_tri = []
+            for s_l in tris_s:
+                if s_l.count(' ') <= 64:
+                    first_s_per_tri.append(s_l.replace("\"", ''))
+                    break
             first_s_per_tri = [s_l[0] for s_l in tris_s]
             entity_sents = '. '.join(first_s_per_tri)
             entity_sents = entity_sents.replace('..', '.').replace('[[ ', '').replace(' ]]', '')
@@ -138,13 +147,13 @@ def nell_tidyup_text_files(work_dir):
     # rel_text_df.to_csv(work_dir + "relation2text.txt", header=None, index=None, sep='\t', mode='a')
     #
 
-# load_nell_sentense()
-# nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")
+nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../resources/NELL-995_2/")
 # nell_ent_to_description([
 #     "../resources/NELL-995_2/nell115.csvaa",
 #     "../resources/NELL-995_2/nell115.csvab",
 #     "../resources/NELL-995_2/nell115.csvac",
 #     "../resources/NELL-995_2/nell115.csvad"],
 #     output_dir='../outputs/test_nell/')
-nell_tidyup_text_files('../resources/NELL-995_2/')
+# nell_tidyup_text_files('../resources/NELL-995_2/')
 # read_file_to_dict('../resources/NELL-995_2/relation2text_all.txt')
+#

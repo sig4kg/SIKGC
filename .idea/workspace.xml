@@ -24,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data_utils/dataset_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="156" column="52" lean-forward="true" selection-start-line="156" selection-start-column="52" selection-end-line="156" selection-end-column="52" />
+            <state relative-caret-position="207">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
@@ -434,21 +434,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="25" y="25" width="1478" height="964" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22353761" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22353761" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32839224" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3799076" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.45381063" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.45381063" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.34180138" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.34180138" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -656,6 +655,11 @@
           <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
           <line>44</line>
           <option name="timeStamp" value="269" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="270" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -980,15 +984,15 @@ filtered[:, 0] = t</expression-string>
         </state>
       </provider>
       <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="-22538">
+        <state relative-caret-position="-12271">
           <caret line="1337" column="60" selection-start-line="1337" selection-start-column="60" selection-end-line="1337" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_utils/dataset_creator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="156" column="52" lean-forward="true" selection-start-line="156" selection-start-column="52" selection-end-line="156" selection-end-column="52" />
+        <state relative-caret-position="207">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>

@@ -33,7 +33,7 @@ def nell_ent_to_sentenses(data_file, output_dir):
         for entity, group in tqdm(entity_sents):
             tris_s = group['sentence']
             first_s_per_tri = []
-            for s_l in tris_s:
+            for s_l in tris_s[0]:
                 if s_l.count(' ') <= 64:
                     first_s_per_tri.append(s_l.replace("\"", ''))
                     break
@@ -147,7 +147,7 @@ def nell_tidyup_text_files(work_dir):
     # rel_text_df.to_csv(work_dir + "relation2text.txt", header=None, index=None, sep='\t', mode='a')
     #
 
-nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../resources/NELL-995_2/")
+nell_ent_to_sentenses("../resources/NELL-995_2/ns.csv", output_dir="../resources/NELL-995_2/")
 # nell_ent_to_description([
 #     "../resources/NELL-995_2/nell115.csvaa",
 #     "../resources/NELL-995_2/nell115.csvab",

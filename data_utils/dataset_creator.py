@@ -113,24 +113,30 @@ def nell_tidyup_text_files(work_dir):
     entity2textlong = read_file_to_dict(work_dir + 'entity2textlong_all.txt')
     rel2text = read_file_to_dict(work_dir + 'relation2text_all.txt')
 
+    count_hit = 0
+    count_nohit = 0
     for _, ent in all_entities.iterrows():
         if ent['entity'] not in entity2text:
-            print(ent['entity'])
+            count_nohit += 1
+        else:
+            count_hit += 1
+    print(f"count hit: {count_hit}")
+    print(f"count no hit: {count_nohit}")
 
 
-    ent_text_df = all_entities[['entity']]
-    ent_text_df['text'] = ent_text_df.apply(lambda row: entity2text[row.entity], axis=1)
-    ent_text_df.to_csv(work_dir + "entity2text.txt", header=None, index=None, sep='\t', mode='a')
-    ent_type_df = all_entities[['entity']]
-    ent_type_df['type'] = ent_type_df.apply(lambda row: entity2type[row.entity], axis=1)
-    ent_type_df.to_csv(work_dir + "entity2type.txt", header=None, index=None, sep='\t', mode='a')
-    ent_textlong_df = all_entities[['entity']]
-    ent_textlong_df['text'] = ent_textlong_df.apply(lambda row: entity2textlong[row.entity], axis=1)
-    ent_textlong_df.to_csv(work_dir + "entity2textlong.txt", header=None, index=None, sep='\t', mode='a')
-    rel_text_df = all_relations[['relation']]
-    rel_text_df['text'] = rel_text_df.apply(lambda row: rel2text[row.relation], axis=1)
-    rel_text_df.to_csv(work_dir + "relation2text.txt", header=None, index=None, sep='\t', mode='a')
-
+    # ent_text_df = all_entities[['entity']]
+    # ent_text_df['text'] = ent_text_df.apply(lambda row: entity2text[row.entity], axis=1)
+    # ent_text_df.to_csv(work_dir + "entity2text.txt", header=None, index=None, sep='\t', mode='a')
+    # ent_type_df = all_entities[['entity']]
+    # ent_type_df['type'] = ent_type_df.apply(lambda row: entity2type[row.entity], axis=1)
+    # ent_type_df.to_csv(work_dir + "entity2type.txt", header=None, index=None, sep='\t', mode='a')
+    # ent_textlong_df = all_entities[['entity']]
+    # ent_textlong_df['text'] = ent_textlong_df.apply(lambda row: entity2textlong[row.entity], axis=1)
+    # ent_textlong_df.to_csv(work_dir + "entity2textlong.txt", header=None, index=None, sep='\t', mode='a')
+    # rel_text_df = all_relations[['relation']]
+    # rel_text_df['text'] = rel_text_df.apply(lambda row: rel2text[row.relation], axis=1)
+    # rel_text_df.to_csv(work_dir + "relation2text.txt", header=None, index=None, sep='\t', mode='a')
+    #
 
 # load_nell_sentense()
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../outputs/test_nell/")

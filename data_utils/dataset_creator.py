@@ -33,10 +33,11 @@ def nell_ent_to_sentenses(data_file, output_dir):
         for entity, group in tqdm(entity_sents):
             tris_s = group['sentence']
             first_s_per_tri = []
-            for s_l in tris_s[0]:
-                if s_l.count(' ') <= 64:
-                    first_s_per_tri.append(s_l.replace("\"", ''))
-                    break
+            for s_l in tris_s:
+                for s in s_l:
+                    if s.count(' ') <= 64:
+                        first_s_per_tri.append(s.replace("\"", ''))
+                        break
             entity_sents = '. '.join(first_s_per_tri)
             entity_sents = entity_sents.replace('..', '.').replace('[[ ', '').replace(' ]]', '')
             f.write(f"{entity.replace(':', '_')}\t{entity_sents}\n")

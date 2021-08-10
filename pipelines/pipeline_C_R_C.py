@@ -59,7 +59,7 @@ def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
 
 if __name__ == "__main__":
     print("CRC pipeline")
-    c_r_c("../resources/NELL-dev.txt", "../outputs/rumis/")
+    c_r_c("../resources/NELL-995_2/NELLKG0.txt", "../outputs/crc/")
 
 
 

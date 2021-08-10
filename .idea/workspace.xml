@@ -7,6 +7,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/abox_scanner/abox_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/abox_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_utils/dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/dataset_creator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_T_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_E_C.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipelines/pipeline_R_C_T_C.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
@@ -66,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+            <state relative-caret-position="240">
+              <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -80,11 +81,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_R_C.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="15" column="58" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
+            <state relative-caret-position="277">
+              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -199,7 +200,6 @@
         <option value="$PROJECT_DIR$/openKE/openke/config/Trainer.py" />
         <option value="$PROJECT_DIR$/abox_scanner/rumis_util.py" />
         <option value="$PROJECT_DIR$/scripts/rumis_clean.sh" />
-        <option value="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" />
         <option value="$PROJECT_DIR$/scripts/run_rumis.sh" />
         <option value="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_util.py" />
@@ -227,6 +227,7 @@
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_T_C.py" />
         <option value="$PROJECT_DIR$/abox_scanner/abox_utils.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" />
       </list>
     </option>
   </component>
@@ -238,8 +239,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="501" />
-    <option name="y" value="25" />
+    <option name="x" value="-102" />
+    <option name="y" value="61" />
     <option name="width" value="1440" />
     <option name="height" value="829" />
   </component>
@@ -265,6 +266,17 @@
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="outputs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="outputs" type="462c0819:PsiDirectoryNode" />
+              <item name="rumis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
               <item name="pipelines" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -276,13 +288,12 @@
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="NELL-995" type="462c0819:PsiDirectoryNode" />
+              <item name="NELL-995_2" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="NELL-995_2" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
@@ -485,22 +496,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="501" y="25" width="1440" height="829" extended-state="0" />
+    <frame x="296" y="25" width="1440" height="829" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23819743" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23819743" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32831737" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.57865936" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29001367" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36798906" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.39671683" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.39671683" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1054,16 +1065,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_R_C.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="15" column="58" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_E_C.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
@@ -1076,8 +1077,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+        <state relative-caret-position="240">
+          <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_R_C.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

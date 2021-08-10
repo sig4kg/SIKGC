@@ -16,7 +16,11 @@ def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
     abox_scanner_scheduler.scan_patterns(work_dir=work_dir)
     wait_until_file_is_saved(f"{work_dir}valid_hrt.txt", 60)
     read_scanned_2_context_df(work_dir, context_resource)
+    stop_signal = False
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
+        if stop_signal:
+            break
+
         # context int to rumis train
         hrt_int_df_2_hrt_rumis(context_resource, work_dir + "ideal.data.txt")
         wait_until_file_is_saved(work_dir + "ideal.data.txt", 120)
@@ -27,7 +31,7 @@ def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
                        and wait_until_file_is_saved(work_dir + "DLV/extension.opm.kg.neg.10.needcheck", 60)
         if not check_result:
             print({"no result from rumis producer, check logs"})
-            break
+            stop_signal = True
         else:
             print("rumis one round done")
 

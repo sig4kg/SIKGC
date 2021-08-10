@@ -1,0 +1,1063 @@
+malecanbethesameascomedian	Describes two instances that are the same thing in these two different categories
+inverseofcountriessuchascountries	Describes the countries types that are generalizations of specific countries
+grandprix	one of several international races.
+everypromotedthing	every promoted category instance in KB
+cityhastransportation	City of a transportation system.
+architect	a person who designs buildings or other structures
+riveremptiesintoriver	Describes the tributaries of a river
+arteryarisesfromartery	Describes the arteries that arises from other arteries
+scientistcanbethesameaswriter	Describes two instances that are the same thing in these two different categories
+bodypartcontainsmuscle	Describes the muscles in body parts
+landscapefeatures	This type captures geographical features of the Earth, including landforms, bodies of water, underwater landforms, caves, and similar locations.
+lake	A lake is a body of water surrounded entirely by land. For the purposes of this schema, any such body, regardless of size, should be considered a lake. This includes ponds, but excludes such bodies as marshes, bogs, fens, etc.
+inverseoftelevisionshowssuchastelevisionshows	Describes the televisionshows types that are generalizations of specific televisionshows
+animalpredators	Animals that are hunted and eaten by this animal.
+cityzoos	The city a zoo is located in
+inverseofbooksuchasbook	Describes the specific book types that are generalizations of actors
+locationofitemuse	an item used in a specific place
+writerwrotebook	author of a book
+citynewspaper	Specifies the city in which a particular newspaper is headquartered
+meetingeventtype	A kind of meeting, the name of a series of meetings, or some other way to refer to a category of meeting
+cityalsoknownas	this is another name for this city
+officebuildingroomhostsmeetingeventtitle	In which room a particular meeting will take place
+politician	Any person who has held or sought a position in a government.  The term politician may not be strictly accurate for some positions such as kings, but we have to call it something!
+countrycapital	specifies that a particular city is the capital of a particular country
+celltype	A cell type is a distinct morphological or functional form of cell (http://en.wikipedia.org/wiki/Cell_type)
+inverseofplantgrowinginplant	Describes the plants that grow on other plants
+televisionshow	Television shows, or a television series that includes multiple episodes
+dateliteral	represents a date.
+inverseofdiseasecausesphysiologicalcondition	Describes diseases that may cause a physiological condition
+inverseofbacteriacancauseillnessfromfood	Describes the foods that bacterias can cause illness from
+celebritysuchascelebrity	Describes the specific celebrity types that are generalizations of celebrities
+celebrity	A celebrity is a person who is frequently featured in the media and is recognizable by the general public.
+generalizationof	one thing is a more specific kind of another thing
+husbandof	person has a husband
+musicartistgenre	Specifies that a musicArtist performs in a particular genre
+chemicaltypehaschemical	indicates that one chemical is special case of another chemical
+arthropodlookslikeinsect	Describes the arthropod that look like specific insects
+politicsbillconcernsissue	Issues that a legislative billl is concerned with.
+inverseofbeveragecansoftendisease	Describes beverages that can help soften the symptons of diseases
+agentcontrols	to exercise restraint or direction over; dominate; command (http://dictionary.reference.com/browse/control)
+personhasresidenceinstateorprovince	the state or province that a person has residence in
+building	A building is a man-made structure designed for shelter or for continuous or periodic occupancy. All buildings are structures and therefore typed Structure which imparts other basic properties (see /architecture/structure). If something is not a structure, it can't be typed as a building.  This category does not include complexes of individual buildings.
+animaleatvegetable	Describes the vegetables eaten by an animal
+newspaper	A newspaper is a periodical which is printed in a specific format (i.e., on newsprint), describes recent events, and is typically published daily.
+insecteatsgrain	Describes the grains eaten by an insect
+musicartist	An individual or a group that performs or makes music. Musical artists should typically have performed in front of an audience on a regular basis or have recorded musical tracks or musical albums. (FreeBase)
+website	A Website or (Web site) is a collection of web pages, typically common to a particular domain name or subdomain on the World Wide Web on the Internet. A web page is a document, typically written in HTML, that is almost always accessible via HTTP, a protocol that transfers information from the website's server to display in the user's Web browser.
+politicalparty	organized political group that primarily aims for the attainment of political power and public office for its designated members.
+beach	geological landform along the shoreline of an ocean, sea or lake. It usually consists of loose particles which are often composed of rock, such as sand, gravel, shingle, pebbles, waves or cobblestones
+zoo	facility in which animals are confined within enclosures, displayed to the public, and in which they may also be bred.
+monarch	A monarch is a person who heads a monarchy, such as a king or queen
+cityhashospital	The city a hostpital is located in.
+bakegoodistypicalincountry	Describes the typicall bakegoods of the countries
+organizationleadbyperson	person leading an organization/company
+placeofworshippracticesreligion	The religion practied in a place of worship.
+countryproducesproduct	Describes the products produced by a country
+agentowns	an agent owns any object, animal, product, company, etc.
+dateevent	specifies that the duration of a particular event overlapped with a particular date.
+politiciansponsoredpoliticsbill	Politician(s) sponsoring a particular legislative bill
+subfieldofacademicfield	Subfields within a given academic field
+stadiumhometoleague	specifies that a particular league uses a particular venue for its games
+dateofsportsgame	the date on which this game occurred
+subpartoforganization	one organization is a subpart of a larger, controlling organization
+inverseofweaponmadeincountry	Describes the weapons produced by a country
+monument	An architectural structure (usually public) which is erected to commemorate a person, place, event, or group.
+meetingeventtitleinofficebuildingroom	In which room a particular meeting will take place
+leaguecoaches	specifies that a particular coach coaches a team that plays in a particular league
+inverseofanimalsuchasfish	Describes the fish that are from a specific type of animals
+eventcausedbyevent	Any events that is caused by another event
+biologicalfatherofperson	is biological father of a person
+inverseofsportschoolincountry	Describes the sports practiced in a country
+wineryproduceswine	Describes the wines sold by a winery
+automobilemakercardealersinstateorprovince	Describes the car dealers in a state or province
+inverseofmusicalartisthadapetanimal	Describes the pet animals that musical artists have or had
+animalsuchasinsect	Describes the insect that are from a specific type of animals
+candy	A food which is made primarily of sugar and generally sold for wide distribution.  This would include many dessert items, like pie and cake, that might not be strictly candy per se.
+mammalcanbeirritatedbyarthropod	Arthropode that usually irritates mammal
+magazinecontainspublication	Magazine in which a publication was published in
+locationofitemexistence	An item that is typically found in a particular place.  While most any item could concievably exist at most any place, the intent for this relation and its children is to capture common knowledge about what would be expected to be found where.
+sportnamehasoriginlanguage	Describes the origin language of the sports name
+female	This category includes all female human beings.
+politicianusmemberofpoliticalgroup	U.S. Politician who is member of a political group
+weaponmadeincountry	Describes the weapons produced by a country
+booksuchasbook	Describes the specific book types that are generalizations of actors
+bookwriter	author of a book
+winery	Companies that produce and sell wines
+teamwontrophy	Trophies that a team has won
+farmproducesagriculturalproduct	the agricultural products produced by a farm
+organizationhasofficialwebsite	An official top-level URL for an organization's website
+sporthassportsteamposition	The relation between a sport and team positions filled by athletes
+arthropodcanbeveryirritatingtomammal	Arthropode that usually irritates mammal
+inverseofsoftwareprogrammedinprogramminglanguage	Relates a software to its programming language
+hasofficeincity	specifies that a particular company has offices in a particular city
+organizationdissolvedatdate	The date on which a given organization was dissolved
+releasedateexpectedfordrug	This predicate represents the relationship between a pharmaceutical substance and the date when it is expected to be approved for legal marketing.  For our purposes, the date will typically correspond to a date for FDA approval, but the relationship itself is not restricted to approval for sale in the United States.
+inverseofathleteledsportsteam	Describes the athletes that lead/led a sports team
+toolusedbyprofession	those who practice this profession use this tool
+politicianusendorsedbypoliticianus	U.S. Politician that endorses another U.S. politician
+inverseoflanguagespokenatisland	Describes languages spoken at islands
+eventcausedevent	Any events that is caused by another event
+politicsgroupconcernsissue	Issues that a political group has concern about
+inverseofsportfansincountry	Describes the sports that have fans living in a country
+countrycontainsfarm	The country a farm is located in
+foodcancausedisease	Describes the diseases that can be caused by a food
+visualartmovement	A tendency or style in art with a specific common philosophy or goal, followed by a group of artists during a restricted period of time, or, at least, with the heyday of the movement more or less strictly so restricted (usually a few months, years or decades) (FreeBase).  This does not include things that are merly genres, such as fantasy art or oceanic art.
+eventinvolveditem	Umbrella relation for identifying items in events.
+inverseofriveremptiesintoriver	Describes the tributaries of a river
+inverseofcountryisthehomeofsportsteam	Describes the home country of sports teams
+animalpreyson	Animals that are hunted and eaten by this animal.
+personus	citizens of the U.S.A.
+agentcompeteswithagent	Non-cooperative interaction.  Primary alternative to agentCollaboratesWithAgent.
+agentparticipatedinevent	identifies participants in events
+ceo	A CEO is the chief executive officer of a company.
+teamplaysincity	The home city of a sports team, typically a location where the team frequently competes.
+airportsuchasairport	Describes the airport types that are generalizations of specific aiports
+colorofobject	Object has color (NEIL)
+plantgrowinginplant	Describes the plants that grow on other plants
+academicfield	A field of study is the field, area, or discipline which is the focus of study of a student or academic, or which is taught in a school.
+colorassociatedwithvisualizableattribute	color and visualizableattribute are related
+bridge	A bridge is a structure across water, valleys, railway cuts, areas of low elevation, or other features which are difficult to cross.
+politicianusendorsespoliticianus	U.S. Politician that endorses another U.S. politician
+persongraduatedfromuniversity	Describes the people graduated from a university
+ceocanbethesameascelebrity	Describes two instances that are the same thing in these two different categories
+bacteriacancauseillnessfromfood	Describes the foods that bacterias can cause illness from
+hotel	This type is intended to be used for hotels, bed and breakfasts, backpacker hostels, or any other such place you might stay while travelling
+personeurope	citizens of countries in Europe
+languageofuniversity	Language spoken at a college/university.
+inverseofmeatcomesfromanimal	Describes the animals and their meat cuts
+jobpositioncanbethesameaspoliticaloffice	Describes two instances that are the same thing in these two different categories
+automobilemakerdealersincity	Describes the car dealers in a city
+createdbyagent	general relation to identify creation and authorships
+automobilemakerdealersincountry	Describes the car dealers in a country
+automobilemakerchiefexecutiveceo	Describes the CEOs of automobile maker companies
+month	Twelve months of the year.
+school	A school is an organization whose primary function is education. This category includes universities, K-12 schools and trade schools.
+radiostation	A radio station is a broadcaster which transmits audio. This category includes broadcast radio, satellite radio and internet radio stations.
+headquarteredin	specifies that a particular company is headquartered in a particular city
+eventcausedbyagent	Companion to agentParticipatedInEvent.  Note that one needn't participate in an event in order to be a causal factor.
+stadiumoreventvenue	A building where large spectator events (usually sporting events) take place.
+personasia	citizens of countries in Asia
+personhasage	the age of this person
+visualartform	A categorization of the visual arts. An art form is a specific form for artistic expression to take.An art form more or less corresponds to the tools or materials used to create an art work (FreeBase)
+toolssuchastools	Describes the tools types that are generalizations of specific tools
+citylocatedingeopoliticallocation	specifies that a particular city is located in a particular geopolitical location
+inverseofhobbiessuchashobbies	Describes the hobbies types that are generalizations of specific hobbies
+stadiumoreventvenuedisclosescompany	Describes a stadium or event venue that discloses a company
+criminalssuchascriminals	Describes the criminals types that are generalizations of specific criminals
+geopoliticalorganization	Those geopolitical entities that are organizations
+visualartistartform	The type of visual art that a visualArtist produces. Also known as an artist's medium.
+comediancanbethesameasfemale	Describes two instances that are the same thing in these two different categories
+motherofperson	mother of a person
+isoneoccurrenceof	Specifies the way in which a grouping of individual somethings can be referred to, including but not limited to relating the plural form to the singular.
+athletessuchasathletes	Describes the specific athlete types that are generalizations of athletes
+inverseofautomobilemakerdealersincity	Describes the car dealers in a city
+victim	a victim of an event, could be a person, or a group of person, like childrens, students, soldiers, drivers, etc
+touristattractionsuchastouristattraction	Describes the specific tourist attraction types that are generalizations of tourist attractions
+island	any piece of land surrounded entirely by water
+bodypartcontainsbodypart	indicates that one body part is contained inside another
+athleteinjuredhisbodypart	Describes the athletes that had injured any body part
+latitudelongitudeof	the latitude and longitude of this location, or the latitude and longitude typically associated with this thing
+bankchiefexecutiveceo	Describes the CEOs of banks
+ageofperson	the age of this person
+inverseoflanguegeschoolincity	Describes the language schools for specific languages in a city
+fooddecreasestheriskofdisease	Describes the foods that can reduce the risks of having a disease
+roomcancontainfurniture	Relates furniture to rooms in which it is often found
+mlauthorofsoftware	Specifies ML software that is written by a particular ML author
+athleteplaysinleague	a group of athletic teams organized to promote mutual interests and to compete chiefly among themselves (http://dictionary.reference.com/browse/league)
+inverseofplantincludeplant	Describes the subcategories of a plant
+bathroomitem	Any item that is commonly found in a bathroom or restroom.
+physiologicalconditionpossiblytreatedbydrug	relates a substance to a condition that it might treat. This relation includes conditions that the substance has been designed or approved to treat, as well as conditions for which it is being investigated as a possible treatment.  Common folk remedies would also be eligible for this relation.  For example, it would be reasonable to say that chicken noodle soup is a possible treatment for colds.
+disease	A disease is an abnormal condition of the human body that causes discomfort or impairs bodily functions. This type also includes medical conditions such as injuries, disabilities, disorders, syndromes, etc. that affect the normal functioning of a person, whether physically or mentally.
+moviessuchasmovies	Describes the movies types that are generalizations of specific movies
+agentstudiesphysiologicalcondition	This predicate holds between a HumanAgent and a condition, and means that the HumanAgent performs research related to condition.
+inverseofathletefracturedbone	Bone fracture that an athlete had
+drug	A drug is a chemical substance that has, or is reputed to have, a phyisological effect on an organism. Medicinal, herbal, and illegal drugs can be included in this type.
+inverseofstadiumoreventvenuedisclosescompany	Describes a stadium or event venue that discloses a company
+softwareisprogrammedinprogramminglanguage	Relates a software to its programming language
+sportsgameawayteam	Specifies that a particular team is the away team in a particular sportsGame.
+inverseofmusicgenressuchasmusicgenres	Describes the musicgenre types that are generalizations of specific musicgenres
+fatherofperson	father of a person
+inverseofanimaldevelopdisease	Describes the diseases that can be developed by an animal
+yearofmarriage	This relation holds when a person married some other person in the specified year.
+personmovedtostateorprovince	Describes the people that moved to live in a state or province
+militaryeventtype	A military event type is simply a sub-type (or sub-category) of the category military event.
+nondiseasecondition	Those physiologicalConditions that normal and expected parts of life (such as pregnancy or teething) that are not diseases but which do affect the normal functioning of the body.
+politicsgroup	Organizations, which may or may not be part of the government, that act in the arenas of politics or government.
+citysportsteams	The home city of a sports team, typically a location where the team frequently competes.
+athletealsoknownas	this is another name for this athlete
+inverseofanimalsuchasmollusk	Describes the mollusk that are from a specific type of animals
+buildingbelongstoorganization	Which organization a building belongs to
+itemusedatlocation	an item used in a specific place
+parkincity	The city a park is located in.
+mlauthor	A machine learning author is a person who has published research in the field of machine learning.
+politicalgroupofpolitician	Specifies that a particular politician belongs to a particular
+director	Movie directors.
+animalsuchasmollusk	Describes the mollusk that are from a specific type of animals
+hasfamilymember	two persons are family members
+cityhastrainstation	The city a train station is in.
+species	is one of the basic units of biological classification and a taxonomic rank. A species is often defined as a group of organisms capable of interbreeding and producing fertile offspring.
+persondiedatage	the age at which this person died
+televisionshowssuchastelevisionshows	Describes the televisionshows types that are generalizations of specific televisionshows
+inverseofagriculturalproductincludingagriculturalproduct	Describes the agricultural products that are generalizations of other agriculture products
+coachesathlete	to give instruction or advice to in the capacity of a coach; instruct (http://dictionary.reference.com/browse/coach)
+academicfieldhasperson	People trained or active in a given academic field
+teammate	Two athletes are teammates if they play on the same team.
+inverseofagriculturalproductgrowinginstateorprovince	Describes the agricultural products that are produced in a state or province
+organizationhasagent	to be in the relation of a member, adherent, inhabitant, etc (http://dictionary.reference.com/browse/belong)
+arteriessuchasarteries	Describes the specific artery types that are generalizations of arteries
+politicsbillsponsoredbypolitician	Politician(s) sponsoring a particular legislative bill
+sportsgamewinnerscore	Specifies the score with which the winning team in a particular sportsGame lost.
+personaustralia	citizens of Australia
+sportusesstadium	Specifies that a particular sport is played in a particular venue
+companyalsoknownas	this is another name for this company
+locationrepresentedbypolitician	Describes the city, state, country or other location represented by a politician
+athlete	An athlete is a person who plays a sport competitively.
+inverseofwriterwasbornincity	Describes the city where a write was born in
+race	A sport race is a competition of speed, against an objective criterion, usually a clock or to a specific point. The competitors in a race try to complete a given task in the shortest amount of time. Typically this involves traversing some distance, but it can be any other task involving speed to reach a specific goal.
+professiontypehasprofession	Type-specific generalization of professions.
+thinghascolor	Object has color (NEIL)
+inverseofcoachcanspeaklanguage	Describes the languages that coaches might speak
+inverseofvegetableisproducedatcountry	Describes the countries that are big produces of vegetables
+agentcreated	general relation to identify creation and authorships
+grainusedtomakecandy	grain and candy are related
+countryresidenceofperson	the country that a person has residence in
+coach	A coach is a trainer for a sports team. He leads the team in exercises and manages the team during gameplay. This category includes assistant coaches and other trainers.
+bank	Umbrella category for all kinds of banks
+writercanbethesameaspersonafrica	Describes writers that are the same instances as personafrica
+inversoofairportsuchasairport	Describes the airport types that are generalizations of specific aiports
+inverseofamphibiansuchasamphibian	Describes the amphibian types that are generalizations of specific amphibians
+sportsteam	A sports team is a group of athletes who play a sport together competitively
+recipe	A recipe is a method of preparing a dish.  Dishes may have multiple recipes.  For instance, there may be many different recipes for chocolate chip cookies.
+wine	Types of wines or specific vintanges of particular wineries
+terroristorganization	an organization that is involved in terrorist activities.
+comediancanbethesameasmale	Describes two instances that are the same thing in these two different categories
+sportsgameteam	Specifies the teams that played in a particular sports game
+locationofpersondeath	the location that a person died in
+protein	Proteins are any complex organic compounds that consist of one or more chains of amino acids. Proteins are typically essential components of any living cell and indispensable to the proper functioning of all organisms.
+product	none
+meetingeventtitlehasmeetingeventtype	What series of meetings a particular meeting belongs to, or what kind of a meeting it is
+religionofperson	The religion to which a person has belonged.
+inverseofvegetablecanbeservedwithgrain	Describes the vegetables that are usually served with a grain
+locationexistsatdate	Most general location-to-date relation.  Note that locations are not eternal.
+musicianplaysinstrument	Specifies that a musical instrument is played by a paritcular musician
+organizationalsoknownas	this is another name for this organization
+teammember	to join together in a team (http://dictionary.reference.com/browse/team)
+locationlocatedwithinlocation	a location that is a subpart of another location
+inverseofhotelwasbuiltatfarm	Describes hotels built at farms
+inverseofreligionssuchasreligions	Describes the religions types that are generalizations of specific religions
+writerwasbornincity	Describes the city where a write was born in
+scientificterm	a scientific term for prerequisite detection (currently ML and AI focused)
+countrylocatedingeopoliticallocation	specifies that a particular country is located in a particular geopolitical entity
+haswife	person has a wife
+personineconomicsector	People who work in a given economic sector
+actorworkedwithdirector	Relates the actors and directors that at least once worked together
+transportationincity	City of a transportation system.
+placeofworship	A place of worship is a building which is used by members of a religion for worship.
+convention	a large meeting, such as the Star Trek Convention
+bankboughtbank	Describes the banks that bought other banks
+cityhotels	The city a hotel is located in.
+awardtrophytournamentwasawardedonstadium	Stadium of event venue where a award trophy tournament was at least once awarded
+agentholdssharesincompany	Any organization, person, or geopolitical entity that holds shares (majority or otherwise) of the given company.
+automodelproducedbymaker	this automobile manufacturer produces this particular automobile make or model
+latitudelongitude	the latitude and longitude of this location, or the latitude and longitude typically associated with this thing
+clothingmadefromplant	Describes the clothing items made of a plant
+inverseofmusicsongisatrackofmusicalbum	Identifies a music song which is a track of a music album
+arthropod	Arthropods are members of the phylum Arthropoda.
+country	The type country in Freebase can and should be used with a variety of topics. The most common will be probably be current and former independent nations, potentially including composite entities such as empires. It can also be used for autonomous entities within such a composite, such as the four current constituent countries (England, Northern Ireland, Scotland, and Wales) of the United Kingdom.  Anything having an ISO country code qualifies as a country, including contested countries like Taiwan, and including territories of minor or no population.
+meetingeventtitlehasspeakingperson	Who will be speaking at a particular meeting
+tool	none
+buildingfeaturemadefrombuildingmaterial	Describes the building features that are made of a building material
+teamplayssport	The sport that a team plays.
+radiostationincity	Specifies that a particular radio station is headquarted in a particular city
+eventdate	specifies that the duration of a particular event overlapped with a particular date.
+objectpartofobject	meronym
+householditem	Any item that could reasonably be found in or about a residence.
+agentleadsorganization	General relation as with certain political positions, we have an agent that controls the thing that he works for
+roomcancontainitem	Relates items to rooms in which they are often found
+visualartformartist	The type of visual art that a visualArtist produces. Also known as an artist's medium.
+software	software that runs on a computer.
+athletewinsawardtrophytournament	Describes the athletes who won an award trophy tournament
+crustaceanisatypeofarthropod	Hyponym Relation
+birdmayconsumeprotein	Describes the proteins eaten by a bird
+inverseofbacteriaisthecausativeagentofphysiologicalcondition	Describes the bacterias that causes physiological conditions
+automakerproducesmodel	this automobile manufacturer produces this particular automobile make or model
+personbylocation	Parent category to break up people by regional/national location, which exists as a way to constrain some of the political predicates to the U.S.  For simplicity of decision-making, we use citizenship as the rule for belongingness in these categories; this is probably good enough for what we want to do with the political predicates.
+beverage	A liquid meant for human consumption
+animalthatfeedoninsect	Describes the animals that feed on Insects
+personhasethnicity	The ethnicity of a person
+topmemberoforganization	Identifies people in high-level, leading positions at organizations.  Applicable positions have authority over the entire organization (e.g. presidents, VPs, directors, and C-level executives), not merely over departments or subsidiaries.
+inverseofarterycalledartery	Describes the names an artery can be called
+locationactedinbyorganization	location of an organization or company
+musicsong	A song is any musical work including instrumentals as well as songs with lyrics.
+inverseofstateorprovinceattainstrainstation	Describes the trainstantions location (state or province)
+athletehomestadium	a sports arena, usually oval or horseshoe-shaped, with tiers of seats for spectators (which is home for an athlete) (http://dictionary.reference.com/browse/stadium)
+buildingfeature	Any physical property or physical attribute that a building might have.
+coachwontrophy	specifies that a particular coach coaches a team that won a particular award or trophy
+inverseofmalemovedtostateorprovince	Describes the male people that moved to live in a state or province
+cityoforganizationheadquarters	The city where a given organization is headquartered
+aquarium	the aquatic counterpart of a zoo, housing living aquatic species for viewing
+trainstation	railway station (mainly British Commonwealth) or railroad station (mainly US)) is a railway facility where trains regularly stop to load or unload passengers or freight (goods). It generally consists of a platform next to the tracks and a building (depot) providing related services such as ticket sales and waiting rooms.
+statecontainsfarm	The state/province a farm is located in
+locationofpersonbirth	the location that a person is born in
+militaryconflict	A military conflict is any event that involves armed forces acting in hostility. This includes wars, battles, and guerilla actions.
+academicfieldconcernssubject	Subjects of study within a given academic field
+objectfoundinscene	Object found in scene (NEIL)
+personborninstateorprovince	the state or province that a person was born in
+companyceo	specifies that a particular CEO is the CEO of a particular company
+museumincity	The city that a museum is located in
+meetingeventtitle	The title of a meeting (such as a presentation)
+artery	Arteries are muscular blood vessels that carry blood away from the heart.
+food	A food is any edible substance with nutritional value, whether it's a basic foodstuff like rice or apples, or a commercial product like Poptarts or I Can't Believe It's Not Butter.  Nutritional value encompasses anything useful for growth or life, such as water, so long as the organism gets it through ingestion.
+sportsgamedate	the date on which this game occurred
+eventsupereventof	event that is happened as a sub-event of another event
+inverseoffooddecreasestheriskofdisease	Describes the foods that can reduce the risks of having a disease
+inverseofbuildingfeaturebuiltabovelak	buildingfeature and lake are related
+inverseofathletebeatathlete	Describes the athletes whom beat other athletes
+muscle	A muscle is a contractile form of tissue which animals use to effect movement.
+musicartistmusician	Specifies that a particular musician has performed as particular musicArtist
+agriculturalproductcanbethesameasvegetable	Describes two instances that are the same thing in these two different categories
+riverflowsthroughcity	Rivers that flow or through or immediately adjacent to the city.
+inverseofcoachworksincountry	Describes the country where a coach works
+poem	This type is for all kinds of poems, from epics to doggerel.
+cityhasshoppingmall	The city a shopping mall is located in.
+farmlocatedinstate	The state/province a farm is located in
+mlsoftware	A software package that offers machine learning functionality
+countryhascitizen	the citizenship of a person
+superpartof	a portion or division of a whole that is separate or distinct; piece, fragment, fraction, or section; constituent (http://dictionary.reference.com/browse/part)
+productinstances	Specifies that a particular product is a particular kind of thing
+videogamesystem	includes any form of electronic game device, from handheld units as small as a phone to large powerful computer systems and even arcade coin-operated systems.
+organizationhasbuilding	Which organization a building belongs to
+personbelongstoorganization	organization or company that person is belonged to
+highway	is a public road, especially a major road connecting two or more destinations.
+mlareaexpert	specifies that a particular ML author is an expert in a particular ML area
+traditionalgame	Includes all non-sports, non-electronic games including board games, parlor games and card games.
+televisionstationincity	The city where a TV station is located or broadcasts to.
+musicianinmusicartist	Specifies that a particular musician has performed as particular musicArtist
+currencycountry	specifies that a particular country uses a particular currency
+inverseofemotionassocietedwithdisease	Describes the emotions associated with a disease
+economicsectorhasperson	People who work in a given economic sector
+journalistwritesforpublication	specifies that a particular journalist writes for a particular publication
+statecontainscity	specifies that a particular city is located in a particular state or province
+sportsgamesport	Specifies the sport that was played in a particular sportsGame.
+transportation	a mode of travel, such as rail transport or automobile. It is a category defining a means of moving from one location to another.
+arthropodcalledarthropod	Describes the names an artery can be called
+actor	An actor is a person who performs in movies, television, plays, or other forms of entertainment.
+hassister	person has a sister
+mammal	Mammals (formally Mammalia) are a class of vertebrate, air-breathing animals whose females are characterized by the possession of mammary glands while both males and females are characterized by hair and/or fur, three middle ear bones used in hearing, and a neocortex region in the brain.
+politicianholdsoffice	Specifies that a particular politician holds a particular office
+boardgame	Games played with physical pieces on a board (electronic games not allowed)
+cityuniversities	The city a university is located in.
+arthropodbesometimesconfusewithinsect	Arthropodes that usually are confunded by insects
+countryofpersondeath	the country that a person died in
+sportsportsgameexample	Specifies the sport that was played in a particular sportsGame.
+atdate	assigns dates to things.
+citymuseums	The city that a museum is located in
+person	A person is a human being (man, woman or child) known to have actually existed. Living persons, celebrities and politicians are persons, as are deceased persons.
+personhasreligion	The religion to which a person has belonged.
+languageschoolincity	Describes the language schools for specific languages in a city
+proxyof	one thing can be taken to refer to another, but the reverse is not necessarily or equally so
+politicianusholdsoffice	U.S. Politician who holds an office
+inverseofawardtrophytournamentisthechampionshipgameofthenationalsport	Describes award trophy tournaments related to specific sports
+cognitiveactions	pertaining to the action or process of knowing (http://en.wikipedia.org/wiki/Cognitive_science)
+publicationjournalist	specifies that a particular journalist writes for a particular publication
+productproducedincountry	Describes the products produced by a country
+inverseofbankchiefexecutiveceo	Describes the CEOs of banks
+geometricshape	geometrical information that remains when location, scale and rotational effects are filtered out from an object (http://en.wikipedia.org/wiki/List_of_geometric_shapes)
+winningscoreofsportsgame	Specifies the score with which the winning team in a particular sportsGame lost.
+schoolgraduatedperson	This holds when the person has graduated from the educational institution at some time. This includes high schools, say, as well as universities. A division of an institution (Yale Business School) will be scored as the same answer as the institution as a whole (Yale).
+hospitalincity	The city a hostpital is located in.
+mldataset	A dataset used in machine learning
+beveragecontainsprotein	Describes the proteins contained in beverages
+mlalgorithm	Any algorithm or class of algorithms that is used at any stage of machine learning.
+haswikipediaurl	The Wikipedia page for a given category instance
+academicprogramatuniversity	this academic program is offered by this university
+sportteam	The sport that a team plays.
+sportsgamewinner	Specifies that a particular team that played in a particular sportsGame was the winner thereof.
+inverseofclothmadeofplant	Plants that can be used to make cloths
+agriculturalproductcookedwithagriculturalproduct	Describes the agricultural products that are usually cooked with another agricultural product
+inverseofathletesuchasathlete	Describes the specific athlete types that are generalizations of athletes
+officeheldbypolitician	Specifies that a particular politician holds a particular office
+citycapitalofstate	The capital city of a state, where the main governing apparatus is located.
+blog	A blog (or weblog) is a user-generated website where entries are made in journal style and displayed in a reverse chronological order. Blogs often provide commentary or news on a particular subject, such as food, politics, or local news; some function as more personal online diaries.
+hallwayitem	Any item that is commonly found in a hallway.
+actorstarredinmovie	to perform as an actor (in movie) (http://dictionary.reference.com/browse/act)
+sport	A game which involves some form of physical prowess (i.e. athleticism, as opposed to the physical prowess needed for a parlour game like Pin the Tail on the Donkey).  Note that this does not include non-game sports; those may be hobbies instead.
+flooritem	Any item that is commonly found on the floor
+athleteplayedforschool	The school that an athlete used to play for its team
+coachesteam	specifies that a particular coach coaches a particular team
+personhasresidenceinlocation	the location that person has residence in
+inverseofagriculturalproductcontainchemical	Describes the agricultural products that contain a chemical
+conferencessuchasconferences	Describes the conferences types that are generalizations of specific conferences
+language	Spoken human languages (and dialects).
+visualappearanceof	The NEIL-learned visual appearance of something
+wineryatfarm	farm and winery are related
+stadiumhometoathlete	a sports arena, usually oval or horseshoe-shaped, with tiers of seats for spectators (which is home for an athlete) (http://dictionary.reference.com/browse/stadium)
+countryalsoknownas	this is another name for this country
+athletecoach	to give instruction or advice to in the capacity of a coach; instruct (http://dictionary.reference.com/browse/coach)
+deathageofperson	the age at which this person died
+islandhasskiarea	Describes island that have ski a area
+arthropodsuchascrustacean	Hyponym Relation
+itemexistsatdate	a item exists in a determined time (or date)
+officebuildingroom	A room designation such as would be used for rooms in an office building
+meat	A type of animal flesh that is used as food. (Wikipedia)
+visualartistartmovement	The art movements or styles that a visualArtist is associated with.
+leaguestadiums	specifies that a particular league uses a particular venue for its games
+hashusband	person has a husband
+hasbrother	person has a brother
+physiologicalcondition	Most instances will be diseases or other abnormalities.  However, this category also includes conditions such as pregnancy or teething that are entirely normal and expected, but which are nevertheless exception and can require extra care.
+inverseofinvertebratehascolor	Describes the color of invertebrates
+politicianmemberofpoliticsgroup	Specifies that a particular politician belongs to a particular
+airport	A place where airplanes, helicopters, or other flying vehicles land and take off
+inverseofbakedgoodservedwithbeverage	Describes the baked goods that are usually served with a beverage
+citylocatedinstate	specifies that a particular city is located in a particular state or province
+jobposition	Positions are job titles or named roles within an organization. Examples include CEO, President, mayor, vice president for research, sergeant, etc. They do not include generic activities or career terms like pianist, researcher, scientist, etc.
+personbirthdate	the date on which this person was born
+vegetableisproducedatcountry	Describes the countries that are big produces of vegetables
+county	Intermediate administrative region between state/province and local munincipal.  This category also encompasses customary abberations, such as the boroughs of the City of Greater New York being treated as logically equivalent to counties.
+astronaut	An astronaut is a person that has flown in outer space. Not used for animals sent to space experimentally.
+conceptprerequisiteof	Prerequisite relationship between scientific terms (currently biased towards ML and AI areas)
+inverseofagriculturalproductcutintogeometricshape	Describes the agricultural products that are usually cut into geometric shapes
+wallitem	Any item that is commonly found on a wall
+inverseofmammaleatsinsect	Describes the insects that mammals eats
+inverseofarthropodandotherarthropod	Describes similar arthropods
+organizationheadquarteredinstateorprovince	The state or province where a given organization is headquartered
+dateoforganzationdissolution	The date on which a given organization was dissolved
+atlocation	assigns locations to things.
+museum	A museum is a permanent institution in the service of society and of its development, open to the public, which acquires, conserves, researches, communicates and exhibits the tangible and intangible heritage of humanity and its environment, for the purposes of education, study, and enjoyment, as defined by the International Council of Museums.
+persondiedinstateorprovince	the state or province that a person died in
+videogame	A video game is a piece of interactive software used primarily for entertainment, including computer games, console games, arcade games, and hand-held games. However, this category excludes video game consoles.
+inverseofagriculturalproducttoattractinsect	Describes the agricultural products that attract insects
+persondiedincountry	the country that a person died in
+winneringame	Specifies that a particular team that played in a particular sportsGame was the winner thereof.
+coachcanspeaklanguage	Describes the languages that coaches might speak
+inverseoffishservedwithfood	Describes the kind of food that are tipically serverd with a fish
+officeheldbypoliticianus	U.S. Politician who holds an office
+producesproducttype	Specifies that a particular compnay produces a particular type of product
+televisioncompanyaffiliate	The network that a TV station gets its programming from
+currency	A currency is money that is used (or has been used) as a medium of exchange
+athletecanbethesameasactor	Describes actors that are the same instances as athlete
+agriculturalproductcomingfromvertebrate	Describes the agricultural products that come from a vertebrate
+personafrica	citizens of countries in Africa
+creativeworkcontributedtobyagent	Specifies that a particular agent contributed to the production or creation of a particular creativeWork.  An actor in a movie contributes to that movie, but agentCreated would probably be to strong an assertion for that.
+countryhascompanyoffice	specifies that a particular company has offices in a particular country
+directorworkedwithactor	Relates the actors and directors that at least once worked together
+isshorterthan	Indicates that arg1 has a greater height than arg2
+inverseofarchaeasuchasarchaea	Describes the specific archaea types that are generalizations of archaeas
+stadiumalsoknownas	this is another name for this stadium or event venue
+event	An event is a topic that can be described by the time or date at which it happened. Long-lasting events may be described as occurring between two dates. It is sometimes appropriate to create abstract events, as collections of other events
+schoolattendedbyperson	person has attended a school
+issueofpoliticsgroup	Issues that a political group has concern about
+languageofcountry	Typical language spoken in a country (official or otherwise)
+statehascapital	The capital city of a state, where the main governing apparatus is located.
+sportsteampositionforsport	The relation between a sport and team positions filled by athletes
+meetingeventtitleatdate	When a particular meeting will take place
+musicinstrument	A Musical instrument is a device constructed or modified with the purpose of making music. In principle, anything that produces sound, and can somehow be controlled by a musician, can serve as a musical instrument. (See e.g. the hardart.)
+clothing	This type is for kinds of garments or clothing.  For lack of a meaningful way to constrain this category through definition or existent sibling categories, particularly when it comes to adorning the body for purposes of fashion (e.g. jewlery, colored contact lenses, costumery) or of utility (e.g. armor, kneepads or other sports equipment, corrective lenses), this will include anything wearable.
+arthropodandotherarthropod	Describes similar arthropods
+itemexistsatlocation	An item that is typically found in a particular place.  While most any item could concievably exist at most any place, the intent for this relation and its children is to capture common knowledge about what would be expected to be found where.
+ownedbyagent	an agent owns any object, animal, product, company, etc.
+stateorprovinceofpersondeath	the state or province that a person died in
+issueofpoliticsbill	Issues that a legislative billl is concerned with.
+nongovorganization	Politically-active or governmentally-active organizations that are not part of the government, including but not limited to some NGOs
+inverseofpersonmovedtostateorprovince	Describes the people that moved to live in a state or province
+skyscrapercontainsrestaurant	Describes restaurants located in skyscrapers
+animal	A collection of common-sense animals, more understandable to children than biologists.  It's OK to include both general kinds of animals, such as bird, but also common varieties of birds such as finch and robin. (FreeBase)  As with plant, any mortal action upon an animal or action on a dead animal that results in something with a new name (e.g. milking, shearing, slaughtering, or cooking it) results in something that is no longer an animal.
+diseasemaybecausedbydrug	Describes a disease that can be caused by a drug
+parentofperson	parent of a person
+invertebrateturnintoinsect	Describes the metamorphosis of some invertebrates into another insects
+inverseofarteryarisesfromartery	Describes the arteries that arises from other arteries
+mediatype	the means of communication, as radio and television, newspapers, and magazines, that reach or influence people widely (http://dictionary.reference.com/browse/media)
+agent	a person or business authorized to act on another's behalf; a person or thing that acts or has the power to act; a natural force or object producing or used for obtaining specific results (http://dictionary.reference.com/browse/agent), and more generally, anything that can exhibit agency, such as non-human life forms.
+attractionofcity	The city that an attraction is located in
+proxyfor	one thing can be taken to refer to another, but the reverse is not necessarily or equally so
+dateofpersonbirth	the date on which this person was born
+agriculturalproductgrowinginstateorprovince	Describes the agricultural products that are produced in a state or province
+athleteplayssport	to engage in (a game, pastime, etc.) (http://dictionary.reference.com/browse/play)
+countryoforganizationheadquarters	The country where a given organization is headquartered
+musicsongisatrackofmusicalbum	Identifies a music song which is a track of a music album
+coachstudiedatuniversity	Describes the university where the coach studied at
+biotechcompany	A company in a biotechnology field, including pharmaceutical companies.
+jobpositionusesacademicfield	Academic fields useful for job positions
+physicalcharacteristic	Features of a substance that are primarily sensory (physical) and generally measurable (businessdictionary.com)
+inverseofnewpaperhaswebsite	Present the oficial website of a newspaper
+mammalsuchasmammal	Describes the specific actors types that are generalizations of actors
+organizationhasperson	organization or company that person is belonged to
+vehicleistypeofvehicle	Type-specific generalization of vehicles.
+objectcontainsobject	meronym
+musicalartisthadapetanimal	Describes the pet animals that musical artists have or had
+bodypart	Refers to any part of the human body. It can be either visible to the naked eye (gross anatomical structure) or microscopic.
+inverseofagriculturalproductcookedwithagricultureproduct	Describes the agricultural products that are usually cooked with another agricultural product
+physicsterm	Any word with a specific meaning in the physics domain
+zipcodeinlocation	Describes one or more locations to which a zipcode may correspond.
+itemfoundinroom	Relates items to rooms in which they are often found
+specializationof	one thing is a more specific kind of another thing
+vein	A vein is a blood vessel that carries blood toward the heart.
+university	A university is a post-high school educational institution. This category includes colleges and technical schools.
+organizationrepresentedbyagent	Specialization of proxyFor for agent-to-organization relations. populate=false only because presumed to be uninteresting
+religionusesplaceofworship	The religion practied in a place of worship.
+instrumentplayedbymusician	Specifies that a musical instrument is played by a paritcular musician
+personinacademicfield	People trained or active in a given academic field
+city	City/town/village refers to all named inhabited places at the most locally recognized level, but above the level of neighborhood. It is the most local region where there is a form of government or self-organization.   Cities/towns/villages are larger than neighborhoods, and are typically contained within a larger administrative division such as a county, department, province, etc. It should be noted, however, that large or significant cities may themselves also function as higher-level administrative divisions.   For more information, please see the Freebase wiki page on City/Town/Village.
+awardtrophytournament	Sports award is a CVT which connects together the winner of a sports award, the award they won, the season for which they won the award and the team they represented (if applicable).
+mlconference	A conference in the area of machine learning
+reptile	Reptiles are animals in the (Linnaean) class Reptilia. They are characterized by breathing air, laying tough-shelled amniotic eggs, and having skin covered in scales and/or scutes.
+publicationpublishedinmagazine	Magazine in which a publication was published in
+attractionbefallincity	Attraction occurs in the city
+personhasparent	parent of a person
+personleadscity	specifies that a particular person is the leader (e.g. Mayor) of a particular city
+wineproducedbywinery	Describes the wines sold by a winery
+mammalinducesemotion	The emotion that human beings generally have by looking at a mammal
+emotion	Emotion is the complex psychophysiological experience of an individual's state of mind as interacting with biochemical (internal) and environmental (external) influences (http://en.wikipedia.org/wiki/Emotion)
+persongraduatedschool	This holds when the person has graduated from the educational institution at some time. This includes high schools, say, as well as universities. A division of an institution (Yale Business School) will be scored as the same answer as the institution as a whole (Yale).
+loseringame	Specifies that a particular team that played in a particular sportsGame was the loser thereof.
+fungus	Member of kingom fungi.
+personmexico	citizens of Mexico
+statelocatedingeopoliticallocation	specifies that a particular state or province is located in a particular geopolitical location
+musclelocatedinbodypart	Describes the muscles in body parts
+statehaslake	The state/province a river is in.
+color	Color (or colour) is the visual perceptual property corresponding in humans to the categories called red, yellow, white, etc.
+ismultipleof	Specifies the way in which a grouping of individual somethings can be referred to, including but not limited to relating the plural form to the singular.
+moviestaractor	to perform as an actor (in movie) (http://dictionary.reference.com/browse/act)
+personwrittenaboutinpublication	Specifies that a particular person has been written about in a particular publication
+creditunion	Banks that are credit unions
+hasvisualappearance	The NEIL-learned visual appearance of something
+directordirectedmovie	to direct a monvie
+visualizablescene	a visual scene (for NEIL's scene classifiers)
+producesproduct	Specifies that a particular compnay produces a particular product
+personbornincountry	the country that a person was born in
+personhasjobposition	This relation holds when the person has held the position at some point in some organization.
+profession	The career or job which a person performs for most of their working life, or for which they are best known (FreeBase)
+inverseofcompanyproducesvideogamesystem	company produces a video game system
+inverseofmoviessuchasmovies	Describes the movies types that are generalizations of specific movies
+trophywonbycoaches	specifies that a particular coach coaches a team that won a particular award or trophy
+geopoliticallocationcontainsstate	specifies that a particular state or province is located in a particular geopolitical location
+airportincity	The city an airport is located in.
+athletebeatathlete	Describes the athletes whom beat other athletes
+personborninlocation	the location that a person is born in
+inverseofdiseasemaybecausedbydrug	Describes a disease that can be caused by a drug
+politicianuswenttoschool	Describes the school where a US politician studied
+televisionstationaffiliatedwith	The network that a TV station gets its programming from
+personalsoknownas	this is another name for this person
+park	Public local/state/national parks, as well as amusement parks and other privately-run attractions.
+typeproducedby	Specifies that a particular compnay produces a particular type of product
+trophywonbyteam	Trophies that a team has won
+invertebratehascolor	Describes the color of invertebrates
+organizationcreatedbyperson	The person, organization, or geopoiltical entity that founded the given organization
+stateorprovince	In general, the top-level administrative or political subdivision within a country.
+teamhomestadium	The stadium or other sporting venue which a team designates as its home. Typically, a large percentage of the team's games occur in this location.
+agentworkedondrug	This predicate relates a substance and a HumanAgent who is responsible for it.  Responsibility is understoond relatively broadly, and includes people or organizations responsible for the substance's discovery or marketing and manufacturing.  Additionally, agents that own the rights to the substance are also eligible to participate in this relationship.  Note that the humanAgent category include organizations, including universities, companies, and government agencies.
+universityledmusicfestival	identifies the university that led a Musical Festival
+crimeorchargeofperson	Charges or crimes (alleged or convicted) of the given person
+sociopolitical	Any socio-political word (?!)
+farm	an area of land, including various structures, devoted primarily to the practice of producing and managing food (produce, grains, or livestock), fibres and, increasingly, fuel.
+attractionmadeofbuildingmaterial	Describes the materials used to build attractions
+bankbankincountry	Describes the banks in a country
+medicalprocedure	The medical treatment type is used for any medical intervention designed to treat and cure human diseases and medical conditions. This type includes both curative and palliative treatments
+mountainrange	A mountain range is a group of mountains bordered by lowlands or separated from other mountain ranges by passes or rivers.
+inverseofmammalsuchasmammal	Describes the specific actors types that are generalizations of actors
+clothingtogowithclothing	Describes clothing pieces that should (or can) be used with each other
+beveragemadefrombeverage	Describes the names an artery can be called
+personhascitizenship	the citizenship of a person
+bakedgood	A food which is made through baking in an oven
+buildinghostsmeetingeventtitle	In which building a particular meeting will take place
+olympics	are a major international event featuring summer and winter sports, in which thousands of athletes participate in a variety of competitions. The Games are currently held every two years, with Summer and Winter Olympic Games alternating, although they occur every four years within their respective seasonal games.
+inverseoffoodcancausedisease	Describes the diseases that can be caused by a food
+programminglanguage	A language used to give instructions to a computer
+televisionstation	A television station is a broadcaster which transmits television (audio & video).
+professionistypeofprofession	Type-specific generalization of professions.
+cityattractions	The city that an attraction is located in
+inverseofvideogamessuchasvideogames	Describes the videogame types that are generalizations of specific videogames
+planet	is a celestial body orbiting a star or stellar remnant that is massive enough to be rounded by its own gravity, is not massive enough to cause thermonuclear fusion, and has cleared its neighbouring region of planetesimals
+petroleumrefiningcompany	a company in the petroleum sector
+agentrepresentsorganization	Specialization of proxyFor for agent-to-organization relations. populate=false only because presumed to be uninteresting
+inverseofbankbankincountry	Describes the banks in a country
+hassibling	two persons are siblings
+equipmentusedbysport	Specifies equipment that is used by a particular sport.
+countriessuchascountries	Describes the countries types that are generalizations of specific countries
+cityofpersondeath	the city that a person died in
+tradeunion	A trade union (aka labor union) is an organization which represents workers in a certain industry or profession.
+time	a specific time
+personsouthamerica	citizens of countries in South America
+personchargedwithcrime	Charges or crimes (alleged or convicted) of the given person
+productinstanceof	Specifies that a particular product is a particular kind of thing
+furniturefoundinroom	Relates furniture to rooms in which it is often found
+automobilemaker	A company that manufactures motor-powered vehicles (eg., cars, motorcycles, buses, trucks and motorized bikes)
+languagespokenatisland	Describes languages spoken at islands
+humanagent	Those things to which we can ascribe agency that are composed of one or more humans
+inverseofautomobilemakerchiefexecutiveceo	Describes the CEOs of automobile maker companies
+politicsblog	A blog substantially and charactarizably, but not exclusively, devoted to politics or political issues.  A general current-events blog such as might be equated with a general newspaper should not be classified as a politicsBlog, although an identifyable subsection or the blog of a particular staff member could be.
+personhasbiologicalmother	is biological mother of a person
+leagueteams	The league that a team plays in.
+agentrelatedtolocation	Most general agent-to-location relation
+trail	Trails for hiking, walking, biking, or even driving.  Routes with street addresses cannot be trails.
+femalecanbethesameascomedian	Describes two instances that are the same thing in these two different categories
+inverseofattractionmadeofbuildingmaterial	Describes the materials used to build attractions
+organizationcreatedatdate	The date on which a given organization was founded
+countrystates	The country which the state or province is a part of.
+automobileengine	The engine type is to be used to classify specific powerplants used in an automobile. These may be year-specific, but more frequently they often span multiple years, models, makes and generations.
+criminal	a person who commits a crime
+amphibian	Amphibians (class Amphibia, from Amphi- meaning on both sides and -bios meaning life), such as frogs, salamanders, and caecilians, are ectothermic (or cold-blooded) animals that metamorphose from a juvenile water-breathing form, either to an adult air-breathing form, or to a paedomorph that retains some juvenile characteristics.
+shoppingmallincity	The city a shopping mall is located in.
+organizationheadquarteredincity	The city where a given organization is headquartered
+cityhasstreet	this street is at least partly inside this city
+writer	A writer is a person who produces written work. This category includes book authors, poets and playwrights.
+vegetable	An edible plant or part of a plant other than a sweet fruit or seed. This usually means the leaf, stem, or root of a plant.  This is meant to dovetail with the more botanical definition we have of fruit, and to not allow cullinary / colloquial vegetables that qualify for membership in our fruit category.  Mushrooms are not vegetables.
+geopoliticallocationresidenceofpersion	the geopolitical location that person has residence in
+producedby	Specifies that a particular compnay produces a particular product
+condiment	A sauce or seasoning added to food to impart a particular flavor or to complement the dish. (Wikipedia)
+subpartof	a portion or division of a whole that is separate or distinct; piece, fragment, fraction, or section; constituent (http://dictionary.reference.com/browse/part)
+inverseofwineryatfarm	farm and winery are related
+trainstationincity	The city a train station is in.
+teamcoach	specifies that a particular coach coaches a particular team
+geopoliticallocation	Those geopolitical entities that are location
+inverseofaquariumsuchasaquarium	Describes the specific aquarium types that are generalizations of aquariums
+inverseofautomobilemakerdealersincountry	Describes the car dealers in a country
+arachnidssuchasarachnids	Describes the specific arachnid types that are generalizations of arachnids
+iteminvolvedinevent	Umbrella relation for identifying items in events.
+locationcontainslocation	a location that is a subpart of another location
+inverseofanimalssuchasmammals	Describes the animal types that are generalizations of mammals
+televisionnetwork	Category for different types of TV networks (currently closed-world, limited to major American networks)
+sportsgameloser	Specifies that a particular team that played in a particular sportsGame was the loser thereof.
+professor	A faculty member at a university or college
+bacteriaisthecausativeagentofphysiologicalcondition	Describes the bacterias that causes physiological conditions
+relatedto	associated; connected (http://dictionary.reference.com/browse/related)
+competeswith	specifies that a particular company has been in competition with another particular company
+scientist	A scientist is a professional who performs research to discover the rules which govern the natural world. This category includes mathematicians, even though math isn't really a science.
+zooincity	The city a zoo is located in
+inverseoftouristattraction	Describes the specific tourist attraction types that are generalizations of tourist attractions
+coachworksincountry	Describes the country where a coach works
+stadiumhometosport	Specifies that a particular sport is played in a particular venue
+clothmadeofplant	Plants that can be used to make cloths
+hotelbuiltatpark	hotel and park are related
+comedian	a person who makes a living by making you laugh
+architectssuchasarchitects	Describes the specific architect types that are generalizations of architects
+personcanada	citizens of Canada
+writecanbethesameasscientist	Describes two instances that are the same thing in these two different categories
+cityaquariums	The city an aquarium is located in.
+year	Four-digit years
+countryisthehomeofsportsteam	Describes the home country of sports teams
+inverseofvegetableproductioninstateorprovince	Describes the vegetables produced in a state or province
+actorcanbethesameasathlete	Describes actors that are the same instances as athlete
+visualartmovementartist	The art movements or styles that a visualArtist is associated with.
+mlarea	A specific area of investigation within the sub-field of machine learning.
+languageofcity	Typical language spoken in a city (official or otherwise)
+animalsuchasfish	Describes the fish that are from a specific type of animals
+crustacean	form a very large group of arthropods, usually treated as a subphylum, which includes such familiar animals as crabs, lobsters, crayfish, shrimp, krill and barnacles. Like other arthropods, crustaceans have an exoskeleton, which they moult to grow. They are distinguished from other groups of arthropods, such as insects, myriapods and chelicerates by the possession of biramous (two-parted) limbs, and by the nauplius form of the larvae.
+hotelwasbuiltatfarm	Describes hotels built at farms
+lyrics	Refernce to the lyrics of a song, as distinct from a reference to the song itself
+coachesinleague	specifies that a particular coach coaches a team that plays in a particular league
+sportsequipment	Anything which is used to play a sport
+dayofweek	Seven named days of the week
+agentcreatedorganization	The person, organization, or geopoiltical entity that founded the given organization
+inverseofathletewinsawardtrophytournament	Describes the athletes who won an award trophy tournament
+cityparks	The city a park is located in.
+musicalbum	A collection of Musical Tracks (recordings of Songs) released in a common format such as Compact Disc or LP. An album is typically associated with a single Musical Artist unless it is a compilation, which is a collection of tracks by various artists.  (FreeBase)
+cityhascompanyoffice	specifies that a particular company has offices in a particular city
+inverseofbuildingispartofuniversity	Describes buildings that universities might own
+officebuildingroominbuilding	Which office-style building a particular room is found in
+sideeffectcausedbydrug	This predicate indicates that the use of a drug has a physiologicalCondition as a side-effect.  Uses of this predicate may include both very common side-effects, and rare but reported side-effects.
+oilgasfield	An field from which oil or natural gas are extracted.
+streetincity	this street is at least partly inside this city
+magazineisleadbyceo	Identifies the CEO of a Magazine
+inverseofanimalsuchasinvertebrate	Describes the invertebrate that are from a specific type of animals
+inverseofmammalinducesemotion	The emotion that human beings generally have by looking at a mammal
+musicgenreartist	Specifies that a musicArtist performs in a particular genre
+thinghasshape	Object has shape (NEIL)
+chemical	A chemical compound is a molecular substance consisting of multiple atoms which are bonded together by a chemical reaction. This type can be used for compounds made of the same element (e.g. allotropes) or multiple different elements. Compounds are different from chemical mixtures because mixtures can be mixed and separated physically, without a reaction; The elements of the periodic table
+legume	plant in the family Fabaceae (or Leguminosae), or a fruit of these specific plants. A legume fruit is a simple dry fruit that develops from a simple carpel and usually dehisces (opens along a seam) on two sides.
+inverseofbeveragecontainsprotein	Describes the proteins contained in beverages
+musicgenre	A style or classification of music (FreeBase)
+organization	An organization is an organized body of members or people with a particular purpose; in the Freebase context, a organization doesn't have a business association, like a company.  Companies have their own type in the business domain, located here.  In addition, many types of organizations have their own, more specialized co-types that give them additional properties.
+nut	hard-shelled fruit of some plants having an indehiscent seed.
+biologicalmotherofperson	is biological mother of a person
+conference	A conference is a regular or recurring meeting of people to confer about a topic. It may take many forms.
+agentcontributedtocreativework	Specifies that a particular agent contributed to the production or creation of a particular creativeWork.  An actor in a movie contributes to that movie, but agentCreated would probably be to strong an assertion for that.
+hometeamingame	Specifies that a particular team is the home team in a particular sportsGame
+wifeof	person has a wife
+inverseofcriminalarrestedincountry	Country where criminal was arrested
+highschool	Schools whose graduates would go directly on to universities, vocational schools, or other higher education.  No particular limit on age of incoming students.
+cityliesonriver	Rivers that flow or through or immediately adjacent to the city.
+athleteplaysforteam	to join together in a team (http://dictionary.reference.com/browse/team)
+inverseofarterysuchasartery	Describes the specific artery types that are generalizations of arteries
+inverseofarachnidiseatenbybird	Describes arachnids that are hunted and eaten by this bird
+agriculturalproductgrowninlandscapefeatures	Describes the agricultural products that are grown in landscape features
+mlauthorexpertin	specifies that a particular ML author is an expert in a particular ML area
+inverseofprofessionssuchasprofessions	Describes the professions types that are generalizations of specific professions
+economicsectorusingacademicfield	Academic fields used by economic fields
+politicianussponsoredpoliticsbill	U.S. Politician sponsoring a particular legislative bill
+inverseofarthropodcalledarthropod	Describes the names an artery can be called
+bacteria	single-celled or noncellular spherical or spiral or rod-shaped organisms lacking chlorophyll that reproduce by fission;
+inverseofanimaleatfood	Describes the foods that are eaten by an animal
+ethnicgroup	A group of individuals that share common characteristics, such as ancestry, country of origin, language, religion, culture and physical appearance.
+wikipediaurlof	The Wikipedia page for a given category instance
+hotelincity	The city a hotel is located in.
+inverseofconferencessuchasconferences	Describes the conferences types that are generalizations of specific conferences
+invertebrate	An animal which does not have a back bone
+concepthasprerequisite	Prerequisite relationship between scientific terms (currently biased towards ML and AI areas)
+inverseofprofessionactsatthesameareaofpoliticissue	Describes professions that work at the area of a political issue
+dateatwhichexistslocation	Most general location-to-date relation.  Note that locations are not eternal.
+inverseofpoliticianuswenttoschool	Describes the school where a US politician studied
+moviethatgeneratestelevisionshow	Movie that a television show was based in
+inverseofgrainusedtomakecandy	grain and candy are related
+companiesheadquarteredhere	specifies that a particular company is headquartered in a particular city
+physiologicalconditionstudedbyperson	This predicate holds between a HumanAgent and a condition, and means that the HumanAgent performs research related to condition.
+animaldevelopdisease	Describes the diseases that can be developed by an animal
+statehasmountain	State/province a mountain is located in.
+agentcollaborateswithagent	to work, one with another; cooperate, as on a literary work (http://dictionary.reference.com/browse/collaborate)
+geopoliticallocationcontainscity	specifies that a particular city is located in a particular geopolitical location
+cityresidenceofperson	the city that a person has residence in
+eventatlocation	the location that an event is happened at
+plant	Member of kingdom plantae.  A seed is considered to be a plant because it has been fertilized, although the larger structure of a fruit which merely contains a seed is not itself a plant.  A picked flower, such as a product sold as such, is not a plant because it is something that has a new name as a result of a mortal action on a plant.
+sportsgame	A sports game is a particular instance of a sporting event where teams or athletes compete. This could be a series of matches if the competitors remain the same, but this does not extend to something like a tournament or season where the series of matches draws on different combinations from a set of teams.
+agriculturalproducttoattractinsect	Describes the agricultural products that attract insects
+politicaloffice	This type is for the office, title, or position within a government.  It includes both single-person offices (prime minister, emperor, mayor), titles of members of a governing body (representative, sentator, MP), and titles of additional positions within a governing body (leader of the opposition, speaker of the house).
+inverseofuniversityledmusicfestival	identifies the university that led a Musical Festival
+teamplaysagainstteam	Teams that play against each other competitively
+citycontainsbuilding	specifies that a particular building is located in a particular city
+countrycurrency	specifies that a particular country uses a particular currency
+stateorprovinceofpersonbirth	the state or province that a person was born in
+ethnicgroupofperson	The ethnicity of a person
+musicfestival	A Music Festival is a musical event where live music is played, typically by multiple musical artists. A festival may be a singular event or a recurring one.
+countryofpersonbirth	the country that a person was born in
+bird	Birds (class Aves) are winged, bipedal, endothermic (warm-blooded), egg-laying, vertebrate animals.
+agriculturalproduct	a living thing (or something derived therefrom) which is specifically cultivated and produced to sustain or enrich life
+organizationactsinlocation	location of an organization or company
+buildingmaterial	The construction material used for building
+professionactsatthesameareaofpoliticissue	Describes professions that work at the area of a political issue
+crimeorcharge	A crime or other kind of offence or violation with which a person can be charged
+worker	to be employed, esp. as a means of earning one's livelihood (http://dictionary.reference.com/browse/work)
+organizationnamehasacronym	this short name or acronym refers to this organization
+persondiedincity	the city that a person died in
+scenecontainsobject	Object found in scene (NEIL)
+restaurantincity	The city a restaurant is located in.
+inverseofclothingmadefromplant	Describes the clothing items made of a plant
+mountaininstate	State/province a mountain is located in.
+moviedirectedbydirector	to direct a monvie
+automobilemodel	A model is a specific car carried under a make.
+archaeasuchasarchaea	Describes the specific archaea types that are generalizations of archaeas
+politicsissue	An issue of political concern
+mlsoftwareauthor	Specifies ML software that is written by a particular ML author
+languageofsportsgame	Describes the origin language of the sports name
+weaponssuchasweapons	Describes the weapons types that are generalizations of specific weapons
+agriculturalproductcamefromcountry	Describes the agricultural products that came from a country
+inverseofmountainatgeopoliticallocation	geopoliticallocation and mountain are related
+eventoutcome	a final product or end result; consequence; issue (http://dictionary.reference.com/browse/outcome)
+inverseofcriminalssuchascriminals	Describes the criminals types that are generalizations of specific criminals
+stateorprovinceresidenceofperson	the state or province that a person has residence in
+personhasresidenceincity	the city that a person has residence in
+hobbiessuchashobbies	Describes the hobbies types that are generalizations of specific hobbies
+mutualproxyfor	two things can be taken to refer to each other equally
+dateof	assigns dates to things.
+inverseofagriculturalproductcamefromcountry	Describes the agricultural products that came from a country
+lakeinstate	The state/province a river is in.
+musicfestivalssuchasmusicfestivals	Describes the musicfestivals types that are generalizations of specific musicfestivals
+publicationwritesabout	Specifies that a particular person has been written about in a particular publication
+organizationhastopmember	Identifies people in high-level, leading positions at organizations.  Applicable positions have authority over the entire organization (e.g. presidents, VPs, directors, and C-level executives), not merely over departments or subsidiaries.
+eventhasparticipantagent	identifies participants in events
+personnorthamerica	citizens of countries in North America
+musicgenressuchasmusicgenres	Describes the musicgenre types that are generalizations of specific musicgenres
+citystadiums	The city where a stadium is located
+item	Any tangible thing that does not have the power to act (agency)
+agenthaswebsite	The organization that operates a website
+locationinzipcode	Describes one or more locations to which a zipcode may correspond.
+controlledbyagent	to exercise restraint or direction over; dominate; command (http://dictionary.reference.com/browse/control)
+nerve	a single nerve cell or bundle of nerve cells
+buildingfeaturebuiltabovelake	buildingfeature and lake are related
+agentactsinlocation	As with agentInteractsWithAgent, we take existing at a location to be an action at that location.
+inverseofbuildingfeaturemadefrombuildingmaterial	Describes the building features that are made of a building material
+cardgame	Games that are played with only a physical deck of cards (electronic games not allowed)
+locationresidenceofperson	the location that person has residence in
+inverseofplantrepresentemotion	Describes the emotions represented by a plant
+stateorprovinceattainstrainstation	Describes the trainstantions location (state or province)
+websiteoperatedbyagent	The organization that operates a website
+companyproducesvideogamesystem	company produces a video game system
+attraction	sight or feature that you might visit as a tourist. Examples include monuments, parks, museums, and the like. This type includes Location, which means it is usually used for things which are themselves locations (like those described above
+river	A river is a natural waterway usually formed by water derived from either precipitation or glacial meltwater, and flows from higher ground to lower ground. Most commonly rivers flow on the surface but there are many examples of underground rivers. In some areas of highly variable rainfall, some rivers carry water only occasionally and may be dry for several years at a time. Such waterways of all sizes, including streams and creeks, can be listed under this type.
+fruit	A structure of a plant that contains its seeds.  This is closer to the botanical definition than the cullinary / colloquial definition, but is technically niether.
+bodypartwithinbodypart	indicates that one body part is contained inside another
+dateofmeetingeventtitle	When a particular meeting will take place
+room	A conceptually-distinct subspace within a building.  The entire space within a building could be considered to be a room in the case of, say, a one-room schoolhouse.
+mollusk	invertebrate having a soft unsegmented body usually enclosed in a shell
+locationactedinbyagent	As with agentInteractsWithAgent, we take existing at a location to be an action at that location.
+objectlookslikeobject	Object looks like (NEIL)
+personattendsschool	person has attended a school
+universityincity	The city a university is located in.
+election	An opportunity for constituents to vote for a political party or candidate for a governmental office or seat, or the ability to run for a governmental office or seat (as is the case with primaries). (FreeBase)
+kitchenitem	Any item that might be found in a commercial or residential kitchen that is used for cullinary purposes or in pursuit of the same (e.g. a cupboard).
+model	a person who is paid to be a fashion model
+grain	dry seed-like fruit produced by the cereal grasses: e.g. wheat, barley, Indian corn
+hasofficeincountry	specifies that a particular company has offices in a particular country
+politicsbill	A legislative bill, passed, enacted, or otherwise.
+personspeakingatmeetingeventtitle	Who will be speaking at a particular meeting
+magazine	A magazine is a periodical bound typically published less frequently than daily.  This includes electronic magazines.  For lack of a better definitional boundary, this therefore includes any periodical that is not instead a newspaper.
+date	a particular month, day, and year at which some event happened or will happen; the time or period to which any event or thing belongs; period in general (http://dictionary.reference.com/browse/date)
+animalistypeofanimal	Type-specific generalization of animals.
+politicianendorsespolitician	Politician that endorses another politician
+amphibiansuchasamphibian	Describes the amphibian types that are generalizations of specific amphibians
+visualartist	A visual artist creates artistic works which are mainly experienced by sight. This category includes painters, sculptors and architects, but excludes authors.
+inverseofathleteinjuredhisbodypart	Describes the athletes that had injured any body part
+inverseoftoolssuchastools	Describes the tools types that are generalizations of specific tools
+inverseofarthropodfeedoninsect	Describes the names an artery can be called
+locatedat	assigns locations to things.
+animaleatfood	Describes the foods that are eaten by an animal
+retailstore	Brick & mortar retail stores and franchises.  Retail means selling goods, not services (e.g. prepared food)
+cityhasairport	The city an airport is located in.
+recordlabel	A record label is a company that releases music albums.
+inverseofastronautwasonamissionwithastronaut	Describes astronauts that were at a space mission togheter
+bakedgoodservedwithbeverage	Describes the baked goods that are usually served with a beverage
+personalcareitem	Items used by people to care for their bodies or to maintain a certain appearance. Could also be called toiletries.
+personhasmother	mother of a person
+animalssuchasmammals	Describes the animal types that are generalizations of mammals
+port	a location on a coast or shore containing one or more harbors where ships can dock and transfer people or cargo to or from land. Port locations are selected to optimize access to land and navigable water, for commercial demand, and for shelter from wind and waves. Ports with deeper water are rarer, but can handle larger, more economical ships. Since ports throughout history handled every kind of traffic, support and storage facilities vary widely, may extend for miles, and dominate the local economy. Some ports have an important, perhaps exclusively military role.
+academicfieldhassubfield	Subfields within a given academic field
+inverseofbakegoodistypicalincountry	Describes the typicall bakegoods of the countries
+furniture	Any functional or decorative mobile object with which a dwelling might be said to be furnished, or any immobile variant of the same (such as an oven built into a wall).
+animalsuchasinvertebrate	Describes the invertebrate that are from a specific type of animals
+persondeathdate	the date on which this person died
+leagueplayers	a group of athletic teams organized to promote mutual interests and to compete chiefly among themselves (http://dictionary.reference.com/browse/league)
+dateoforganizationcreation	The date on which a given organization was founded
+politicalgroupofpoliticianus	U.S. Politician who is member of a political group
+actorsuchasactor	Describes the actor types that are generalizations of specific actors
+sportfansincountry	Describes the sports that have fans living in a country
+drugexpectedreleasedate	This predicate represents the relationship between a pharmaceutical substance and the date when it is expected to be approved for legal marketing.  For our purposes, the date will typically correspond to a date for FDA approval, but the relationship itself is not restricted to approval for sale in the United States.
+stadiumlocatedincity	The city where a stadium is located
+hobby	A hobby is an activity undertaken for pleasure in one's spare time. Some hobbies exist primarily as hobbies, while others might be practiced professionally by some people but as hobbies by others.  This can include sport activities.
+automobileenginesuchasautomobileengine	Describes the specific automobile Engine types that are generalizations of automobile Engines
+inverseofpersongraduatedfromuniversity	Describes the people graduated from a university
+inverseofhotelbuiltatpark	hotel and park are related
+canbethesameas	Describes two instances that are the same thing in different categories
+sportsleague	A sports league is an association of teams that compete with each other in a sport. Sports leagues include conferences and divisions of other sports leagues.
+hasspouse	person has a spouse
+game	General parent category for more specific kinds of games
+personbornincity	the city that a person was born in
+agriculturalproductcontainchemical	Describes the agricultural products that contain a chemical
+sportschoolincountry	Describes the sports practiced in a country
+bone	a bone or bone structure in a vertebrate
+musician	A musician is a person who sings or plays a musical instrument as part of a musical act.
+buildinglocatedincity	specifies that a particular building is located in a particular city
+personterminatedbyorganization	This relation holds when the organization has teminated the employment relationship. This includes firings, RIFs, resignations, and retirements. Normal ending of a contract does not constitute terminatedEmployment. A termination event (the endinf of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith used to work for IBM, that is not enough to assert a terminatedEmployment relation.
+arachnid	air-breathing arthropods characterized by simple eyes and four pairs of legs
+iteminvolvedwithagent	Most general agent-to-item relation.  As with agentInteractsWithAgent, we'll use this for states of being as well as actions, at least for now.
+parlourgame	Parlour games, drawing room games, car games, and similar passtimes that are not card games, dice games, board games, etc.
+inverseofanimalsuchasinsect	Describes the insect that are from a specific type of animals
+inverseofactorsuchasactor	Describes the actor types that are generalizations of specific actors
+inverseofanimalfeedoninsect	Describes the animals that feed on Insects
+professionalorganization	A professional organization is an organization of people who work in a particular field.
+mountainatgeopoliticallocation	geopoliticallocation and mountain are related
+companyeconomicsector	specifies that a particular company does business in a particular economic sector
+emotionassociatedwithdisease	Describes the emotions associated with a disease
+religion	Religious sects, denominations, and (meta-)organizations. NOT church buildings or individual chapters/institutions.
+chemicalistypeofchemical	indicates that one chemical is special case of another chemical
+fish	A fish is any aquatic vertebrate animal that is covered with scales, and equipped with two sets of paired fins and several unpaired fins. Most fish are cold-blooded, or ectothermic, allowing their body temperatures to vary as ambient temperatures change.
+inverseofautomobilemakercardealersinstateorprovince	Describes the car dealers in a state or province
+agentbelongstoorganization	to be in the relation of a member, adherent, inhabitant, etc (http://dictionary.reference.com/browse/belong)
+officialwebsiteoforganization	An official top-level URL for an organization's website
+location	The Location type is used for any topic with a fixed location on the planet Earth. It includes geographic features such as oceans and mountains, political entities like cities and man-made objects like buildings
+agriculturalproductcutintogeometricshape	Describes the agricultural products that are usually cut into geometric shapes
+academicfieldusedinjobposition	Academic fields useful for job positions
+inverseofawardtrophytournamentwasawardedonstadium	Stadium of event venue where a award trophy tournament was at least once awarded
+coachalsoknownas	this is another name for this coach
+shoppingmall	A shopping mall is a building or group of buildings containing many stores, restaurants, and businesses.
+statelocatedincountry	The country which the state or province is a part of.
+company	A company is an organization whose goal is to make money
+economicsectorcompany	specifies that a particular company does business in a particular economic sector
+book	A book is a written work or a collection of written works in book form. Book represents the abstract notion of a particular book, rather than a particular edition.
+inverseofathletepublishesinblog	The blog where an athlete publishes
+televisionshowisbasedonmovie	Movie that a television show was based in
+personhasbiologicalfather	is biological father of a person
+organizationleadbyagent	General relation as with certain political positions, we have an agent that controls the thing that he works for
+inverseofacademicfieldsuchasacademicfield	Describes a specialization fo an Academic Field
+aquariumincity	The city an aquarium is located in.
+citylocatedincountry	specifies that a particular city is located in a particular country
+shapeofobject	Object has shape (NEIL)
+economicsector	An economy may include several sectors (also called industries) (http://en.wikipedia.org/wiki/Economic_sectors)
+inverseofagriculturalproductgrowninlandscapefeature	Describes the agricultural products that are grown in landscape features
+worksfor	to be employed, esp. as a means of earning one's livelihood (http://dictionary.reference.com/browse/work)
+teamalsoknownas	this is another name for this team
+drugworkedonbyagent	This predicate relates a substance and a HumanAgent who is responsible for it.  Responsibility is understoond relatively broadly, and includes people or organizations responsible for the substance's discovery or marketing and manufacturing.  Additionally, agents that own the rights to the substance are also eligible to participate in this relationship.  Note that the humanAgent category include organizations, including universities, companies, and government agencies.
+filmfestival	Film festivals at which movies are shown.
+scoreofsportsgame	the score of this game
+invertebratefeedonfood	Describes the foods that are eaten by an invertebrate
+inverseofcolorassociatedwithvisualizableattribut	color and visualizableattribute are related
+inverseofmusicfestivalssuchasmusicfestivals	Describes the musicfestivals types that are generalizations of specific musicfestivals
+cave	An underground space humans or animals can enter - a cave.
+teamingame	Specifies the teams that played in a particular sports game
+losingscoreofsportsgame	Specifies the score with which the loosing team in a particular sportsGame lost.
+inverseofbankboughtbank	Describes the banks that bought other banks
+inverseofagriculturalproductcomingfromvertebrate	Describes the agricultural products that come from a vertebrate
+locationrelatedtoagent	Most general agent-to-location relation
+organizationhiredperson	This relation connects an organization to individuals that it hired.  It does include people hired as contractors, not just people hired as employees. It does not include elected officials. It does not include organizations that may be hired for some particular purpose. Typically, hiring someone does involve paying them, though that is seldom stated explicitly when the relation is mentioned. A hiring event (the actual initiation of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith works for IBM, that is not enough to assert a hired relation.
+diseasecausesphysiologicalcondition	Describes diseases that may cause a physiological condition
+governmentorganization	A government is the organization, or agency through which a political unit exercises its authority,
+astronautssuchasaustronauts	Describes the specific astronaut types that are generalizations of astronauts
+inverseofbirdmayconsumeprotein	Describes the proteins eaten by a bird
+mountain	A mountain is a landform that extends above the surrounding terrain in a limited area. A mountain is generally steeper than a hill, but there is considerable overlap, and usage often depends on local custom.
+politicianus	Politicians of the U.S.A
+astronautwasonamissionwithastronaut	Describes astronauts that were at a space mission togheter
+perceptionaction	An event that involves someone perceiving something
+academicfieldsuchasacademicfield	Describes a specialization fo an Academic Field
+mlmetric	A metric used to evaluate machine learning methods
+sportsevent	is when a sport is played or otherwise engaged in, including but not limited to what would be termed a sports game.  See child categories for examples.
+mammaleatsinsect	Describes the insects that mammals eats
+inverseofislandhasskiarea	Describes island that have ski a area
+visualizableobject	a visual object (for NEIL)
+agentinteractswithagent	to act one upon another (http://dictionary.reference.com/browse/interact)
+meetingeventtypeincludesmeetingeventtitle	What series of meetings a particular meeting belongs to, or what kind of a meeting it is
+eventsubeventof	event that is happened as a sub-event of another event
+personhasfather	father of a person
+vehicletypehasvehicle	Type-specific generalization of vehicles.
+inverseofcelebritysuchascelebrity	Describes the specific celebrity types that are generalizations of celebrities
+politicianrepresentslocation	Describes the city, state, country or other location represented by a politician
+geopoliticallocationcontainscountry	specifies that a particular country is located in a particular geopolitical entity
+insectcanbeconfundedwitharthropod	Arthropodes that usually are confunded by insects
+url	A URL
+consumerelectronicitem	An item intended for ordinary people that runs on electricity, excluding appliances. This category includes accessories for consumer electronic items, such as video games and DVDs.
+inverseofathleteplayedforschool	The school that an athlete used to play for its team
+inverseofbeveragemadefrombeverage	Describes the names an artery can be called
+sportusesequipment	Specifies equipment that is used by a particular sport.
+sportsgamescore	the score of this game
+meetingeventtitleinbuilding	In which building a particular meeting will take place
+cityofpersonbirth	the city that a person was born in
+sportsteampositionathlete	The team position played by an athlete.
+professionssuchasprofessions	Describes the professions types that are generalizations of specific professions
+universityoperatesinlanguage	Language spoken at a college/university.
+jobpositionheldbyperson	This relation holds when the person has held the position at some point in some organization.
+players	to engage in (a game, pastime, etc.) (http://dictionary.reference.com/browse/play)
+buildingispartofuniversity	Describes buildings that universities might own
+teamplaysinleague	The league that a team plays in.
+marriedinyear	This relation holds when a person married some other person in the specified year.
+refineryproduct	a product derived from a petroleum refinery
+athletepublishesinblog	The blog where an athlete publishes
+archaea	single-celled organisms lacking nuclei, formerly called archaebacteria but now known to differ fundamentally from bacteria
+countrycities	specifies that a particular city is located in a particular country
+countryleadbyperson	specifies that a particular person is the leader of a particular country
+citycapitalofcountry	specifies that a particular city is the capital of a particular country
+agentinvolvedwithitem	Most general agent-to-item relation.  As with agentInteractsWithAgent, we'll use this for states of being as well as actions, at least for now.
+geopoliticalentity	That which would an object of geopolitical analysis, including but not limited to countries, administrative or de facto subdivisions thereof, supernational groupings and organizations, geographical regions, and cultural groups.
+visualizableattribute	a visual attribute (for NEIL)
+stateorprovinceisborderedbystateorprovince	Describes the states that borders a state
+continent	A continent is a large land mass, defined mostly by conventional use, but closely related to tectonic plates within the earth's crust.
+athletefracturedbone	Bone fracture that an athlete had
+lymphnode	a lymph node in the body
+newpaperhaswebsite	Present the oficial website of a newspaper
+inverseofastronautsuchasastronaut	Describes the specific astronaut types that are generalizations of astronauts
+organizationacronymhasname	this short name or acronym refers to this organization
+inverseofarachnidssuchasarachnides	Describes the specific arachnid types that are generalizations of arachnids
+dateatwhichexistsitem	a item exists in a determined time (or date)
+politicsbillsponsoredbypoliticianus	U.S. Politician sponsoring a particular legislative bill
+inverseofinvertebratefeedonfood	Describes the foods that are eaten by an invertebrate
+llcoordinate	Longitude is the angular distance of a point's meridian from the Prime (Greenwich) Meridian
+bedroomitem	Any item that is commonly found in a bedroom.
+criminalarrestedincountry	Country where criminal was arrested
+agentcausedevent	Companion to agentParticipatedInEvent.  Note that one needn't participate in an event in order to be a causal factor.
+awardtrophytournamentisthechampionshipgameofthenationalsport	Describes award trophy tournaments related to specific sports
+academicfieldusedbyeconomicsector	Academic fields used by economic fields
+animaltypehasanimal	Type-specific generalization of animals.
+vehicle	Any vessel or other conveyance machine used for purposes of travel.  Apparel and other personal affects, e.g. shoes or walking sticks, do not count.
+buildinghasofficebuildingroom	Which office-style building a particular room is found in
+researchproject	A specific research effort or a research center
+istallerthan	Indicates that arg1 has a greater height than arg2
+mediacompany	Any company that deals in the production or marketing of media goods (film, audio, literature, journalistic, etc.)
+subjectconcernedbyacademicfield	Subjects of study within a given academic field
+weatherphenomenon	Anything that happens naturally in the atmosphere
+celebritycanbethesameasceo	Describes two instances that are the same thing in these two different categories
+acquired	to come into possession or ownership of; get as one's own (http://dictionary.reference.com/browse/acquire)
+hospital	A hospital is an institution for health care, often but not always providing for longer-term patient stays.  All varieties of hospitals -- private, public, military, etc. -- are included.
+newspaperincity	Specifies the city in which a particular newspaper is headquartered
+journalist	Journalists are professionals who work in journalism. They collect and report news.
+malemovedtostateorprovince	Describes the male people that moved to live in a state or province
+citytelevisionstation	The city where a TV station is located or broadcasts to.
+cheese	Any cheese
+stateorprovinceoforganizationheadquarters	The state or province where a given organization is headquartered
+tableitem	Any item that is commonly found on a table.
+weapon	A weapon is any tool used for fighting
+acquiredby	to come into possession or ownership of; get as one's own (http://dictionary.reference.com/browse/acquire)
+cityradiostation	Specifies that a particular radio station is headquarted in a particular city
+superpartoforganization	one organization is a subpart of a larger, controlling organization
+arachnidiseatenbybird	Describes arachnids that are hunted and eaten by this bird
+charactertrait	habitual patterns of behavior, thought, and emotion (http://en.wikipedia.org/wiki/Trait_theory)
+universityhasacademicprogram	this academic program is offered by this university
+braintissue	any subregion of the brain, but not including single nerves
+male	This category includes all male human beings.
+drugpossiblytreatsphysiologicalcondition	relates a substance to a condition that it might treat. This relation includes conditions that the substance has been designed or approved to treat, as well as conditions for which it is being investigated as a possible treatment.  Common folk remedies would also be eligible for this relation.  For example, it would be reasonable to say that chicken noodle soup is a possible treatment for colds.
+brotherof	person has a brother
+virus	A small infectious agent that replicates only inside the living cells of other organisms
+plantrepresentemotion	Describes the emotions represented by a plant
+personhasresidenceincountry	the country that a person has residence in
+aquariumssuchasaquariums	Describes the specific aquarium types that are generalizations of aquariums
+synonymfor	Two strings are synonyms if both of them frequently refer to the same real-world concept in text.
+inverseofcoachstudiedatuniversity	Describes the university where the coach studied at
+citylanguage	Typical language spoken in a city (official or otherwise)
+videogamessuchasvideogames	Describes the videogame types that are generalizations of specific videogames
+plantincludeplant	Describes the subcategories of a plant
+awayteamingame	Specifies that a particular team is the away team in a particular sportsGame.
+cityrestaurants	The city a restaurant is located in.
+chef	A chef is a professional cook.
+athleteplayssportsteamposition	The team position played by an athlete.
+inverseofarthropodlooklikeinsect	Describes the arthropod that look like specific insects
+drughassideeffect	This predicate indicates that the use of a drug has a physiologicalCondition as a side-effect.  Uses of this predicate may include both very common side-effects, and rare but reported side-effects.
+politicianendorsedbypolitician	Politician that endorses another politician
+zipcode	US ZIP codes.  Other postal codes are not allowed
+vegetablecanbethesameasagriculturalproduct	Describes two instances that are the same thing in these two different categories
+stadiumhometeam	The stadium or other sporting venue which a team designates as its home. Typically, a large percentage of the team's games occur in this location.
+personleadsorganization	person leading an organization/company
+restaurantlocatedinskyscraper	Describes restaurants located in skyscrapers
+personafricacanbethesameaswriter	Describes writers that are the same instances as personafrica
+meatcomesfromanimal	Describes the animals and their meat cuts
+cityhostsattraction	Attraction occurs in the city
+locationofevent	the location that an event is happened at
+sportsteamposition	The name of a position on a sports team (e.g., quarterback)
+personleadsgeopoliticalorganization	specifies that a particular person plays a leading role in a particular geopolitical organization (which includes the governments of countries)
+beveragecansoftendisease	Describes beverages that can help soften the symptons of diseases
+personleadscountry	specifies that a particular person is the leader of a particular country
+insect	class within the arthropods that have a chitinous exoskeleton, a three-part body (head, thorax, and abdomen), three pairs of jointed legs, compound eyes, and two antennae
+physicalaction	An event that involves someone doing something with their physical body.
+inverseofarchitectssuchasarchitects	Describes the specific architect types that are generalizations of architects
+countrylanguage	Typical language spoken in a country (official or otherwise)
+farmlocatedincountry	The country a farm is located in
+vegetablecanbeservedwithgrain	Describes the vegetables that are usually served with a grain
+athleteledsportsteam	Describes the athletes that lead/led a sports team
+sisterof	person has a sister
+sportsgamehometeam	Specifies that a particular team is the home team in a particular sportsGame
+restaurant	The restaurant type represents single restaurants as well as restaurant chains.
+vegetableproductioninstateorprovince	Describes the vegetables produced in a state or province
+professionusestool	those who practice this profession use this tool
+politicalofficecanbethesameasjobposition	Describes two instances that are the same thing in these two different categories
+street	A route of travel that has a single name indicating its entirety, and that could have a street address (as distinct from trail, which may not feature addresses)
+inverseofautomobileenginesuchasautomobileengine	Describes the specific automobile Engine types that are generalizations of automobile Engines
+religionssuchasreligions	Describes the religions types that are generalizations of specific religions
+organizationterminatedperson	This relation holds when the organization has teminated the employment relationship. This includes firings, RIFs, resignations, and retirements. Normal ending of a contract does not constitute terminatedEmployment. A termination event (the endinf of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith used to work for IBM, that is not enough to assert a terminatedEmployment relation.
+dateofpersondeath	the date on which this person died
+personhiredbyorganization	This relation connects an organization to individuals that it hired.  It does include people hired as contractors, not just people hired as employees. It does not include elected officials. It does not include organizations that may be hired for some particular purpose. Typically, hiring someone does involve paying them, though that is seldom stated explicitly when the relation is mentioned. A hiring event (the actual initiation of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith works for IBM, that is not enough to assert a hired relation.
+judge	a judge in a court of law
+inverseofinsecteatsgrain	Describes the grains eaten by an insect
+geopoliticalorganizationleadbyperson	specifies that a particular person plays a leading role in a particular geopolitical organization (which includes the governments of countries)
+perceptionevent	Something that can be perceived by someone.
+inverseofanimaleatvegetable	Describes the vegetables eaten by an animal
+cityleadbyperson	specifies that a particular person is the leader (e.g. Mayor) of a particular city
+creativework	the product of any creative effort, including movies, paintings, musical songs, etc.
+fishservedwithfood	Describes the kind of food that are tipically serverd with a fish
+skiarea	A place to ski
+movie	A release of a visual narrative composed of a series of moving images that is considered a complete presentation and is intended to be classified as a film. A film can be of any length of running time and presented in a theatrical, television, internet-streaming and direct-to-home-video presentation. (FreeBase)
+ceoof	specifies that a particular CEO is the CEO of a particular company
+organizationheadquarteredincountry	The country where a given organization is headquartered
+personhasresidenceingeopoliticallocation	the geopolitical location that person has residence in
+agriculturalproductincludingagriculturalproduct	Describes the agricultural products that are generalizations of other agriculture products
+itemusedwithitem	Most general item-to-item relation.
+inverseofweaponssuchasweapons	Describes the weapons types that are generalizations of specific weapons
+agriculturalproductproducedbyfarm	the agricultural products produced by a farm
+skyscraper	A very tall building
+persondiedinlocation	the location that a person died in
+personantarctica	Placeholder in case we change the definition of personByLocation categories such that there would be anyone to put here (there are no countries in Antarctica of which to be a citizen).
+inverseofinvertebrateturnintoinsect	Describes the metamorphosis of some invertebrates into another insects
+companyhasshareholder	Any organization, person, or geopolitical entity that holds shares (majority or otherwise) of the given company.
+inverseofmagazineisleadbyceo	Identifies the CEO of a Magazine
+sportsgameloserscore	Specifies the score with which the loosing team in a particular sportsGame lost.
+vertebrate	An animal which has a back bone
+nonprofitorganization	A non-profit organization is a legally-constituted organization that does not make a profit from its operations.
+arthropodthatfeedoninsect	Describes the names an artery can be called
+arterycalledartery	Describes the names an artery can be called
+abstractthing	thought, quality, characteristic apart from concrete realities, specific objects, or actual instances; theoretical, not applied or practical (http://dictionary.reference.com/browse/abstract)
+visualizablething	something which can be recognized visually
+officeitem	Items usually found in an office that are used for clerical or intellectual work.

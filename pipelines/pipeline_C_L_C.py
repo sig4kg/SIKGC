@@ -25,16 +25,15 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
 
         # 2. consistency checking for new triples
         pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
-        new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).\
-            drop_duplicates(keep=False) # diff
-        hit_hrt_df = pd.merge(pred_hrt_df, context_resource.hrt_int_df, how="inner")
+        # diff
+        new_hrt_df = pd.merge(pred_hrt_df, context_resource.hrt_int_df, how="inner")
 
         # run_scripts.clean_tranE(work_dir)
-        # abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
-        # wait_until_file_is_saved(work_dir + "valid_hrt.txt")
+        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+        wait_until_file_is_saved(work_dir + "valid_hrt.txt")
 
         # 3. get valid new triples
-        # new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
+        new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
         # new_count = len(new_hrt_df)
 
         # 4. check rate

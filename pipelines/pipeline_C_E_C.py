@@ -1,14 +1,13 @@
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.abox_utils import *
 from abox_scanner.transE_util import *
-# from abox_scanner.rumis_util import *
 from openKE import train_transe_NELL995
 import pandas as pd
 from scripts import run_scripts
 from tqdm.auto import trange
 
 
-def c_t_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
+def c_e_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
     context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, create_id_file=True)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(TBOX_PATTERNS_PATH, context_resource)
@@ -50,7 +49,7 @@ def c_t_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
 
 if __name__ == "__main__":
     print("CTC pipeline")
-    c_t_c("../resources/NELL-dev.txt", "../outputs/ctc/")
+    c_e_c("../resources/NELL-dev.txt", "../outputs/ctc/")
 
 
 

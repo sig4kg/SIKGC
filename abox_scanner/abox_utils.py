@@ -8,8 +8,8 @@ import time
 
 ONTOLOGY_PATH = "../resources/NELL.ontology.ttl"
 TBOX_PATTERNS_PATH = "../resources/NELL_patterns"
-ALL_CLASS_FILE = "../resources/NELL-995/ALLClasses.txt"
-ALL_OP_FILE = "../resources/NELL-995/ALLObjectProperties.txt"
+ALL_CLASS_FILE = "../resources/NELL-995/AllClasses.txt"
+ALL_OP_FILE = "../resources/NELL-995/AllObjectProperties.txt"
 ORIGINAL_TRIPLES_PATH = "../resources/NELL-995/NELLKG0.txt"
 
 

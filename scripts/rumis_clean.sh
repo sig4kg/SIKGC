@@ -23,7 +23,7 @@ if [ -d "$WORK_DIR/DLV" ];then
     mv $WORK_DIR/DLV $LAST_ROUND
 fi
 [ -f "$WORK_DIR/ideal.data.txt" ] && mv $WORK_DIR/ideal.data.txt $LAST_ROUND
-[ -f "$WORK_DIR/train.data.txt" ] && mv $WORK_DIR/train.data.txt $LAST_ROUND
+[ -f "$WORK_DIR/training.data.txt" ] && mv $WORK_DIR/train.data.txt $LAST_ROUND
 [ -f "$WORK_DIR/experiment.txt" ] && mv $WORK_DIR/experiment.txt $LAST_ROUND
 [ -f "$WORK_DIR/encode.txt" ] && mv $WORK_DIR/encode.txt $LAST_ROUND
 [ -f "$WORK_DIR/invalid_hrt.txt" ] && mv $WORK_DIR/invalid_hrt.txt $LAST_ROUND

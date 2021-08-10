@@ -12,7 +12,7 @@ def read_hrts_blp_2_hrt_int_df(hrts_blp_file, context_resource: ContextResources
 
 
 def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir):
-    df = context_resource.hrt_int_df
+    df = context_resource.hrt_int_df.copy(deep=True)
     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to int
     df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2rel[x])  # to int
     df[['head', 'rel', 'tail']].to_csv(hrt_blp_dir + "all_triples.tsv", index=False, header=False, sep='\t')

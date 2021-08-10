@@ -47,14 +47,14 @@ def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
         #     break
 
         # add new valid hrt to train set
-        old_hrt_df = context_resource.hrt_tris_int_df
+        old_hrt_df = context_resource.hrt_int_df
         train_hrt_df = pd.concat([old_hrt_df, new_hrt_df], axis=0)
 
         #  backup and clean last round data
         run_scripts.clean_rumis(work_dir=work_dir)
 
         # overwrite train data in context
-        context_resource.hrt_tris_int_df = train_hrt_df
+        context_resource.hrt_int_df = train_hrt_df
 
 
 if __name__ == "__main__":

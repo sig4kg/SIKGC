@@ -17,7 +17,7 @@ def c_e_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
     read_scanned_2_context_df(work_dir, context_resource)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
         context_2_hrt_transE(work_dir, context_resource)
-        train_count = len(context_resource.hrt_tris_int_df)
+        train_count = len(context_resource.hrt_int_df)
         run_scripts.gen_pred_transE(work_dir)
         wait_until_train_pred_data_ready(work_dir)
 
@@ -44,8 +44,8 @@ def c_e_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
             break
 
         # 6. add new valid hrt to train data
-        extend_hrt_df = pd.concat([context_resource.hrt_tris_int_df, new_hrt_df], axis=0)
-        context_resource.hrt_tris_int_df = extend_hrt_df
+        extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0)
+        context_resource.hrt_int_df = extend_hrt_df
 
 if __name__ == "__main__":
     print("CTC pipeline")

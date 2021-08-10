@@ -25,9 +25,9 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
 
         # 2. consistency checking for new triples
         pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
-        new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_tris_int_df, context_resource.hrt_tris_int_df]).\
+        new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).\
             drop_duplicates(keep=False) # diff
-        hit_hrt_df = pd.merge(pred_hrt_df, context_resource.hrt_tris_int_df, how="inner")
+        hit_hrt_df = pd.merge(pred_hrt_df, context_resource.hrt_int_df, how="inner")
 
         # run_scripts.clean_tranE(work_dir)
         # abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
@@ -43,8 +43,8 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
         #     break
 
         # 5. add new valid hrt to train data
-        extend_hrt_df = pd.concat([context_resource.hrt_tris_int_df, new_hrt_df], axis=0)
-        context_resource.hrt_tris_int_df = extend_hrt_df
+        extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0)
+        context_resource.hrt_int_df = extend_hrt_df
 
 if __name__ == "__main__":
     print("CLC pipeline")

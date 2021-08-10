@@ -18,7 +18,7 @@ def init_context(input_hrt_raw_triple_file, work_dir):
 
 def T_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
     context_2_hrt_transE(work_dir, context_resource)
-    train_count = len(context_resource.hrt_tris_int_df)
+    train_count = len(context_resource.hrt_int_df)
     run_scripts.gen_pred_transE(work_dir)
     wait_until_train_pred_data_ready(work_dir)
 
@@ -41,8 +41,8 @@ def T_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScanne
     new_count = len(new_hrt_df)
 
     # 5. add new valid hrt to train data
-    extend_hrt_df = pd.concat([context_resource.hrt_tris_int_df, new_hrt_df], axis=0)
-    context_resource.hrt_tris_int_df = extend_hrt_df
+    extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0)
+    context_resource.hrt_int_df = extend_hrt_df
 
     return new_count / train_count
 
@@ -81,7 +81,7 @@ def R_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScanne
     #     break
 
     # add new valid hrt to train set
-    old_hrt_df = context_resource.hrt_tris_int_df
+    old_hrt_df = context_resource.hrt_int_df
     old_count = len(old_hrt_df)
     train_hrt_df = pd.concat([old_hrt_df, new_hrt_df], axis=0)
 
@@ -89,7 +89,7 @@ def R_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScanne
     run_scripts.clean_rumis(work_dir=work_dir)
 
     # overwrite train data in context
-    context_resource.hrt_tris_int_df = train_hrt_df
+    context_resource.hrt_int_df = train_hrt_df
     return new_count / old_count
 
 

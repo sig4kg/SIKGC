@@ -32,7 +32,7 @@ def read_hrt_2_htr_transE(hrt_triples_file, transE_train_file):
 
 
 def context_2_hrt_transE(work_dir, context_resources: ContextResources):
-    hrt_df_2_htr_transE(context_resources.hrt_tris_int_df, work_dir + "train/train2id.txt")
+    hrt_df_2_htr_transE(context_resources.hrt_int_df, work_dir + "train/train2id.txt")
 
 
 def wait_until_train_pred_data_ready(work_dir):

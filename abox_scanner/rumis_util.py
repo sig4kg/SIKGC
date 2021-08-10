@@ -19,7 +19,7 @@ def read_hrt_original_2_hrt_rumis(hrt_original, hrt_rumis_file):
 
 
 def hrt_int_df_2_hrt_rumis(context_resource: ContextResources, hrt_rumis_file):
-    df = context_resource.hrt_tris_int_df
-    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + context_resource.id2ent[x] + '>')  # to int
+    df = context_resource.hrt_int_df
+    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + context_resource.id2ent[x] + '>')
     df[['rel']] = df[['rel']].applymap(lambda x: '<' + context_resource.id2rel[x] + '>')  # to int
     df[['head', 'rel', 'tail']].to_csv(hrt_rumis_file, header=None, index=None, sep='\t')

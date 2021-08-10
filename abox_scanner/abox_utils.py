@@ -37,7 +37,7 @@ def read_hrt_2_df(hrt_triples_file):
 
 def read_scanned_2_context_df(work_dir, context_resources: ContextResources):
     df = read_hrt_2_df(work_dir + "valid_hrt.txt")
-    context_resources.hrt_tris_int_df = df
+    context_resources.hrt_int_df = df
 
 
 def hrt_original2int(hrt_triples, out_dir, create_id_file=False):
@@ -155,10 +155,10 @@ class ContextResources:
         init_workdir(work_dir)
          # h, r, t
         all_triples = read_original_hrt_triples_to_list(original_hrt_triple_file_path)
-        self.ent2id, self.rel2id, self.hrt_tris_int_df = hrt_original2int(all_triples,
-                                                                          f"{work_dir}train/",
-                                                                          create_id_file=create_id_file)
-        self.hrt_to_scan_df = self.hrt_tris_int_df
+        self.ent2id, self.rel2id, self.hrt_int_df = hrt_original2int(all_triples,
+                                                                     f"{work_dir}train/",
+                                                                     create_id_file=create_id_file)
+        self.hrt_to_scan_df = self.hrt_int_df
         self.class2id = class2id(ALL_CLASS_FILE)
         self.op2id = op2id(ALL_OP_FILE, self.rel2id)
         self.entid2classid = entid2classid_nell(self.ent2id, self.class2id)

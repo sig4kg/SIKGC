@@ -28,6 +28,8 @@ def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
         if not check_result:
             print({"no result from rumis producer, check logs"})
             break
+        else:
+            print("rumis one round done")
 
         # consistency checking for new triples
         new_hrt_df1 = read_hrt_rumis_2_hrt_int_df(work_dir + "DLV/extension.opm.kg.pos.10.needcheck", context_resource)

@@ -13,6 +13,7 @@ python pipeline_C_R_C.py
 Data format: 
 Triples: h, r and t, seperated by tab
 Ontology: ontology in OWL, n-triples or ttl format, containing disjoint class, domain/range 
+The L-method need literals, please refer to resources/umls2 for data formats.
 
 2. Consistency Checking:
 Consistency checking is done by abox_scanner, it's already included in pipelines 

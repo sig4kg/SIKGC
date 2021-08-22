@@ -103,6 +103,7 @@ def query_entity_text_and_class(entity_file, work_dir):
                 if flush_num == 0 or idx == count - 1:
                     save_and_append_results(ent2classes_l, work_dir + "entity2type.txt")
                     save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
+                    save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
                     flush_num = batch
                     ent2classes_l = []
                     ent2longtext_l = []

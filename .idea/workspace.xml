@@ -2,22 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/NELL-995/AllClasses.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/NELL-995/AllObjectProperties.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/PoliticalTriplesWD.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/entity2id.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/relation2id.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/AllClasses.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/AllObjectProperties.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_5.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_8.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/rel2text.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/abox_scanner/abox_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/abox_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/abox_scanner/blp_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/blp_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/rumis_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/rumis_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/transE_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/transE_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_utils/dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/dataset_creator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_utils/dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_E_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_E_C.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_R_C_T_C.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rumis_clean.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rumis_clean.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/NELL-995_2/AllClasses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/NELL_patterns/AllClasses.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/NELL-995_2/AllObjectProperties.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/NELL_patterns/AllObjectProperties.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,89 +38,31 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_R_C.py">
+        <entry file="file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="62" column="50" lean-forward="true" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
+            <state relative-caret-position="351">
+              <caret line="54" column="37" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#0#75#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="270">
-                <caret line="18" column="99" selection-start-line="18" selection-start-column="99" selection-end-line="18" selection-end-column="99" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_E_C.py">
+        <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-26">
-              <caret line="32" column="6" lean-forward="true" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+            <state relative-caret-position="340">
+              <caret line="106" column="62" selection-start-line="106" selection-start-column="62" selection-end-line="106" selection-end-column="62" />
               <folding>
-                <element signature="e#0#66#0" expanded="true" />
+                <element signature="e#0#41#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/run_scripts.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/rumis_clean.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/transE_clean.sh">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-              <folding>
-                <element signature="e#0#66#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/blp_data_utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-272">
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/producer.py">
+        <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py">
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <folding>
@@ -121,15 +73,55 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/abox_scanner/rumis_util.py">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+            <state relative-caret-position="-160">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/abox_utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="24" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/consistant_checking.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/outputs/test/train/entity2id.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="9180">
+              <caret line="612" selection-start-line="612" selection-end-line="612" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/entity2id.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2type.txt">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -143,8 +135,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>disjoint</find>
-      <find>data_utils</find>
       <find>make</find>
       <find>ent2idx</find>
       <find>../scripts/transE_clean.sh</find>
@@ -173,6 +163,8 @@
       <find>athleteflyouttosportsteamposition</find>
       <find>keep=</find>
       <find>textlong</find>
+      <find>DUL</find>
+      <find>import Path</find>
     </findStrings>
     <replaceStrings>
       <replace>utils</replace>
@@ -185,8 +177,8 @@
       <dir>$PROJECT_DIR$/outputs/clc</dir>
       <dir>$PROJECT_DIR$/outputs/umls</dir>
       <dir>$PROJECT_DIR$/abox_scanner</dir>
-      <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/blp</dir>
+      <dir>$PROJECT_DIR$</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -195,14 +187,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/outputs/train/train2id.txt" />
-        <option value="$PROJECT_DIR$/outputs/train/relation2id.txt" />
-        <option value="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" />
-        <option value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
-        <option value="$PROJECT_DIR$/scripts/materialize.py" />
         <option value="$PROJECT_DIR$/scripts/tbox_scanner.sh" />
         <option value="$PROJECT_DIR$/scripts/rumis.py" />
-        <option value="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" />
         <option value="$PROJECT_DIR$/openKE/train_transe_FB15K237.py" />
         <option value="$PROJECT_DIR$/outputs/ctc/train/test2id.txt" />
         <option value="$PROJECT_DIR$/abox_scanner/transE_util" />
@@ -236,16 +222,22 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/resources/NELL-995_2/relation2text.txt" />
         <option value="$PROJECT_DIR$/resources/NELL-995_2/entity2textlong.txt" />
-        <option value="$PROJECT_DIR$/data_utils/dataset_creator.py" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_T_C.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/abox_scanner/abox_utils.py" />
         <option value="$PROJECT_DIR$/abox_scanner/rumis_util.py" />
-        <option value="$PROJECT_DIR$/abox_scanner/blp_util.py" />
         <option value="$PROJECT_DIR$/scripts/rumis_clean.sh" />
-        <option value="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" />
-        <option value="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/abox_scanner/blp_util.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" />
+        <option value="$PROJECT_DIR$/pipelines/pipeline_C_E_C.py" />
+        <option value="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" />
+        <option value="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/abox_utils.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
+        <option value="$PROJECT_DIR$/data_utils/dataset_creator.py" />
+        <option value="$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py" />
+        <option value="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" />
       </list>
     </option>
   </component>
@@ -257,10 +249,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="39" />
-    <option name="y" value="97" />
-    <option name="width" value="1382" />
-    <option name="height" value="913" />
+    <option name="x" value="13" />
+    <option name="y" value="25" />
+    <option name="width" value="1886" />
+    <option name="height" value="1002" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -268,7 +260,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -284,7 +275,7 @@
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
-              <item name="blp" type="462c0819:PsiDirectoryNode" />
+              <item name="data_utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
@@ -294,7 +285,33 @@
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
-              <item name="pipelines" type="462c0819:PsiDirectoryNode" />
+              <item name="outputs" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="outputs" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="train" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="DBpedia-politics" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="DBpedia-politics" type="462c0819:PsiDirectoryNode" />
+              <item name="tbox-dbpedia" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
@@ -304,27 +321,28 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/NELL-995" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/DBpedia-politics" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../blp/producer.py" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/resources/NELL-995" />
-      <recent name="$PROJECT_DIR$/outputs/test_nell" />
+      <recent name="$PROJECT_DIR$/resources/DBpedia-politics" />
+      <recent name="$PROJECT_DIR$/data_utils" />
+      <recent name="$PROJECT_DIR$/resources/DBpedia-politics/dbpedia" />
+      <recent name="$PROJECT_DIR$/resources/DBpedia-politics/" />
       <recent name="$PROJECT_DIR$/resources" />
-      <recent name="$PROJECT_DIR$/outputs" />
-      <recent name="$PROJECT_DIR$/outputs/clc" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/DBpedia-politics/dbpedia" />
+      <recent name="$PROJECT_DIR$/resources/NELL_patterns" />
+      <recent name="$PROJECT_DIR$/resources/DBpedia-politics/tbox-patterns" />
+      <recent name="$PROJECT_DIR$/resources/DBpedia-politics" />
       <recent name="$PROJECT_DIR$/resources/NELL-995_2" />
-      <recent name="$PROJECT_DIR$/resources/NELL-995" />
-      <recent name="$PROJECT_DIR$/resources" />
-      <recent name="$PROJECT_DIR$/blp" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -339,7 +357,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.pipeline_C_R_C">
+  <component name="RunManager" selected="Python.dbpedia_text_dataset_creator">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -361,7 +379,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="dataset_creator (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="consistant_checking" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TREATKGC" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/.pyenv/versions/3.6.5/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/abox_scanner" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dbpedia_text_dataset_creator" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TREATKGC" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -373,7 +412,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_utils/dataset_creator.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -445,41 +484,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="producer" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="TREATKGC" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$USER_HOME$/.pyenv/versions/3.6.5/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/blp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blp/producer.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.producer" />
       <item itemvalue="Python.pipeline_C_L_C" />
-      <item itemvalue="Python.dataset_creator (1)" />
       <item itemvalue="Python.pipeline_C_T_C" />
       <item itemvalue="Python.pipeline_C_R_C" />
+      <item itemvalue="Python.consistant_checking" />
+      <item itemvalue="Python.dbpedia_text_dataset_creator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.dbpedia_text_dataset_creator" />
+        <item itemvalue="Python.consistant_checking" />
+        <item itemvalue="Python.pipeline_C_L_C" />
         <item itemvalue="Python.pipeline_C_R_C" />
         <item itemvalue="Python.pipeline_C_T_C" />
-        <item itemvalue="Python.dataset_creator (1)" />
-        <item itemvalue="Python.pipeline_C_L_C" />
-        <item itemvalue="Python.producer" />
       </list>
     </recent_temporary>
   </component>
@@ -497,22 +515,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="39" y="97" width="1382" height="913" extended-state="0" />
+    <frame x="13" y="25" width="1886" height="1002" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24850747" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14208242" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.402454" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.36687118" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.36798906" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.40154868" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32964602" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.5387168" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.2809816" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.46902654" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -559,7 +577,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/abox_scanner/abox_utils.py</url>
-          <line>176</line>
+          <line>188</line>
           <option name="timeStamp" value="92" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -632,16 +650,6 @@
           <option name="timeStamp" value="192" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py</url>
-          <line>53</line>
-          <option name="timeStamp" value="201" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py</url>
-          <line>52</line>
-          <option name="timeStamp" value="202" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/abox_scanner/blp_util.py</url>
           <line>22</line>
           <option name="timeStamp" value="205" />
@@ -658,7 +666,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py</url>
-          <line>23</line>
+          <line>25</line>
           <option name="timeStamp" value="215" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -673,7 +681,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py</url>
-          <line>26</line>
+          <line>28</line>
           <option name="timeStamp" value="222" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -682,47 +690,47 @@
           <option name="timeStamp" value="224" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>103</line>
           <option name="timeStamp" value="232" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>12</line>
           <option name="timeStamp" value="250" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>79</line>
           <option name="timeStamp" value="262" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>73</line>
           <option name="timeStamp" value="263" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>98</line>
           <option name="timeStamp" value="266" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>44</line>
           <option name="timeStamp" value="269" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>40</line>
           <option name="timeStamp" value="271" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>123</line>
           <option name="timeStamp" value="273" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_utils/dataset_creator.py</url>
+          <url>file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py</url>
           <line>143</line>
           <option name="timeStamp" value="274" />
         </line-breakpoint>
@@ -736,11 +744,46 @@
           <line>59</line>
           <option name="timeStamp" value="276" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/abox_scanner/abox_utils.py</url>
+          <line>66</line>
+          <option name="timeStamp" value="287" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
+          <line>100</line>
+          <option name="timeStamp" value="294" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
+          <line>94</line>
+          <option name="timeStamp" value="295" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>rel in self._pattern_dict</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>items[2][:-2].split('\&quot;')[300:]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>items[2][:-2].split('\&quot;')[-1]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>items[2][:-2].split('\&quot;')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>nell_tris.filter(lambda x: x['head'] in entity2textlong and x['tail'] in entity2textlong)</expression-string>
         <language-id>Python</language-id>
@@ -766,247 +809,10 @@
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>nell_tris[['relation']].drop_duplicates(keep=False)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>nell_tris[['relation']]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>tris_s[0]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>row['text']</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995/relation2id.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/pandas/core/indexing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="1450" column="36" selection-start-line="1450" selection-start-column="36" selection-end-line="1450" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/outputs/ctc/train/entity2id.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/outputs/ctc/train/valid2id.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995/entity2id.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19215">
-          <caret line="1281" column="21" selection-start-line="1281" selection-start-column="21" selection-end-line="1281" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/outputs/ctc/train/relation2id.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/datasets/load.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10035">
-          <caret line="709" column="4" selection-start-line="709" selection-start-column="4" selection-end-line="709" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/pandas/core/reshape/merge.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17205">
-          <caret line="1192" selection-start-line="1192" selection-end-line="1192" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/pandas/io/common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9165">
-          <caret line="641" selection-start-line="641" selection-end-line="641" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/test.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="70" selection-start-line="1" selection-start-column="70" selection-end-line="1" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/pandas/core/frame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="3190" selection-start-line="3190" selection-end-line="3190" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/bri.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fact_checking/run_glue_no_trainer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6195">
-          <caret line="438" column="20" selection-start-line="438" selection-start-column="20" selection-end-line="438" selection-end-column="20" />
-          <folding>
-            <element signature="e#705#720#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fact_checking/run_glue.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/pandas/io/parsers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="439" selection-start-line="439" selection-end-line="439" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2type_all.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-328" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/nell115.csvad" />
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2textlong_all.txt">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="-91857" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2text_all.txt">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="-221">
-          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="15">
-          <caret line="1337" column="60" selection-start-line="1337" selection-start-column="60" selection-end-line="1337" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/relation2text_all.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="971" column="61" selection-start-line="971" selection-start-column="61" selection-end-line="971" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/NELL.ontology.ttl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="47" column="35" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/relation2text.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1665">
-          <caret line="111" column="75" lean-forward="true" selection-start-line="111" selection-start-column="75" selection-end-line="111" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2text.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-74945" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_utils/dataset_creator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2250">
-          <caret line="150" column="21" selection-start-line="150" selection-start-column="21" selection-end-line="150" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#75#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/blp/data/umls/entity2textlong.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/blp/data/umls/entity2text.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/blp/data/FB15k-237/entity2textlong.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2textlong.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/pandas/core/indexes/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44745">
-          <caret line="3081" selection-start-line="3081" selection-end-line="3081" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4620">
-          <caret line="309" selection-start-line="309" selection-end-line="309" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/blp/data/FB15k-237/entity2type.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_R_C_T_C.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL_patterns/TBoxPattern_1.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/NELLKG0.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="31" column="53" selection-start-line="31" selection-start-column="53" selection-end-line="31" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/NELL-995/AllClasses.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_R_C_T_C.py" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1019,23 +825,6 @@
         <state relative-caret-position="-94" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/abox_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="157" column="43" selection-start-line="157" selection-start-column="43" selection-end-line="157" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/blp_util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/abox_scanner/rumis_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -1043,6 +832,16 @@
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="225">
+            <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
@@ -1058,33 +857,149 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/rumis_clean.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
+        <state relative-caret-position="182">
           <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/train.tsv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blp/data/umls/train.tsv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blp/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/blp_util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/blp_data_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-272">
+        <state>
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/blp/producer.py">
+    <entry file="file://$PROJECT_DIR$/blp/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blp/producer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7425">
+          <caret line="516" column="26" selection-start-line="516" selection-start-column="26" selection-end-line="516" selection-end-column="26" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/blp/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/clc/entity2textlong.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/clc/entity2text.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/clc/relation2text.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2textlong.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7257">
+          <caret line="148" column="83" selection-start-line="148" selection-start-column="20" selection-end-line="148" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2text.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-30687" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/NELLKG0.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="31" column="53" selection-start-line="31" selection-start-column="53" selection-end-line="31" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/dbpedia/AllProperties.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/rel2text.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/AllObjectProperties.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL_patterns/TBoxPattern_2.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL_patterns/TBoxPattern_1.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL-995/AllClasses.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/AllClasses.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_2.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_E_C.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="71" selection-start-line="9" selection-start-column="71" selection-end-line="9" selection-end-column="71" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+        <state relative-caret-position="323">
+          <caret line="52" column="122" selection-start-line="52" selection-start-column="122" selection-end-line="52" selection-end-column="122" />
           <folding>
             <element signature="e#0#66#0" expanded="true" />
           </folding>
@@ -1093,31 +1008,120 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_R_C.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="62" column="50" lean-forward="true" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
+        <state relative-caret-position="155">
+          <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_E_C.py">
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/PoliticalTriplesWD.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="-6504" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/test/valid_hrt.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/test/tri-sents.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/test/invalid_hrt.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/test/entity2textlong_all.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-26">
-          <caret line="32" column="6" lean-forward="true" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+        <state relative-caret-position="277">
+          <caret line="52" selection-start-line="1" selection-end-line="1" selection-end-column="24" />
           <folding>
-            <element signature="e#0#66#0" expanded="true" />
+            <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="270">
-            <caret line="18" column="99" selection-start-line="18" selection-start-column="99" selection-end-line="18" selection-end-column="99" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-160">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/abox_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blp/data/FB15k-237/entity2type.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/consistant_checking.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="54" column="37" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#75#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/test/train/entity2id.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9180">
+          <caret line="612" selection-start-line="612" selection-end-line="612" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/entity2id.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="10" column="125" selection-start-line="10" selection-start-column="125" selection-end-line="10" selection-end-column="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/NELL-995_2/entity2type.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="106" column="62" selection-start-line="106" selection-start-column="62" selection-end-line="106" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

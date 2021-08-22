@@ -1,6 +1,6 @@
 from abox_scanner import abox_utils
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
-from abox_scanner.abox_utils import TBOX_PATTERNS_PATH, ORIGINAL_TRIPLES_PATH, read_scanned_2_context_df, wait_until_file_is_saved
+from abox_scanner.abox_utils import read_scanned_2_context_df, wait_until_file_is_saved
 import pandas as pd
 from scripts import run_scripts
 import os
@@ -8,9 +8,9 @@ from tqdm.auto import trange
 from abox_scanner.rumis_util import *
 
 
-def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
-    context_resource = ContextResources(input_hrt_triple_file, work_dir=work_dir, create_id_file=False)
-    abox_scanner_scheduler = AboxScannerScheduler(TBOX_PATTERNS_PATH, context_resource)
+def c_r_c(input_hrt_triple_file, work_dir, class_op_and_pattern_path, max_epoch=2):
+    context_resource = ContextResources(input_hrt_triple_file, work_dir=work_dir, class_and_op_file_path=class_op_and_pattern_path, create_id_file=False)
+    abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
     abox_scanner_scheduler.register_pattern([1, 2])
     # first round scan, get ready for training
     abox_scanner_scheduler.scan_patterns(work_dir=work_dir)
@@ -65,7 +65,7 @@ def c_r_c(input_hrt_triple_file, work_dir, max_epoch=2):
 
 if __name__ == "__main__":
     print("CRC pipeline")
-    c_r_c("../resources/NELL-995_2/NELLKG0.txt", "../outputs/crc/")
+    c_r_c("../resources/NELL-995_2/NELLKG0.txt", "../outputs/crc/", class_op_and_pattern_path='../resources/NELL_patterns/')
 
 
 

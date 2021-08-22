@@ -23,5 +23,8 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir):
     # drop_entities(hrt_blp_dir + "all_triples.tsv", train_size=0.9, valid_size=0.1, test_size=0, types_file=hrt_blp_dir+"top50-entity2type.txt")
 
 
+def split_all_triples(work_dir):
+    pass
+
 def wait_until_blp_data_ready(hrt_blp_dir):
     pass

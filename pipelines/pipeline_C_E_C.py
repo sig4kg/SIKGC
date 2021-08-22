@@ -7,10 +7,10 @@ from scripts import run_scripts
 from tqdm.auto import trange
 
 
-def c_e_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
-    context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, create_id_file=True)
+def c_e_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_epoch=2):
+    context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, class_and_op_file_path=class_op_and_pattern_path, create_id_file=True)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
-    abox_scanner_scheduler = AboxScannerScheduler(TBOX_PATTERNS_PATH, context_resource)
+    abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
     # first round scan, get ready for training
     abox_scanner_scheduler.register_pattern([1, 2]).scan_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
@@ -47,9 +47,10 @@ def c_e_c(input_hrt_raw_triple_file, work_dir, max_epoch=2):
         extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0)
         context_resource.hrt_int_df = extend_hrt_df
 
+
 if __name__ == "__main__":
     print("CTC pipeline")
-    c_e_c("../resources/NELL-dev.txt", "../outputs/ctc/")
+    c_e_c("../resources/NELL-dev.txt", "../outputs/ctc/", class_op_and_pattern_path='../resources/NELL_patterns/')
 
 
 

@@ -20,7 +20,7 @@ DBPEDIA_GRAPH_URL = f"http://{LOCALHOST}:{DBPEDIA_GRAPH_PORT}/sparql"
 
 def get_query_values(query_str):
     sparql = SPARQLWrapper(DBPEDIA_GRAPH_URL, defaultGraph=DEFAULT_GRAPH)
-    sparql.setTimeout(5)
+    sparql.setTimeout(10)
     sparql.setQuery(query_str)
     sparql.setReturnFormat(JSON)
     values = []

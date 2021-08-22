@@ -2,7 +2,7 @@
 **/checkpoint
 **/release
 **/resources/NELL-995_2
-.idea
+**/.idea
 .pyenv
 **/workspace.xml
 **/__pycache__

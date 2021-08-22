@@ -2,6 +2,7 @@ from data_utils.dbpedia_virtuoso import *
 from pathlib import Path
 import platform
 from SPARQLWrapper import SPARQLWrapper, JSON
+from tqdm import tqdm
 
 
 DEFAULT_GRAPH = "http://dbpedia.org"
@@ -69,7 +70,6 @@ def get_short_text(resource_uri):
 def query_entity_text_and_class(entity_file, work_dir):
     no_class = []
     no_long_text = []
-    no_short_text = []
     batch = 10
     flush_num = batch
     ent2classes_l = []
@@ -78,31 +78,34 @@ def query_entity_text_and_class(entity_file, work_dir):
     with open(entity_file) as f:
         lines = f.readlines()
         count = int(lines[0].strip())
-        for idx, l in enumerate(lines[1:]):
-            items = l.split('\t')
-            entity_iri = items[0]
-            classes = get_classes(entity_iri)
-            if len(classes) == 0:
-                no_class.append(entity_iri)
-            else:
-                ent2classes_l.append(f"{entity_iri}\t" + ";".join(classes))
-            long_text = get_long_text(entity_iri)
-            if len(long_text) == 0:
-                no_long_text.append(entity_iri)
-            else:
-                ent2longtext_l.append(f"{entity_iri}\t{long_text}")
-            short_text = get_short_text(entity_iri)
-            if len(short_text) == 0:
-                short_text = entity_iri.split('/')[-1].replace('_', ' ')
-            ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
+        entity_lines = lines[1:]
+        with tqdm(total=len(entity_lines), desc=f"preparing dbpedia data...") as pbar:
+            for idx, l in enumerate(lines[1:]):
+                items = l.split('\t')
+                entity_iri = items[0]
+                classes = get_classes(entity_iri)
+                if len(classes) == 0:
+                    no_class.append(entity_iri)
+                else:
+                    ent2classes_l.append(f"{entity_iri}\t" + ";".join(classes))
+                long_text = get_long_text(entity_iri)
+                if len(long_text) == 0:
+                    no_long_text.append(entity_iri)
+                else:
+                    ent2longtext_l.append(f"{entity_iri}\t{long_text}")
+                short_text = get_short_text(entity_iri)
+                if len(short_text) == 0:
+                    short_text = entity_iri.split('/')[-1].replace('_', ' ')
+                ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
 
-            flush_num -= 1
-            if flush_num == 0 or idx == count - 1:
-                save_and_append_results(ent2classes_l, work_dir + "entity2type.txt")
-                save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
-                flush_num = batch
-                ent2classes_l = []
-                ent2longtext_l = []
+                flush_num -= 1
+                pbar.update(1)
+                if flush_num == 0 or idx == count - 1:
+                    save_and_append_results(ent2classes_l, work_dir + "entity2type.txt")
+                    save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
+                    flush_num = batch
+                    ent2classes_l = []
+                    ent2longtext_l = []
     save_and_append_results(no_class, work_dir + "no_class.txt")
     save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
     print("done")

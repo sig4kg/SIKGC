@@ -2,32 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/PoliticalTriplesWD.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/entity2id.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/relation2id.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/AllClasses.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/AllObjectProperties.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_8.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/rel2text.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/abox_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/abox_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/blp_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/blp_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_utils/dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/nell_text_dataset_creator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_E_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_E_C.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/NELL-995_2/AllClasses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/NELL_patterns/AllClasses.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/NELL-995_2/AllObjectProperties.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/NELL_patterns/AllObjectProperties.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,14 +26,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="106" column="62" selection-start-line="106" selection-start-column="62" selection-end-line="106" selection-end-column="62" />
+            <state relative-caret-position="425">
+              <caret line="102" column="14" lean-forward="true" selection-start-line="102" selection-start-column="14" selection-end-line="102" selection-end-column="14" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -219,7 +205,6 @@
         <option value="$PROJECT_DIR$/resources/NELL-995_2/NELLKG0.txt" />
         <option value="$PROJECT_DIR$/resources/NELL-995_2/test.txt" />
         <option value="$PROJECT_DIR$/fact_checking/run_glue_no_trainer.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/resources/NELL-995_2/relation2text.txt" />
         <option value="$PROJECT_DIR$/resources/NELL-995_2/entity2textlong.txt" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_T_C.py" />
@@ -238,6 +223,7 @@
         <option value="$PROJECT_DIR$/data_utils/dataset_creator.py" />
         <option value="$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py" />
         <option value="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -249,7 +235,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="13" />
+    <option name="x" value="119" />
     <option name="y" value="25" />
     <option name="width" value="1886" />
     <option name="height" value="1002" />
@@ -312,6 +298,12 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="DBpedia-politics" type="462c0819:PsiDirectoryNode" />
               <item name="tbox-dbpedia" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="NELL-995_2" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
@@ -515,7 +507,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="13" y="25" width="1886" height="1002" extended-state="0" />
+    <frame x="119" y="25" width="1886" height="1002" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14208242" />
@@ -524,13 +516,13 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.40154868" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32964602" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.5387168" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.5387168" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.46902654" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.46902654" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -751,12 +743,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
-          <line>100</line>
+          <line>103</line>
           <option name="timeStamp" value="294" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
-          <line>94</line>
+          <line>96</line>
           <option name="timeStamp" value="295" />
         </line-breakpoint>
       </breakpoints>
@@ -764,6 +756,11 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>entity_iri.split('/')[-1].replace('_', ' ')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>rel in self._pattern_dict</expression-string>
         <language-id>Python</language-id>
@@ -804,15 +801,9 @@
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>nell_tris[['relation']].drop_duplicates(keep=True)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_R_C_T_C.py" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1117,11 +1108,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="106" column="62" selection-start-line="106" selection-start-column="62" selection-end-line="106" selection-end-column="62" />
+        <state relative-caret-position="425">
+          <caret line="102" column="14" lean-forward="true" selection-start-line="102" selection-start-column="14" selection-end-line="102" selection-end-column="14" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
         </state>
       </provider>
     </entry>

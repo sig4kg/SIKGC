@@ -70,7 +70,7 @@ def get_short_text(resource_uri):
 def query_entity_text_and_class(entity_file, work_dir):
     no_class = []
     no_long_text = []
-    batch = 10
+    batch = 1000
     flush_num = batch
     ent2classes_l = []
     ent2longtext_l = []

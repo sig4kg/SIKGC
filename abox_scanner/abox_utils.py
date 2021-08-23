@@ -128,21 +128,33 @@ def entid2classid_nell(ent2id, class2id):
     for ent in ent2id:
         concept = ent.split('_', 1)[0]
         if concept in class2id:
-            entid2classid.update({ent2id[ent]: class2id[concept]})
+            entid2classid.update({ent2id[ent]: [class2id[concept]]})
         else:
-            entid2classid.update({ent2id[ent]: -1})
+            entid2classid.update({ent2id[ent]: [-1]})
     return entid2classid
 
 
-def entid2classid_dbpedia(ent2id, class2id):
-    entid2classid = dict()
+def entid2classid_dbpedia(ent2id, class2id, ent2type_file):
+    ent2classes = dict()
+    with open(ent2type_file) as f:
+        lines = f.readlines()
+        for l in lines:
+            items = l.strip().split('\t')
+            ent = items[0]
+            classes = items[1].split(';')
+            ent2classes.update({ent: classes})
+    entid2classids = dict()
     for ent in ent2id:
-        concept = ent.split('_', 1)[0]
-        if concept in class2id:
-            entid2classid.update({ent2id[ent]: class2id[concept]})
+        concepts = ent2classes[ent]
+        concept_int = []
+        for concept in concepts:
+            if concept in class2id:
+                concept_int.append(class2id[concept])
+        if len(concept_int) > 0:
+            entid2classids.update({ent2id[ent]: concept_int})
         else:
-            entid2classid.update({ent2id[ent]: -1})
-    return entid2classid
+            entid2classids.update({ent2id[ent]: [-1]})
+    return entid2classids
 
 
 def init_workdir(work_dir):
@@ -162,7 +174,7 @@ class PatternScanner(ABC):
 
 
 class ContextResources:
-    def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir, create_id_file=False):
+    def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir, dataset='dbpedia', create_id_file=False):
         init_workdir(work_dir)
          # h, r, t
         all_triples = read_original_hrt_triples_to_list(original_hrt_triple_file_path)
@@ -172,7 +184,10 @@ class ContextResources:
         self.hrt_to_scan_df = self.hrt_int_df
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
-        self.entid2classid = entid2classid_nell(self.ent2id, self.class2id)
+        if dataset == 'dbpedia':
+            self.entid2classids = entid2classid_dbpedia(self.ent2id, self.class2id, work_dir + "entity2type.txt")
+        else:
+            self.entid2classids = entid2classid_nell(self.ent2id, self.class2id)
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
         self.id2rel = {self.rel2id[key]: key for key in self.rel2id}
         self.dataset_name = 'dbpedia'

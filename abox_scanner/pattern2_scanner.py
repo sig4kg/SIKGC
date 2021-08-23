@@ -15,7 +15,8 @@ class Pattern2(PatternScanner):
         else:
             invalid = self._pattern_dict[rel]['invalid']
             for idx, row in df.iterrows():
-                if self._context_resources.entid2classid[row['tail']] in invalid:
+                t_classes = self._context_resources.entid2classids[row['tail']]
+                if any([t_c in invalid for t_c in t_classes]):
                     df.loc[idx, 'is_valid'] = False
         return df
 

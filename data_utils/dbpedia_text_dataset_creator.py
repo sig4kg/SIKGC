@@ -193,6 +193,8 @@ def query_disambiguration(triple_file, work_dir):
                     break
             if not found:
                 no_class.append(ent)
+    save_and_append_results(ent2classes_l, work_dir + "entity2type_disanbigurate.txt")
+
     with open(work_dir + "no_long_text2.txt") as f:
         all_no_longtext_ents = f.readlines()
         for ent in tqdm(all_no_longtext_ents):
@@ -217,8 +219,10 @@ def query_disambiguration(triple_file, work_dir):
                     found = True
             if not found:
                 no_long_text.append(ent)
-    save_and_append_results(no_class, work_dir + "no_class2.txt")
-    save_and_append_results(no_long_text, work_dir + "no_long_text2.txt")
+    save_and_append_results(ent2longtext_l, work_dir + "entity2textlong_disambigurate.txt")
+
+    save_and_append_results(no_class, work_dir + "no_class3.txt")
+    save_and_append_results(no_long_text, work_dir + "no_long_text3.txt")
     print("done")
 
 
@@ -234,6 +238,6 @@ def save_and_append_results(d_list, out_filename):
 
 
 if __name__ == "__main__":
-    query_entity_text_and_class("../resources/DBpedia-politics/entity2id.txt", work_dir="../outputs/test_dbpedia/")
+    # query_entity_text_and_class("../resources/DBpedia-politics/entity2id.txt", work_dir="../outputs/test_dbpedia/")
     # query_wiki_redirect("../outputs/test_dbpedia/")
-    # query_disambiguration("../resources/DBpedia-politics/PoliticalTriplesWD.txt", work_dir="../outputs/test_dbpedia/")
+    query_disambiguration("../resources/DBpedia-politics/PoliticalTriplesWD.txt", work_dir="../outputs/test_dbpedia/")

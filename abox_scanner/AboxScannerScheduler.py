@@ -51,6 +51,7 @@ class AboxScannerScheduler:
         df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
         df['is_valid'] = True
         for scanner in self._strategies:
+            print("Scanning schema pattern: " + str(type(scanner)))
             df = df.query("is_valid == True").groupby('rel').apply(lambda x: scanner.scan_pattern_df_rel(x))
         out_path = Path(work_dir)
         if not out_path.parent.exists():

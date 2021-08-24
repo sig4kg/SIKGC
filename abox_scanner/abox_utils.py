@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 import os
 import time
-
+from tqdm import tqdm
 
 # ONTOLOGY_PATH = "../resources/NELL.ontology.ttl"
 # TBOX_PATTERNS_PATH = "../resources/NELL_patterns"
@@ -46,7 +46,7 @@ def hrt_original2int(hrt_triples, out_dir, create_id_file=False):
     e_id = 0
     r_id = 0
     hrt_int = []
-    for tri in hrt_triples:
+    for tri in tqdm(hrt_triples, desc="Converting triples to int ids..."):
         if tri[0] not in ent2id:
             ent2id.update({tri[0]: e_id})
             e_id += 1
@@ -144,12 +144,13 @@ def entid2classid_dbpedia(ent2id, class2id, ent2type_file):
             classes = items[1].split(';')
             ent2classes.update({ent: classes})
     entid2classids = dict()
-    for ent in ent2id:
-        concepts = ent2classes[ent]
+    for ent in tqdm(ent2id, desc="reading entity classes..."):
         concept_int = []
-        for concept in concepts:
-            if concept in class2id:
-                concept_int.append(class2id[concept])
+        if ent in ent2classes:
+            concepts = ent2classes[ent]
+            for concept in concepts:
+                if concept in class2id:
+                    concept_int.append(class2id[concept])
         if len(concept_int) > 0:
             entid2classids.update({ent2id[ent]: concept_int})
         else:

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/abox_scanner/abox_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/abox_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="7" column="51" lean-forward="true" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+            <state relative-caret-position="330">
+              <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -27,19 +27,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <caret line="196" selection-start-line="196" selection-end-line="196" />
+            <state relative-caret-position="330">
+              <caret line="22" column="15" lean-forward="true" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/data.py">
+        <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/SPARQLWrapper/Wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2117">
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="160">
+              <caret line="521" column="8" selection-start-line="521" selection-start-column="8" selection-end-line="521" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -47,11 +48,62 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/abox_scanner/abox_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="190" column="68" lean-forward="true" selection-start-line="190" selection-start-column="68" selection-end-line="190" selection-end-column="68" />
+            <state relative-caret-position="143">
+              <caret line="48" column="71" selection-start-line="48" selection-start-column="71" selection-end-line="48" selection-end-column="71" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/consistant_checking.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/outputs/test_dbpedia/train/relation2id.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/rel2text.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-303">
+              <caret line="664" selection-start-line="664" selection-end-line="664" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="533">
+              <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -68,63 +120,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="31" column="33" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-28">
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/retrieval.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-28">
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/producer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
-              <caret line="516" column="26" selection-start-line="516" selection-start-column="26" selection-end-line="516" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -136,7 +131,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dataset</find>
       <find>/m/03y05ty</find>
       <find>apply</find>
       <find>hrts</find>
@@ -166,6 +160,7 @@
       <find>entity2type.txt</find>
       <find>entity2type</find>
       <find>/m/03vyh</find>
+      <find>tqdm</find>
     </findStrings>
     <replaceStrings>
       <replace>utils</replace>
@@ -204,7 +199,6 @@
         <option value="$PROJECT_DIR$/openKE/openke/config/TripleProducer.py" />
         <option value="$PROJECT_DIR$/openKE/openke/config/Trainer.py" />
         <option value="$PROJECT_DIR$/scripts/run_rumis.sh" />
-        <option value="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_util.py" />
         <option value="$PROJECT_DIR$/utils/dataset_creator.py" />
         <option value="$PROJECT_DIR$/openKE/train_rotate_NELL995.py" />
@@ -232,13 +226,14 @@
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_E_C.py" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" />
-        <option value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
         <option value="$PROJECT_DIR$/data_utils/dataset_creator.py" />
         <option value="$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" />
         <option value="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
         <option value="$PROJECT_DIR$/abox_scanner/abox_utils.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" />
         <option value="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" />
       </list>
     </option>
@@ -277,11 +272,6 @@
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
-              <item name="blp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
               <item name="data_utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -293,20 +283,14 @@
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
               <item name="outputs" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
-              <item name="outputs" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="train" type="462c0819:PsiDirectoryNode" />
+              <item name="test_dbpedia" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
               <item name="outputs" type="462c0819:PsiDirectoryNode" />
               <item name="test_dbpedia" type="462c0819:PsiDirectoryNode" />
+              <item name="train" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
@@ -533,13 +517,13 @@
     <frame x="123" y="31" width="1529" height="1002" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31472763" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31472763" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.40154868" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.40154868" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32964602" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.44137168" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.44137168" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32964602" />
@@ -560,19 +544,19 @@
       <window_info anchor="right" id="JSON Viewer" order="9" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23819743" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31472763" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32839224" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3799076" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.36798906" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.40154868" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32964602" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.44137168" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32964602" />
       <window_info anchor="bottom" id="Docker" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.34062928" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32964602" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.30752212" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -592,7 +576,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/abox_scanner/abox_utils.py</url>
-          <line>203</line>
+          <line>204</line>
           <option name="timeStamp" value="92" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -766,17 +750,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
-          <line>122</line>
+          <line>136</line>
           <option name="timeStamp" value="294" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
-          <line>115</line>
+          <line>129</line>
           <option name="timeStamp" value="295" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
-          <line>152</line>
+          <line>166</line>
           <option name="timeStamp" value="301" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -786,34 +770,74 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
-          <line>190</line>
+          <line>204</line>
           <option name="timeStamp" value="310" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
-          <line>217</line>
+          <line>231</line>
           <option name="timeStamp" value="313" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/abox_scanner/abox_utils.py</url>
-          <line>143</line>
-          <option name="timeStamp" value="314" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py</url>
-          <line>20</line>
-          <option name="timeStamp" value="315" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py</url>
           <line>17</line>
           <option name="timeStamp" value="316" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/abox_scanner/consistant_checking.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="317" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py</url>
+          <line>53</line>
+          <option name="timeStamp" value="325" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="327" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="328" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>str(type(scanner))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>type(scanner)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>typeof(scanner)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>scanner.toString()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>[h_c in invalid for h_c in h_classes]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self._context_resources.entid2classids[row['head']]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>all_triples[0].strip().split('\t')</expression-string>
         <language-id>Python</language-id>
@@ -834,55 +858,9 @@
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>items[2][:-2].split('\&quot;')[-1]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>items[2][:-2].split('\&quot;')</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>nell_tris.filter(lambda x: x['head'] in entity2textlong and x['tail'] in entity2textlong)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>nell_tris[nell_tris['head'] not in entity2textlong or nell_tris['tail'] not in entity2textlong].index</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>nell_tris[['relation']].drop_duplicates(keep='first')</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/blp/data/umls/train.tsv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/blp_util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/blp/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/outputs/clc/entity2textlong.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -912,9 +890,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/dbpedia/AllProperties.txt" />
-    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/rel2text.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/AllObjectProperties.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -980,16 +955,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/outputs/test/entity2textlong_all.txt" />
-    <entry file="file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="52" selection-start-line="1" selection-end-line="1" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/TBoxPattern_1.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
@@ -1016,16 +981,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/consistant_checking.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/outputs/test/train/entity2id.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9180">
@@ -1047,13 +1002,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/outputs/test_dbpedia/no_class2.txt">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="21" column="51" lean-forward="true" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/data/FB15k-237/dev-ents-class.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -1133,27 +1081,85 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="7" column="51" lean-forward="true" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+        <state relative-caret-position="330">
+          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/abox_scanner/abox_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="190" column="68" lean-forward="true" selection-start-line="190" selection-start-column="68" selection-end-line="190" selection-end-column="68" />
+        <state relative-caret-position="143">
+          <caret line="48" column="71" selection-start-line="48" selection-start-column="71" selection-end-line="48" selection-end-column="71" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/consistant_checking.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/test_dbpedia/relation2text.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="57" selection-start-line="57" selection-end-line="57" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/DBpedia-politics/tbox-dbpedia/rel2text.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-303">
+          <caret line="664" selection-start-line="664" selection-end-line="664" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputs/test_dbpedia/train/relation2id.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.pyenv/versions/3.9.1/lib/python3.9/site-packages/SPARQLWrapper/Wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="521" column="8" selection-start-line="521" selection-start-column="8" selection-end-line="521" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="196" selection-start-line="196" selection-end-line="196" />
+        <state relative-caret-position="330">
+          <caret line="22" column="15" lean-forward="true" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

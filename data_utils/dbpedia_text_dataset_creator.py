@@ -2,6 +2,7 @@ from pathlib import Path
 import platform
 from SPARQLWrapper import SPARQLWrapper, JSON
 from tqdm import tqdm
+import time
 
 
 DEFAULT_GRAPH = "http://dbpedia.org"
@@ -15,8 +16,8 @@ DBPEDIA_GRAPH_URL = f"http://{LOCALHOST}:{DBPEDIA_GRAPH_PORT}/sparql"
 
 
 def get_query_values(query_str):
-    sparql = SPARQLWrapper(DBPEDIA_GRAPH_URL, defaultGraph=DEFAULT_GRAPH)
-    sparql.setTimeout(10)
+    sparql = SPARQLWrapper(DBPEDIA_GRAPH_URL)
+    sparql.setTimeout(20)
     sparql.setQuery(query_str)
     sparql.setReturnFormat(JSON)
     values = []
@@ -35,10 +36,9 @@ def get_query_values(query_str):
         return values
 
 
-
 def get_classes(resource_uri):
     query_str = f"SELECT distinct ?object " \
-        "FROM <http://dbpedia.org> WHERE {" \
+        "WHERE {" \
         f"<{resource_uri}> <{TYPE_OF}> ?object . " \
         "} LIMIT 500"
     all_classes = get_query_values(query_str)
@@ -47,7 +47,7 @@ def get_classes(resource_uri):
 
 def get_classes_redirected(resource_uri):
     query_str = f"SELECT distinct ?object " \
-        "FROM <http://dbpedia.org> WHERE {" \
+        "WHERE {" \
         f"<{resource_uri}> <{WIKIPAGE_REDIRECTS}> ?x . " \
         f"?x <{TYPE_OF}> ?object . " \
         "} LIMIT 500"
@@ -57,7 +57,7 @@ def get_classes_redirected(resource_uri):
 
 def get_long_text(resource_uri):
     query_str = f"SELECT distinct ?object " \
-        "FROM <http://dbpedia.org> WHERE {" \
+        "WHERE {" \
         f"<{resource_uri}> <{COMMENT}> ?object . " \
         "} LIMIT 500"
     text = get_query_values(query_str)
@@ -67,7 +67,7 @@ def get_long_text(resource_uri):
 
 def get_long_text_redirected(resource_uri):
     query_str = f"SELECT distinct ?object " \
-        "FROM <http://dbpedia.org> WHERE {" \
+        "WHERE {" \
         f"<{resource_uri}> <{WIKIPAGE_REDIRECTS}> ?x . " \
         f"?x <{COMMENT}> ?object . " \
         "} LIMIT 500"
@@ -78,12 +78,26 @@ def get_long_text_redirected(resource_uri):
 
 def get_short_text(resource_uri):
     query_str = f"SELECT distinct ?object " \
-        "FROM <http://dbpedia.org> WHERE {" \
+        "WHERE {" \
         f"<{resource_uri}> <http://www.w3.org/2000/01/rdf-schema#label> ?object . " \
         "} LIMIT 500"
     text = get_query_values(query_str)
     text = text[0] if len(text) > 0 else ''
     return text
+
+
+def query_rel_text(rel_file, work_dir):
+    rel2shorttext_l = []
+    with open(rel_file) as f:
+        lines = f.readlines()
+        rel_lines = lines[1:]
+        for rel in tqdm(rel_lines):
+            rel = rel.split('\t')[0]
+            short_text = get_short_text(rel)
+            if len(short_text) == 0:
+                short_text = rel.split('/')[-1].replace('_', ' ')
+            rel2shorttext_l.append(f"{rel}\t{short_text}")
+    save_and_append_results(rel2shorttext_l, work_dir + "relation2text.txt")
 
 
 def query_entity_text_and_class(entity_file, work_dir):
@@ -193,7 +207,7 @@ def query_disambiguration(triple_file, work_dir):
                     break
             if not found:
                 no_class.append(ent)
-    save_and_append_results(ent2classes_l, work_dir + "entity2type_disanbigurate.txt")
+    save_and_append_results(ent2classes_l, work_dir + "entity2type_disambigurate.txt")
 
     with open(work_dir + "no_long_text2.txt") as f:
         all_no_longtext_ents = f.readlines()
@@ -238,6 +252,10 @@ def save_and_append_results(d_list, out_filename):
 
 
 if __name__ == "__main__":
-    # query_entity_text_and_class("../resources/DBpedia-politics/entity2id.txt", work_dir="../outputs/test_dbpedia/")
-    # query_wiki_redirect("../outputs/test_dbpedia/")
+    query_entity_text_and_class("../resources/DBpedia-politics/entity2id.txt", work_dir="../outputs/test_dbpedia/")
+    time.sleep(10)
+    query_wiki_redirect("../outputs/test_dbpedia/")
+    time.sleep(10)
     query_disambiguration("../resources/DBpedia-politics/PoliticalTriplesWD.txt", work_dir="../outputs/test_dbpedia/")
+    time.sleep(10)
+    query_rel_text("../resources/DBpedia-politics/relation2id.txt", work_dir="../outputs/test_dbpedia/")

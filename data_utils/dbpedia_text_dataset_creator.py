@@ -5,7 +5,7 @@ from tqdm import tqdm
 import time
 
 
-DEFAULT_GRAPH = "http://dbpedia.org"
+# DEFAULT_GRAPH = "http://dbpedia.org"
 TYPE_OF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
 WIKIPAGE_REDIRECTS = "http://dbpedia.org/ontology/wikiPageRedirects"
 COMMENT = "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -193,7 +193,7 @@ def query_disambiguration(triple_file, work_dir):
                 query_clause = f"<{tri_hrt[0]}> <{tri_hrt[1]}> <{tri_hrt[2]}>"
                 query_clause = query_clause.replace(f"<{ent}>", "?x")
                 query_str = f"SELECT distinct ?object " \
-                    "FROM <http://dbpedia.org> WHERE {" \
+                    "WHERE {" \
                     f"<{ent}> <{DISAMBIGUATE}> ?x . " \
                     f"{query_clause} . " \
                     f"?x <{TYPE_OF}> ?object . " \
@@ -220,7 +220,7 @@ def query_disambiguration(triple_file, work_dir):
                 query_clause = f"<{tri_hrt[0]}> <{tri_hrt[1]}> <{tri_hrt[2]}>"
                 query_clause = query_clause.replace(f"<{ent}>", "?x")
                 query_str = f"SELECT distinct ?object " \
-                    "FROM <http://dbpedia.org> WHERE {" \
+                    "WHERE {" \
                     f"<{ent}> <{DISAMBIGUATE}> ?x . " \
                     f"{query_clause} . " \
                     f"?x <{COMMENT}> ?object . " \

@@ -268,15 +268,17 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
     return out
 
 
-# @ex.capture
-# @torch.no_grad()
+@ex.capture
+@torch.no_grad()
 def produce(model,
             triples_loader,
             text_dataset,
             entities,
             emb_batch_size,
+            _run: Run,
+            _log: Logger,
             return_embeddings=False,
-            _log=None, threshold=0):
+            threshold=0):
     # compute_filtered = filtering_graph is not None
     if device != torch.device('cpu'):
         model = model.module
@@ -576,7 +578,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                     entities=train_val_test_ent,
                                                     emb_batch_size=emb_batch_size,
                                                     return_embeddings=True,
-                                                    _log=_log, threshold=0.5)
+                                                    threshold=0.5)
     tris = produced_triples_with_scores.detach().numpy()
     df_tris = pd.DataFrame(tris, columns=['h', 'r', 't', 's'])
     df_tris[['h', 'r', 't']] = df_tris[['h', 'r', 't']].astype(int)

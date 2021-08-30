@@ -12,9 +12,7 @@ class Pattern1(PatternScanner):
         # for df in aggregated_triples:
         df = aggregated_triples
         rel = df.iloc[0]['rel']
-        if rel not in self._pattern_dict:
-            return
-        else:
+        if rel in self._pattern_dict:
             invalid = self._pattern_dict[rel]['invalid']
             for idx, row in df.iterrows():
                 h_classes = self._context_resources.entid2classids[row['head']]

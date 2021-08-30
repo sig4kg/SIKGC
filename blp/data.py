@@ -228,6 +228,7 @@ class TextGraphDataset(GraphDataset):
                         values = line.strip().split('\t')
                         entity = values[0]
                         text = ' '.join(values[1:])
+
                         if entity not in ent_ids:
                             continue
                         if entity in read_entities:
@@ -253,6 +254,8 @@ class TextGraphDataset(GraphDataset):
                         self.text_data[ent_id, -1] = text_len
 
                         progress.update()
+                        if len(read_entities) == len(ent_ids):
+                            break
 
             progress.close()
 

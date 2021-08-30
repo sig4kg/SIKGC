@@ -24,6 +24,13 @@ def clean_tranE(work_dir):
     os.system('../scripts/transE_clean.sh ' + work_dir)
 
 
+def clean_blp(work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system('echo ../scripts/blp_clean.sh')
+    os.system('../scripts/blp_clean.sh ' + work_dir)
+
+
 def delete_file(file_path):
     os.system("rm " + file_path)
 
@@ -34,7 +41,11 @@ def gen_pred_transE(work_dir):
     os.system(f"cp {work_dir}train/train2id.txt {work_dir}train/valid2id.txt")
 
 
-def gen_pred_blp(work_dir):
+def prepare_blp(source_dir, work_dir):
+    os.system(f"cp {source_dir}entity2text.txt {work_dir}entity2text.txt")
+    os.system(f"cp {source_dir}entity2longtext.txt {work_dir}entity2longtext.txt")
+    os.system(f"cp {source_dir}entity2type.txt {work_dir}entity2type.txt")
+    os.system(f"cp {source_dir}relation2text.txt {work_dir}relation2text.txt")
     wait_until_file_is_saved(f"{work_dir}all_triples.tsv", 120)
 
 

@@ -1,7 +1,7 @@
 **/outputs
 **/checkpoint
 **/release
-**/resources/NELL-995_2
+**/resources/*
 **/.idea
 .pyenv
 **/workspace.xml

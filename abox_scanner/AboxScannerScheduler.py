@@ -4,7 +4,7 @@ import os
 from abox_scanner.pattern1_scanner import Pattern1
 from abox_scanner.pattern2_scanner import Pattern2
 from abox_scanner.abox_utils import ContextResources
-
+import numpy as np
 
 class AboxScannerScheduler:
     """
@@ -56,8 +56,8 @@ class AboxScannerScheduler:
         out_path = Path(work_dir)
         if not out_path.parent.exists():
             out_path.parent.mkdir(exist_ok=False)
-        df.query("is_valid == False")[['head', 'rel', 'tail']].to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
-        df.query("is_valid == True")[['head', 'rel', 'tail']].to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        df.query("is_valid == False")[['head', 'rel', 'tail']].apply(np.int64).to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        df.query("is_valid == True")[['head', 'rel', 'tail']].apply(np.int64).to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
 
 

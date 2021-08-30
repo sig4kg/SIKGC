@@ -52,7 +52,10 @@ class LinkPrediction(nn.Module):
         batch_size = ent_embs.shape[0]
 
         # Scores for positive samples
-        rels = self.rel_emb(rels)
+        try:
+            rels = self.rel_emb(rels)
+        except Exception:
+            print("stop")
         heads, tails = torch.chunk(ent_embs, chunks=2, dim=1)
         pos_scores = self.score_fn(heads, tails, rels)
 

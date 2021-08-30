@@ -111,7 +111,7 @@ def save_file(text, out_filename):
 def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
     time_counter = 0
     interval = int(timeout_sec / 10) if timeout_sec > 10 else 1
-    # print(f"waiting for saving {file_path} ...")
+    print(f"waiting for saving {file_path} ...")
     while not os.path.exists(file_path):
         time.sleep(interval)
         time_counter += interval
@@ -186,7 +186,7 @@ class ContextResources:
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
         if dataset == 'dbpedia':
-            self.entid2classids = entid2classid_dbpedia(self.ent2id, self.class2id, work_dir + "entity2type.txt")
+            self.entid2classids = entid2classid_dbpedia(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         else:
             self.entid2classids = entid2classid_nell(self.ent2id, self.class2id)
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
@@ -218,4 +218,15 @@ if __name__ == "__main__":
     # hrt_df2htr_transE(hrtdf, "../outputs/test1.txt")
     # hrtdf3 = read_htr_transE_2_hrt_df("../outputs/test1.txt")
     # read_hrt2htr_transE("../outputs/valid_hrt.txt", "../outputs/test3.txt")
+    # all_triples1 = read_original_hrt_triples_to_list("../outputs/clc/ind-train.tsv")
+    # rel1, ent1, _ = hrt_original2int(all_triples1, out_dir="../outputs/test/")
+    # all_triples2 = read_original_hrt_triples_to_list("../outputs/clc/ind-dev.tsv")
+    # rel2, ent2, _ = hrt_original2int(all_triples2, out_dir="../outputs/test/")
+    # all_triples3 = read_original_hrt_triples_to_list("../outputs/clc/all_triples.tsv")
+    # rel3, ent3, _ = hrt_original2int(all_triples3, out_dir="../outputs/test/")
+    df1 = pd.read_csv("../outputs/clc/valid_hrt.txt", names=['head', 'rel', 'tail'], sep="\t")
+    df2 = pd.read_csv("../outputs/clc/invalid_hrt.txt", names=['head', 'rel', 'tail'], sep="\t")
+    rel1 = df1[['rel']].drop_duplicates(keep='first')
+    rel2 = df2[['rel']].drop_duplicates(keep='first')
+    df2notindf1 = pd.concat([rel2, rel1, rel1]).drop_duplicates(keep=False)
     print("test done")

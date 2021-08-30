@@ -10,9 +10,7 @@ class Pattern2(PatternScanner):
     def scan_pattern_df_rel(self, aggregated_triples):
         df = aggregated_triples
         rel = df.iloc[0]['rel']
-        if rel not in self._pattern_dict:
-            return
-        else:
+        if rel in self._pattern_dict:
             invalid = self._pattern_dict[rel]['invalid']
             for idx, row in df.iterrows():
                 t_classes = self._context_resources.entid2classids[row['tail']]

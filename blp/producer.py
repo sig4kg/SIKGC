@@ -562,7 +562,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         graph = nx.MultiDiGraph()
         graph.add_weighted_edges_from(test_data.triples.tolist())
 
-    _log.info('Evaluating on test set')
+    _log.info('Predicting triples...')
     # _, ent_emb = eval_link_prediction(model, test_loader, train_data,
     #                                   train_val_test_ent, max_epochs + 1,
     #                                   emb_batch_size, prefix='test',

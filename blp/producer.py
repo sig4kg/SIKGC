@@ -335,6 +335,7 @@ def produce(model,
     # produced_triples_filtered = None
 
     k = 10
+    entities = entities.to(device)
     for i, triples in enumerate(triples_loader):
         # if max_num_batches is not None and i == max_num_batches:
         #     break
@@ -359,7 +360,7 @@ def produce(model,
 
         scores_h, indices_h = heads_predictions.topk(k=k)
         truth_h_index = (indices_h == heads).nonzero()
-        truth_score_h = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.)
+        truth_score_h = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.).to(device)
         truth_score_h_values = scores_h[(indices_h == heads).nonzero(as_tuple=True)]
         truth_score_h.index_put_((truth_h_index[:, 0],), truth_score_h_values)
         pred_idx_at_k = indices_h[:, :k]
@@ -375,7 +376,7 @@ def produce(model,
 
         scores_t, indices_t = tails_predictions.topk(k=k)
         truth_t_index = (indices_t == tails).nonzero()
-        truth_score_t = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.)
+        truth_score_t = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.).to(device)
         truth_score_t_values = scores_t[(indices_t == tails).nonzero(as_tuple=True)]
         truth_score_t.index_put_((truth_t_index[:, 0],), truth_score_t_values)
         pred_idx_at_k = indices_t[:, :k]
@@ -411,6 +412,9 @@ def produce(model,
         #             [produced_triples_filtered, fitered_hrts])
 
         batch_count += 1
+    if use_gpu:
+	produced_triples = produced_triples.cpu()
+	ent_emb = ent_emb.cpu()
     if return_embeddings:
         return produced_triples, ent_emb
     else:

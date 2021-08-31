@@ -356,9 +356,8 @@ def produce(model,
         tails_predictions = model.score_fn(head_embs, ent_emb, rel_embs)
 
         scores_h, indices_h = heads_predictions.topk(k=k)
-        truth_h_index = (indices_h == heads).nonzero()
-        truth_h_index = truth_h_index.to(device)
-        truth_score_h = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.)
+        truth_h_index = (indices_h == heads).nonzero().to(device)
+        truth_score_h = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.).to(device)
         truth_score_h_values = scores_h[(indices_h == heads).nonzero(as_tuple=True)]
         truth_score_h.index_put_((truth_h_index[:, 0],), truth_score_h_values)
         pred_idx_at_k = indices_h[:, :k]
@@ -367,10 +366,10 @@ def produce(model,
 
         for column_index, h in enumerate(pred_h_k_hit):
             filtered_indices = (truth_score_h <= score_h_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
-                as_tuple=True)
-            tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1)
-            fitered_hrts = tmp_hrts[filtered_indices]
-            produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
+                as_tuple=True).to(device)
+            tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1).to(device)
+            fitered_hrts = tmp_hrts[filtered_indices].to(device)
+            produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts]).to(device)
 
         scores_t, indices_t = tails_predictions.topk(k=k)
         truth_t_index = (indices_t == tails).nonzero()

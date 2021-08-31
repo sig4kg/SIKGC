@@ -51,8 +51,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/blp/producer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="403" column="18" selection-start-line="270" selection-end-line="414" selection-end-column="37" />
+            <state relative-caret-position="260">
+              <caret line="357" column="57" lean-forward="true" selection-start-line="357" selection-start-column="57" selection-end-line="357" selection-end-column="57" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -508,6 +508,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="140" y="25" width="1529" height="1002" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31472763" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -521,7 +522,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32964602" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32964602" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.26106194" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.25995576" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1184,8 +1185,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/producer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="403" column="18" selection-start-line="270" selection-end-line="414" selection-end-column="37" />
+        <state relative-caret-position="260">
+          <caret line="357" column="57" lean-forward="true" selection-start-line="357" selection-start-column="57" selection-end-line="357" selection-end-column="57" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

@@ -15,7 +15,7 @@ def read_hrts_blp_2_hrt_int_df(hrts_blp_file, context_resource: ContextResources
     return df[['head', 'rel', 'tail']]
 
 
-def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir):
+def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triples_only=False):
     df = context_resource.hrt_int_df.copy(deep=True)
     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to int
     df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2rel[x])  # to int

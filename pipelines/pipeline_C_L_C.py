@@ -49,7 +49,8 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0)
         context_resource.hrt_int_df = extend_hrt_df
 
-
+    hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=True)  # generate all_triples.tsv
+    wait_until_file_is_saved(work_dir + "all_triples.tsv")
 
 
 if __name__ == "__main__":

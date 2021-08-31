@@ -358,9 +358,6 @@ def produce(model,
         tails_predictions = model.score_fn(head_embs, ent_emb, rel_embs)
 
         scores_h, indices_h = heads_predictions.topk(k=k)
-        if use_gpu:
-            scores_h = scores_h.cpu()
-            indices_h = indices_h.cpu()
         truth_h_index = (indices_h == heads).nonzero()
         truth_score_h = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.)
         truth_score_h_values = scores_h[(indices_h == heads).nonzero(as_tuple=True)]

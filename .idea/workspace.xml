@@ -49,8 +49,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/blp/producer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="369" column="111" selection-start-line="369" selection-start-column="111" selection-end-line="369" selection-end-column="111" />
+            <state relative-caret-position="250">
+              <caret line="361" column="37" lean-forward="true" selection-start-line="361" selection-start-column="37" selection-end-line="361" selection-end-column="37" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -250,8 +250,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="304" />
-    <option name="y" value="56" />
+    <option name="x" value="390" />
+    <option name="y" value="31" />
     <option name="width" value="1529" />
     <option name="height" value="1002" />
   </component>
@@ -505,7 +505,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="304" y="56" width="1529" height="1002" extended-state="0" />
+    <frame x="390" y="31" width="1529" height="1002" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31472763" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -760,7 +760,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/blp/producer.py</url>
-          <line>469</line>
+          <line>474</line>
           <option name="timeStamp" value="380" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1182,8 +1182,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/producer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="369" column="111" selection-start-line="369" selection-start-column="111" selection-end-line="369" selection-end-column="111" />
+        <state relative-caret-position="250">
+          <caret line="361" column="37" lean-forward="true" selection-start-line="361" selection-start-column="37" selection-end-line="361" selection-end-column="37" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

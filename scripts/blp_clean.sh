@@ -27,5 +27,6 @@ fi
 [ -f "$WORK_DIR/ind-dev.tsv" ] && mv $WORK_DIR/ind-dev.tsv $LAST_ROUND
 [ -f "$WORK_DIR/ind-train.tsv" ] && mv $WORK_DIR/ind-train.tsv $LAST_ROUND
 [ -f "$WORK_DIR/ind-test.tsv" ] && mv $WORK_DIR/ind-test.tsv $LAST_ROUND
+[ -f "$WORK_DIR/all_triples.tsv" ] && mv $WORK_DIR/all_triples.tsv $LAST_ROUND
 #[ -f "$WORK_DIR/checkpoint/transe.ckpt" ] && mv $WORK_DIR/checkpoint/transe.ckpt $LAST_ROUND
-[ -f "$WORK_DIR/blp_new_triples.txt" ] && mv $WORK_DIR/blp_new_triples.txt $LAST_ROUND
+[ -f "$WORK_DIR/blp_new_triples.csv" ] && mv $WORK_DIR/blp_new_triples.csv $LAST_ROUND

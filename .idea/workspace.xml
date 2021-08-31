@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="" />
+    <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/blp/producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/blp/producer.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,8 +51,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/blp/producer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="367" column="73" selection-start-line="367" selection-start-column="73" selection-end-line="367" selection-end-column="73" />
+            <state relative-caret-position="337">
+              <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -505,8 +507,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="140" y="25" width="1529" height="1002" extended-state="0" />
-    <editor active="true" />
+    <frame x="304" y="56" width="1529" height="1002" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31472763" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1183,8 +1184,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/producer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="367" column="73" selection-start-line="367" selection-start-column="73" selection-end-line="367" selection-end-column="73" />
+        <state relative-caret-position="337">
+          <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

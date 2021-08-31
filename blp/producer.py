@@ -367,7 +367,7 @@ def produce(model,
         for column_index, h in enumerate(pred_h_k_hit):
             filtered_indices = (truth_score_h <= score_h_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
                 as_tuple=True)
-            tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1)
+            tmp_hrts = torch.cat([entities[h].to(device), entities[rels].to(device), entities[tails].to(device), score_h_k[column_index]], 1)
             fitered_hrts = tmp_hrts[filtered_indices].to(device)
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts]).to(device)
 

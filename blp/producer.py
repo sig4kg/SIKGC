@@ -413,8 +413,9 @@ def produce(model,
 
         batch_count += 1
     if use_gpu:
-	produced_triples = produced_triples.cpu()
-	ent_emb = ent_emb.cpu()
+        produced_triples = produced_triples.cpu()
+        ent_emb = ent_emb.cpu()
+
     if return_embeddings:
         return produced_triples, ent_emb
     else:

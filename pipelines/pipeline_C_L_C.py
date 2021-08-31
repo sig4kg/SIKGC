@@ -31,7 +31,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         # 2. consistency checking for new triples
         pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
         # diff
-        new_hrt_df = pd.concat(pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df).drop_duplicates(keep=False)
+        new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
 
         # 3. get valid new triples
         clean_blp(work_dir)

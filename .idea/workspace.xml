@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blp/producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/blp/producer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,8 +51,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/blp/producer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3101">
-              <caret line="270" column="12" selection-start-line="270" selection-start-column="12" selection-end-line="270" selection-end-column="12" />
+            <state relative-caret-position="124">
+              <caret line="403" column="18" selection-start-line="270" selection-end-line="414" selection-end-column="37" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -236,11 +236,11 @@
         <option value="$PROJECT_DIR$/abox_scanner/abox_utils.py" />
         <option value="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" />
         <option value="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" />
-        <option value="$PROJECT_DIR$/blp/producer.py" />
         <option value="$PROJECT_DIR$/setup.sh" />
         <option value="$PROJECT_DIR$/abox_scanner/blp_util.py" />
         <option value="$PROJECT_DIR$/scripts/blp_clean.sh" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" />
+        <option value="$PROJECT_DIR$/blp/producer.py" />
       </list>
     </option>
   </component>
@@ -251,9 +251,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="347" />
-    <option name="y" value="117" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="140" />
+    <option name="y" value="25" />
     <option name="width" value="1529" />
     <option name="height" value="1002" />
   </component>
@@ -507,10 +507,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1440" height="829" extended-state="6" />
-    <editor active="true" />
+    <frame x="140" y="25" width="1529" height="1002" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33476394" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31472763" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -522,7 +521,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32964602" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32964602" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32284543" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.26106194" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -763,7 +762,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/blp/producer.py</url>
-          <line>467</line>
+          <line>469</line>
           <option name="timeStamp" value="380" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1185,8 +1184,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/producer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3101">
-          <caret line="270" column="12" selection-start-line="270" selection-start-column="12" selection-end-line="270" selection-end-column="12" />
+        <state relative-caret-position="124">
+          <caret line="403" column="18" selection-start-line="270" selection-end-line="414" selection-end-column="37" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

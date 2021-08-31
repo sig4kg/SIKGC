@@ -357,6 +357,7 @@ def produce(model,
 
         scores_h, indices_h = heads_predictions.topk(k=k)
         truth_h_index = (indices_h == heads).nonzero()
+        truth_h_index = truth_h_index.to(device)
         truth_score_h = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.)
         truth_score_h_values = scores_h[(indices_h == heads).nonzero(as_tuple=True)]
         truth_score_h.index_put_((truth_h_index[:, 0],), truth_score_h_values)

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/blp/producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/blp/producer.py" afterDir="false" />
-    </list>
+    <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,8 +49,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/blp/producer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
+            <state relative-caret-position="331">
+              <caret line="369" column="111" selection-start-line="369" selection-start-column="111" selection-end-line="369" selection-end-column="111" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -1184,8 +1182,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/producer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
+        <state relative-caret-position="331">
+          <caret line="369" column="111" selection-start-line="369" selection-start-column="111" selection-end-line="369" selection-end-column="111" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

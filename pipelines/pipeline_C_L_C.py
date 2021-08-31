@@ -31,7 +31,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         # 2. consistency checking for new triples
         pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
         # diff
-        new_hrt_df = pd.merge(pred_hrt_df, context_resource.hrt_int_df, how="inner")
+        new_hrt_df = pd.concat(pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df).drop_duplicates(keep=False)
 
         # 3. get valid new triples
         clean_blp(work_dir)
@@ -53,17 +53,9 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
 
 
 if __name__ == "__main__":
-    # rel1 = set()
-    # with open("../resources/DBpedia-politics/test_dbpedia.txt") as f:
-    #     lines = f.readlines()
-    #     for l in lines:
-    #         rel1.add(l.split('\t')[1])
-    # print(len(rel1))
-    # with open("../outputs/test_dbpedia.txt") as f:
-    #     lines = f.readlines()
-    #     for l in lines:
-    #         rel1.add(l.split('\t')[1])
-    # print(len(rel1))
+    df1 = pd.DataFrame(data=[0,1,2])
+    df2 = pd.DataFrame(data=[1,2,3,4])
+    df2notindf1 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
     # print("CLC pipeline")
     # c_l_c("../outputs/umls/all_triples.tsv", "../outputs/umls/")
     c_l_c("../resources/DBpedia-politics/test_dbpedia.txt", "../outputs/clc/", class_op_and_pattern_path='../resources/DBpedia-politics/tbox-dbpedia/')

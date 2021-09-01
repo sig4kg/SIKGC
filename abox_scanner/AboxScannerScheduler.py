@@ -52,12 +52,15 @@ class AboxScannerScheduler:
         df['is_valid'] = True
         for scanner in self._strategies:
             print("Scanning schema pattern: " + str(type(scanner)))
-            df = df.query("is_valid == True").groupby('rel').apply(lambda x: scanner.scan_pattern_df_rel(x))
+            df.update(df.query("is_valid == True").groupby('rel').apply(lambda x: scanner.scan_pattern_df_rel(x)))
         out_path = Path(work_dir)
         if not out_path.parent.exists():
             out_path.parent.mkdir(exist_ok=False)
-        df.query("is_valid == False")[['head', 'rel', 'tail']].apply(np.int64).to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
-        df.query("is_valid == True")[['head', 'rel', 'tail']].apply(np.int64).to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        invalids = df.query("is_valid == False")[['head', 'rel', 'tail']].apply(np.int64)
+        invalids.to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        valids = df.query("is_valid == True")[['head', 'rel', 'tail']].apply(np.int64)
+        valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids))}; valids count {str(len(valids))}")
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
 
 

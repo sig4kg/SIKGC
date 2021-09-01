@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/consistant_checking.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,13 +13,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="35" column="69" lean-forward="true" selection-start-line="35" selection-start-column="69" selection-end-line="35" selection-end-column="69" />
+            <state relative-caret-position="333">
+              <caret line="56" selection-start-line="56" selection-end-line="56" />
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="265">
+              <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="205">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="52" selection-start-line="52" selection-end-line="52" />
+              <folding>
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abox_scanner/consistant_checking.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -29,51 +72,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="465">
               <caret line="31" column="74" selection-start-line="31" selection-start-column="74" selection-end-line="31" selection-end-column="74" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/run_scripts.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_E_C.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="33" column="40" selection-start-line="33" selection-start-column="40" selection-end-line="33" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#66#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/blp/producer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5550">
-              <caret line="391" selection-start-line="391" selection-end-line="391" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -221,14 +219,12 @@
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_R_C.py" />
         <option value="$PROJECT_DIR$/data_utils/dataset_creator.py" />
         <option value="$PROJECT_DIR$/data_utils/dbpedia_virtuoso.py" />
-        <option value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
         <option value="$PROJECT_DIR$/data_utils/dbpedia_text_dataset_creator.py" />
         <option value="$PROJECT_DIR$/scripts/run_scripts.py" />
         <option value="$PROJECT_DIR$/blp/blp_data_utils.py" />
         <option value="$PROJECT_DIR$/outputs/clc/entities.txt" />
         <option value="$PROJECT_DIR$/blp/models.py" />
         <option value="$PROJECT_DIR$/blp/data.py" />
-        <option value="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" />
         <option value="$PROJECT_DIR$/abox_scanner/abox_utils.py" />
         <option value="$PROJECT_DIR$/abox_scanner/pattern1_scanner.py" />
         <option value="$PROJECT_DIR$/abox_scanner/pattern2_scanner.py" />
@@ -238,6 +234,8 @@
         <option value="$PROJECT_DIR$/abox_scanner/blp_util.py" />
         <option value="$PROJECT_DIR$/scripts/blp_clean.sh" />
         <option value="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/consistant_checking.py" />
+        <option value="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" />
       </list>
     </option>
   </component>
@@ -267,6 +265,11 @@
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
               <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TREATKGC" type="462c0819:PsiDirectoryNode" />
+              <item name="abox_scanner" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TREATKGC" type="b2602c69:ProjectViewProjectNode" />
@@ -355,7 +358,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.pipeline_C_L_C">
+  <component name="RunManager" selected="Python.consistant_checking">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -491,11 +494,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.consistant_checking" />
         <item itemvalue="Python.pipeline_C_L_C" />
         <item itemvalue="Python.abox_utils" />
         <item itemvalue="Python.producer" />
         <item itemvalue="Python.dbpedia_text_dataset_creator" />
-        <item itemvalue="Python.consistant_checking" />
       </list>
     </recent_temporary>
   </component>
@@ -523,21 +526,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="194" y="31" width="1529" height="1002" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3187626" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3187626" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.40044248" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3761062" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.414823" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.414823" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32964602" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32964602" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.23119469" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.23119469" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -747,11 +749,6 @@
           <option name="timeStamp" value="313" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py</url>
-          <line>15</line>
-          <option name="timeStamp" value="316" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/abox_scanner/consistant_checking.py</url>
           <line>20</line>
           <option name="timeStamp" value="317" />
@@ -801,13 +798,53 @@
           <line>64</line>
           <option name="timeStamp" value="393" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="394" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="396" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
+        <expression-string>len(df)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>len(tmp_df)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>df == tmp_df</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>df is tmp_df</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>df.query(&quot;is_valid == True&quot;).groupby('rel').apply(lambda x: scanner.scan_pattern_df_rel(x))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>len(df.query(&quot;is_valid == True&quot;))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>len(tmp_df.query(&quot;is_valid == True&quot;))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -817,52 +854,13 @@
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>df.query(&quot;is_valid == True&quot;).groupby('rel')</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>df.query(&quot;is_valid == False&quot;)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>len(df)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>len(pd.concat([rel2, rel1, rel1]).drop_duplicates(keep=False))</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>len(df2notindf1)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>len(rel2)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>len(rel1)</expression-string>
+        <expression-string>len(df.query(&quot;is_valid == True&quot;).groupby('rel').apply(lambda x: scanner.scan_pattern_df_rel(x)))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/abox_scanner/rumis_util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/abox_scanner/transE_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -1078,30 +1076,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9">
-          <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/blp/data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
@@ -1203,12 +1177,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern1_scanner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/pattern2_scanner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="35" column="69" lean-forward="true" selection-start-line="35" selection-start-column="69" selection-end-line="35" selection-end-column="69" />
+        <state relative-caret-position="333">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
           <folding>
             <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/consistant_checking.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -13,14 +13,14 @@ if __name__ == "__main__":
     # abox_scanner_scheduler.register_pattern([1])
     # abox_scanner_scheduler.scan_patterns(work_dir='../outputs/test/')
 
-    triples_path = "../resources/DBpedia-politics/PoliticalTriplesWD.txt"  # h, t, r
+    triples_path = "../resources/DBpedia-politics/test_dbpedia.txt"  # h, t, r
     tbox_patterns_path = "../resources/DBpedia-politics/tbox-dbpedia/"
     context_res = ContextResources(triples_path, class_and_op_file_path= tbox_patterns_path, work_dir="../outputs/test_dbpedia/", create_id_file=True)
 
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler.AboxScannerScheduler(tbox_patterns_path, context_resources=context_res)
 
-    abox_scanner_scheduler.register_pattern([1])
+    abox_scanner_scheduler.register_pattern([2, 2])
     abox_scanner_scheduler.scan_patterns(work_dir='../outputs/test_dbpedia/')
 
 

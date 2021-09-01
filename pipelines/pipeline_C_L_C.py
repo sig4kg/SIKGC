@@ -62,6 +62,7 @@ if __name__ == "__main__":
     # df2notindf1 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
     # print("CLC pipeline")
     # c_l_c("../outputs/umls/all_triples.tsv", "../outputs/umls/")
+    os.system("rm ../outputs/clc/*")
     c_l_c("../resources/DBpedia-politics/test_dbpedia.txt", "../outputs/clc/", class_op_and_pattern_path='../resources/DBpedia-politics/tbox-dbpedia/')
 
 

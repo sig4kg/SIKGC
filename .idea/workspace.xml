@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/AboxScannerScheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abox_scanner/blp_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/abox_scanner/blp_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blp/producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/blp/producer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="34" column="131" selection-start-line="34" selection-start-column="131" selection-end-line="34" selection-end-column="131" />
+            <state relative-caret-position="260">
+              <caret line="64" selection-start-line="64" selection-end-line="64" />
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
               </folding>
@@ -28,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/blp/producer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="590" column="71" selection-start-line="590" selection-start-column="71" selection-end-line="590" selection-end-column="71" />
+            <state relative-caret-position="-1281">
+              <caret line="272" column="4" selection-start-line="272" selection-start-column="4" selection-end-line="272" selection-end-column="4" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -106,8 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/abox_scanner/blp_util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="106">
+              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -138,7 +134,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>apply(</find>
       <find>&quot;</find>
       <find>lambda</find>
       <find>read(</find>
@@ -167,6 +162,7 @@
       <find>work_dir</find>
       <find>sort</find>
       <find>group</find>
+      <find>astype</find>
       <find>drop_du</find>
     </findStrings>
     <replaceStrings>
@@ -253,8 +249,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="725" />
-    <option name="y" value="75" />
+    <option name="x" value="423" />
+    <option name="y" value="55" />
     <option name="width" value="1529" />
     <option name="height" value="1002" />
   </component>
@@ -351,7 +347,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.producer">
+  <component name="RunManager" selected="Python.pipeline_C_L_C">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -487,8 +483,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.producer" />
         <item itemvalue="Python.pipeline_C_L_C" />
+        <item itemvalue="Python.producer" />
         <item itemvalue="Python.train" />
         <item itemvalue="Python.consistant_checking" />
         <item itemvalue="Python.abox_utils" />
@@ -518,7 +514,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="452" y="32" width="1529" height="1002" extended-state="0" />
+    <frame x="423" y="55" width="1529" height="1002" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3187626" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -787,6 +783,17 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
+        <expression-string>df_tris.astype({'h':int, 'r':int, 't':int}).groupby(['h', 'r', 't'])['s'].max().reset_index()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>df_tris = df_tris.astype({'h':int, 'r':int, 't':int}).groupby(['h', 'r', 't'])['s'].max().reset_index()
+    d</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>df_tris.groupby(['h', 'r', 't'])['s'].max().reset_index()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
@@ -818,16 +825,6 @@
       </expression>
       <expression>
         <expression-string>len(pred_hrt_df.drop_duplicates(keep='first'))</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>pred_hrt_df.drop_duplicates(keep='first')</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>pred_hrt_df.drop_duplicates(keep=False)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -1135,26 +1132,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="34" column="131" selection-start-line="34" selection-start-column="131" selection-end-line="34" selection-end-column="131" />
-          <folding>
-            <element signature="e#0#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/abox_scanner/blp_util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2019.1/python_stubs/1880457481/torch/_C/_VariableFunctionsClass.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-182">
@@ -1198,10 +1175,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/blp/producer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="590" column="71" selection-start-line="590" selection-start-column="71" selection-end-line="590" selection-end-column="71" />
+        <state relative-caret-position="-1281">
+          <caret line="272" column="4" selection-start-line="272" selection-start-column="4" selection-end-line="272" selection-end-column="4" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abox_scanner/blp_util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
           </folding>
         </state>
       </provider>

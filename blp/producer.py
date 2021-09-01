@@ -59,6 +59,7 @@ if all([uri, database]):
 @ex.config
 def config():
     dataset = 'umls'
+    dataset = 'clc'
     inductive = False
     dim = 128
     model = 'bert-bow'
@@ -76,7 +77,8 @@ def config():
     max_epochs = 2
     checkpoint = None
     use_cached_text = False
-    work_dir = 'output/'
+    # work_dir = 'output/'
+    work_dir = 'data/clc/'
 
 
 # @ex.automain

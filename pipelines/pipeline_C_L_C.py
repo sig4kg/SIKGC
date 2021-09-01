@@ -19,7 +19,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
     read_scanned_2_context_df(work_dir, context_resource)
     prepare_blp(class_op_and_pattern_path, work_dir)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        hrt_int_df_2_hrt_blp(context_resource, work_dir)    # generate all_triples.tsv, entities.txt, relations.txt\
+        hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=False)    # generate all_triples.tsv, entities.txt, relations.txt\
         wait_until_file_is_saved(work_dir + "all_triples.tsv")
         split_all_triples(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
         wait_until_blp_data_ready(work_dir, inductive=inductive)

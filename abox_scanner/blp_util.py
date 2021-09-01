@@ -4,6 +4,7 @@ from abox_scanner.abox_utils import ContextResources, read_hrt_2_df
 from blp.blp_data_utils import drop_entities
 from abox_scanner.abox_utils import wait_until_file_is_saved
 import os
+import os.path as osp
 import csv
 
 
@@ -26,12 +27,14 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
     # entities.to_csv(hrt_blp_dir + 'entities.txt', index=False, header=False)
     # rels.to_csv(hrt_blp_dir + 'relations.txt', index=False, header=False)
     if not triples_only:
+        all_valid_entities = pd.concat([df['head'], df['tail']]).drop_duplicates(keep='first')
+        all_valid_rels = df['rel'].drop_duplicates(keep='first')
         with open(hrt_blp_dir + "entities.txt", encoding='utf-8', mode='w') as out_f:
-            for item in context_resource.ent2id.keys():
+            for item in list(all_valid_entities):
                 out_f.write(item + '\n')
             out_f.close()
         with open(hrt_blp_dir + "relations.txt", encoding='utf-8', mode='w') as out_f:
-            for item in context_resource.rel2id.keys():
+            for item in list(all_valid_rels):
                 out_f.write(item + '\n')
             out_f.close()
 
@@ -41,11 +44,22 @@ def split_all_triples(work_dir, inductive=False):
                       seed=0)
         os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
     else:
-        os.system(f"shuf {work_dir}all_triples.tsv | split -a1 -l $(( $(wc -l <{work_dir}all_triples.tsv) * 80 / 100 )) - {work_dir}part")
-        os.system(f"mv {work_dir}parta {work_dir}train.tsv")
-        os.system(f"mv {work_dir}partb {work_dir}dev.tsv")
+        df = read_hrt_2_df(work_dir + "all_triples.tsv")
+        rels = df['rel'].drop_duplicates(keep='first')
+        count_dev = int(len(df) * 0.1 if len(rels) < len(df) * 0.1 else len(rels))
+        sample_dev = df.groupby('rel').sample(n=1)
+        if len(sample_dev) < count_dev:
+            diff_df = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
+            sample_dev = pd.concat([sample_dev, diff_df.sample(count_dev - len(sample_dev))])
+        sample_train = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
+        rels_train = sample_train['rel'].drop_duplicates(keep='first')
+        if len(rels_train) < len(rels):
+            miss_rel = pd.concat([rels, rels_train, rels_train]).drop_duplicates(keep=False)
+            filtered_tris = sample_dev[sample_dev['rel'].isin(list(miss_rel))]
+            sample_train = pd.concat([sample_train, filtered_tris])
+        sample_train.to_csv(osp.join(work_dir, f'train.tsv'), header=False, index=False, sep='\t', mode='a')
+        sample_dev.to_csv(osp.join(work_dir, f'dev.tsv'), header=False, index=False, sep='\t', mode='a')
         os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")
-
 
 
 def prepare_blp(source_dir, work_dir):

@@ -19,6 +19,8 @@ if [ ! -d "$LAST_ROUND" ];then
   mkdir "$LAST_ROUND"
 fi
 
+[ -f "$WORK_DIR/entities.txt" ] && mv $WORK_DIR/entities.txt $LAST_ROUND
+[ -f "$WORK_DIR/relations.txt" ] && mv $WORK_DIR/relations.txt $LAST_ROUND
 [ -f "$WORK_DIR/valid_hrt.txt" ] && mv $WORK_DIR/valid_hrt.txt $LAST_ROUND
 [ -f "$WORK_DIR/invalid_hrt.txt" ] && mv $WORK_DIR/invalid_hrt.txt $LAST_ROUND
 [ -f "$WORK_DIR/dev-ents.txt" ] && mv $WORK_DIR/dev-ents.txt $LAST_ROUND

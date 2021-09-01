@@ -9,7 +9,7 @@ from blp.producer import ex
 from scripts.run_scripts import clean_blp
 
 
-def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_epoch=2):
+def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_epoch=2, inductive=False):
     context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, class_and_op_file_path=class_op_and_pattern_path, create_id_file=False)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
@@ -21,11 +21,11 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
         hrt_int_df_2_hrt_blp(context_resource, work_dir)    # generate all_triples.tsv, entities.txt, relations.txt\
         wait_until_file_is_saved(work_dir + "all_triples.tsv")
-        split_all_triples(work_dir) # split all_triples.tsv to train.tsv, dev.tsv, takes time
-        wait_until_blp_data_ready(work_dir)
+        split_all_triples(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
+        wait_until_blp_data_ready(work_dir, inductive=inductive)
 
         # 1. run blp
-        ex.run(config_updates={'work_dir': work_dir, 'inductive': True})
+        ex.run(config_updates={'work_dir': work_dir, 'inductive': inductive})
         wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
         # 2. consistency checking for new triples
@@ -57,9 +57,9 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
 
 
 if __name__ == "__main__":
-    df1 = pd.DataFrame(data=[0,1,2])
-    df2 = pd.DataFrame(data=[1,2,3,4])
-    df2notindf1 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
+    # df1 = pd.DataFrame(data=[0,1,2])
+    # df2 = pd.DataFrame(data=[1,2,3,4,5,6,7])
+    # df2notindf1 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
     # print("CLC pipeline")
     # c_l_c("../outputs/umls/all_triples.tsv", "../outputs/umls/")
     c_l_c("../resources/DBpedia-politics/test_dbpedia.txt", "../outputs/clc/", class_op_and_pattern_path='../resources/DBpedia-politics/tbox-dbpedia/')

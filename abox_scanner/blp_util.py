@@ -25,19 +25,27 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
     # rels = pd.DataFrame(data=context_resource.rel2id.keys())
     # entities.to_csv(hrt_blp_dir + 'entities.txt', index=False, header=False)
     # rels.to_csv(hrt_blp_dir + 'relations.txt', index=False, header=False)
-    with open(hrt_blp_dir + "entities.txt", encoding='utf-8', mode='w') as out_f:
-        for item in context_resource.ent2id.keys():
-            out_f.write(item + '\n')
-        out_f.close()
-    with open(hrt_blp_dir + "relations.txt", encoding='utf-8', mode='w') as out_f:
-        for item in context_resource.rel2id.keys():
-            out_f.write(item + '\n')
-        out_f.close()
+    if not triples_only:
+        with open(hrt_blp_dir + "entities.txt", encoding='utf-8', mode='w') as out_f:
+            for item in context_resource.ent2id.keys():
+                out_f.write(item + '\n')
+            out_f.close()
+        with open(hrt_blp_dir + "relations.txt", encoding='utf-8', mode='w') as out_f:
+            for item in context_resource.rel2id.keys():
+                out_f.write(item + '\n')
+            out_f.close()
 
-def split_all_triples(work_dir):
-    drop_entities(work_dir + "all_triples.tsv", train_size=0.9, valid_size=0.1, test_size=0.0,
-                  seed=0)
-    os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
+def split_all_triples(work_dir, inductive=False):
+    if inductive:
+        drop_entities(work_dir + "all_triples.tsv", train_size=0.9, valid_size=0.1, test_size=0.0,
+                      seed=0)
+        os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
+    else:
+        os.system(f"shuf {work_dir}all_triples.tsv | split -a1 -l $(( $(wc -l <{work_dir}all_triples.tsv) * 80 / 100 )) - {work_dir}part")
+        os.system(f"mv {work_dir}parta {work_dir}train.tsv")
+        os.system(f"mv {work_dir}partb {work_dir}dev.tsv")
+        os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")
+
 
 
 def prepare_blp(source_dir, work_dir):
@@ -47,10 +55,14 @@ def prepare_blp(source_dir, work_dir):
     os.system(f"cp {source_dir}entity2textlong.txt {work_dir}entity2textlong.txt")
 
 
-def wait_until_blp_data_ready(work_dir):
-    wait_until_file_is_saved(work_dir + "dev-ents.txt")
-    wait_until_file_is_saved(work_dir + "test-ents.txt")
-    wait_until_file_is_saved(work_dir + "train-ents.txt")
-    wait_until_file_is_saved(work_dir + "ind-dev.tsv")
-    wait_until_file_is_saved(work_dir + "ind-test.tsv")
-    wait_until_file_is_saved(work_dir + "ind-train.tsv")
+def wait_until_blp_data_ready(work_dir, inductive=False):
+    if inductive:
+        wait_until_file_is_saved(work_dir + "dev-ents.txt")
+        wait_until_file_is_saved(work_dir + "test-ents.txt")
+        wait_until_file_is_saved(work_dir + "train-ents.txt")
+        wait_until_file_is_saved(work_dir + "ind-dev.tsv")
+        wait_until_file_is_saved(work_dir + "ind-test.tsv")
+        wait_until_file_is_saved(work_dir + "ind-train.tsv")
+    else:
+        wait_until_file_is_saved(work_dir + "dev.tsv")
+        wait_until_file_is_saved(work_dir + "train.tsv")

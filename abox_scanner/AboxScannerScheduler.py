@@ -56,9 +56,13 @@ class AboxScannerScheduler:
         out_path = Path(work_dir)
         if not out_path.parent.exists():
             out_path.parent.mkdir(exist_ok=False)
-        invalids = df.query("is_valid == False")[['head', 'rel', 'tail']].apply(np.int64)
+        invalids = df.query("is_valid == False")[['head', 'rel', 'tail']]
+        if len(invalids) > 0:
+            invalids = invalids.astype(int)
         invalids.to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
-        valids = df.query("is_valid == True")[['head', 'rel', 'tail']].apply(np.int64)
+        valids = df.query("is_valid == True")[['head', 'rel', 'tail']]
+        if len(valids) > 0:
+            valids = valids.astype(int)
         valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids))}; valids count {str(len(valids))}")
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")

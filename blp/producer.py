@@ -369,7 +369,7 @@ def produce(model,
 
         for column_index, h in enumerate(pred_h_k_hit):
             filtered_indices = (truth_score_h <= score_h_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
-                as_tuple=True)
+                as_tuple=True)  # pred_score + threshold >= truth_score
             tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1)
             fitered_hrts = tmp_hrts[filtered_indices]
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
@@ -588,6 +588,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                     threshold=0.5)
     tris = produced_triples_with_scores.detach().numpy()
     df_tris = pd.DataFrame(tris, columns=['h', 'r', 't', 's'])
+    df_tris = df_tris.astype({'h':int, 'r':int, 't':int}).groupby(['h', 'r', 't'])['s'].max().reset_index()
     df_tris[['h', 'r', 't']] = df_tris[['h', 'r', 't']].astype(int)
     id2entity = dict((v, k) for k, v in train_data.entity2id.items())
     id2rel = dict((v, k) for k, v in train_data.rel2id.items())
@@ -676,7 +677,7 @@ def my_main():
     link_prediction()
 #
 #
-# if __name__ == '__main__':
-#     ex.run()
+if __name__ == '__main__':
+    ex.run()
 
 # ex.run_commandline()

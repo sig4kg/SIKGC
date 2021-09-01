@@ -14,7 +14,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
     # first round scan, get ready for training
-    abox_scanner_scheduler.register_pattern([1]).scan_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.register_pattern([1, 2]).scan_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
     read_scanned_2_context_df(work_dir, context_resource)
     prepare_blp(class_op_and_pattern_path, work_dir)
@@ -32,7 +32,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
         print("all produced triples: " + str(len(pred_hrt_df)))
         # diff
-        new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+        new_hrt_df = pd.concat([pred_hrt_df.drop_duplicates(keep='first'), context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
         print("all old triples: " + str(len(context_resource.hrt_int_df)))
         print("all new triples: " + str(len(new_hrt_df)))
 

@@ -33,6 +33,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         print("all produced triples: " + str(len(pred_hrt_df)))
         # diff
         new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+        print("all old triples: " + str(len(context_resource.hrt_int_df)))
         print("all new triples: " + str(len(new_hrt_df)))
 
         # 3. get valid new triples

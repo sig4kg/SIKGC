@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f26e143-aa5f-41cd-9d49-128e36d9f4c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/scripts/blp_clean.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/blp_clean.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="28" column="73" selection-start-line="28" selection-start-column="73" selection-end-line="28" selection-end-column="73" />
+            <state relative-caret-position="293">
+              <caret line="35" column="69" lean-forward="true" selection-start-line="35" selection-start-column="69" selection-end-line="35" selection-end-column="69" />
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
               </folding>
@@ -236,8 +236,8 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/blp/producer.py" />
         <option value="$PROJECT_DIR$/abox_scanner/blp_util.py" />
-        <option value="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" />
         <option value="$PROJECT_DIR$/scripts/blp_clean.sh" />
+        <option value="$PROJECT_DIR$/pipelines/pipeline_C_L_C.py" />
       </list>
     </option>
   </component>
@@ -249,8 +249,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="617" />
-    <option name="y" value="25" />
+    <option name="x" value="194" />
+    <option name="y" value="31" />
     <option name="width" value="1529" />
     <option name="height" value="1002" />
   </component>
@@ -522,10 +522,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="617" y="25" width="1529" height="1002" extended-state="0" />
+    <frame x="194" y="31" width="1529" height="1002" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3187626" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3187626" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -537,7 +537,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32964602" />
       <window_info anchor="bottom" id="Docker" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32964602" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.23119469" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.23119469" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -798,7 +798,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py</url>
-          <line>63</line>
+          <line>64</line>
           <option name="timeStamp" value="393" />
         </line-breakpoint>
       </breakpoints>
@@ -1205,8 +1205,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/pipeline_C_L_C.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="28" column="73" selection-start-line="28" selection-start-column="73" selection-end-line="28" selection-end-column="73" />
+        <state relative-caret-position="293">
+          <caret line="35" column="69" lean-forward="true" selection-start-line="35" selection-start-column="69" selection-end-line="35" selection-end-column="69" />
           <folding>
             <element signature="e#0#66#0" expanded="true" />
           </folding>

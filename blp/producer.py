@@ -32,29 +32,50 @@ if all([uri, database]):
     ex.observers.append(MongoObserver(uri, database))
 
 
+# @ex.config
+# def config():
+#     work_dir = 'output/'
+#     dataset = 'umls'
+#     inductive = False
+#     dim = 128
+#     model = 'transductive'
+#     # model = 'bert-bow'
+#     rel_model = 'transe'
+#     loss_fn = 'margin'
+#     encoder_name = 'bert-base-cased'
+#     regularizer = 1e-2
+#     max_len = 32
+#     num_negatives = 12
+#     lr = 1e-3
+#     use_scheduler = False
+#     batch_size = 64
+#     emb_batch_size = 512
+#     eval_batch_size = 64
+#     max_epochs = 2
+#     checkpoint = None
+#     use_cached_text = False
+
 @ex.config
 def config():
-    work_dir = 'output/'
-    dataset = 'umls'
+    work_dir='data/FB15k-237/'
+    dataset = 'FB15k-237'
     inductive = False
-    dim = 128
     model = 'transductive'
-    # model = 'bert-bow'
     rel_model = 'transe'
     loss_fn = 'margin'
-    encoder_name = 'bert-base-cased'
     regularizer = 1e-2
     max_len = 32
-    num_negatives = 12
-    lr = 1e-3
+    num_negatives = 64
+    lr = 1e-4
     use_scheduler = False
     batch_size = 64
     emb_batch_size = 512
-    eval_batch_size = 64
-    max_epochs = 2
+    eval_batch_size = 16
+    max_epochs = 80
     checkpoint = None
     use_cached_text = False
-
+    dim = 128
+    encoder_name = 'bert-base-cased'
 
 
 @ex.capture

@@ -19,7 +19,6 @@ from data import GraphDataset, TextGraphDataset, GloVeTokenizer
 import models
 import utils
 import pandas as pd
-import logging
 
 # OUT_PATH = 'output/'
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -56,10 +55,6 @@ def config():
     checkpoint = None
     use_cached_text = False
 
-
-# @ex.automain
-# def my_main():
-#     print_model_and_lr()
 
 
 @ex.capture

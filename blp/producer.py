@@ -33,52 +33,28 @@ if all([uri, database]):
     ex.observers.append(MongoObserver(uri, database))
 
 
-# @ex.config
-# def config():
-#     dataset = 'FB15k-237'
-#     inductive = True
-#     dim = 128
-#     model = 'blp'
-#     rel_model = 'transe'
-#     loss_fn = 'margin'
-#     encoder_name = 'bert-base-cased'
-#     regularizer = 0
-#     max_len = 32
-#     num_negatives = 64
-#     lr = 2e-5
-#     use_scheduler = True
-#     batch_size = 64
-#     emb_batch_size = 512
-#     eval_batch_size = 64
-#     max_epochs = 1
-#     checkpoint = None
-#     use_cached_text = False
-#     out_dir = 'output/'
-
-#
 @ex.config
 def config():
-    dataset = 'umls'
-    dataset = 'clc'
-    inductive = False
-    dim = 128
-    model = 'bert-bow'
-    rel_model = 'transe'
-    loss_fn = 'margin'
-    encoder_name = 'bert-base-cased'
-    regularizer = 1e-2
-    max_len = 32
-    num_negatives = 64
-    lr = 1e-3
-    use_scheduler = False
-    batch_size = 64
-    emb_batch_size = 512
-    eval_batch_size = 64
-    max_epochs = 2
-    checkpoint = None
-    use_cached_text = False
-    # work_dir = 'output/'
-    work_dir = 'data/clc/'
+    work_dir = 'output/'
+    dataset='umls'
+    inductive=False
+    dim=128
+    model='transductive'
+    # model = 'bert-bow'
+    rel_model='transe'
+    loss_fn='margin'
+    encoder_name='bert-base-cased'
+    regularizer=1e-2
+    max_len=32
+    num_negatives=12
+    lr=1e-3
+    use_scheduler=False
+    batch_size=64
+    emb_batch_size=512
+    eval_batch_size=64
+    max_epochs=2
+    checkpoint=None
+    use_cached_text=False
 
 
 # @ex.automain
@@ -141,7 +117,7 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
                               text_mask.unsqueeze(1).to(device))
         else:
             # Encode from lookup table
-            batch_emb = model(batch_ents)
+            batch_emb = model.encode(batch_ents)
 
         ent_emb[idx:idx + batch_ents.shape[0]] = batch_emb
 
@@ -318,7 +294,7 @@ def produce(model,
                               text_mask.unsqueeze(1).to(device))
         else:
             # Encode from lookup table
-            batch_emb = model(batch_ents)
+            batch_emb = model.encode(batch_ents)
 
         ent_emb[idx:idx + batch_ents.shape[0]] = batch_emb
 

@@ -36,7 +36,8 @@ def config():
     dataset = 'umls'
     inductive = True
     dim = 128
-    model = 'blp'
+    # model = 'blp'
+    model = 'transductive'
     rel_model = 'transe'
     loss_fn = 'margin'
     encoder_name = 'bert-base-cased'

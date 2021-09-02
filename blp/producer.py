@@ -108,7 +108,6 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
     while idx < num_entities:
         # Get a batch of entity IDs and encode them
         batch_ents = entities[idx:idx + emb_batch_size]
-
         if isinstance(model, models.InductiveLinkPrediction):
             # Encode with entity descriptions
             data = text_dataset.get_entity_description(batch_ents)
@@ -117,7 +116,7 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
                               text_mask.unsqueeze(1).to(device))
         else:
             # Encode from lookup table
-            batch_emb = model.encode(batch_ents)
+            batch_emb = model.encode(batch_ents.to(device))
 
         ent_emb[idx:idx + batch_ents.shape[0]] = batch_emb
 
@@ -293,7 +292,7 @@ def eval_and_get_score(model,
                               text_mask.unsqueeze(1).to(device))
         else:
             # Encode from lookup table
-            batch_emb = model.encode(batch_ents)
+            batch_emb = model.encode(batch_ents.to(device))
 
         ent_emb[idx:idx + batch_ents.shape[0]] = batch_emb
 
@@ -402,7 +401,7 @@ def produce(model,
                               text_mask.unsqueeze(1).to(device))
         else:
             # Encode from lookup table
-            batch_emb = model.encode(batch_ents)
+            batch_emb = model.encode(batch_ents.to(device))
 
         ent_emb[idx:idx + batch_ents.shape[0]] = batch_emb
 

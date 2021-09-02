@@ -36,25 +36,25 @@ if all([uri, database]):
 @ex.config
 def config():
     work_dir = 'output/'
-    dataset='umls'
-    inductive=False
-    dim=128
-    model='transductive'
+    dataset = 'umls'
+    inductive = False
+    dim = 128
+    model = 'transductive'
     # model = 'bert-bow'
-    rel_model='transe'
-    loss_fn='margin'
-    encoder_name='bert-base-cased'
-    regularizer=1e-2
-    max_len=32
-    num_negatives=12
-    lr=1e-3
-    use_scheduler=False
-    batch_size=64
-    emb_batch_size=512
-    eval_batch_size=64
-    max_epochs=2
-    checkpoint=None
-    use_cached_text=False
+    rel_model = 'transe'
+    loss_fn = 'margin'
+    encoder_name = 'bert-base-cased'
+    regularizer = 1e-2
+    max_len = 32
+    num_negatives = 12
+    lr = 1e-3
+    use_scheduler = False
+    batch_size = 64
+    emb_batch_size = 512
+    eval_batch_size = 64
+    max_epochs = 2
+    checkpoint = None
+    use_cached_text = False
 
 
 # @ex.automain
@@ -163,7 +163,7 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
 
         if compute_filtered:
             filters = utils.get_triple_filters(triples, filtering_graph,
-                                                    num_entities, ent2idx)
+                                               num_entities, ent2idx)
             heads_filter, tails_filter = filters
             # Filter entities by assigning them the lowest score in the batch
             filter_mask = torch.cat((heads_filter, tails_filter)).to(device)
@@ -176,16 +176,16 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
 
             if new_entities is not None:
                 by_position = utils.split_by_new_position(triples,
-                                                               mrr_filt_per_triple,
-                                                               new_entities)
+                                                          mrr_filt_per_triple,
+                                                          new_entities)
                 batch_mrr_by_position, batch_mrr_pos_counts = by_position
                 mrr_by_position += batch_mrr_by_position
                 mrr_pos_counts += batch_mrr_pos_counts
 
             if triples_loader.dataset.has_rel_categories:
                 by_category = utils.split_by_category(triples,
-                                                           mrr_filt_per_triple,
-                                                           rel_categories)
+                                                      mrr_filt_per_triple,
+                                                      rel_categories)
                 batch_mrr_by_cat, batch_mrr_cat_count = by_category
                 mrr_by_category += batch_mrr_by_cat
                 mrr_cat_count += batch_mrr_cat_count
@@ -244,6 +244,114 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
         out = (mrr, None)
 
     return out
+
+
+@ex.capture
+@torch.no_grad()
+def eval_and_get_score(model,
+                       triples_loader,
+                       text_dataset,
+                       entities,
+                       emb_batch_size,
+                       work_dir,
+                       _run: Run,
+                       _log: Logger):
+    # compute_filtered = filtering_graph is not None
+    use_gpu = False
+    if device != torch.device('cpu'):
+        model = model.module
+        use_gpu = True
+
+    if isinstance(model, models.InductiveLinkPrediction):
+        num_entities = entities.shape[0]
+        # if compute_filtered:
+        #     max_ent_id = max(filtering_graph.nodes)
+        # else:
+        max_ent_id = entities.max()
+        ent2idx = utils.make_ent2idx(entities, max_ent_id)
+    else:
+        # Transductive models have a lookup table of embeddings
+        num_entities = model.ent_emb.num_embeddings
+        ent2idx = torch.arange(num_entities)
+        entities = ent2idx
+
+    # Create embedding lookup table for evaluation
+    ent_emb = torch.zeros((num_entities, model.dim), dtype=torch.float,
+                          device=device)
+    idx = 0
+    num_iters = np.ceil(num_entities / emb_batch_size)
+    iters_count = 0
+    while idx < num_entities:
+        # Get a batch of entity IDs and encode them
+        batch_ents = entities[idx:idx + emb_batch_size]
+
+        if isinstance(model, models.InductiveLinkPrediction):
+            # Encode with entity descriptions
+            data = text_dataset.get_entity_description(batch_ents)
+            text_tok, text_mask, text_len = data
+            batch_emb = model(text_tok.unsqueeze(1).to(device),
+                              text_mask.unsqueeze(1).to(device))
+        else:
+            # Encode from lookup table
+            batch_emb = model.encode(batch_ents)
+
+        ent_emb[idx:idx + batch_ents.shape[0]] = batch_emb
+
+        iters_count += 1
+        if iters_count % np.ceil(0.2 * num_iters) == 0:
+            _log.info(f'[{idx + batch_ents.shape[0]:,}/{num_entities:,}]')
+
+        idx += emb_batch_size
+
+    ent_emb = ent_emb.unsqueeze(0)
+
+    all_sample_results = None
+    for i, data in enumerate(triples_loader):
+        # if max_num_batches is not None and i == max_num_batches:
+        #     break
+        pos_pairs, rels, neg_idx = data
+        tmp_id2entid = pos_pairs.flatten().to(device)
+
+        # positive pairs
+        heads, tails = torch.chunk(pos_pairs, chunks=2, dim=1)
+        # Map entity IDs to positions in ent_emb
+        heads = ent2idx[heads].to(device)
+        tails = ent2idx[tails].to(device)
+        rels = rels.to(device)
+        assert heads.min() >= 0
+        assert tails.min() >= 0
+
+        # Embed triple
+        head_embs = ent_emb.squeeze()[heads]
+        tail_embs = ent_emb.squeeze()[tails]
+        rel_embs = model.rel_emb(rels)
+
+        # Score all possible heads and tails
+        pos_scores = model.score_fn(head_embs, tail_embs, rel_embs)
+        pos_inds = torch.ones(pos_pairs.shape[0], 1).to(device)
+        pos_result = torch.cat([heads, rels, tails, pos_scores, pos_inds], 1)
+        if all_sample_results is None:
+            all_sample_results = pos_result
+        else:
+            all_sample_results = torch.cat([all_sample_results, pos_result], 0)
+
+        # negative pairs
+        neg_rels = rels.repeat(1, neg_idx.shape[1]).reshape(neg_idx.shape[0] * neg_idx.shape[1], 1)
+        neg_idx_pairs = torch.flatten(neg_idx, start_dim=0, end_dim=1)
+        neg_heads_idx, neg_tails_idx = torch.chunk(neg_idx_pairs, chunks=2, dim=1)
+        neg_heads = tmp_id2entid[neg_heads_idx]
+        neg_tails = tmp_id2entid[neg_tails_idx]
+
+        # Embed triple
+        neg_head_embs = ent_emb.squeeze()[neg_heads]
+        neg_tail_embs = ent_emb.squeeze()[neg_tails]
+        neg_rel_embs = model.rel_emb(neg_rels)
+
+        neg_scores = model.score_fn(neg_head_embs, neg_tail_embs, neg_rel_embs)
+        neg_inds = torch.zeros(neg_heads_idx.shape[0], 1).to(device)
+        neg_result = torch.cat([neg_heads, neg_rels, neg_tails, neg_scores, neg_inds], 1)
+        all_sample_results = torch.cat([all_sample_results, neg_result], 0)
+    torch.save(all_sample_results, work_dir + "sample_and_score.pt")
 
 
 @ex.capture
@@ -478,8 +586,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     train_val_test_ent = torch.tensor(list(train_val_test_ent))
 
     model = utils.get_model(model, dim, rel_model, loss_fn,
-                                 len(train_val_test_ent), train_data.num_rels,
-                                 encoder_name, regularizer)
+                            len(train_val_test_ent), train_data.num_rels,
+                            encoder_name, regularizer)
     if checkpoint is not None:
         model.load_state_dict(torch.load(checkpoint, map_location='cpu'))
 
@@ -549,14 +657,18 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         graph = nx.MultiDiGraph()
         graph.add_weighted_edges_from(test_data.triples.tolist())
 
-    _log.info('Predicting triples...')
-    # _, ent_emb = eval_link_prediction(model, test_loader, train_data,
-    #                                   train_val_test_ent, max_epochs + 1,
-    #                                   emb_batch_size, prefix='test',
-    #                                   filtering_graph=graph,
-    #                                   new_entities=test_new_ents,
-    #                                   return_embeddings=True)
+    _log.info('get sample and score for Ricky...')
+    train_eval_loader2 = DataLoader(train_data, batch_size, shuffle=True,
+                                    collate_fn=train_data.collate_fn,
+                                    num_workers=0, drop_last=True)
+    eval_and_get_score(model=model,
+                       triples_loader=train_eval_loader2,
+                       text_dataset=train_data,
+                       entities=train_val_test_ent,
+                       emb_batch_size=emb_batch_size,
+                       work_dir=work_dir)
 
+    _log.info('Produce new triples...')
     produced_triples_with_scores, ent_emb = produce(model=model,
                                                     triples_loader=test_loader,
                                                     text_dataset=train_data,
@@ -566,7 +678,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                     threshold=0.5)
     tris = produced_triples_with_scores.detach().numpy()
     df_tris = pd.DataFrame(tris, columns=['h', 'r', 't', 's'])
-    df_tris = df_tris.astype({'h':int, 'r':int, 't':int}).groupby(['h', 'r', 't'])['s'].max().reset_index()
+    df_tris = df_tris.astype({'h': int, 'r': int, 't': int}).groupby(['h', 'r', 't'])['s'].max().reset_index()
     df_tris[['h', 'r', 't']] = df_tris[['h', 'r', 't']].astype(int)
     id2entity = dict((v, k) for k, v in train_data.entity2id.items())
     id2rel = dict((v, k) for k, v in train_data.rel2id.items())
@@ -649,10 +761,13 @@ def node_classification(dataset, checkpoint, _run: Run, _log: Logger):
         _log.info(f'Train {metric_fn.__name__}: {train_metric:.3f}')
         _log.info(f'Test {metric_fn.__name__}: {test_metric:.3f}')
 
+
 #
 @ex.automain
 def my_main():
     link_prediction()
+
+
 #
 #
 if __name__ == '__main__':

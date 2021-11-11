@@ -17,13 +17,13 @@ import nltk
 from data import DROPPED
 
 from data import GloVeTokenizer
-import data_utils
+import data_preparing
 
 OUT_PATH = 'output/'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 ex = Experiment()
-ex.logger = data_utils.get_logger()
+ex.logger = data_preparing.get_logger()
 # Set up database logs
 uri = os.environ.get('DB_URI')
 database = os.environ.get('DB_NAME')
@@ -73,10 +73,10 @@ def embed_entities(dim, model, rel_model, max_len, emb_batch_size, checkpoint,
     else:
         tokenizer = GloVeTokenizer('data/glove/glove.6B.300d-maps.pt')
 
-    encoder = data_utils.get_model(model, dim, rel_model,
-                                   encoder_name='bert-base-cased',
-                                   loss_fn='margin', num_entities=0,
-                                   num_relations=1, regularizer=0.0).to(device)
+    encoder = data_preparing.get_model(model, dim, rel_model,
+                                       encoder_name='bert-base-cased',
+                                       loss_fn='margin', num_entities=0,
+                                       num_relations=1, regularizer=0.0).to(device)
     encoder = torch.nn.DataParallel(encoder)
     state_dict = torch.load(checkpoint, map_location=device)
 

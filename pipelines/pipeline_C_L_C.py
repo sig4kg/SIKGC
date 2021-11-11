@@ -1,9 +1,7 @@
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.abox_utils import *
-from abox_scanner.blp_util import *
-from openKE import train_transe_NELL995
+from module_utils.blp_util import *
 import pandas as pd
-from scripts import run_scripts
 from tqdm.auto import trange
 from blp.producer import ex
 from scripts.run_scripts import clean_blp
@@ -25,7 +23,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         wait_until_blp_data_ready(work_dir, inductive=inductive)
 
         # 1. run blp
-        ex.run(config_updates={'work_dir': work_dir, 'inductive': inductive})
+        ex.run(config_updates={'work_dir': work_dir, 'inductive': inductive, "do_downstream_sample": False})
         wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
         # 2. consistency checking for new triples

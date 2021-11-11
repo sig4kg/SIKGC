@@ -1,7 +1,7 @@
 from abox_scanner.abox_utils import *
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
-from abox_scanner.rumis_util import *
-from abox_scanner.transE_util import *
+from module_utils.rumis_util import *
+from module_utils.transE_util import *
 from scripts import run_scripts
 from openKE import train_transe_NELL995
 

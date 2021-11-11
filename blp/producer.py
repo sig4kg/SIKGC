@@ -32,50 +32,54 @@ if all([uri, database]):
     ex.observers.append(MongoObserver(uri, database))
 
 
-# @ex.config
-# def config():
-#     work_dir = 'output/'
-#     dataset = 'umls'
-#     inductive = False
-#     dim = 128
-#     model = 'transductive'
-#     # model = 'bert-bow'
-#     rel_model = 'transe'
-#     loss_fn = 'margin'
-#     encoder_name = 'bert-base-cased'
-#     regularizer = 1e-2
-#     max_len = 32
-#     num_negatives = 12
-#     lr = 1e-3
-#     use_scheduler = False
-#     batch_size = 64
-#     emb_batch_size = 512
-#     eval_batch_size = 64
-#     max_epochs = 2
-#     checkpoint = None
-#     use_cached_text = False
-
 @ex.config
 def config():
-    work_dir='data/FB15k-237/'
-    dataset = 'FB15k-237'
+    work_dir = 'output/'
+    dataset = 'umls'
     inductive = False
+    dim = 128
     model = 'transductive'
+    # model = 'bert-bow'
     rel_model = 'transe'
     loss_fn = 'margin'
+    encoder_name = 'bert-base-cased'
     regularizer = 1e-2
     max_len = 32
-    num_negatives = 64
-    lr = 1e-4
+    num_negatives = 12
+    lr = 1e-3
     use_scheduler = False
     batch_size = 64
     emb_batch_size = 512
-    eval_batch_size = 16
-    max_epochs = 80
+    eval_batch_size = 64
+    max_epochs = 2
     checkpoint = None
     use_cached_text = False
-    dim = 128
-    encoder_name = 'bert-base-cased'
+    do_downstream_sample = True
+    do_produce = True
+
+# @ex.config
+# def config():
+#     work_dir='data/FB15k-237/'
+#     dataset = 'FB15k-237'
+#     inductive = False
+#     model = 'transductive'
+#     rel_model = 'transe'
+#     loss_fn = 'margin'
+#     regularizer = 1e-2
+#     max_len = 32
+#     num_negatives = 64
+#     lr = 1e-4
+#     use_scheduler = False
+#     batch_size = 64
+#     emb_batch_size = 512
+#     eval_batch_size = 16
+#     max_epochs = 80
+#     checkpoint = None
+#     use_cached_text = False
+#     dim = 128
+#     encoder_name = 'bert-base-cased'
+#     do_downstream_sample = False
+#     do_produce = True
 
 
 @ex.capture
@@ -528,7 +532,7 @@ def produce(model,
 def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     encoder_name, regularizer, max_len, num_negatives, lr,
                     use_scheduler, batch_size, emb_batch_size, eval_batch_size,
-                    max_epochs, checkpoint, use_cached_text, work_dir,
+                    max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce,
                     _run: Run, _log: Logger):
     drop_stopwords = model in {'bert-bow', 'bert-dkrl',
                                'glove-bow', 'glove-dkrl'}
@@ -672,34 +676,36 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         graph = nx.MultiDiGraph()
         graph.add_weighted_edges_from(test_data.triples.tolist())
 
-    _log.info('get sample and score for Ricky...')
-    train_eval_loader2 = DataLoader(train_data, batch_size, shuffle=True,
-                                    collate_fn=train_data.collate_fn,
-                                    num_workers=0, drop_last=True)
-    eval_and_get_score(model=model,
-                       triples_loader=train_eval_loader2,
-                       text_dataset=train_data,
-                       entities=train_val_test_ent,
-                       emb_batch_size=emb_batch_size,
-                       work_dir=work_dir)
+    if do_downstream_sample:
+        _log.info('get sample and score for Ricky...')
+        train_eval_loader2 = DataLoader(train_data, batch_size, shuffle=True,
+                                        collate_fn=train_data.collate_fn,
+                                        num_workers=0, drop_last=True)
+        eval_and_get_score(model=model,
+                           triples_loader=train_eval_loader2,
+                           text_dataset=train_data,
+                           entities=train_val_test_ent,
+                           emb_batch_size=emb_batch_size,
+                           work_dir=work_dir)
 
-    _log.info('Produce new triples...')
-    produced_triples_with_scores, ent_emb = produce(model=model,
-                                                    triples_loader=test_loader,
-                                                    text_dataset=train_data,
-                                                    entities=train_val_test_ent,
-                                                    emb_batch_size=emb_batch_size,
-                                                    return_embeddings=True,
-                                                    threshold=0.5)
-    tris = produced_triples_with_scores.detach().numpy()
-    df_tris = pd.DataFrame(tris, columns=['h', 'r', 't', 's'])
-    df_tris = df_tris.astype({'h': int, 'r': int, 't': int}).groupby(['h', 'r', 't'])['s'].max().reset_index()
-    df_tris[['h', 'r', 't']] = df_tris[['h', 'r', 't']].astype(int)
-    id2entity = dict((v, k) for k, v in train_data.entity2id.items())
-    id2rel = dict((v, k) for k, v in train_data.rel2id.items())
-    df_tris[['r']] = df_tris[['r']].applymap(lambda x: id2rel[x])  # to string
-    df_tris[['h', 't']] = df_tris[['h', 't']].applymap(lambda x: id2entity[x])  # to string
-    df_tris.to_csv(osp.join(work_dir, f'blp_new_triples.csv'), header=False, index=False, sep='\t', mode='a')
+    if do_produce:
+        _log.info('Produce new triples...')
+        produced_triples_with_scores, ent_emb = produce(model=model,
+                                                        triples_loader=test_loader,
+                                                        text_dataset=train_data,
+                                                        entities=train_val_test_ent,
+                                                        emb_batch_size=emb_batch_size,
+                                                        return_embeddings=True,
+                                                        threshold=0.5)
+        tris = produced_triples_with_scores.detach().numpy()
+        df_tris = pd.DataFrame(tris, columns=['h', 'r', 't', 's'])
+        df_tris = df_tris.astype({'h': int, 'r': int, 't': int}).groupby(['h', 'r', 't'])['s'].max().reset_index()
+        df_tris[['h', 'r', 't']] = df_tris[['h', 'r', 't']].astype(int)
+        id2entity = dict((v, k) for k, v in train_data.entity2id.items())
+        id2rel = dict((v, k) for k, v in train_data.rel2id.items())
+        df_tris[['r']] = df_tris[['r']].applymap(lambda x: id2rel[x])  # to string
+        df_tris[['h', 't']] = df_tris[['h', 't']].applymap(lambda x: id2entity[x])  # to string
+        df_tris.to_csv(osp.join(work_dir, f'blp_new_triples.csv'), header=False, index=False, sep='\t', mode='a')
 
     # Save final entity embeddings obtained with trained encoder
     torch.save(ent_emb, osp.join(work_dir, f'ent_emb-{_run._id}.pt'))

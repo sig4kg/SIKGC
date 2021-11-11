@@ -1,6 +1,6 @@
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.abox_utils import *
-from abox_scanner.transE_util import *
+from module_utils.transE_util import *
 from openKE import train_transe_NELL995
 import pandas as pd
 from scripts import run_scripts

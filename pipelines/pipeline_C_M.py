@@ -35,7 +35,7 @@ def c_m(input_hrt_triple_file, work_dir, class_op_and_pattern_path, schema_file,
 if __name__ == "__main__":
     print("CRC pipeline")
     # c_m("../resources/NELL-995_2/NELLKG0.txt", "../outputs/crc/", class_op_and_pattern_path='../resources/NELL_patterns/')
-    c_m(input_hrt_triple_file="../resources/DBpedia-politics/test_dbpedia.txt",
+    c_m(input_hrt_triple_file="../resources/DBpedia-politics/PoliticalTriplesWD.txt",
         work_dir="../outputs/cm/",
         class_op_and_pattern_path='../resources/DBpedia-politics/tbox-dbpedia/',
         schema_file="../resources/DBpedia-politics/dbpedia_2016-10.owl")

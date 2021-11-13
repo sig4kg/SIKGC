@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 public class Pattern5_1 extends BasePattern implements IPattern{
 
     public void generatePattern() {
-        //the eighth pattern (find all asymmetric properties...)
+        // (find all asymmetric properties...)
         try {
             this.GetPrintWriter("5");
             for (OWLAsymmetricObjectPropertyAxiom oba8 : ont.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY)) {

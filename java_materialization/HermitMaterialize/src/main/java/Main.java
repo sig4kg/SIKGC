@@ -7,11 +7,10 @@ public class Main {
 //            System.out.println("Usage:\n-Dtask Materialize/TBoxScanner/ALlClass\n-Dontology ontology_file\n-Doutput_dir output_dir");
 //            System.exit(-1);
 //        }
-        String task = System.getProperty("task", "Materialize");
         String ontoloty_file = System.getProperty("ontology", "data/dbpedia_2016-10.owl");
 //        String ontoloty_file = System.getProperty("ontology", "data/NELL.ontology.ttl");
         String output_dir = System.getProperty("output_dir", "output");
-        System.out.println(task+ "\t"+ ontoloty_file + "\t" + output_dir);
+        System.out.println("Materialize"+ "\t"+ ontoloty_file + "\t" + output_dir);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
                 .getLocation();
 
@@ -24,7 +23,7 @@ public class Main {
             rootPath = filePath.substring(0, filePath.lastIndexOf("target"));
         }
         System.out.println("rootPath: " + rootPath);
-        String fileName = ontoloty_file.substring(ontoloty_file.lastIndexOf('/') + 1, ontoloty_file.length());
+        String fileName = ontoloty_file.substring(ontoloty_file.lastIndexOf('/') + 1, ontoloty_file.lastIndexOf('.')) + ".owl";
         File outputFull = new File(rootPath + output_dir);
         if(!outputFull.exists() || !outputFull.isDirectory()) {
             if(outputFull.mkdirs()) {

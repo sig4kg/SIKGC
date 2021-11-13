@@ -108,6 +108,7 @@ def query_entity_text_and_class(entity_file, work_dir):
     ent2classes_l = []
     ent2longtext_l = []
     ent2shorttext_l = []
+    ent_class_triples_l = []
     with open(entity_file) as f:
         lines = f.readlines()
         count = int(lines[0].strip())
@@ -120,28 +121,34 @@ def query_entity_text_and_class(entity_file, work_dir):
                 if len(classes) == 0:
                     no_class.append(entity_iri)
                 else:
-                    ent2classes_l.append(f"{entity_iri}\t" + ";".join(classes))
-                long_text = get_long_text(entity_iri)
-                if len(long_text) == 0:
-                    no_long_text.append(entity_iri)
-                else:
-                    ent2longtext_l.append(f"{entity_iri}\t{long_text}")
-                short_text = get_short_text(entity_iri)
-                if len(short_text) == 0:
-                    short_text = entity_iri.split('/')[-1].replace('_', ' ')
-                ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
+                    # ent2classes_l.append(f"{entity_iri}\t" + ";".join(classes))
+                    ent_class_triples_l.extend([f"<{entity_iri}> <{TYPE_OF}> <{clz}> ."
+                                                for clz in classes if "http://dbpedia.org/class/yago/" not in clz
+                                                and "http://www.ontologydesignpatterns.org/" not in clz])
+
+                # long_text = get_long_text(entity_iri)
+                # if len(long_text) == 0:
+                #     no_long_text.append(entity_iri)
+                # else:
+                #     ent2longtext_l.append(f"{entity_iri}\t{long_text}")
+                # short_text = get_short_text(entity_iri)
+                # if len(short_text) == 0:
+                #     short_text = entity_iri.split('/')[-1].replace('_', ' ')
+                # ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
 
                 flush_num -= 1
                 pbar.update(1)
                 if flush_num == 0 or idx == count - 1:
-                    save_and_append_results(ent2classes_l, work_dir + "entity2type.txt")
-                    save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
-                    save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
+                    # save_and_append_results(ent2classes_l, work_dir + "entity2type.txt")
+                    # save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
+                    # save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
+                    save_and_append_results(ent_class_triples_l, work_dir + "entity_types.nt")
                     flush_num = batch
-                    ent2classes_l = []
-                    ent2longtext_l = []
-    save_and_append_results(no_class, work_dir + "no_class.txt")
-    save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
+                    # ent2classes_l = []
+                    # ent2longtext_l = []
+                    ent_class_triples_l = []
+    # save_and_append_results(no_class, work_dir + "no_class.txt")
+    # save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
     print("done")
 
 
@@ -253,9 +260,9 @@ def save_and_append_results(d_list, out_filename):
 
 if __name__ == "__main__":
     query_entity_text_and_class("../resources/DBpedia-politics/entity2id.txt", work_dir="../outputs/test_dbpedia/")
-    time.sleep(10)
-    query_wiki_redirect("../outputs/test_dbpedia/")
-    time.sleep(10)
-    query_disambiguration("../resources/DBpedia-politics/PoliticalTriplesWD.txt", work_dir="../outputs/test_dbpedia/")
-    time.sleep(10)
-    query_rel_text("../resources/DBpedia-politics/relation2id.txt", work_dir="../outputs/test_dbpedia/")
+    # time.sleep(10)
+    # query_wiki_redirect("../outputs/test_dbpedia/")
+    # time.sleep(10)
+    # query_disambiguration("../resources/DBpedia-politics/PoliticalTriplesWD.txt", work_dir="../outputs/test_dbpedia/")
+    # time.sleep(10)
+    # query_rel_text("../resources/DBpedia-politics/relation2id.txt", work_dir="../outputs/test_dbpedia/")

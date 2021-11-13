@@ -14,22 +14,34 @@ def run_rumis(work_dir):
 def clean_rumis(work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]
-    os.system('../scripts/rumis_clean.sh ' + work_dir)
+    os.system('../scripts/clean_rumis.sh ' + work_dir)
 
 
 def clean_tranE(work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]
-    os.system('echo ../scripts/transE_clean.sh')
-    os.system('../scripts/transE_clean.sh ' + work_dir)
+    os.system('echo ../scripts/clean_transE.sh')
+    os.system('../scripts/clean_transE.sh ' + work_dir)
 
 
 def clean_blp(work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]
-    os.system('echo ../scripts/blp_clean.sh')
-    os.system('../scripts/blp_clean.sh ' + work_dir)
+    os.system('echo ../scripts/clean_blp.sh')
+    os.system('../scripts/clean_blp.sh ' + work_dir)
 
+
+def clean_materialization(work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system('../scripts/clean_materialization.sh ' + work_dir)
+
+
+def run_materialization(work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system('../scripts/run_materialize.sh ' + work_dir)
+    wait_until_file_is_saved(f"{work_dir}/materialized_tbox_abox.owl")
 
 def delete_file(file_path):
     os.system("rm " + file_path)
@@ -47,11 +59,3 @@ def prepare_blp(source_dir, work_dir):
     os.system(f"cp {source_dir}entity2type.txt {work_dir}entity2type.txt")
     os.system(f"cp {source_dir}relation2text.txt {work_dir}relation2text.txt")
     wait_until_file_is_saved(f"{work_dir}all_triples.tsv", 120)
-
-
-def run_materialization(work_dir):
-    if work_dir[-1] == '/':
-        work_dir = work_dir[:-1]
-
-
-# clean_tranE("../outputs/ctc/")

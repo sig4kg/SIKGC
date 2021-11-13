@@ -7,7 +7,7 @@ from scripts import run_scripts
 from tqdm.auto import trange
 
 
-def c_e_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_epoch=2):
+def c_e_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_epoch=1):
     context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, class_and_op_file_path=class_op_and_pattern_path, create_id_file=True)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
@@ -50,7 +50,7 @@ def c_e_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
 
 if __name__ == "__main__":
     print("CTC pipeline")
-    c_e_c("../resources/NELL-dev.txt", "../outputs/ctc/", class_op_and_pattern_path='../resources/NELL_patterns/')
+    c_e_c("../resources/DBpedia-politics/PoliticalTriplesWD.txt", "../outputs/cec/", class_op_and_pattern_path='../resources/DBpedia-politics/tbox-dbpedia/')
 
 
 

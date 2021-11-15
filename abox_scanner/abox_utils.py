@@ -170,7 +170,7 @@ class PatternScanner(ABC):
         pass
 
     @abstractmethod
-    def scan_pattern_df_rel(self, aggregated_triples):
+    def scan_pattern_df_rel(self, triples: pd.DataFrame):
         pass
 
 

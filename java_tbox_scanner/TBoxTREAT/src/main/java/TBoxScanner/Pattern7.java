@@ -1,43 +1,75 @@
 package TBoxScanner;
 
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.Node;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
+import java.lang.reflect.Array;
+import java.util.*;
 
-public class Pattern7 extends BasePattern implements IPattern{
+public class Pattern7 extends BasePattern implements IPattern {
 
     public void generatePattern() {
-//the seventh pattern
-        String prop1r = new String();
-        String prop2r = new String();
-        String relation1r = new String();
-        String relation2r = new String();
+        Set<OWLAsymmetricObjectPropertyAxiom> allAsyOP = ont.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY);
+        Set<OWLSymmetricObjectPropertyAxiom> allSymOP = ont.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY);
+        if (allAsyOP.size() == 0 || allSymOP.size() == 0) {
+            return;
+        }
+        Map<String, ArrayList<String>> subP2AsyP = new HashMap<>();
+        Map<String, ArrayList<String>> subP2SymP = new HashMap<>();
+        for (OWLAsymmetricObjectPropertyAxiom r3 : allAsyOP) {
+            OWLObjectPropertyExpression r3_ope = r3.getProperty();
+            NodeSet<OWLObjectPropertyExpression> r1s = reasoner.getSubObjectProperties(r3_ope.getNamedProperty(), false);
+            if (r1s.getNodes().size() <= 1) {
+                continue;
+            }
+            for (Node<OWLObjectPropertyExpression> r1 : r1s.getNodes()) {
+                if (r1.isBottomNode()) {
+                    continue;
+                }
+                OWLObjectPropertyExpression r1_ope = r1.getRepresentativeElement();
+                if (!r1_ope.isOWLObjectProperty()) {
+                    continue;
+                }
+                if (subP2AsyP.containsKey(r1_ope.toString())) {
+                    subP2AsyP.get(r1_ope.toString()).add(r3_ope.toString());
+                } else {
+                    ArrayList<String> superPs = new ArrayList<>();
+                    superPs.add(r3_ope.toString());
+                    subP2AsyP.put(r1_ope.toString(), superPs);
+                }
+            }
+        }
+        for (OWLSymmetricObjectPropertyAxiom r2 : allSymOP) {
+            OWLObjectPropertyExpression r2_ope = r2.getProperty();
+            NodeSet<OWLObjectPropertyExpression> r1s = reasoner.getSubObjectProperties(r2_ope.getNamedProperty(), false);
+            if (r1s.getNodes().size() <= 1) {
+                continue;
+            }
+            for (Node<OWLObjectPropertyExpression> r1 : r1s.getNodes()) {
+                if (r1.isBottomNode()) {
+                    continue;
+                }
+                OWLObjectPropertyExpression r1_ope = r1.getRepresentativeElement();
+                if (!r1_ope.isOWLObjectProperty()) {
+                    continue;
+                }
+                if (subP2SymP.containsKey(r1_ope.toString())) {
+                    subP2SymP.get(r1_ope.toString()).add(r2_ope.toString());
+                } else {
+                    ArrayList<String> superPs = new ArrayList<>();
+                    superPs.add(r2_ope.toString());
+                    subP2SymP.put(r1_ope.toString(), superPs);
+                }
+            }
+        }
         try {
             this.GetPrintWriter("7");
-            for (OWLObjectPropertyRangeAxiom oda1 : ont.getAxioms(AxiomType.OBJECT_PROPERTY_RANGE)) {
-                relation1r = oda1.getProperty().getNamedProperty().toString();
-                prop1r = oda1.getRange().toString();    //Range1
-                prop1r = prop1r.substring(1, prop1r.length() - 1);
-                OWLClass oProp1r = factory.getOWLClass(IRI.create(prop1r));
-
-                for (OWLObjectPropertyRangeAxiom oda2 : ont.getAxioms(AxiomType.OBJECT_PROPERTY_RANGE)) {
-                    relation2r = oda2.getProperty().getNamedProperty().toString();
-                    if (!(relation1r.equalsIgnoreCase(relation2r))) {
-                        prop2r = oda2.getRange().toString();    //Range2
-                        prop2r = prop2r.substring(1, prop2r.length() - 1);
-                        OWLClass oProp2r = factory.getOWLClass(IRI.create(prop2r));
-                        if (!(oProp1r.toString().equals(oProp2r.toString()))) { //Range1 != Range2
-                            OWLAxiom ax = factory.getOWLDisjointClassesAxiom(Arrays.asList(oProp1r, oProp2r));
-                            boolean classesAreDisjoint = reasoner.isEntailed(ax);
-                            if (classesAreDisjoint) {   // Range1 disjoint with Range2
-                                pw.print(relation1r + "\t");
-                                pw.print(relation2r);
-                                pw.println();
-                                //break;
-                            }
-                        }
+            for (String r1keySym : subP2SymP.keySet()) {
+                for (String r1keyAsy : subP2AsyP.keySet()) {
+                    if (r1keySym.equals(r1keyAsy)) {
+                        pw.println(r1keyAsy);
                     }
                 }
             }

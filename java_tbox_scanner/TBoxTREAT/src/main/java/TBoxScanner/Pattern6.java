@@ -1,42 +1,41 @@
 package TBoxScanner;
 
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.Node;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Set;
 
-public class Pattern6 extends BasePattern implements IPattern{
+public class Pattern6 extends BasePattern implements IPattern {
 
+    // Symmetric(r1), Asymmetric(r2), r1 subproperty r2
     public void generatePattern() {
-        //the sixth pattern
-        //range of r1 is disjoint with domain of r2
-        String relation6_1 = new String();
-        String relation6_2 = new String();
-        String range6 = new String();
-        String doma6 = new String();
+        Set<OWLAsymmetricObjectPropertyAxiom> allAsyOP = ont.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY);
+        Set<OWLSymmetricObjectPropertyAxiom> allSymOP = ont.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY);
+        if (allAsyOP.size() == 0 || allSymOP.size() == 0) {
+            return;
+        }
         try {
             this.GetPrintWriter("6");
-            for (OWLObjectPropertyRangeAxiom ran7 : ont.getAxioms(AxiomType.OBJECT_PROPERTY_RANGE)) {
-                relation6_1 = ran7.getProperty().getNamedProperty().toString();
-                range6 = ran7.getRange().toString();
-                range6 = range6.substring(1, range6.length() - 1);
-                OWLClass oRange6 = factory.getOWLClass(IRI.create(range6));
-                for (OWLObjectPropertyDomainAxiom objd6 : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
-                    relation6_2 = objd6.getProperty().getNamedProperty().toString();
-                    if (!(relation6_1.equalsIgnoreCase(relation6_2))) {
-                        doma6 = objd6.getDomain().toString();
-                        doma6 = doma6.substring(1, doma6.length() - 1);
-                        OWLClass odoma6 = factory.getOWLClass(IRI.create(doma6));
-                        if (!(odoma6.toString().equals(oRange6.toString()))) {
-                            OWLAxiom ax6 = factory.getOWLDisjointClassesAxiom(Arrays.asList(oRange6, odoma6));
-                            boolean classesAreDisjoint = reasoner.isEntailed(ax6);
-                            if (classesAreDisjoint) {
-                                pw.print(relation6_1 + "\t");
-                                pw.print(relation6_2);
-                                pw.println();
-                                //break;
-                            }
+            for (OWLAsymmetricObjectPropertyAxiom r2 : allAsyOP) {
+                OWLObjectPropertyExpression r2_ope = r2.getProperty();
+                NodeSet<OWLObjectPropertyExpression> r1s = reasoner.getSubObjectProperties(r2_ope, false);
+                if (r1s.getNodes().size() <= 1) {
+                    continue;
+                }
+                for (Node<OWLObjectPropertyExpression> r1 : r1s.getNodes()) {
+                    if (r1.isBottomNode()) {
+                        continue;
+                    }
+                    OWLObjectPropertyExpression r1_ope = r1.getRepresentativeElement();
+                    if (!r1_ope.isOWLObjectProperty()) {
+                        continue;
+                    }
+                    for (OWLSymmetricObjectPropertyAxiom r1_symop : allSymOP) {
+                        if (r1_symop.getProperty().equals(r2_ope)) {
+                            pw.println(r1_symop.getProperty().toString());
                         }
                     }
                 }

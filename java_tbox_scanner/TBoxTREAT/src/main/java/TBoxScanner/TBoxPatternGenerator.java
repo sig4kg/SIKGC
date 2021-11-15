@@ -1,15 +1,14 @@
 package TBoxScanner;
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.jfact.JFactFactory;
-import uk.ac.manchester.cs.owl.owlapi.OWLAnnotationAssertionAxiomImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplPlain;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /*
@@ -91,12 +90,15 @@ public class TBoxPatternGenerator {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
         patternConsumers.add(Pattern1::new);
         patternConsumers.add(Pattern2::new);
-        patternConsumers.add(Pattern3_1::new);
-        patternConsumers.add(Pattern4_1::new);
-        patternConsumers.add(Pattern5_1::new);
-        patternConsumers.add(Pattern6_1::new);
-        patternConsumers.add(Pattern7_1::new);
-        patternConsumers.add(Pattern8K::new);
+        patternConsumers.add(Pattern3::new);
+        patternConsumers.add(Pattern4::new);
+        patternConsumers.add(Pattern5::new);
+        patternConsumers.add(Pattern6::new);
+        patternConsumers.add(Pattern7::new);
+        patternConsumers.add(Pattern8::new);
+        patternConsumers.add(Pattern9::new);
+        patternConsumers.add(Pattern10::new);
+        patternConsumers.add(Pattern11::new);
         return patternConsumers;
     }
 

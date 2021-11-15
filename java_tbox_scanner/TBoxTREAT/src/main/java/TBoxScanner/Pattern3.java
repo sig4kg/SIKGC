@@ -5,129 +5,45 @@ import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Set;
 
-public class Pattern3 extends BasePattern implements IPattern{
-
+public class Pattern3 extends BasePattern implements IPattern {
+    // domain(r1)=D1, domain(r2)=D2, r1 subpropertyof r2, D1 disjoint D2
     public void generatePattern() {
         try {
             pw = this.GetPrintWriter("3");
-            for (OWLObjectProperty prop : ont.getObjectPropertiesInSignature()) {   //R2
-                NodeSet<OWLObjectPropertyExpression> properties = reasoner.getSubObjectProperties(prop, false);
-                //if the size == 1, it means the property does not have any subobject property.
-                if (properties.getNodes().size() > 1) { //R2 has subobjects
-                    String domaSup = new String();
-                    String relations = new String();
-                    for (OWLObjectPropertyDomainAxiom op : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) { // all domains
-                        if (op.getProperty().equals(prop.getNamedProperty())) {
-                            //System.out.print(op.getProperty().toString()+"\t");
-                            //System.out.println(op.getDomain().toString());
-                            relations = op.getProperty().toString();    //R2
-                            domaSup = op.getDomain().toString(); //D(R2)
-                            domaSup = domaSup.substring(1, domaSup.length() - 1);
-                        }
+            for (OWLObjectPropertyDomainAxiom r2PDA : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
+                OWLObjectProperty r2_p = r2PDA.getProperty().getNamedProperty();
+                String r2_domain = r2PDA.getDomain().toString();
+                NodeSet<OWLObjectPropertyExpression> r1OPEs = reasoner.getSubObjectProperties(r2_p, false);
+                if (r1OPEs.getNodes().size() <= 1) {
+                    continue;
+                }
+                //R1
+                for (Node<OWLObjectPropertyExpression> r1_subProExpression : r1OPEs.getNodes()) {
+                    if (r1_subProExpression.isBottomNode()) {
+                        continue;
                     }
-                    String check = new String();
-                    java.util.Iterator<Node<OWLObjectPropertyExpression>> itr = properties.getNodes().iterator(); //R1
-                    while (itr.hasNext()) {
-                        //SubProps[0] contain subProperty from Property prop
-                        //visit first element of subproperty
-                        //String[] subProps = properties.getNodes().iterator().next().toString().split("InverseOf");
-                        //before splitting based on InverseOf, check whether itr contains only Node( owl:bottomObjectProperty )]
-                        check = itr.next().toString();
-                        if (!(check.contentEquals("Node( owl:bottomObjectProperty )"))) {
-                            //working only for the ontology that has Inverse in the text file for each property
-                            String domaSub1 = new String();
-                            if (check.contains("InverseOf")) {
-                                String[] subProps = check.split("InverseOf");
-                                if (subProps[0].length() < 8) {
-                                    //if list subproperty dimulai dari inverse dulu, maka penanganannya sbb:
-                                    String[] temp = subProps[1].split("\\) ");
-                                    //temp[1] adalah nama subproperty yang dicari.
-                                    //untuk pattern 3,4 harus dicek dulu apakah temp1 punya http atau tidak ?
-                                    //kalau punya http code berikut bisa jalan, kalau tidak cari cara lain
-                                    //kalau temp[1] tidak memiliki http berarti bukan subproperty yang penting utk diproses
-                                    if (temp[1].contains("http")) {
-                                        temp[1] = temp[1].substring(1, temp[1].length() - 3);
-                                        OWLObjectProperty opry = factory.getOWLObjectProperty(IRI.create(temp[1]));
-                                        for (OWLObjectPropertyDomainAxiom opsi : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
-                                            if (opsi.getProperty().equals(opry)) {
-                                                //System.out.print(opsi.getProperty().toString()+"\t");
-                                                //System.out.print(opsi.getDomain().toString());
-                                                //System.out.println();
-                                                domaSub1 = opsi.getDomain().toString();
-                                                domaSub1 = domaSub1.substring(1, domaSub1.length() - 1);
-                                                OWLClass oSup = factory.getOWLClass(IRI.create(domaSup));
-                                                OWLClass oSub1 = factory.getOWLClass(IRI.create(domaSub1));
-                                                //jika Osup dan Osub1 berbeda stringnya, baru dicheck sama reasoner
-                                                if (!(oSup.toString().equals(oSub1.toString()))) {
-                                                    OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(Arrays.asList(oSup, oSub1));
-                                                    boolean classesAreDisjoint = reasoner.isEntailed(axiom);
-                                                    if (classesAreDisjoint) {
-                                                        //pw.println(relations);
-                                                        pw.println(opry.toString());
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }//end dari if(subProps[0].length()<8)
-                                else {
-                                    String domaSub = new String();
-                                    String[] subPropx = subProps[0].split("Node\\( ");
-                                    //remove the character < di awal dan > di akhir string
-                                    subPropx[1] = subPropx[1].substring(1, subPropx[1].length() - 2);
-                                    OWLObjectProperty oprx = factory.getOWLObjectProperty(IRI.create(subPropx[1]));
-                                    for (OWLObjectPropertyDomainAxiom ops : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
-                                        if (ops.getProperty().equals(oprx)) {
-                                            //System.out.print(ops.getProperty().toString()+"\t");
-                                            //System.out.print(ops.getDomain().toString());
-                                            //System.out.println();
-                                            domaSub = ops.getDomain().toString();
-                                            domaSub = domaSub.substring(1, domaSub.length() - 1);
-                                            OWLClass oSup = factory.getOWLClass(IRI.create(domaSup));
-                                            OWLClass oSub = factory.getOWLClass(IRI.create(domaSub));
-                                            if (!(oSup.toString().equals(oSub.toString()))) {
-                                                OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(Arrays.asList(oSup, oSub));
-                                                boolean classesAreDisjoint = reasoner.isEntailed(axiom);
-                                                if (classesAreDisjoint) {
-                                                    //pw.println(relations);
-                                                    pw.println(oprx.toString());
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }//if(check.contains("InverseOf"))
-                            else {
-                                //jika check tidak ada InverseOf
-                                String domaSub = new String();
-                                String[] subPropx = check.split("Node\\( ");
-                                //remove the character < di awal dan > di akhir string
-                                subPropx[1] = subPropx[1].substring(1, subPropx[1].length() - 3);
-                                OWLObjectProperty oprx = factory.getOWLObjectProperty(IRI.create(subPropx[1]));
-                                for (OWLObjectPropertyDomainAxiom ops : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
-                                    if (ops.getProperty().equals(oprx)) {
-                                        //System.out.print(ops.getProperty().toString()+"\t");
-                                        //System.out.print(ops.getDomain().toString());
-                                        //System.out.println();
-                                        domaSub = ops.getDomain().toString();
-                                        domaSub = domaSub.substring(1, domaSub.length() - 1);
-                                        OWLClass oSup = factory.getOWLClass(IRI.create(domaSup));
-                                        OWLClass oSub = factory.getOWLClass(IRI.create(domaSub));
-                                        if (!(oSup.toString().equals(oSub.toString()))) {
-                                            OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(Arrays.asList(oSup, oSub));
-                                            boolean classesAreDisjoint = reasoner.isEntailed(axiom);
-                                            if (classesAreDisjoint) {
-                                                pw.println(oprx.toString());
-                                                //pw.println(relations);
-                                            }
-                                        }
-                                    }
-                                }
+                    OWLObjectPropertyExpression r1_subPro = r1_subProExpression.getRepresentativeElement();
+                    if (!r1_subPro.isOWLObjectProperty()) {
+                        continue;
+                    }
+                    Set<OWLObjectPropertyAxiom> r1_ProDoma = ont.getAxioms(r1_subPro);
+                    for (OWLObjectPropertyAxiom opa : r1_ProDoma) {
+                        if (opa.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
+                            String r1_domain = r2PDA.getDomain().toString();
+                            if (r2_domain.equals(r1_domain)) {
+                                continue;
                             }
-                        }//end dari if(!(check.contentEquals("Node( owl:bottomObjectProperty )")))
+                            OWLClass oSup = factory.getOWLClass(r2_domain);
+                            OWLClass oSub = factory.getOWLClass(r1_domain);
+                            OWLAxiom disjointAxiom = factory.getOWLDisjointClassesAxiom(Arrays.asList(oSup, oSub));
+                            boolean classesAreDisjoint = reasoner.isEntailed(disjointAxiom);
+                            if (classesAreDisjoint) {
+                                pw.println(r1_subPro.getNamedProperty().toString());
+                            }
+                        }
                     }
                 }
             }

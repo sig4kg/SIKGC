@@ -1,5 +1,5 @@
 from abox_scanner.abox_utils import PatternScanner, ContextResources
-
+import pandas as pd
 
 #range
 class Pattern2(PatternScanner):
@@ -7,16 +7,17 @@ class Pattern2(PatternScanner):
         self._pattern_dict = None
         self._context_resources = context_resources
 
-    def scan_pattern_df_rel(self, aggregated_triples):
-        df = aggregated_triples
-        rel = df.iloc[0]['rel']
-        if rel in self._pattern_dict:
-            invalid = self._pattern_dict[rel]['invalid']
-            for idx, row in df.iterrows():
-                t_classes = self._context_resources.entid2classids[row['tail']]
-                if any([t_c in invalid for t_c in t_classes]):
-                    df.loc[idx, 'is_valid'] = False
-        return df
+    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+        def scan_pattern_single_rel(df: pd.DataFrame):
+            rel = df.iloc[0]['rel']
+            if rel in self._pattern_dict:
+                invalid = self._pattern_dict[rel]['invalid']
+                for idx, row in df.iterrows():
+                    t_classes = self._context_resources.entid2classids[row['tail']]
+                    if any([t_c in invalid for t_c in t_classes]):
+                        df.loc[idx, 'is_valid'] = False
+            return df
+        triples.update(triples.query("is_valid == True").groupby('rel').apply(lambda x: scan_pattern_single_rel(x)))
 
     def pattern_to_int(self, entry: str):
         with open(entry) as f:

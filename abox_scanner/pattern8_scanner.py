@@ -1,4 +1,5 @@
 from abox_scanner.abox_utils import PatternScanner, ContextResources
+import pandas as pd
 
 
 # Irreflexive(r)
@@ -7,16 +8,18 @@ class Pattern8(PatternScanner):
         self._pattern_set = None
         self._context_resources = context_resources
 
-    def scan_pattern_df_rel(self, aggregated_triples):
-        df = aggregated_triples
-        rel = df.iloc[0]['rel']
-        if rel in self._pattern_set:
-            for idx, row in df.iterrows():
-                h = row['head']
-                t = row['tail']
-                if h == t:
-                    df.loc[idx, 'is_valid'] = False
-        return df
+    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+        def scan_pattern_single_rel(df: pd.DataFrame):
+            df = triples
+            rel = df.iloc[0]['rel']
+            if rel in self._pattern_set:
+                for idx, row in df.iterrows():
+                    h = row['head']
+                    t = row['tail']
+                    if h == t:
+                        df.loc[idx, 'is_valid'] = False
+            return df
+        triples.update(triples.query("is_valid == True").groupby('rel').apply(lambda x: scan_pattern_single_rel(x)))
 
     def pattern_to_int(self, entry: str):
         with open(entry) as f:

@@ -41,7 +41,7 @@ def run_materialization(work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]
     os.system('../scripts/run_materialize.sh ' + work_dir)
-    wait_until_file_is_saved(f"{work_dir}/materialized_tbox_abox.owl")
+    wait_until_file_is_saved(f"{work_dir}/materialized_tbox_abox.nt")
 
 def delete_file(file_path):
     os.system("rm " + file_path)

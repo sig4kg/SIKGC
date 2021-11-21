@@ -179,10 +179,10 @@ class ContextResources:
         init_workdir(work_dir)
          # h, r, t
         all_triples = read_original_hrt_triples_to_list(original_hrt_triple_file_path)
-        self.ent2id, self.rel2id, self.hrt_int_df = hrt_original2int(all_triples,
+        self.ent2id, self.rel2id, self.hrt_to_scan_df = hrt_original2int(all_triples,
                                                                      f"{work_dir}train/",
                                                                      create_id_file=create_id_file)
-        self.hrt_to_scan_df = self.hrt_int_df
+        self.hrt_int_df = None
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
         if dataset == 'dbpedia':

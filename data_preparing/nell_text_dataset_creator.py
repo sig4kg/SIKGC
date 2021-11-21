@@ -171,6 +171,30 @@ def filter_small_data(in_dir, out_dir):
     rel_text_df.to_csv(out_dir + "relation2text.txt", header=None, index=None, sep='\t', mode='a')
 
 
+NELLONTO = "http://ste-lod-crew.fr/nell/ontology/"
+NELLRES = "http://ste-lod-crew.fr/nell/resource/"
+
+
+def format_NELL(abox_file, out_file):
+    df = pd.read_csv(abox_file, header=None, names=['head', 'rel', 'tail'], sep="\t", error_bad_lines=False, engine="python")
+    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: f'{NELLRES}{x}')
+    df[['rel']] = df[['rel']].applymap(lambda x: f'{NELLONTO}{x}')
+    df.to_csv(out_file, index=False, header=False, sep='\t', mode='w')
+
+
+def format_NELL_entity2type(abox_file, out_file):
+    nell_tris = pd.read_csv(abox_file, header=None, names=['head', 'relation', 'tail'], sep='\t',
+                            error_bad_lines=False, engine="python")
+    all_entities = pd.concat([nell_tris['head'], nell_tris['tail']], ignore_index=True).drop_duplicates(keep='first')
+    all_entities = pd.DataFrame(all_entities, columns=['entity'])
+    all_entities['type'] = all_entities['entity'].apply(lambda x: NELLONTO + x.split('_', 1)[0])
+    all_entities[['entity']] = all_entities[['entity']].applymap(lambda x: NELLRES + x)
+    all_entities.to_csv(out_file, header=False, index=False, sep='\t', mode='w')
+
+
+if __name__ == "__main__":
+    # format_NELL("../resources/NELL/NELLKG0.txt", "../resources/NELL/NELL995_formatted.txt")
+    format_NELL_entity2type("../resources/NELL/NELLKG0.txt", "../resources/NELL-patterns/entity2type.txt")
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../resources/NELL-995_2/")
 # nell_ent_to_description([
 #     "../resources/NELL-995_2/nell115.csvaa",

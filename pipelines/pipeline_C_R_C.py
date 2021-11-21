@@ -63,7 +63,7 @@ def c_r_c(input_hrt_triple_file, work_dir, class_op_and_pattern_path, max_epoch=
 
 if __name__ == "__main__":
     print("CRC pipeline")
-    c_r_c("../resources/NELL-995_2/NELLKG0.txt", "../outputs/crc/", class_op_and_pattern_path='../resources/NELL_patterns/')
+    c_r_c("../resources/NELL/NELLKG0.txt", "../outputs/crc/", class_op_and_pattern_path='../resources/NELL_patterns/')
 
 
 

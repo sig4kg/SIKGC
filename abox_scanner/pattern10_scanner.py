@@ -23,25 +23,17 @@ class Pattern10(PatternScanner):
                         continue
                     r2_triples_df = gp.get_group(r2)
                     r2_tail = r2_triples_df['tail'].to_list()
-                    df.update(r1_triples_df.query(f"tail in @r2_tail")['is_valid'].apply(lambda x: False))
+                    df.update(r1_triples_df.query(f"tail in @r2_tail and is_new==True")['is_valid'].apply(lambda x: False))
         return df
 
     def pattern_to_int(self, entry: str):
         with open(entry) as f:
             pattern_dict = dict()
             lines = f.readlines()
-            if self._context_resources.dataset_name != 'dbpedia':
-                for l in lines:
-                    items = l.split('\t')
-                    r1 = self._context_resources.op2id[items[0][1:-1].split('/')[-1]]
-                    r2_l = items[1].split('@@')
-                    r2 = [self._context_resources.op2id[rr2[1:-1].split('/')[-1]] for rr2 in r2_l if rr2[1:-1].split('/')[-1] in self._context_resources.op2id]
-                    pattern_dict.update({r1: r2})
-            else:
-                for l in lines:
-                    items = l.split('\t')
-                    r1 = self._context_resources.op2id[items[0][1:-1]]
-                    r2_l = items[1].split('@@')
-                    r2 = [self._context_resources.op2id[rr2[1:-1]] for rr2 in r2_l if rr2[1:-1] in self._context_resources.op2id]
-                    pattern_dict.update({r1: r2})
+            for l in lines:
+                items = l.split('\t')
+                r1 = self._context_resources.op2id[items[0][1:-1]]
+                r2_l = items[1].split('@@')
+                r2 = [self._context_resources.op2id[rr2[1:-1]] for rr2 in r2_l if rr2[1:-1] in self._context_resources.op2id]
+                pattern_dict.update({r1: r2})
             self._pattern_dict = pattern_dict

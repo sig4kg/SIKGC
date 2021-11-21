@@ -1,6 +1,9 @@
 from __future__ import annotations
 from pathlib import Path
 import os
+
+from abox_scanner.pattern12_scanner import Pattern12
+from abox_scanner.pattern13_scanner import Pattern13
 from abox_scanner.pattern1_scanner import Pattern1
 from abox_scanner.pattern2_scanner import Pattern2
 from abox_scanner.pattern5_scanner import Pattern5
@@ -9,7 +12,10 @@ from abox_scanner.pattern9_scanner import Pattern9
 from abox_scanner.pattern10_scanner import Pattern10
 from abox_scanner.pattern11_scanner import Pattern11
 from abox_scanner.abox_utils import ContextResources
+import pandas as pd
 import numpy as np
+
+# Author Sylvia Fangrong Wang
 
 class AboxScannerScheduler:
     """
@@ -24,10 +30,19 @@ class AboxScannerScheduler:
         self._tbox_pattern_dir = tbox_pattern_dir
         self._context_resources = context_resources
         self._strategies = []
-        self._id2strategy = {1: Pattern1, 2: Pattern2, 5: Pattern5, 8: Pattern8, 9: Pattern9, 10: Pattern10, 11: Pattern11}
+        self._id2strategy = {1: Pattern1,
+                             2: Pattern2,
+                             5: Pattern5,
+                             8: Pattern8,
+                             9: Pattern9,
+                             10: Pattern10,
+                             11: Pattern11,
+                             12: Pattern12,
+                             13: Pattern13}
 
     def set_triples_to_scan_int_df(self, hrt_int_df) -> AboxScannerScheduler:
         self._context_resources.hrt_to_scan_df = hrt_int_df
+
         return self
 
     def register_pattern(self, pattern_ids) -> AboxScannerScheduler:
@@ -52,8 +67,16 @@ class AboxScannerScheduler:
         implementing multiple versions of the algorithm on its own.
         """
         # aggregate triples by relation
+        old_df = self._context_resources.hrt_int_df
         df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
+        new_items = pd.concat([df, old_df]).drop_duplicates(keep=False)
         df['is_valid'] = True
+        df['is_new'] = True
+        if old_df is not None:
+            df.update(df[(df['head'].isin(new_items['head']))
+                         & df['rel'].isin(new_items['rel'])
+                         & df['tail'].isin(new_items['tail'])]['is_new'].apply(lambda x: False))
+
         init_invalid = len(df.query("is_valid == False"))
         for scanner in self._strategies:
             print("Scanning schema pattern: " + str(type(scanner)))

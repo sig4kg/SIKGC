@@ -14,7 +14,15 @@ if [ ! -d "$WORK_DIR" ];then
 else
   echo "$WORK_DIR" exist
 fi
-[ ! -f "$WORK_DIR/HermitMaterialize-1.0-SNAPSHOT-jar-with-dependencies.jar" ] && cp ../scripts/HermitMaterialize-1.0-SNAPSHOT-jar-with-dependencies.jar $WORK_DIR/
+if [ ! -f "$WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar" ];then
+  if [ ! -f "../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0-jar-with-dependencies.jar" ];then
+    dir=$(pwd)
+    cd ../java_owlapi/TBoxTREAT
+    mvn clean install
+    cd $dir
+  fi
+  cp ../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0-jar-with-dependencies.jar $WORK_DIR/
+fi
 echo "Materializing abox and tbox..."
-java -Dontology=tbox_abox.nt -Doutput_dir=./ -jar $WORK_DIR/HermitMaterialize-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -Dtask=Materialize -Dontology=tbox_abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar
 echo "Done with Materialization."

@@ -19,8 +19,12 @@ if [ ! -d "$LAST_ROUND" ];then
   mkdir "$LAST_ROUND"
 fi
 
+[ -f "$WORK_DIR/invalid_hrt.txt" ] && mv $WORK_DIR/invalid_hrt.txt $LAST_ROUND
+[ -f "$WORK_DIR/valid_hrt.txt" ] && mv $WORK_DIR/valid_hrt.txt $LAST_ROUND
 [ -f "$WORK_DIR/abox.nt" ] && mv $WORK_DIR/abox.nt $LAST_ROUND
 [ -f "$WORK_DIR/tbox_abox.nt" ] && mv $WORK_DIR/tbox_abox.nt $LAST_ROUND
-[ -f "$WORK_DIR/materialized_*" ] && mv $WORK_DIR/materialized_* $LAST_ROUND
+[ -f "$WORK_DIR/materialized_tbox_abox.owl" ] && mv $WORK_DIR/materialized_tbox_abox.owl $LAST_ROUND
+[ -f "$WORK_DIR/materialized_tbox_abox.nt" ] && mv $WORK_DIR/materialized_tbox_abox.nt $LAST_ROUND
+[ -f "$WORK_DIR/materialized_abox.nt" ] && mv $WORK_DIR/materialized_abox.nt $LAST_ROUND
 
 

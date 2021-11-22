@@ -4,7 +4,6 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
-import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -52,7 +51,6 @@ public class Materialize {
         Configuration configuration = new Configuration();
         configuration.ignoreUnsupportedDatatypes = true;
         ReasonerFactory rf = new ReasonerFactory();
-
         OWLReasoner reasoner = rf.createReasoner(ontology, configuration);
         boolean consistencyCheck = reasoner.isConsistent();
         if (consistencyCheck) {

@@ -12,13 +12,13 @@ public class Pattern13 extends BasePattern implements IPattern{
 
     public void generatePattern() {
         //FunctionalProperty(r2), Inverseof(r1, r2) ---- <y r1 x> <z r1 x> and <x r2 y> <z r1 x>
+        //FunctionalProperty(r1), Inverseof(r1, r2) ---- <y r2 x> <z r2 x> and <x r1 y> <z r2 x>
         try {
             this.GetPrintWriter("13");
-            List<String> functionalInverse = new ArrayList<String>();
-            Map map=new HashMap<String, List>();
-            for (OWLInverseFunctionalObjectPropertyAxiom inversof : ont.getAxioms(AxiomType.INVERSE_FUNCTIONAL_OBJECT_PROPERTY)) {
-                functionalInverse.add(inversof.getProperty().toString());
-            }
+            Map<String, List<String>> map=new HashMap<String, List<String>>();
+//            for (OWLInverseFunctionalObjectPropertyAxiom inversof : ont.getAxioms(AxiomType.INVERSE_FUNCTIONAL_OBJECT_PROPERTY)) {
+//                functionalInverse.add(inversof.getProperty().toString());
+//            }
 
             List<String> functional = new ArrayList<String>();
             for (OWLFunctionalObjectPropertyAxiom funcp : ont.getAxioms(AxiomType.FUNCTIONAL_OBJECT_PROPERTY)) {
@@ -27,12 +27,29 @@ public class Pattern13 extends BasePattern implements IPattern{
             for (OWLInverseObjectPropertiesAxiom objInvers : ont.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES)) {
                 String r1 = objInvers.getFirstProperty().toString();
                 String r2 = objInvers.getSecondProperty().toString();
-                if(functional.contains(r1) && !functionalInverse.contains(r1)) {
-                    functionalInverse.add(r1);
+                if(functional.contains(r1)) {
+                    if(map.containsKey(r1)) {
+                        map.get(r1).add(r2);
+                    } else {
+                        List<String> vers = new ArrayList<String>();
+                        vers.add(r2);
+                        map.put(r1, vers);
+                    }
+                }
+                if(functional.contains(r2)) {
+                    if(map.containsKey(r2)) {
+                        map.get(r2).add(r1);
+                    } else {
+                        List<String> vers = new ArrayList<String>();
+                        vers.add(r1);
+                        map.put(r2, vers);
+                    }
                 }
             }
-            for (String fi : functionalInverse){
-                pw.println(fi);
+            for (String fi : map.keySet()){
+                List<String> value_l = map.get(fi);
+                String line = fi + "\t" + String.join( "@@", value_l);
+                pw.println(line);
             }
             pw.close();
         } catch (IOException e) {

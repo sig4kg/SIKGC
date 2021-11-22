@@ -89,17 +89,17 @@ public class TBoxPatternGenerator {
 
     private ArrayList<Supplier<BasePattern>> RegesterPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-//        patternConsumers.add(Pattern1::new);
-//        patternConsumers.add(Pattern2::new);
-//        patternConsumers.add(Pattern3::new);
-//        patternConsumers.add(Pattern4::new);
-//        patternConsumers.add(Pattern5::new);
-//        patternConsumers.add(Pattern6::new);
-//        patternConsumers.add(Pattern7::new);
-//        patternConsumers.add(Pattern8::new);
-//        patternConsumers.add(Pattern9::new);
-//        patternConsumers.add(Pattern10::new);
-//        patternConsumers.add(Pattern11::new);
+        patternConsumers.add(Pattern1::new);
+        patternConsumers.add(Pattern2::new);
+        patternConsumers.add(Pattern3::new);
+        patternConsumers.add(Pattern4::new);
+        patternConsumers.add(Pattern5::new);
+        patternConsumers.add(Pattern6::new);
+        patternConsumers.add(Pattern7::new);
+        patternConsumers.add(Pattern8::new);
+        patternConsumers.add(Pattern9::new);
+        patternConsumers.add(Pattern10::new);
+        patternConsumers.add(Pattern11::new);
         patternConsumers.add(Pattern12::new);
         patternConsumers.add(Pattern13::new);
         return patternConsumers;

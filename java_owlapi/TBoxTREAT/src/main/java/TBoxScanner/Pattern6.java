@@ -29,6 +29,7 @@ public class Pattern6 extends BasePattern implements IPattern {
                     if (r1.isBottomNode()) {
                         continue;
                     }
+
                     OWLObjectPropertyExpression r1_ope = r1.getRepresentativeElement();
                     if (!r1_ope.isOWLObjectProperty()) {
                         continue;

@@ -23,6 +23,7 @@ public class DLLite {
         OWLOntology ont = man.createOntology(IRI.create(base));
         OWLDataFactory factory = man.getOWLDataFactory();
         OWLObjectProperty R = factory.getOWLObjectProperty(IRI.create(base + "#hasPart"));
+        OWLObjectProperty R2 = factory.getOWLObjectProperty(IRI.create(base + "#hasPart"));
         Map<String, OWLClassExpression> map = new HashMap<String, OWLClassExpression>();
         OWLClass nose = factory.getOWLClass(IRI.create(base + "#Nose"));
         OWLClass eyes = factory.getOWLClass(IRI.create(base + "#Eyes"));
@@ -36,6 +37,12 @@ public class DLLite {
         man.addAxiom(ont, noseA);
         man.addAxiom(ont, rednoseA);
         man.addAxiom(ont, headA);
+        Set<OWLAxiom> hasAxioms = new HashSet<OWLAxiom>();
+        hasAxioms.add(factory.getOWLInverseFunctionalObjectPropertyAxiom(R));
+        hasAxioms.add(factory.getOWLIrreflexiveObjectPropertyAxiom(R));
+        hasAxioms.add(factory.getOWLAsymmetricObjectPropertyAxiom(R));
+        man.addAxioms(ont, hasAxioms);
+        man.addAxiom(ont, factory.getOWLInverseObjectPropertiesAxiom(R, R2));
 
         OWLClass negNose = factory.getOWLClass(IRI.create(base + "#negNose"));
         OWLClass negNosered = factory.getOWLClass(IRI.create(base + "#negNosered"));
@@ -273,8 +280,8 @@ public class DLLite {
         // merge ont and infOnt1
         System.out.println("merging infOnt1 to ont...");
         OWLOntologyMerger merger = new OWLOntologyMerger(man);
-        IRI mergedOntologyIRI = IRI.create("http://www.semanticweb.com/merged");
-        OWLOntology merged = merger.createMergedOntology(man, mergedOntologyIRI);
+        IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged1");
+        OWLOntology merged = merger.createMergedOntology(man, mergedOntologyIRI1);
 
         // replace D, N with expressions
         System.out.println("Replace D and N with expressions...");
@@ -326,7 +333,8 @@ public class DLLite {
         man.removeOntology(ont);
         man.removeOntology(infOnt1);
         System.out.println("Merging infOnt2 with last round merged...");
-        merged = merger.createMergedOntology(man, mergedOntologyIRI);
+        IRI mergedOntologyIRI2 = IRI.create("http://www.semanticweb.com/merged2");
+        merged = merger.createMergedOntology(man, mergedOntologyIRI2);
         // remove unwanted axioms like asymmetric etc.
         System.out.println("Removing additional properties ...");
         List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
@@ -342,7 +350,7 @@ public class DLLite {
             man.applyChange(removeAxiom);
         }
 
-        System.out.println("Saving new ontology...");
+        System.out.println("Saving new ontology " + out_file);
         File inferredOntologyFile = new File(out_file);
         // Now we create a stream since the ontology manager can then write to that stream.
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {

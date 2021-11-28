@@ -217,25 +217,7 @@ public class DLLite {
         OWLDataFactory factory = man.getOWLDataFactory();
         // a map to keep additional class IRI to class expression
         Map<String, OWLClassExpression> map = new HashMap<String, OWLClassExpression>();
-        // now create restriction to describe the classes
-        System.out.println("Creating N...");
-        for (OWLClass cls: ont.getClassesInSignature()) {
-            if (!cls.isNamed()) {
-                continue;
-            }
-            String clsName = cls.toStringID();
-            if (clsName.contains("#")) {
-                clsName = clsName.substring(clsName.lastIndexOf('#') + 1, clsName.length());
-            } else {
-                clsName = clsName.substring(clsName.lastIndexOf('/') + 1, clsName.length());
-            }
-            String negClsName = base + "#neg_" + clsName;
-            OWLClass negCls = factory.getOWLClass(IRI.create(negClsName));
-            OWLClassExpression expCompl = cls.getObjectComplementOf();
-            OWLAxiom negDef = factory.getOWLEquivalentClassesAxiom(negCls, expCompl);
-            man.addAxiom(ont, negDef);
-            map.put(negCls.getIRI().toString(), expCompl);
-        }
+
         // Now create restrictions to describe the class of individual object properties
         System.out.println("Creating D...");
         for (OWLObjectProperty R : ont.getObjectPropertiesInSignature()) {
@@ -263,6 +245,25 @@ public class DLLite {
             man.addAxiom(ont, def2);
             map.put(D1.getIRI().toString(), expD1);
             map.put(D2.getIRI().toString(), expD2);
+        }
+        // now create restriction to describe the named classes
+        System.out.println("Creating N...");
+        for (OWLClass cls: ont.getClassesInSignature()) {
+            if (!cls.isNamed()) {
+                continue;
+            }
+            String clsName = cls.toStringID();
+            if (clsName.contains("#")) {
+                clsName = clsName.substring(clsName.lastIndexOf('#') + 1, clsName.length());
+            } else {
+                clsName = clsName.substring(clsName.lastIndexOf('/') + 1, clsName.length());
+            }
+            String negClsName = base + "#neg_" + clsName;
+            OWLClass negCls = factory.getOWLClass(IRI.create(negClsName));
+            OWLClassExpression expCompl = cls.getObjectComplementOf();
+            OWLAxiom negDef = factory.getOWLEquivalentClassesAxiom(negCls, expCompl);
+            man.addAxiom(ont, negDef);
+            map.put(negCls.getIRI().toString(), expCompl);
         }
         // Schema + Delta, then inference
         Configuration configuration = new Configuration();

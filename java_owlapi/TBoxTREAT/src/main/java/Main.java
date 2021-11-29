@@ -8,8 +8,8 @@ public class Main {
         String task = System.getProperty("task", "DL-lite");
 //        String ontoloty_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
 //        String ontoloty_file = System.getProperty("ontology", "data/tbox_abox.nt");
-        String ontoloty_file = System.getProperty("ontology", "../../resources/NELL/NELL.ontology.ttl");
-//        String ontoloty_file = System.getProperty("ontology", "pizza.owl");
+//        String ontoloty_file = System.getProperty("ontology", "../../resources/NELL/NELL.ontology.ttl");
+        String ontoloty_file = System.getProperty("ontology", "pizza.owl");
         String output_dir = System.getProperty("output_dir", "output");
 //        String ontoloty_file = System.getProperty("ontology", "data/FBSchemaWithDisjoint.owl");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL-patterns/");

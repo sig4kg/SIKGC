@@ -215,9 +215,15 @@ public class DLLite {
         OWLOntology ont = man.loadOntologyFromOntologyDocument(inputStream);
         String base = "http://org.semanticweb.restrictionexample";
         OWLDataFactory factory = man.getOWLDataFactory();
+        // remove annotations
+        List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
+        toRemoveAxiom.addAll(ont.getAxioms(AxiomType.ANNOTATION_ASSERTION));
+        for (OWLAxiom ax: toRemoveAxiom) {
+            RemoveAxiom removeAxiom = new RemoveAxiom(ont, ax);
+            man.applyChange(removeAxiom);
+        }
         // a map to keep additional class IRI to class expression
         Map<String, OWLClassExpression> map = new HashMap<String, OWLClassExpression>();
-
         // Now create restrictions to describe the class of individual object properties
         System.out.println("Creating D...");
         for (OWLObjectProperty R : ont.getObjectPropertiesInSignature()) {
@@ -277,13 +283,19 @@ public class DLLite {
         OWLOntology infOnt1 = man.createOntology();
         InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, gens);
         iog.fillOntology(man.getOWLDataFactory(), infOnt1);
-
         // merge ont and infOnt1
         System.out.println("merging infOnt1 to ont...");
         OWLOntologyMerger merger = new OWLOntologyMerger(man);
         IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged1");
         OWLOntology merged = merger.createMergedOntology(man, mergedOntologyIRI1);
 
+        // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
+        SubClassOfRedundant redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
+        List<OWLSubClassOfAxiom> toRemove = redtUtil.findRedundants();
+        for (OWLAxiom ax: toRemove) {
+            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
+            man.applyChange(removeAxiom);
+        }
         // replace D, N with expressions
         System.out.println("Replace D and N with expressions...");
         Set<OWLSubClassOfAxiom> subclassof = merged.getAxioms(AxiomType.SUBCLASS_OF);
@@ -338,7 +350,7 @@ public class DLLite {
         merged = merger.createMergedOntology(man, mergedOntologyIRI2);
         // remove unwanted axioms like asymmetric etc.
         System.out.println("Removing additional properties ...");
-        List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
+        toRemoveAxiom = new ArrayList<OWLAxiom>();
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
@@ -350,7 +362,12 @@ public class DLLite {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
             man.applyChange(removeAxiom);
         }
-
+        // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
+        redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
+        for (OWLAxiom ax: redtUtil.findRedundants()) {
+            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
+            man.applyChange(removeAxiom);
+        }
         System.out.println("Saving new ontology " + out_file);
         File inferredOntologyFile = new File(out_file);
         // Now we create a stream since the ontology manager can then write to that stream.

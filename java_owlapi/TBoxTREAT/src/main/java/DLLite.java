@@ -202,6 +202,43 @@ public class DLLite {
         }
     }
 
+    public static void removeAnnotations(String in_file, String out_file) throws Exception {
+        System.out.println("To DL-lite: " + in_file);
+        // load ontology from file
+        File initialFile = new File(in_file);
+        InputStream inputStream = new FileInputStream(initialFile);
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + in_file);
+        }
+        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(inputStream);
+        String base = "http://org.semanticweb.restrictionexample";
+        OWLDataFactory factory = man.getOWLDataFactory();
+        // remove annotations
+        List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
+        toRemoveAxiom.addAll(ont.getAxioms(AxiomType.ANNOTATION_ASSERTION));
+        for (OWLAxiom ax : toRemoveAxiom) {
+            RemoveAxiom removeAxiom = new RemoveAxiom(ont, ax);
+            man.applyChange(removeAxiom);
+        }
+        System.out.println("Saving new ontology " + out_file);
+        File inferredOntologyFile = new File(out_file);
+        // Now we create a stream since the ontology manager can then write to that stream.
+        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
+            // We use the nt format as for the input ontology.
+//             NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+            TurtleDocumentFormat format = new TurtleDocumentFormat();
+            OWLDocumentFormat formatOri = man.getOntologyFormat(ont);
+            if (formatOri.isPrefixOWLDocumentFormat()) {
+                format.copyPrefixesFrom(formatOri.asPrefixOWLDocumentFormat());
+            }
+            man.saveOntology(ont, format, outputStream);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void owl2dllite(String in_file, String out_file) throws Exception {
         System.out.println("To DL-lite: " + in_file);
         // load ontology from file

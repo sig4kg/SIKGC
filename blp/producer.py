@@ -34,7 +34,7 @@ if all([uri, database]):
 
 @ex.config
 def config():
-    work_dir = 'output/'
+    work_dir = 'data/umls/'
     dataset = 'umls'
     inductive = False
     dim = 128

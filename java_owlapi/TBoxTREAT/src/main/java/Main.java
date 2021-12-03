@@ -6,14 +6,13 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         String task = System.getProperty("task", "DL-lite");
-//        String ontoloty_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
-//        String ontoloty_file = System.getProperty("ontology", "data/tbox_abox.nt");
-        String ontoloty_file = System.getProperty("ontology", "../../resources/NELL/NELL.ontology.ttl");
-//        String ontoloty_file = System.getProperty("ontology", "pizza.owl");
+//        String schema_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
+        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+//        String schema_file = System.getProperty("ontology", "pizza.owl");
 //        String output_dir = System.getProperty("output_dir", "output");
-//        String ontoloty_file = System.getProperty("ontology", "data/FBSchemaWithDisjoint.owl");
         String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
-        System.out.println(task + "\t" + ontoloty_file + "\t" + output_dir);
+        String abox_file = System.getProperty("abox", "");
+        System.out.println(task + "\t" + schema_file + "\t" + output_dir);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
                 .getLocation();
 
@@ -37,10 +36,12 @@ public class Main {
             System.out.println(outputFull.getAbsolutePath() + " exists, skip creating dir");
         }
         String outputFullPath = outputFull.getAbsolutePath();
-        String ontologyFullPath = rootPath + ontoloty_file;
+        String ontologyFullPath = rootPath + schema_file;
+        String aboxFullPath = abox_file.equalsIgnoreCase("")? "":rootPath + abox_file;
         System.out.println("ontology file path: " + ontologyFullPath);
+        System.out.println("abox file path: " + aboxFullPath);
         TBoxPatternGenerator tboxScanner = null;
-        String fileName = ontoloty_file.substring(ontoloty_file.lastIndexOf('/') + 1, ontoloty_file.lastIndexOf('.'));
+        String fileName = schema_file.substring(schema_file.lastIndexOf('/') + 1, schema_file.lastIndexOf('.'));
         switch (task) {
             case "TBoxScanner":
                 tboxScanner = new TBoxPatternGenerator(ontologyFullPath, outputFullPath);
@@ -51,7 +52,7 @@ public class Main {
                 tboxScanner.getAllClasses();
                 break;
             case "Materialize":
-                Materialize.materialize(ontologyFullPath, outputFullPath + "/materialized_" + fileName + ".nt");
+                Materialize2.materialize(ontologyFullPath, aboxFullPath, outputFullPath + "/materialized_" + fileName + ".nt");
                 break;
             case "toNT":
                 FormatConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");

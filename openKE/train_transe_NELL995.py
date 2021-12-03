@@ -57,7 +57,8 @@ def produce(in_path, out_file):
     producer.produce_triples(type_constrain=False)
 
 
-# train("../resources/NELL-995/")
+if __name__ == "__main__":
+    train("../resources/NELL-995/")
 # train("../outputs/ctc/train/")
 # produce("../resources/NELL-995/", "../outputs/ctc/test.txt")
 # produce("../outputs/ctc/NELL-995/", "../outputs/ctc/test.txt")

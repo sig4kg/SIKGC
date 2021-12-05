@@ -58,7 +58,7 @@ public class Main {
                 FormatConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
                 break;
             case "DL-lite":
-                DLLite.owl2dllite(ontologyFullPath, outputFullPath + "/" + fileName + "_dllite.ttl");
+                DLLite.owl2dllite(ontologyFullPath, outputFullPath + "/tbox_dllite.ttl");
                 break;
             default:
                 return;

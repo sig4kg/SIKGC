@@ -6,20 +6,22 @@ import scripts.run_scripts
 from abox_scanner.abox_utils import ContextResources, read_hrt_2_df
 
 
-def preparing_tbox(tbox_file, work_dir, dataset='dbpedia'):
-    if dataset == 'dbpedia':
-        tbox_2_nt_dbpedia(tbox_file, work_dir + "tbox.nt")
-    else:
-        clean_nt(tbox_file, work_dir + "tbox.nt")
-    wait_until_file_is_saved(work_dir + "tbox.nt")
+def preparing_tbox_to_dllite(tbox_file, work_dir, dataset='dbpedia'):
+    # if dataset == 'dbpedia':
+    #     tbox_2_nt_dbpedia(tbox_file, work_dir + "tbox.nt")
+    # else:
+    #     clean_nt(tbox_file, work_dir + "tbox.nt")
+    if not os.path.exists(work_dir + "tbox_dllite.ttl"):
+        scripts.run_scripts.to_dllite(tbox_file, work_dir)
+        wait_until_file_is_saved(work_dir + "tbox_dllite.ttl")
 
 
-def merge_TBox_2_ABox(abox_file, tbox_file, work_dir):
-    df_a = pd.read_csv(abox_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")
-    df_t = pd.read_csv(tbox_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")
-    df = pd.concat([df_t, df_a])
-    df = df.drop_duplicates(keep='first')
-    df.to_csv(work_dir + "tbox_abox.nt", index=False, header=False, sep=' ')
+# def merge_TBox_2_ABox(abox_file, tbox_file, work_dir):
+#     df_a = pd.read_csv(abox_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")
+#     df_t = pd.read_csv(tbox_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")
+#     df = pd.concat([df_t, df_a])
+#     df = df.drop_duplicates(keep='first')
+#     df.to_csv(work_dir + "tbox_abox.nt", index=False, header=False, sep=' ')
 
 
 def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir):
@@ -31,7 +33,7 @@ def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir):
 
 
 def materialize(work_dir):
-    merge_TBox_2_ABox(work_dir + "abox.nt", work_dir + "tbox.nt", work_dir)
+    # merge_TBox_2_ABox(work_dir + "abox.nt", work_dir + "tbox.nt", work_dir)
     scripts.run_scripts.run_materialization(work_dir)
     clean_nt(work_dir + "materialized_tbox_abox.nt", work_dir + "cleaned_tbox_abox.nt")
     wait_until_file_is_saved(work_dir + "cleaned_tbox_abox.nt")

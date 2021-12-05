@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-if [[ $# -ne 1 ]]; then
-    echo Usage: bash $0 WORK_DIR
+if [[ $# -ne 2 ]]; then
+    echo Usage: bash $0 SCHEMA_FILE WORK_DIR
     exit 1
 fi
 
 set -e
 
 # CLI args
-WORK_DIR=$1
+SCHEMA_FILE=$1
+WORK_DIR=$2
 
 if [ ! -d "$WORK_DIR" ];then
   mkdir "$WORK_DIR"
@@ -23,6 +24,7 @@ if [ ! -f "$WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar" ];then
   fi
   cp ../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0-jar-with-dependencies.jar $WORK_DIR/
 fi
+
 echo "Materializing abox and tbox..."
-java -Dtask=Materialize -Dschema=tbox_dllite.ttl -Dabox=abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar
+java -Dtask=DL-lite -Dschema=$SCHEMA_FILE -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar
 echo "Done with Materialization."

@@ -14,6 +14,7 @@ from abox_scanner.pattern11_scanner import Pattern11
 from abox_scanner.abox_utils import ContextResources
 import pandas as pd
 import numpy as np
+import datetime
 
 # Author Sylvia Fangrong Wang
 
@@ -67,6 +68,7 @@ class AboxScannerScheduler:
         implementing multiple versions of the algorithm on its own.
         """
         # aggregate triples by relation
+        start_time = datetime.datetime.now()
         old_df = self._context_resources.hrt_int_df
         df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
         new_items = pd.concat([df, old_df]).drop_duplicates(keep=False)
@@ -96,6 +98,7 @@ class AboxScannerScheduler:
             valids = valids.astype(int)
         valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids))}; valids count {str(len(valids))}")
+        print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
 
 

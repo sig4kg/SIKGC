@@ -2,6 +2,7 @@ import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
+import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -23,10 +24,10 @@ public class Materialize2 {
                 throw new IllegalArgumentException("file not found! " + in_abox_file);
             }
         } else {
-            System.out.println("no abox fro materialization, will use tbox only.");
+            System.out.println("no abox for materialization, will use tbox only.");
         }
 
-        File initialFileB = new File(in_abox_file);
+        File initialFileB = new File(in_tbox_file);
         InputStream inputStreamB = new FileInputStream(initialFileB);
         // the stream holding the file content
         if (inputStreamB == null) {
@@ -34,6 +35,7 @@ public class Materialize2 {
         }
         OWLOntology ontologyB = manager.loadOntologyFromOntologyDocument(inputStreamB);
         // merge tbox and abox
+        System.out.println("Merge tbox and abox.");
         OWLOntologyMerger merger = new OWLOntologyMerger(manager);
         IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged");
         OWLOntology ontology = merger.createMergedOntology(manager, mergedOntologyIRI1);
@@ -47,28 +49,37 @@ public class Materialize2 {
         if (!consistencyCheck) {
             System.out.println("Inconsistent input Ontology, Please check the OWL File");
         }
-        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY,
-                InferenceType.CLASS_ASSERTIONS, InferenceType.OBJECT_PROPERTY_HIERARCHY,
-                InferenceType.DATA_PROPERTY_HIERARCHY, InferenceType.OBJECT_PROPERTY_ASSERTIONS);
+        System.out.println("Materializing, may take time......");
+        reasoner.precomputeInferences(
+                InferenceType.CLASS_HIERARCHY,
+                InferenceType.CLASS_ASSERTIONS,
+                InferenceType.OBJECT_PROPERTY_HIERARCHY,
+//                InferenceType.DATA_PROPERTY_HIERARCHY,
+                InferenceType.OBJECT_PROPERTY_ASSERTIONS
+        );
         List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
         generators.add(new InferredSubClassAxiomGenerator());
         generators.add(new InferredClassAssertionAxiomGenerator());
-//            generators.add(new InferredDataPropertyCharacteristicAxiomGenerator());
-        generators.add(new InferredEquivalentClassAxiomGenerator());
-//            generators.add(new InferredEquivalentDataPropertiesAxiomGenerator());
+//        generators.add(new InferredDisjointClassesAxiomGenerator());
+//        generators.add(new InferredEquivalentClassAxiomGenerator());
+
         generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());
         generators.add(new InferredInverseObjectPropertiesAxiomGenerator());
         generators.add(new InferredObjectPropertyCharacteristicAxiomGenerator());
-        // NOTE: InferredPropertyAssertionGenerator significantly slows down
-        // inference computation
-//            generators.add(new org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator());
-        generators.add(new InferredSubClassAxiomGenerator());
-//            generators.add(new InferredSubDataPropertyAxiomGenerator());
         generators.add(new InferredSubObjectPropertyAxiomGenerator());
+
+//         NOTE: InferredPropertyAssertionGenerator significantly slows down
+//         inference computation
+//        generators.add(new org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator());
+
+//        generators.add(new InferredDataPropertyCharacteristicAxiomGenerator());
+//        generators.add(new InferredEquivalentDataPropertiesAxiomGenerator());
+//        generators.add(new InferredSubDataPropertyAxiomGenerator());
+
         List<InferredIndividualAxiomGenerator<? extends OWLIndividualAxiom>> individualAxioms =
                 new ArrayList<>();
         generators.addAll(individualAxioms);
-        generators.add(new InferredDisjointClassesAxiomGenerator());
+
         InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
         OWLOntology inferredAxiomsOntology = manager.createOntology();
         iog.fillOntology(df, inferredAxiomsOntology);
@@ -76,11 +87,15 @@ public class Materialize2 {
         // Now we create a stream since the ontology manager can then write to that stream.
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
             // We use the nt format as for the input ontology.
-            NTriplesDocumentFormat nTriplesFormat = new NTriplesDocumentFormat();
-            manager.saveOntology(inferredAxiomsOntology, nTriplesFormat, outputStream);
+            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+//            TurtleDocumentFormat format = new TurtleDocumentFormat();
+//            N3DocumentFormat format = new N3DocumentFormat();
+            manager.saveOntology(inferredAxiomsOntology, format, outputStream);
+            System.out.println("Output saved: " + out_file);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-
+        System.out.println("Done with materialization");
     }
 }

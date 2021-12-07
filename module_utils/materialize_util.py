@@ -6,7 +6,7 @@ import scripts.run_scripts
 from abox_scanner.abox_utils import ContextResources, read_hrt_2_df
 
 
-def preparing_tbox_to_dllite(tbox_file, work_dir, dataset='dbpedia'):
+def preparing_tbox_to_dllite(tbox_file, work_dir):
     # if dataset == 'dbpedia':
     #     tbox_2_nt_dbpedia(tbox_file, work_dir + "tbox.nt")
     # else:

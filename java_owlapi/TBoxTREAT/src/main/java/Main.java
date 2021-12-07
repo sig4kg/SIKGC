@@ -5,13 +5,16 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "DL-lite");
+        String task = System.getProperty("task", "Materialize");
 //        String schema_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
-        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
-//        String schema_file = System.getProperty("ontology", "pizza.owl");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+        String schema_file = System.getProperty("schema", "../../outputs/cm/tbox_dllite.ttl");
+//        String schema_file = System.getProperty("schema", "pizza.owl");
 //        String output_dir = System.getProperty("output_dir", "output");
-        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
-        String abox_file = System.getProperty("abox", "");
+//        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
+        String output_dir = System.getProperty("output_dir", "./");
+//        String abox_file = System.getProperty("abox", "");
+        String abox_file = System.getProperty("abox", "../../outputs/cm/abox.nt");
         System.out.println(task + "\t" + schema_file + "\t" + output_dir);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
                 .getLocation();
@@ -52,7 +55,7 @@ public class Main {
                 tboxScanner.getAllClasses();
                 break;
             case "Materialize":
-                Materialize2.materialize(ontologyFullPath, aboxFullPath, outputFullPath + "/materialized_" + fileName + ".nt");
+                Materialize2.materialize(ontologyFullPath, aboxFullPath, outputFullPath + "/materialized_tbox_abox.nt");
                 break;
             case "toNT":
                 FormatConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");

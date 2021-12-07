@@ -7,7 +7,7 @@ import java.io.*;
 
 public class FormatConverter {
     public static void toNT(String in_file, String out_file) throws Exception {
-        System.out.println("convert to OWL file: " + in_file);
+        System.out.println("convert to NT file: " + in_file);
         File initialFile = new File(in_file);
         InputStream inputStream = new FileInputStream(initialFile);
         // the stream holding the file content
@@ -26,7 +26,6 @@ public class FormatConverter {
         File inferredOntologyFile = new File(out_file);
         // Now we create a stream since the ontology manager can then write to that stream.
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
-            ontology.remove();
             manager.saveOntology(ontology, nTriplesFormat, outputStream);
         } catch (OWLOntologyStorageException e) {
             e.printStackTrace();

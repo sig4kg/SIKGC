@@ -193,8 +193,8 @@ def format_NELL_entity2type(abox_file, out_file):
 
 
 if __name__ == "__main__":
-    # format_NELL("../resources/NELL/NELLKG0.txt", "../resources/NELL/NELL995_formatted.txt")
-    format_NELL_entity2type("../resources/NELL/NELLKG0.txt", "../resources/NELL-patterns/entity2type.txt")
+    format_NELL("../resources/NELL/NELLKG0.txt", "../resources/NELL/NELL995_formatted.txt")
+    # format_NELL_entity2type("../resources/NELL/NELLKG0.txt", "../resources/NELL-patterns/entity2type.txt")
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../resources/NELL-995_2/")
 # nell_ent_to_description([
 #     "../resources/NELL-995_2/nell115.csvaa",

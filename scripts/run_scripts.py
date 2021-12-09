@@ -2,13 +2,18 @@ import os
 from abox_scanner.abox_utils import wait_until_file_is_saved
 
 
+def run_tbox_scanner(schema_file, work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system(f'../scripts/tbox_Scanner.sh  {schema_file} {work_dir}')
+
 def run_rumis(work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]
+    os.system('../scripts/run_rumis.sh ' + work_dir)
     wait_until_file_is_saved(work_dir + "/ideal.data.txt", 60)
     wait_until_file_is_saved(work_dir + "/dlv.bin", 10)
     wait_until_file_is_saved(work_dir + "/rumis-1.0.jar", 10)
-    os.system('../scripts/run_rumis.sh ' + work_dir)
 
 
 def clean_rumis(work_dir):

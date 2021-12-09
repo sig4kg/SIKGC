@@ -14,15 +14,15 @@ if [ ! -d "$WORK_DIR" ];then
 else
   echo "$WORK_DIR" exist
 fi
-if [ ! -f "$WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar" ];then
-  if [ ! -f "../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0-jar-with-dependencies.jar" ];then
+if [ ! -f "$WORK_DIR/TBoxTREAT-1.0.jar" ];then
+  if [ ! -f "../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0.jar" ];then
     dir=$(pwd)
     cd ../java_owlapi/TBoxTREAT
     mvn clean install
     cd $dir
   fi
-  cp ../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0-jar-with-dependencies.jar $WORK_DIR/
+  cp ../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0.jar $WORK_DIR/
 fi
 echo "Materializing abox and tbox..."
-java -Dtask=Materialize -Dschema=tbox_dllite.ttl -Dabox=abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar
+java -Dtask=Materialize -Dschema=tbox_dllite.ttl -Dabox=abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
 echo "Done with Materialization."

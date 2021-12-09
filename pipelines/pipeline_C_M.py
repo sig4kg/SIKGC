@@ -41,7 +41,7 @@ def c_m(input_hrt_triple_file, work_dir, class_op_and_pattern_path, schema_file,
 
 if __name__ == "__main__":
     print("CM pipeline")
-    c_m(input_hrt_triple_file="../resources/NELL/NELL995_formatted.txt",
+    c_m(input_hrt_triple_file="../resources/NELL/abox_hrt_uri.txt",
         work_dir="../outputs/cm/",
         class_op_and_pattern_path='../resources/NELL-patterns/',
         schema_file='../resources/NELL/NELL.ontology.nt',

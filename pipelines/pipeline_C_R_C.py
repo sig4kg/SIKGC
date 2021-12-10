@@ -6,9 +6,9 @@ from tqdm.auto import trange
 from module_utils.rumis_util import *
 
 
-def c_r_c(input_hrt_triple_file, work_dir, class_op_and_pattern_path, max_epoch=2):
-    context_resource = ContextResources(input_hrt_triple_file, work_dir=work_dir, class_and_op_file_path=class_op_and_pattern_path, create_id_file=False)
-    abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
+def c_r_c(input_dir, work_dir, pattern_path, max_epoch=2):
+    context_resource = ContextResources(input_dir + 'abox_hrt_uri.txt', work_dir=work_dir, class_and_op_file_path=input_dir, create_id_file=False)
+    abox_scanner_scheduler = AboxScannerScheduler(pattern_path, context_resource)
     abox_scanner_scheduler.register_pattern([1, 2])
     # first round scan, get ready for training
     abox_scanner_scheduler.scan_patterns(work_dir=work_dir)
@@ -33,7 +33,7 @@ def c_r_c(input_hrt_triple_file, work_dir, class_op_and_pattern_path, max_epoch=
         # consistency checking for new triples
         new_hrt_df1 = read_hrt_rumis_2_hrt_int_df(work_dir + "DLV/extension.opm.kg.pos.10.needcheck", context_resource)
         new_hrt_df2 = read_hrt_rumis_2_hrt_int_df(work_dir + "DLV/extension.opm.kg.neg.10.needcheck", context_resource)
-        new_hrt_df = pd.concat([new_hrt_df1, new_hrt_df2], 0)
+        new_hrt_df = pd.concat([new_hrt_df1, new_hrt_df2], 0).drop_duplicates(keep='first').reset_index(drop=True)
         #  backup and clean last round data
         run_scripts.clean_rumis(work_dir=work_dir)
         abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
@@ -58,7 +58,7 @@ def c_r_c(input_hrt_triple_file, work_dir, class_op_and_pattern_path, max_epoch=
 
 if __name__ == "__main__":
     print("CRC pipeline")
-    c_r_c("../resources/NELL/abox_hrt.txt", "../outputs/crc/", class_op_and_pattern_path='../resources/NELL_patterns/')
+    c_r_c(input_dir="../resources/NELL/", work_dir="../outputs/crc/", pattern_path='../resources/NELL-patterns/')
 
 
 

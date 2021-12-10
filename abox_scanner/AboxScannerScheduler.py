@@ -46,6 +46,9 @@ class AboxScannerScheduler:
 
         return self
 
+    def register_patterns_all(self) -> AboxScannerScheduler:
+        return self.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13])
+
     def register_pattern(self, pattern_ids) -> AboxScannerScheduler:
         files = os.listdir(self._tbox_pattern_dir)
         # for idx, file in enumerate(files):
@@ -71,13 +74,18 @@ class AboxScannerScheduler:
         start_time = datetime.datetime.now()
         old_df = self._context_resources.hrt_int_df
         df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
-        new_items = pd.concat([df, old_df]).drop_duplicates(keep=False)
+        new_items = pd.concat([df, old_df, old_df]).drop_duplicates(keep=False)
         df['is_valid'] = True
         df['is_new'] = True
         if old_df is not None:
-            df.update(df[(df['head'].isin(new_items['head']))
-                         & df['rel'].isin(new_items['rel'])
-                         & df['tail'].isin(new_items['tail'])]['is_new'].apply(lambda x: False))
+            mask = (df[['head', 'rel', 'tail']].isin(new_items[['head', 'rel', 'tail']])).all(axis=1)
+            # pandas has defect with df[mask], it get same values as new_items.
+            df.update(df[mask]['is_new'].apply(lambda x: False))
+            # for idx, row in df.iterrows():
+            #     if mask[idx]:
+            #         row['is_new'] = True
+
+
 
         init_invalid = len(df.query("is_valid == False"))
         for scanner in self._strategies:

@@ -1,0 +1,1063 @@
+http://ste-lod-crew.fr/nell/ontology/citytelevisionstation	The city where a TV station is located or broadcasts to.
+http://ste-lod-crew.fr/nell/ontology/citymuseums	The city that a museum is located in
+http://ste-lod-crew.fr/nell/ontology/colorofobject	Object has color (NEIL)
+http://ste-lod-crew.fr/nell/ontology/athleteledsportsteam	Describes the athletes that lead/led a sports team
+http://ste-lod-crew.fr/nell/ontology/atdate	assigns dates to things.
+http://ste-lod-crew.fr/nell/ontology/moviedirectedbydirector	to direct a monvie
+http://ste-lod-crew.fr/nell/ontology/statehascapital	The capital city of a state, where the main governing apparatus is located.
+http://ste-lod-crew.fr/nell/ontology/economicsectorcompany	specifies that a particular company does business in a particular economic sector
+http://ste-lod-crew.fr/nell/ontology/stateorprovinceresidenceofperson	the state or province that a person has residence in
+http://ste-lod-crew.fr/nell/ontology/universityledmusicfestival	identifies the university that led a Musical Festival
+http://ste-lod-crew.fr/nell/ontology/inverseoftoolssuchastools	Describes the tools types that are generalizations of specific tools
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductcutintogeometricshape	Describes the agricultural products that are usually cut into geometric shapes
+http://ste-lod-crew.fr/nell/ontology/persondeathdate	"the date on which this person died"
+http://ste-lod-crew.fr/nell/ontology/booksuchasbook	Describes the specific book types that are generalizations of actors
+http://ste-lod-crew.fr/nell/ontology/oilgasfield	"An field from which oil or natural gas are extracted."
+http://ste-lod-crew.fr/nell/ontology/personhasbiologicalfather	is biological father of a person
+http://ste-lod-crew.fr/nell/ontology/politician	Any person who has held or sought a position in a government.  The term "politician" may not be strictly accurate for some positions such as kings, but we have to call it something!
+http://ste-lod-crew.fr/nell/ontology/mlsoftware	A software package that offers machine learning functionality
+http://ste-lod-crew.fr/nell/ontology/shapeofobject	Object has shape (NEIL)
+http://ste-lod-crew.fr/nell/ontology/male	This category includes all male human beings.
+http://ste-lod-crew.fr/nell/ontology/teamhomestadium	The stadium or other sporting venue which a team designates as its "home." Typically, a large percentage of the team's games occur in this location.
+http://ste-lod-crew.fr/nell/ontology/productinstanceof	Specifies that a particular product is a particular kind of thing
+http://ste-lod-crew.fr/nell/ontology/musicartist	An individual or a group that performs or makes music. Musical artists should typically have performed in front of an audience on a regular basis or have recorded musical tracks or musical albums. (FreeBase)
+http://ste-lod-crew.fr/nell/ontology/languageofuniversity	Language spoken at a college/university.
+http://ste-lod-crew.fr/nell/ontology/bodypartcontainsbodypart	"indicates that one body part is contained inside another"
+http://ste-lod-crew.fr/nell/ontology/academicfieldconcernssubject	Subjects of study within a given academic field
+http://ste-lod-crew.fr/nell/ontology/personhasparent	parent of a person
+http://ste-lod-crew.fr/nell/ontology/scientificterm	a scientific term for prerequisite detection (currently ML and AI focused)
+http://ste-lod-crew.fr/nell/ontology/coachesteam	specifies that a particular coach coaches a particular team
+http://ste-lod-crew.fr/nell/ontology/fruit	A structure of a plant that contains its seeds.  This is closer to the botanical definition than the cullinary / colloquial definition, but is technically niether.
+http://ste-lod-crew.fr/nell/ontology/visualappearanceof	The NEIL-learned visual appearance of something
+http://ste-lod-crew.fr/nell/ontology/inverseofarterysuchasartery	Describes the specific artery types that are generalizations of arteries
+http://ste-lod-crew.fr/nell/ontology/judge	"a judge in a court of law"
+http://ste-lod-crew.fr/nell/ontology/park	Public local/state/national parks, as well as amusement parks and other privately-run attractions.
+http://ste-lod-crew.fr/nell/ontology/citycapitalofstate	The capital city of a state, where the main governing apparatus is located.
+http://ste-lod-crew.fr/nell/ontology/countryresidenceofperson	the country that a person has residence in
+http://ste-lod-crew.fr/nell/ontology/superpartof	a portion or division of a whole that is separate or distinct; piece, fragment, fraction, or section; constituent (http://dictionary.reference.com/browse/part)
+http://ste-lod-crew.fr/nell/ontology/inverseofathletesuchasathlete	Describes the specific athlete types that are generalizations of athletes
+http://ste-lod-crew.fr/nell/ontology/stadiumlocatedincity	The city where a stadium is located
+http://ste-lod-crew.fr/nell/ontology/inverseofhotelbuiltatpark	hotel and park are related
+http://ste-lod-crew.fr/nell/ontology/automobilemakerchiefexecutiveceo	Describes the CEOs of automobile maker companies
+http://ste-lod-crew.fr/nell/ontology/inverseofmoviessuchasmovies	Describes the movies types that are generalizations of specific movies
+http://ste-lod-crew.fr/nell/ontology/foodcancausedisease	Describes the diseases that can be caused by a food
+http://ste-lod-crew.fr/nell/ontology/mlauthorofsoftware	Specifies ML software that is written by a particular ML author
+http://ste-lod-crew.fr/nell/ontology/celebritysuchascelebrity	Describes the specific celebrity types that are generalizations of celebrities
+http://ste-lod-crew.fr/nell/ontology/organizationcreatedatdate	The date on which a given organization was founded
+http://ste-lod-crew.fr/nell/ontology/nongovorganization	Politically-active or governmentally-active organizations that are not part of the government, including but not limited to some NGOs
+http://ste-lod-crew.fr/nell/ontology/jobpositioncanbethesameaspoliticaloffice	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/tool	none
+http://ste-lod-crew.fr/nell/ontology/issueofpoliticsbill	Issues that a legislative billl is concerned with.
+http://ste-lod-crew.fr/nell/ontology/humanagent	Those things to which we can ascribe agency that are composed of one or more humans
+http://ste-lod-crew.fr/nell/ontology/televisioncompanyaffiliate	The network that a TV station gets its programming from
+http://ste-lod-crew.fr/nell/ontology/geopoliticallocationresidenceofpersion	the geopolitical location that person has residence in
+http://ste-lod-crew.fr/nell/ontology/everypromotedthing	every promoted category instance in KB
+http://ste-lod-crew.fr/nell/ontology/citystadiums	The city where a stadium is located
+http://ste-lod-crew.fr/nell/ontology/economicsectorhasperson	People who work in a given economic sector
+http://ste-lod-crew.fr/nell/ontology/politicianendorsespolitician	Politician that endorses another politician
+http://ste-lod-crew.fr/nell/ontology/cityhasshoppingmall	The city a shopping mall is located in.
+http://ste-lod-crew.fr/nell/ontology/organizationheadquarteredincity	The city where a given organization is headquartered
+http://ste-lod-crew.fr/nell/ontology/writecanbethesameasscientist	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/race	A sport race is a competition of speed, against an objective criterion, usually a clock or to a specific point. The competitors in a race try to complete a given task in the shortest amount of time. Typically this involves traversing some distance, but it can be any other task involving speed to reach a specific goal.
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproducttoattractinsect	Describes the agricultural products that attract insects
+http://ste-lod-crew.fr/nell/ontology/mammaleatsinsect	Describes the insects that mammals eats
+http://ste-lod-crew.fr/nell/ontology/inverseofawardtrophytournamentisthechampionshipgameofthenationalsport	Describes award trophy tournaments related to specific sports
+http://ste-lod-crew.fr/nell/ontology/personwrittenaboutinpublication	Specifies that a particular person has been written about in a particular publication
+http://ste-lod-crew.fr/nell/ontology/inverseofarteryarisesfromartery	Describes the arteries that arises from other arteries
+http://ste-lod-crew.fr/nell/ontology/sisterof	person has a sister
+http://ste-lod-crew.fr/nell/ontology/femalecanbethesameascomedian	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/physicalaction	An event that involves someone doing something with their physical body.
+http://ste-lod-crew.fr/nell/ontology/scientist	A scientist is a professional who performs research to discover the rules which govern the natural world. This category includes mathematicians, even though math isn't really a science.
+http://ste-lod-crew.fr/nell/ontology/mediacompany	Any company that deals in the production or marketing of media goods (film, audio, literature, journalistic, etc.)
+http://ste-lod-crew.fr/nell/ontology/dateofpersondeath	"the date on which this person died"
+http://ste-lod-crew.fr/nell/ontology/inverseofattractionmadeofbuildingmaterial	Describes the materials used to build attractions
+http://ste-lod-crew.fr/nell/ontology/agriculturalproducttoattractinsect	Describes the agricultural products that attract insects
+http://ste-lod-crew.fr/nell/ontology/country	The type "country" in Freebase can and should be used with a variety of topics. The most common will be probably be current and former independent nations, potentially including composite entities such as empires. It can also be used for autonomous entities within such a composite, such as the four current constituent countries (England, Northern Ireland, Scotland, and Wales) of the United Kingdom.  Anything having an ISO country code qualifies as a country, including contested countries like Taiwan, and including territories of minor or no population.
+http://ste-lod-crew.fr/nell/ontology/inversoofairportsuchasairport	Describes the airport types that are generalizations of specific aiports
+http://ste-lod-crew.fr/nell/ontology/inverseofplantincludeplant	Describes the subcategories of a plant
+http://ste-lod-crew.fr/nell/ontology/crustaceanisatypeofarthropod	Hyponym Relation
+http://ste-lod-crew.fr/nell/ontology/clothing	This type is for kinds of garments or clothing.  For lack of a meaningful way to constrain this category through definition or existent sibling categories, particularly when it comes to adorning the body for purposes of fashion (e.g. jewlery, colored contact lenses, costumery) or of utility (e.g. armor, kneepads or other sports equipment, corrective lenses), this will include anything wearable.
+http://ste-lod-crew.fr/nell/ontology/inverseofinvertebratefeedonfood	Describes the foods that are eaten by an invertebrate
+http://ste-lod-crew.fr/nell/ontology/cityuniversities	The city a university is located in.
+http://ste-lod-crew.fr/nell/ontology/arthropodbesometimesconfusewithinsect	Arthropodes that usually are confunded by insects
+http://ste-lod-crew.fr/nell/ontology/inverseofweaponssuchasweapons	Describes the weapons types that are generalizations of specific weapons
+http://ste-lod-crew.fr/nell/ontology/bankbankincountry	Describes the banks in a country
+http://ste-lod-crew.fr/nell/ontology/concepthasprerequisite	Prerequisite relationship between scientific terms (currently biased towards ML and AI areas)
+http://ste-lod-crew.fr/nell/ontology/inverseofathletefracturedbone	Bone fracture that an athlete had
+http://ste-lod-crew.fr/nell/ontology/inverseofmammalinducesemotion	The emotion that human beings generally have by looking at a mammal
+http://ste-lod-crew.fr/nell/ontology/farm	an area of land, including various structures, devoted primarily to the practice of producing and managing food (produce, grains, or livestock), fibres and, increasingly, fuel.
+http://ste-lod-crew.fr/nell/ontology/braintissue	"any subregion of the brain, but not including single nerves"
+http://ste-lod-crew.fr/nell/ontology/officebuildingroominbuilding	Which office-style building a particular room is found in
+http://ste-lod-crew.fr/nell/ontology/ageofperson	"the age of this person"
+http://ste-lod-crew.fr/nell/ontology/ownedbyagent	"an agent owns any object, animal, product, company, etc."
+http://ste-lod-crew.fr/nell/ontology/celebritycanbethesameasceo	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/mutualproxyfor	two things can be taken to refer to each other equally
+http://ste-lod-crew.fr/nell/ontology/agentholdssharesincompany	Any organization, person, or geopolitical entity that holds shares (majority or otherwise) of the given company.
+http://ste-lod-crew.fr/nell/ontology/yearofmarriage	This relation holds when a person married some other person in the specified year.
+http://ste-lod-crew.fr/nell/ontology/malemovedtostateorprovince	Describes the male people that moved to live in a state or province
+http://ste-lod-crew.fr/nell/ontology/stadiumhometosport	Specifies that a particular sport is played in a particular venue
+http://ste-lod-crew.fr/nell/ontology/countrycurrency	specifies that a particular country uses a particular currency
+http://ste-lod-crew.fr/nell/ontology/agentcausedevent	Companion to agentParticipatedInEvent.  Note that one needn't participate in an event in order to be a causal factor.
+http://ste-lod-crew.fr/nell/ontology/locationactedinbyorganization	location of an organization or company
+http://ste-lod-crew.fr/nell/ontology/producesproduct	Specifies that a particular compnay produces a particular product
+http://ste-lod-crew.fr/nell/ontology/motherofperson	mother of a person
+http://ste-lod-crew.fr/nell/ontology/mlmetric	A metric used to evaluate machine learning methods
+http://ste-lod-crew.fr/nell/ontology/emotion	Emotion is the complex psychophysiological experience of an individual's state of mind as interacting with biochemical (internal) and environmental (external) influences (http://en.wikipedia.org/wiki/Emotion)
+http://ste-lod-crew.fr/nell/ontology/religionssuchasreligions	Describes the religions types that are generalizations of specific religions
+http://ste-lod-crew.fr/nell/ontology/inverseofbuildingfeaturebuiltabovelak	buildingfeature and lake are related
+http://ste-lod-crew.fr/nell/ontology/inverseofarthropodlooklikeinsect	Describes the arthropod that look like specific insects
+http://ste-lod-crew.fr/nell/ontology/personhasresidenceincountry	the country that a person has residence in
+http://ste-lod-crew.fr/nell/ontology/sociopolitical	Any socio-political word (?!)
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductcontainchemical	Describes the agricultural products that contain a chemical
+http://ste-lod-crew.fr/nell/ontology/inverseofactorsuchasactor	Describes the actor types that are generalizations of specific actors
+http://ste-lod-crew.fr/nell/ontology/awardtrophytournamentwasawardedonstadium	Stadium of event venue where a award trophy tournament was at least once awarded
+http://ste-lod-crew.fr/nell/ontology/bird	Birds (class Aves) are winged, bipedal, endothermic (warm-blooded), egg-laying, vertebrate animals.
+http://ste-lod-crew.fr/nell/ontology/mountaininstate	State/province a mountain is located in.
+http://ste-lod-crew.fr/nell/ontology/inverseofmusicalartisthadapetanimal	Describes the pet animals that musical artists have or had
+http://ste-lod-crew.fr/nell/ontology/url	A URL
+http://ste-lod-crew.fr/nell/ontology/animalthatfeedoninsect	Describes the animals that feed on Insects
+http://ste-lod-crew.fr/nell/ontology/magazinecontainspublication	Magazine in which a publication was published in
+http://ste-lod-crew.fr/nell/ontology/cognitiveactions	pertaining "to the action or process of knowing" (http://en.wikipedia.org/wiki/Cognitive_science)
+http://ste-lod-crew.fr/nell/ontology/televisionstationincity	The city where a TV station is located or broadcasts to.
+http://ste-lod-crew.fr/nell/ontology/organizationcreatedbyperson	The person, organization, or geopoiltical entity that founded the given organization
+http://ste-lod-crew.fr/nell/ontology/weaponssuchasweapons	Describes the weapons types that are generalizations of specific weapons
+http://ste-lod-crew.fr/nell/ontology/organizationdissolvedatdate	The date on which a given organization was dissolved
+http://ste-lod-crew.fr/nell/ontology/citycontainsbuilding	specifies that a particular building is located in a particular city
+http://ste-lod-crew.fr/nell/ontology/landscapefeatures	This type captures geographical features of the Earth, including landforms, bodies of water, underwater landforms, caves, and similar locations.
+http://ste-lod-crew.fr/nell/ontology/itemusedatlocation	an item used in a specific place
+http://ste-lod-crew.fr/nell/ontology/conceptprerequisiteof	Prerequisite relationship between scientific terms (currently biased towards ML and AI areas)
+http://ste-lod-crew.fr/nell/ontology/subjectconcernedbyacademicfield	Subjects of study within a given academic field
+http://ste-lod-crew.fr/nell/ontology/politicsissue	An issue of political concern
+http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas	"this is another name for this organization"
+http://ste-lod-crew.fr/nell/ontology/inverseofbuildingfeaturemadefrombuildingmaterial	Describes the building features that are made of a building material
+http://ste-lod-crew.fr/nell/ontology/sideeffectcausedbydrug	This predicate indicates that the use of a drug has a physiologicalCondition as a side-effect.  Uses of this predicate may include both very common side-effects, and rare but reported side-effects.
+http://ste-lod-crew.fr/nell/ontology/academicfieldusedinjobposition	Academic fields useful for job positions
+http://ste-lod-crew.fr/nell/ontology/toolssuchastools	Describes the tools types that are generalizations of specific tools
+http://ste-lod-crew.fr/nell/ontology/professionistypeofprofession	Type-specific generalization of professions.
+http://ste-lod-crew.fr/nell/ontology/countriessuchascountries	Describes the countries types that are generalizations of specific countries
+http://ste-lod-crew.fr/nell/ontology/riverflowsthroughcity	Rivers that flow or through or immediately adjacent to the city.
+http://ste-lod-crew.fr/nell/ontology/leaguestadiums	specifies that a particular league uses a particular venue for its games
+http://ste-lod-crew.fr/nell/ontology/jobpositionheldbyperson	This relation holds when the person has held the position at some point in some organization.
+http://ste-lod-crew.fr/nell/ontology/hobby	A hobby is an activity undertaken for pleasure in one's spare time. Some hobbies exist primarily as hobbies, while others might be practiced professionally by some people but as hobbies by others.  This can include sport activities.
+http://ste-lod-crew.fr/nell/ontology/automakerproducesmodel	"this automobile manufacturer produces this particular automobile make or model"
+http://ste-lod-crew.fr/nell/ontology/coachesinleague	specifies that a particular coach coaches a team that plays in a particular league
+http://ste-lod-crew.fr/nell/ontology/athletecoach	to give instruction or advice to in the capacity of a coach; instruct (http://dictionary.reference.com/browse/coach)
+http://ste-lod-crew.fr/nell/ontology/scenecontainsobject	Object found in scene (NEIL)
+http://ste-lod-crew.fr/nell/ontology/visualizableattribute	a visual attribute (for NEIL)
+http://ste-lod-crew.fr/nell/ontology/wikipediaurlof	The Wikipedia page for a given category instance
+http://ste-lod-crew.fr/nell/ontology/bankboughtbank	Describes the banks that bought other banks
+http://ste-lod-crew.fr/nell/ontology/countryhascompanyoffice	specifies that a particular company has offices in a particular country
+http://ste-lod-crew.fr/nell/ontology/coachesathlete	to give instruction or advice to in the capacity of a coach; instruct (http://dictionary.reference.com/browse/coach)
+http://ste-lod-crew.fr/nell/ontology/organizationhasagent	to be in the relation of a member, adherent, inhabitant, etc (http://dictionary.reference.com/browse/belong)
+http://ste-lod-crew.fr/nell/ontology/hasfamilymember	two persons are family members
+http://ste-lod-crew.fr/nell/ontology/female	This category includes all female human beings.
+http://ste-lod-crew.fr/nell/ontology/isoneoccurrenceof	Specifies the way in which a grouping of individual somethings can be referred to, including but not limited to relating the plural form to the singular.
+http://ste-lod-crew.fr/nell/ontology/subpartoforganization	one organization is a subpart of a larger, controlling organization
+http://ste-lod-crew.fr/nell/ontology/buildingispartofuniversity	Describes buildings that universities might own
+http://ste-lod-crew.fr/nell/ontology/hotelwasbuiltatfarm	Describes hotels built at farms
+http://ste-lod-crew.fr/nell/ontology/wallitem	Any item that is commonly found on a wall
+http://ste-lod-crew.fr/nell/ontology/organizationhastopmember	Identifies people in high-level, leading positions at organizations.  Applicable positions have authority over the entire organization (e.g. presidents, VPs, directors, and C-level executives), not merely over departments or subsidiaries.
+http://ste-lod-crew.fr/nell/ontology/agentparticipatedinevent	identifies participants in events
+http://ste-lod-crew.fr/nell/ontology/inverseofprofessionssuchasprofessions	Describes the professions types that are generalizations of specific professions
+http://ste-lod-crew.fr/nell/ontology/mediatype	the means of communication, as radio and television, newspapers, and magazines, that reach or influence people widely (http://dictionary.reference.com/browse/media)
+http://ste-lod-crew.fr/nell/ontology/televisionnetwork	Category for different types of TV networks (currently closed-world, limited to major American networks)
+http://ste-lod-crew.fr/nell/ontology/cityattractions	The city that an attraction is located in
+http://ste-lod-crew.fr/nell/ontology/bankchiefexecutiveceo	Describes the CEOs of banks
+http://ste-lod-crew.fr/nell/ontology/transportation	a mode of travel, such as rail transport or automobile. It is a category defining a means of moving from one location to another.
+http://ste-lod-crew.fr/nell/ontology/agentrepresentsorganization	Specialization of proxyFor for agent-to-organization relations. populate=false only because presumed to be uninteresting
+http://ste-lod-crew.fr/nell/ontology/citylocatedinstate	specifies that a particular city is located in a particular state or province
+http://ste-lod-crew.fr/nell/ontology/personchargedwithcrime	Charges or crimes (alleged or convicted) of the given person
+http://ste-lod-crew.fr/nell/ontology/arachnidiseatenbybird	Describes arachnids that are hunted and eaten by this bird
+http://ste-lod-crew.fr/nell/ontology/personterminatedbyorganization	This relation holds when the organization has teminated the employment relationship. This includes firings, RIFs, resignations, and retirements. Normal ending of a contract does not constitute terminatedEmployment. A termination event (the endinf of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith used to work for IBM, that is not enough to assert a terminatedEmployment relation.
+http://ste-lod-crew.fr/nell/ontology/personhasethnicity	The ethnicity of a person
+http://ste-lod-crew.fr/nell/ontology/athletecanbethesameasactor	Describes actors that are the same instances as athlete
+http://ste-lod-crew.fr/nell/ontology/writerwasbornincity	Describes the city where a write was born in
+http://ste-lod-crew.fr/nell/ontology/magazine	A magazine is a periodical bound typically published less frequently than daily.  This includes electronic magazines.  For lack of a better definitional boundary, this therefore includes any periodical that is not instead a newspaper.
+http://ste-lod-crew.fr/nell/ontology/geopoliticallocationcontainsstate	specifies that a particular state or province is located in a particular geopolitical location
+http://ste-lod-crew.fr/nell/ontology/inverseofcriminalssuchascriminals	Describes the criminals types that are generalizations of specific criminals
+http://ste-lod-crew.fr/nell/ontology/roomcancontainfurniture	Relates furniture to rooms in which it is often found
+http://ste-lod-crew.fr/nell/ontology/bathroomitem	Any item that is commonly found in a bathroom or restroom.
+http://ste-lod-crew.fr/nell/ontology/politicianusholdsoffice	U.S. Politician who holds an office
+http://ste-lod-crew.fr/nell/ontology/inverseoftouristattraction	Describes the specific tourist attraction types that are generalizations of tourist attractions
+http://ste-lod-crew.fr/nell/ontology/organizationacronymhasname	"this short name or acronym refers to this organization"
+http://ste-lod-crew.fr/nell/ontology/athleteplaysinleague	a group of athletic teams organized to promote mutual interests and to compete chiefly among themselves (http://dictionary.reference.com/browse/league)
+http://ste-lod-crew.fr/nell/ontology/cityhastransportation	City of a transportation system.
+http://ste-lod-crew.fr/nell/ontology/personcanada	citizens of Canada
+http://ste-lod-crew.fr/nell/ontology/locationrelatedtoagent	Most general agent-to-location relation
+http://ste-lod-crew.fr/nell/ontology/acquiredby	to come into possession or ownership of; get as one's own (http://dictionary.reference.com/browse/acquire)
+http://ste-lod-crew.fr/nell/ontology/animalsuchasmollusk	Describes the mollusk that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/monument	An architectural structure (usually public) which is erected to commemorate a person, place, event, or group.
+http://ste-lod-crew.fr/nell/ontology/perceptionevent	Something that can be perceived by someone.
+http://ste-lod-crew.fr/nell/ontology/plantincludeplant	Describes the subcategories of a plant
+http://ste-lod-crew.fr/nell/ontology/agentcontributedtocreativework	Specifies that a particular agent contributed to the production or creation of a particular creativeWork.  An actor in a movie contributes to that movie, but agentCreated would probably be to strong an assertion for that.
+http://ste-lod-crew.fr/nell/ontology/terroristorganization	an organization that is involved in terrorist activities.
+http://ste-lod-crew.fr/nell/ontology/directorworkedwithactor	Relates the actors and directors that at least once worked together
+http://ste-lod-crew.fr/nell/ontology/personhasresidenceinlocation	the location that person has residence in
+http://ste-lod-crew.fr/nell/ontology/athleteinjuredhisbodypart	Describes the athletes that had injured any body part
+http://ste-lod-crew.fr/nell/ontology/traditionalgame	Includes all non-sports, non-electronic games including board games, parlor games and card games.
+http://ste-lod-crew.fr/nell/ontology/archaeasuchasarchaea	Describes the specific archaea types that are generalizations of archaeas
+http://ste-lod-crew.fr/nell/ontology/athlete	An athlete is a person who plays a sport competitively.
+http://ste-lod-crew.fr/nell/ontology/athletefracturedbone	Bone fracture that an athlete had
+http://ste-lod-crew.fr/nell/ontology/officebuildingroomhostsmeetingeventtitle	In which room a particular meeting will take place
+http://ste-lod-crew.fr/nell/ontology/personhasreligion	The religion to which a person has belonged.
+http://ste-lod-crew.fr/nell/ontology/inverseofathleteledsportsteam	Describes the athletes that lead/led a sports team
+http://ste-lod-crew.fr/nell/ontology/fooddecreasestheriskofdisease	Describes the foods that can reduce the risks of having a disease
+http://ste-lod-crew.fr/nell/ontology/competeswith	specifies that a particular company has been in competition with another particular company
+http://ste-lod-crew.fr/nell/ontology/sportusesequipment	Specifies equipment that is used by a particular sport.
+http://ste-lod-crew.fr/nell/ontology/musicfestival	"A Music Festival is a musical event where live music is played, typically by multiple musical artists. A festival may be a singular event or a recurring one."
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductcookedwithagriculturalproduct	Describes the agricultural products that are usually cooked with another agricultural product
+http://ste-lod-crew.fr/nell/ontology/eventatlocation	the location that an event is happened at
+http://ste-lod-crew.fr/nell/ontology/writer	A writer is a person who produces written work. This category includes book authors, poets and playwrights.
+http://ste-lod-crew.fr/nell/ontology/weaponmadeincountry	Describes the weapons produced by a country
+http://ste-lod-crew.fr/nell/ontology/mlalgorithm	Any algorithm or class of algorithms that is used at any stage of machine learning.
+http://ste-lod-crew.fr/nell/ontology/athleteplaysforteam	to join together in a team (http://dictionary.reference.com/browse/team)
+http://ste-lod-crew.fr/nell/ontology/academicfieldhassubfield	Subfields within a given academic field
+http://ste-lod-crew.fr/nell/ontology/countryofpersondeath	the country that a person died in
+http://ste-lod-crew.fr/nell/ontology/lake	A lake is a body of water surrounded entirely by land. For the purposes of this schema, any such body, regardless of size, should be considered a lake. This includes ponds, but excludes such bodies as marshes, bogs, fens, etc.
+http://ste-lod-crew.fr/nell/ontology/issueofpoliticsgroup	Issues that a political group has concern about
+http://ste-lod-crew.fr/nell/ontology/mountain	A mountain is a landform that extends above the surrounding terrain in a limited area. A mountain is generally steeper than a hill, but there is considerable overlap, and usage often depends on local custom.
+http://ste-lod-crew.fr/nell/ontology/drugpossiblytreatsphysiologicalcondition	relates a substance to a condition that it might treat. This relation includes conditions that the substance has been designed or approved to treat, as well as conditions for which it is being investigated as a possible treatment.  Common folk remedies would also be eligible for this relation.  For example, it would be reasonable to say that "chicken noodle soup" is a possible treatment for "colds".
+http://ste-lod-crew.fr/nell/ontology/game	General parent category for more specific kinds of games
+http://ste-lod-crew.fr/nell/ontology/parentofperson	parent of a person
+http://ste-lod-crew.fr/nell/ontology/cityresidenceofperson	the city that a person has residence in
+http://ste-lod-crew.fr/nell/ontology/istallerthan	Indicates that arg1 has a greater height than arg2
+http://ste-lod-crew.fr/nell/ontology/productproducedincountry	Describes the products produced by a country
+http://ste-lod-crew.fr/nell/ontology/arthropodcalledarthropod	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/inverseofcoachstudiedatuniversity	Describes the university where the coach studied at
+http://ste-lod-crew.fr/nell/ontology/musicianplaysinstrument	Specifies that a musical instrument is played by a paritcular musician
+http://ste-lod-crew.fr/nell/ontology/tableitem	Any item that is commonly found on a table.
+http://ste-lod-crew.fr/nell/ontology/inverseofanimalsuchasfish	Describes the fish that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/criminalssuchascriminals	Describes the criminals types that are generalizations of specific criminals
+http://ste-lod-crew.fr/nell/ontology/inverseofathletewinsawardtrophytournament	Describes the athletes who won an award trophy tournament
+http://ste-lod-crew.fr/nell/ontology/comediancanbethesameasmale	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/shoppingmallincity	The city a shopping mall is located in.
+http://ste-lod-crew.fr/nell/ontology/colorassociatedwithvisualizableattribute	color and visualizableattribute are related
+http://ste-lod-crew.fr/nell/ontology/trainstation	railway station (mainly British Commonwealth) or railroad station (mainly US)) is a railway facility where trains regularly stop to load or unload passengers or freight (goods). It generally consists of a platform next to the tracks and a building (depot) providing related services such as ticket sales and waiting rooms.
+http://ste-lod-crew.fr/nell/ontology/marriedinyear	This relation holds when a person married some other person in the specified year.
+http://ste-lod-crew.fr/nell/ontology/persondiedincity	the city that a person died in
+http://ste-lod-crew.fr/nell/ontology/musicgenre	A style or classification of music (FreeBase)
+http://ste-lod-crew.fr/nell/ontology/organizationnamehasacronym	"this short name or acronym refers to this organization"
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductincludingagriculturalproduct	Describes the agricultural products that are generalizations of other agriculture products
+http://ste-lod-crew.fr/nell/ontology/locationofitemexistence	An item that is typically found in a particular place.  While most any item could concievably exist at most any place, the intent for this relation and its children is to capture "common knowledge" about what would be expected to be found where.
+http://ste-lod-crew.fr/nell/ontology/book	A book is a written work or a collection of written works in book form. "Book" represents the abstract notion of a particular book, rather than a particular edition.
+http://ste-lod-crew.fr/nell/ontology/clothingmadefromplant	Describes the clothing items made of a plant
+http://ste-lod-crew.fr/nell/ontology/organizationhasperson	organization or company that person is belonged to
+http://ste-lod-crew.fr/nell/ontology/inverseofdiseasecausesphysiologicalcondition	Describes diseases that may cause a physiological condition
+http://ste-lod-crew.fr/nell/ontology/person	A person is a human being (man, woman or child) known to have actually existed. Living persons, celebrities and politicians are persons, as are deceased persons.
+http://ste-lod-crew.fr/nell/ontology/geopoliticalorganization	Those geopolitical entities that are organizations
+http://ste-lod-crew.fr/nell/ontology/aquarium	the aquatic counterpart of a zoo, housing living aquatic species for viewing
+http://ste-lod-crew.fr/nell/ontology/victim	a victim of an event, could be a person, or a group of person, like childrens, students, soldiers, drivers, etc
+http://ste-lod-crew.fr/nell/ontology/invertebratehascolor	Describes the color of invertebrates
+http://ste-lod-crew.fr/nell/ontology/arachnid	air-breathing arthropods characterized by simple eyes and four pairs of legs
+http://ste-lod-crew.fr/nell/ontology/researchproject	"A specific research effort or a research center"
+http://ste-lod-crew.fr/nell/ontology/stateorprovince	In general, the top-level administrative or political subdivision within a country.
+http://ste-lod-crew.fr/nell/ontology/zooincity	The city a zoo is located in
+http://ste-lod-crew.fr/nell/ontology/stateorprovinceofpersondeath	the state or province that a person died in
+http://ste-lod-crew.fr/nell/ontology/inverseofinsecteatsgrain	Describes the grains eaten by an insect
+http://ste-lod-crew.fr/nell/ontology/agentinteractswithagent	to act one upon another (http://dictionary.reference.com/browse/interact)
+http://ste-lod-crew.fr/nell/ontology/arthropodlookslikeinsect	Describes the arthropod that look like specific insects
+http://ste-lod-crew.fr/nell/ontology/automobilemaker	A company that manufactures motor-powered vehicles (eg., cars, motorcycles, buses, trucks and motorized bikes)
+http://ste-lod-crew.fr/nell/ontology/worksfor	to be employed, esp. as a means of earning one's livelihood (http://dictionary.reference.com/browse/work)
+http://ste-lod-crew.fr/nell/ontology/thinghascolor	Object has color (NEIL)
+http://ste-lod-crew.fr/nell/ontology/hallwayitem	Any item that is commonly found in a hallway.
+http://ste-lod-crew.fr/nell/ontology/countryhascitizen	the citizenship of a person
+http://ste-lod-crew.fr/nell/ontology/inverseofhotelwasbuiltatfarm	Describes hotels built at farms
+http://ste-lod-crew.fr/nell/ontology/countryproducesproduct	Describes the products produced by a country
+http://ste-lod-crew.fr/nell/ontology/sportsleague	A sports league is an association of teams that compete with each other in a sport. Sports leagues include conferences and divisions of other sports leagues.
+http://ste-lod-crew.fr/nell/ontology/deathageofperson	"the age at which this person died"
+http://ste-lod-crew.fr/nell/ontology/stadiumoreventvenuedisclosescompany	Describes a stadium or event venue that discloses a company
+http://ste-lod-crew.fr/nell/ontology/releasedateexpectedfordrug	This predicate represents the relationship between a pharmaceutical substance and the date when it is expected to be approved for legal marketing.  For our purposes, the date will typically correspond to a date for FDA approval, but the relationship itself is not restricted to approval for sale in the United States.
+http://ste-lod-crew.fr/nell/ontology/museumincity	The city that a museum is located in
+http://ste-lod-crew.fr/nell/ontology/awardtrophytournamentisthechampionshipgameofthenationalsport	Describes award trophy tournaments related to specific sports
+http://ste-lod-crew.fr/nell/ontology/drugexpectedreleasedate	This predicate represents the relationship between a pharmaceutical substance and the date when it is expected to be approved for legal marketing.  For our purposes, the date will typically correspond to a date for FDA approval, but the relationship itself is not restricted to approval for sale in the United States.
+http://ste-lod-crew.fr/nell/ontology/inverseofcolorassociatedwithvisualizableattribut	color and visualizableattribute are related
+http://ste-lod-crew.fr/nell/ontology/drughassideeffect	This predicate indicates that the use of a drug has a physiologicalCondition as a side-effect.  Uses of this predicate may include both very common side-effects, and rare but reported side-effects.
+http://ste-lod-crew.fr/nell/ontology/moviessuchasmovies	Describes the movies types that are generalizations of specific movies
+http://ste-lod-crew.fr/nell/ontology/statehasmountain	State/province a mountain is located in.
+http://ste-lod-crew.fr/nell/ontology/trainstationincity	The city a train station is in.
+http://ste-lod-crew.fr/nell/ontology/softwareisprogrammedinprogramminglanguage	Relates a software to its programming language
+http://ste-lod-crew.fr/nell/ontology/personbornincity	the city that a person was born in
+http://ste-lod-crew.fr/nell/ontology/sport	A game which involves some form of physical prowess (i.e. athleticism, as opposed to the physical prowess needed for a parlour game like Pin the Tail on the Donkey).  Note that this does not include non-game sports; those may be hobbies instead.
+http://ste-lod-crew.fr/nell/ontology/meetingeventtitleinbuilding	In which building a particular meeting will take place
+http://ste-lod-crew.fr/nell/ontology/sportsteampositionforsport	The relation between a sport and team positions filled by athletes
+http://ste-lod-crew.fr/nell/ontology/perceptionaction	An event that involves someone perceiving something
+http://ste-lod-crew.fr/nell/ontology/countryisthehomeofsportsteam	Describes the home country of sports teams
+http://ste-lod-crew.fr/nell/ontology/hotelincity	The city a hotel is located in.
+http://ste-lod-crew.fr/nell/ontology/personhasfather	father of a person
+http://ste-lod-crew.fr/nell/ontology/eventinvolveditem	Umbrella relation for identifying items in events.
+http://ste-lod-crew.fr/nell/ontology/locationofitemuse	an item used in a specific place
+http://ste-lod-crew.fr/nell/ontology/objectlookslikeobject	Object looks like (NEIL)
+http://ste-lod-crew.fr/nell/ontology/eventhasparticipantagent	identifies participants in events
+http://ste-lod-crew.fr/nell/ontology/trail	Trails for hiking, walking, biking, or even driving.  Routes with street addresses cannot be trails.
+http://ste-lod-crew.fr/nell/ontology/officebuildingroom	A room designation such as would be used for rooms in an office building
+http://ste-lod-crew.fr/nell/ontology/wine	Types of wines or specific vintanges of particular wineries
+http://ste-lod-crew.fr/nell/ontology/personspeakingatmeetingeventtitle	Who will be speaking at a particular meeting
+http://ste-lod-crew.fr/nell/ontology/inverseofanimalsuchasinsect	Describes the insect that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/inverseofautomobilemakerdealersincountry	Describes the car dealers in a country
+http://ste-lod-crew.fr/nell/ontology/coachworksincountry	Describes the country where a coach works
+http://ste-lod-crew.fr/nell/ontology/skiarea	A place to ski"
+http://ste-lod-crew.fr/nell/ontology/visualartmovementartist	The art movements or styles that a visualArtist is associated with.
+http://ste-lod-crew.fr/nell/ontology/organizationhiredperson	This relation connects an organization to individuals that it hired.  It does include people hired as contractors, not just people hired as employees. It does not include elected officials. It does not include organizations that may be hired for some particular purpose. Typically, hiring someone does involve paying them, though that is seldom stated explicitly when the relation is mentioned. A hiring event (the actual initiation of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith works for IBM, that is not enough to assert a hired relation.
+http://ste-lod-crew.fr/nell/ontology/programminglanguage	A language used to give instructions to a computer
+http://ste-lod-crew.fr/nell/ontology/instrumentplayedbymusician	Specifies that a musical instrument is played by a paritcular musician
+http://ste-lod-crew.fr/nell/ontology/players	to engage in (a game, pastime, etc.) (http://dictionary.reference.com/browse/play)
+http://ste-lod-crew.fr/nell/ontology/persondiedincountry	the country that a person died in
+http://ste-lod-crew.fr/nell/ontology/typeproducedby	Specifies that a particular compnay produces a particular type of product
+http://ste-lod-crew.fr/nell/ontology/inverseofemotionassocietedwithdisease	Describes the emotions associated with a disease
+http://ste-lod-crew.fr/nell/ontology/inverseofpersonmovedtostateorprovince	Describes the people that moved to live in a state or province
+http://ste-lod-crew.fr/nell/ontology/teamcoach	specifies that a particular coach coaches a particular team
+http://ste-lod-crew.fr/nell/ontology/celltype	A cell type is a distinct morphological or functional form of cell (http://en.wikipedia.org/wiki/Cell_type)
+http://ste-lod-crew.fr/nell/ontology/zoo	facility in which animals are confined within enclosures, displayed to the public, and in which they may also be bred.
+http://ste-lod-crew.fr/nell/ontology/llcoordinate	Longitude is the angular distance of a point's meridian from the Prime (Greenwich) Meridian
+http://ste-lod-crew.fr/nell/ontology/sportnamehasoriginlanguage	Describes the origin language of the sports name
+http://ste-lod-crew.fr/nell/ontology/coach	A coach is a trainer for a sports team. He leads the team in exercises and manages the team during gameplay. This category includes assistant coaches and other trainers.
+http://ste-lod-crew.fr/nell/ontology/locationofpersondeath	the location that a person died in
+http://ste-lod-crew.fr/nell/ontology/agentrelatedtolocation	Most general agent-to-location relation
+http://ste-lod-crew.fr/nell/ontology/academicfield	A field of study is the field, area, or discipline which is the focus of study of a student or academic, or which is taught in a school.
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductproducedbyfarm	the agricultural products produced by a farm
+http://ste-lod-crew.fr/nell/ontology/haswife	person has a wife
+http://ste-lod-crew.fr/nell/ontology/buildinghasofficebuildingroom	Which office-style building a particular room is found in
+http://ste-lod-crew.fr/nell/ontology/personsouthamerica	citizens of countries in South America
+http://ste-lod-crew.fr/nell/ontology/mlconference	A conference in the area of machine learning
+http://ste-lod-crew.fr/nell/ontology/arthropod	Arthropods are members of the phylum Arthropoda.
+http://ste-lod-crew.fr/nell/ontology/nondiseasecondition	Those physiologicalConditions that normal and expected parts of life (such as pregnancy or teething) that are not diseases but which do affect the normal functioning of the body.
+http://ste-lod-crew.fr/nell/ontology/academicfieldsuchasacademicfield	Describes a specialization fo an Academic Field
+http://ste-lod-crew.fr/nell/ontology/countryalsoknownas	"this is another name for this country"
+http://ste-lod-crew.fr/nell/ontology/ceocanbethesameascelebrity	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/agentowns	"an agent owns any object, animal, product, company, etc."
+http://ste-lod-crew.fr/nell/ontology/cityalsoknownas	"this is another name for this city"
+http://ste-lod-crew.fr/nell/ontology/fungus	Member of kingom fungi.
+http://ste-lod-crew.fr/nell/ontology/inverseofbeveragecansoftendisease	Describes beverages that can help soften the symptons of diseases
+http://ste-lod-crew.fr/nell/ontology/chemical	A chemical compound is a molecular substance consisting of multiple atoms which are bonded together by a chemical reaction. This type can be used for compounds made of the same element (e.g. allotropes) or multiple different elements. Compounds are different from chemical mixtures because mixtures can be mixed and separated physically, without a reaction; The elements of the periodic table
+http://ste-lod-crew.fr/nell/ontology/musician	A musician is a person who sings or plays a musical instrument as part of a musical act.
+http://ste-lod-crew.fr/nell/ontology/astronautwasonamissionwithastronaut	Describes astronauts that were at a space mission togheter
+http://ste-lod-crew.fr/nell/ontology/visualizablescene	a visual scene (for NEIL's scene classifiers)
+http://ste-lod-crew.fr/nell/ontology/agentcreated	general relation to identify creation and authorships
+http://ste-lod-crew.fr/nell/ontology/creativework	"the product of any creative effort, including movies, paintings, musical songs, etc."
+http://ste-lod-crew.fr/nell/ontology/awayteamingame	Specifies that a particular team is the away team in a particular sportsGame.
+http://ste-lod-crew.fr/nell/ontology/stateorprovinceoforganizationheadquarters	The state or province where a given organization is headquartered
+http://ste-lod-crew.fr/nell/ontology/politicianholdsoffice	Specifies that a particular politician holds a particular office
+http://ste-lod-crew.fr/nell/ontology/inverseofmusicfestivalssuchasmusicfestivals	Describes the musicfestivals types that are generalizations of specific musicfestivals
+http://ste-lod-crew.fr/nell/ontology/leagueplayers	a group of athletic teams organized to promote mutual interests and to compete chiefly among themselves (http://dictionary.reference.com/browse/league)
+http://ste-lod-crew.fr/nell/ontology/agentbelongstoorganization	to be in the relation of a member, adherent, inhabitant, etc (http://dictionary.reference.com/browse/belong)
+http://ste-lod-crew.fr/nell/ontology/animalpredators	Animals that are hunted and eaten by this animal.
+http://ste-lod-crew.fr/nell/ontology/model	"a person who is paid to be a fashion model"
+http://ste-lod-crew.fr/nell/ontology/automobilemakerdealersincountry	Describes the car dealers in a country
+http://ste-lod-crew.fr/nell/ontology/sportsequipment	Anything which is used to play a sport
+http://ste-lod-crew.fr/nell/ontology/airport	"A place where airplanes, helicopters, or other flying vehicles land and take off"
+http://ste-lod-crew.fr/nell/ontology/clothmadeofplant	Plants that can be used to make cloths
+http://ste-lod-crew.fr/nell/ontology/writercanbethesameaspersonafrica	Describes writers that are the same instances as personafrica
+http://ste-lod-crew.fr/nell/ontology/economicsector	An economy may include several sectors (also called industries) (http://en.wikipedia.org/wiki/Economic_sectors)
+http://ste-lod-crew.fr/nell/ontology/latitudelongitudeof	"the latitude and longitude of this location, or the latitude and longitude typically associated with this thing"
+http://ste-lod-crew.fr/nell/ontology/street	A route of travel that has a single name indicating its entirety, and that could have a street address (as distinct from trail, which may not feature addresses)
+http://ste-lod-crew.fr/nell/ontology/locationofpersonbirth	the location that a person is born in
+http://ste-lod-crew.fr/nell/ontology/insecteatsgrain	Describes the grains eaten by an insect
+http://ste-lod-crew.fr/nell/ontology/proxyfor	one thing can be taken to refer to another, but the reverse is not necessarily or equally so
+http://ste-lod-crew.fr/nell/ontology/geopoliticalorganizationleadbyperson	specifies that a particular person plays a leading role in a particular geopolitical organization (which includes the governments of countries)
+http://ste-lod-crew.fr/nell/ontology/insect	class within the arthropods that have a chitinous exoskeleton, a three-part body (head, thorax, and abdomen), three pairs of jointed legs, compound eyes, and two antennae
+http://ste-lod-crew.fr/nell/ontology/conferencessuchasconferences	Describes the conferences types that are generalizations of specific conferences
+http://ste-lod-crew.fr/nell/ontology/vehicletypehasvehicle	Type-specific generalization of vehicles.
+http://ste-lod-crew.fr/nell/ontology/sportsgamewinner	Specifies that a particular team that played in a particular sportsGame was the winner thereof.
+http://ste-lod-crew.fr/nell/ontology/personattendsschool	person has attended a school
+http://ste-lod-crew.fr/nell/ontology/inverseofmeatcomesfromanimal	Describes the animals and their meat cuts
+http://ste-lod-crew.fr/nell/ontology/animaldevelopdisease	Describes the diseases that can be developed by an animal
+http://ste-lod-crew.fr/nell/ontology/inverseofdiseasemaybecausedbydrug	Describes a disease that can be caused by a drug
+http://ste-lod-crew.fr/nell/ontology/beach	geological landform along the shoreline of an ocean, sea or lake. It usually consists of loose particles which are often composed of rock, such as sand, gravel, shingle, pebbles, waves or cobblestones
+http://ste-lod-crew.fr/nell/ontology/stateorprovinceattainstrainstation	Describes the trainstantions location (state or province)
+http://ste-lod-crew.fr/nell/ontology/astronaut	An astronaut is a person that has flown in outer space. Not used for animals sent to space experimentally.
+http://ste-lod-crew.fr/nell/ontology/inverseofarthropodandotherarthropod	Describes similar arthropods
+http://ste-lod-crew.fr/nell/ontology/emotionassociatedwithdisease	Describes the emotions associated with a disease
+http://ste-lod-crew.fr/nell/ontology/journalist	Journalists are professionals who work in journalism. They collect and report news.
+http://ste-lod-crew.fr/nell/ontology/inverseofmusicsongisatrackofmusicalbum	Identifies a music song which is a track of a music album
+http://ste-lod-crew.fr/nell/ontology/museum	A museum is a "permanent institution in the service of society and of its development, open to the public, which acquires, conserves, researches, communicates and exhibits the tangible and intangible heritage of humanity and its environment, for the purposes of education, study, and enjoyment", as defined by the International Council of Museums.
+http://ste-lod-crew.fr/nell/ontology/latitudelongitude	"the latitude and longitude of this location, or the latitude and longitude typically associated with this thing"
+http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam	Teams that play against each other competitively
+http://ste-lod-crew.fr/nell/ontology/organizationheadquarteredincountry	The country where a given organization is headquartered
+http://ste-lod-crew.fr/nell/ontology/personantarctica	Placeholder in case we change the definition of personByLocation categories such that there would be anyone to put here (there are no countries in Antarctica of which to be a citizen).
+http://ste-lod-crew.fr/nell/ontology/schoolattendedbyperson	person has attended a school
+http://ste-lod-crew.fr/nell/ontology/cityofpersonbirth	the city that a person was born in
+http://ste-lod-crew.fr/nell/ontology/recipe	A recipe is a method of preparing a dish.  Dishes may have multiple recipes.  For instance, there may be many different recipes for chocolate chip cookies.
+http://ste-lod-crew.fr/nell/ontology/inverseofbankchiefexecutiveceo	Describes the CEOs of banks
+http://ste-lod-crew.fr/nell/ontology/arteryarisesfromartery	Describes the arteries that arises from other arteries
+http://ste-lod-crew.fr/nell/ontology/inverseofbacteriaisthecausativeagentofphysiologicalcondition	Describes the bacterias that causes physiological conditions
+http://ste-lod-crew.fr/nell/ontology/farmproducesagriculturalproduct	the agricultural products produced by a farm
+http://ste-lod-crew.fr/nell/ontology/inverseofislandhasskiarea	Describes island that have ski a area
+http://ste-lod-crew.fr/nell/ontology/academicfieldusedbyeconomicsector	Academic fields used by economic fields
+http://ste-lod-crew.fr/nell/ontology/companyeconomicsector	specifies that a particular company does business in a particular economic sector
+http://ste-lod-crew.fr/nell/ontology/vegetablecanbeservedwithgrain	Describes the vegetables that are usually served with a grain
+http://ste-lod-crew.fr/nell/ontology/eventsupereventof	event that is happened as a sub-event of another event
+http://ste-lod-crew.fr/nell/ontology/sportusesstadium	Specifies that a particular sport is played in a particular venue
+http://ste-lod-crew.fr/nell/ontology/legume	plant in the family Fabaceae (or Leguminosae), or a fruit of these specific plants. A legume fruit is a simple dry fruit that develops from a simple carpel and usually dehisces (opens along a seam) on two sides.
+http://ste-lod-crew.fr/nell/ontology/meetingeventtitle	The title of a meeting (such as a presentation)
+http://ste-lod-crew.fr/nell/ontology/inverseofvegetablecanbeservedwithgrain	Describes the vegetables that are usually served with a grain
+http://ste-lod-crew.fr/nell/ontology/cityhascompanyoffice	specifies that a particular company has offices in a particular city
+http://ste-lod-crew.fr/nell/ontology/synonymfor	Two strings are synonyms if both of them frequently refer to the same real-world concept in text.
+http://ste-lod-crew.fr/nell/ontology/inverseofcountryisthehomeofsportsteam	Describes the home country of sports teams
+http://ste-lod-crew.fr/nell/ontology/inverseofathletebeatathlete	Describes the athletes whom beat other athletes
+http://ste-lod-crew.fr/nell/ontology/inverseofanimalssuchasmammals	Describes the animal types that are generalizations of mammals
+http://ste-lod-crew.fr/nell/ontology/port	a location on a coast or shore containing one or more harbors where ships can dock and transfer people or cargo to or from land. Port locations are selected to optimize access to land and navigable water, for commercial demand, and for shelter from wind and waves. Ports with deeper water are rarer, but can handle larger, more economical ships. Since ports throughout history handled every kind of traffic, support and storage facilities vary widely, may extend for miles, and dominate the local economy. Some ports have an important, perhaps exclusively military role.
+http://ste-lod-crew.fr/nell/ontology/buildingfeaturemadefrombuildingmaterial	Describes the building features that are made of a building material
+http://ste-lod-crew.fr/nell/ontology/celebrity	A celebrity is a person who is frequently featured in the media and is recognizable by the general public.
+http://ste-lod-crew.fr/nell/ontology/date	a particular month, day, and year at which some event happened or will happen; the time or period to which any event or thing belongs; period in general (http://dictionary.reference.com/browse/date)
+http://ste-lod-crew.fr/nell/ontology/convention	"a large meeting, such as the Star Trek Convention"
+http://ste-lod-crew.fr/nell/ontology/atlocation	assigns locations to things.
+http://ste-lod-crew.fr/nell/ontology/crimeorchargeofperson	Charges or crimes (alleged or convicted) of the given person
+http://ste-lod-crew.fr/nell/ontology/dateatwhichexistslocation	Most general location-to-date relation.  Note that locations are not eternal.
+http://ste-lod-crew.fr/nell/ontology/amphibian	Amphibians (class Amphibia, from Amphi- meaning "on both sides" and -bios meaning "life"), such as frogs, salamanders, and caecilians, are ectothermic (or cold-blooded) animals that metamorphose from a juvenile water-breathing form, either to an adult air-breathing form, or to a paedomorph that retains some juvenile characteristics.
+http://ste-lod-crew.fr/nell/ontology/itemusedwithitem	Most general item-to-item relation.
+http://ste-lod-crew.fr/nell/ontology/invertebrate	An animal which does not have a back bone
+http://ste-lod-crew.fr/nell/ontology/actorsuchasactor	Describes the actor types that are generalizations of specific actors
+http://ste-lod-crew.fr/nell/ontology/mlauthorexpertin	specifies that a particular ML author is an expert in a particular ML area
+http://ste-lod-crew.fr/nell/ontology/teamingame	Specifies the teams that played in a particular sports game
+http://ste-lod-crew.fr/nell/ontology/buildingbelongstoorganization	Which organization a building belongs to
+http://ste-lod-crew.fr/nell/ontology/countrylanguage	Typical language spoken in a country (official or otherwise)
+http://ste-lod-crew.fr/nell/ontology/newspaper	A newspaper is a periodical which is printed in a specific format (i.e., on newsprint), describes recent events, and is typically published daily.
+http://ste-lod-crew.fr/nell/ontology/grain	dry seed-like fruit produced by the cereal grasses: e.g. wheat, barley, Indian corn
+http://ste-lod-crew.fr/nell/ontology/insectcanbeconfundedwitharthropod	Arthropodes that usually are confunded by insects
+http://ste-lod-crew.fr/nell/ontology/musicalartisthadapetanimal	Describes the pet animals that musical artists have or had
+http://ste-lod-crew.fr/nell/ontology/inverseofarachnidssuchasarachnides	Describes the specific arachnid types that are generalizations of arachnids
+http://ste-lod-crew.fr/nell/ontology/actorworkedwithdirector	Relates the actors and directors that at least once worked together
+http://ste-lod-crew.fr/nell/ontology/politicianussponsoredpoliticsbill	U.S. Politician sponsoring a particular legislative bill
+http://ste-lod-crew.fr/nell/ontology/personhasbiologicalmother	is biological mother of a person
+http://ste-lod-crew.fr/nell/ontology/bakedgood	A food which is made through baking in an oven
+http://ste-lod-crew.fr/nell/ontology/itemfoundinroom	Relates items to rooms in which they are often found
+http://ste-lod-crew.fr/nell/ontology/politicianmemberofpoliticsgroup	Specifies that a particular politician belongs to a particular
+http://ste-lod-crew.fr/nell/ontology/inverseofarthropodfeedoninsect	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/lakeinstate	The state/province a river is in.
+http://ste-lod-crew.fr/nell/ontology/school	A school is an organization whose primary function is education. This category includes universities, K-12 schools and trade schools.
+http://ste-lod-crew.fr/nell/ontology/company	A company is an organization whose goal is to make money
+http://ste-lod-crew.fr/nell/ontology/languageofcity	Typical language spoken in a city (official or otherwise)
+http://ste-lod-crew.fr/nell/ontology/vegetablecanbethesameasagriculturalproduct	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/eventoutcome	a final product or end result; consequence; issue (http://dictionary.reference.com/browse/outcome)
+http://ste-lod-crew.fr/nell/ontology/medicalprocedure	The medical treatment type is used for any medical intervention designed to treat and cure human diseases and medical conditions. This type includes both curative and palliative treatments
+http://ste-lod-crew.fr/nell/ontology/product	none
+http://ste-lod-crew.fr/nell/ontology/inverseofvideogamessuchasvideogames	Describes the videogame types that are generalizations of specific videogames
+http://ste-lod-crew.fr/nell/ontology/inverseofanimalsuchasinvertebrate	Describes the invertebrate that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/createdbyagent	general relation to identify creation and authorships
+http://ste-lod-crew.fr/nell/ontology/politicsgroupconcernsissue	Issues that a political group has concern about
+http://ste-lod-crew.fr/nell/ontology/nut	hard-shelled fruit of some plants having an indehiscent seed.
+http://ste-lod-crew.fr/nell/ontology/amphibiansuchasamphibian	Describes the amphibian types that are generalizations of specific amphibians
+http://ste-lod-crew.fr/nell/ontology/buildingmaterial	The construction material used for building
+http://ste-lod-crew.fr/nell/ontology/bone	"a bone or bone structure in a vertebrate"
+http://ste-lod-crew.fr/nell/ontology/eventcausedevent	Any events that is caused by another event
+http://ste-lod-crew.fr/nell/ontology/persongraduatedschool	This holds when the person has graduated from the educational institution at some time. This includes high schools, say, as well as universities. A division of an institution ("Yale Business School") will be scored as the same answer as the institution as a whole ("Yale").
+http://ste-lod-crew.fr/nell/ontology/inverseoflanguagespokenatisland	Describes languages spoken at islands
+http://ste-lod-crew.fr/nell/ontology/languageofcountry	Typical language spoken in a country (official or otherwise)
+http://ste-lod-crew.fr/nell/ontology/inverseofarterycalledartery	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/physiologicalconditionstudedbyperson	This predicate holds between a HumanAgent and a condition, and means that the HumanAgent performs research related to condition.
+http://ste-lod-crew.fr/nell/ontology/arteriessuchasarteries	Describes the specific artery types that are generalizations of arteries
+http://ste-lod-crew.fr/nell/ontology/directordirectedmovie	to direct a monvie
+http://ste-lod-crew.fr/nell/ontology/countrycontainsfarm	The country a farm is located in
+http://ste-lod-crew.fr/nell/ontology/politicianus	Politicians of the U.S.A
+http://ste-lod-crew.fr/nell/ontology/itemexistsatdate	a item exists in a determined time (or date)
+http://ste-lod-crew.fr/nell/ontology/species	is one of the basic units of biological classification and a taxonomic rank. A species is often defined as a group of organisms capable of interbreeding and producing fertile offspring.
+http://ste-lod-crew.fr/nell/ontology/officialwebsiteoforganization	An official top-level URL for an organization's website
+http://ste-lod-crew.fr/nell/ontology/visualartistartmovement	The art movements or styles that a visualArtist is associated with.
+http://ste-lod-crew.fr/nell/ontology/athleteplayssportsteamposition	The team position played by an athlete.
+http://ste-lod-crew.fr/nell/ontology/bodypartcontainsmuscle	Describes the muscles in body parts
+http://ste-lod-crew.fr/nell/ontology/filmfestival	"Film festivals at which movies are shown."
+http://ste-lod-crew.fr/nell/ontology/persondiedinstateorprovince	the state or province that a person died in
+http://ste-lod-crew.fr/nell/ontology/cave	"An underground space humans or animals can enter - a cave."
+http://ste-lod-crew.fr/nell/ontology/tradeunion	A trade union (aka labor union) is an organization which represents workers in a certain industry or profession.
+http://ste-lod-crew.fr/nell/ontology/musicalbum	A collection of Musical Tracks (recordings of Songs) released in a common format such as Compact Disc or LP. An album is typically associated with a single Musical Artist unless it is a compilation, which is a collection of tracks by various artists.  (FreeBase)
+http://ste-lod-crew.fr/nell/ontology/dateliteral	represents a date.
+http://ste-lod-crew.fr/nell/ontology/politicalgroupofpolitician	Specifies that a particular politician belongs to a particular
+http://ste-lod-crew.fr/nell/ontology/teammate	Two athletes are teammates if they play on the same team.
+http://ste-lod-crew.fr/nell/ontology/buildingfeaturebuiltabovelake	buildingfeature and lake are related
+http://ste-lod-crew.fr/nell/ontology/geometricshape	geometrical information that remains when location, scale and rotational effects are filtered out from an object (http://en.wikipedia.org/wiki/List_of_geometric_shapes)
+http://ste-lod-crew.fr/nell/ontology/disease	A disease is an abnormal condition of the human body that causes discomfort or impairs bodily functions. This type also includes medical conditions such as injuries, disabilities, disorders, syndromes, etc. that affect the normal functioning of a person, whether physically or mentally.
+http://ste-lod-crew.fr/nell/ontology/software	"software that runs on a computer."
+http://ste-lod-crew.fr/nell/ontology/winery	Companies that produce and sell wines
+http://ste-lod-crew.fr/nell/ontology/vertebrate	An animal which has a back bone
+http://ste-lod-crew.fr/nell/ontology/politicsbill	A legislative bill, passed, enacted, or otherwise.
+http://ste-lod-crew.fr/nell/ontology/wineproducedbywinery	Describes the wines sold by a winery
+http://ste-lod-crew.fr/nell/ontology/politicsbillconcernsissue	Issues that a legislative billl is concerned with.
+http://ste-lod-crew.fr/nell/ontology/mlareaexpert	specifies that a particular ML author is an expert in a particular ML area
+http://ste-lod-crew.fr/nell/ontology/cityhashospital	The city a hostpital is located in.
+http://ste-lod-crew.fr/nell/ontology/buildinglocatedincity	specifies that a particular building is located in a particular city
+http://ste-lod-crew.fr/nell/ontology/countryofpersonbirth	the country that a person was born in
+http://ste-lod-crew.fr/nell/ontology/animal	A collection of common-sense animals, more understandable to children than biologists.  It's OK to include both general kinds of animals, such as bird, but also common varieties of birds such as finch and robin. (FreeBase)  As with plant, any mortal action upon an animal or action on a dead animal that results in something with a new name (e.g. milking, shearing, slaughtering, or cooking it) results in something that is no longer an animal.
+http://ste-lod-crew.fr/nell/ontology/inverseofbakegoodistypicalincountry	Describes the typicall bakegoods of the countries
+http://ste-lod-crew.fr/nell/ontology/comediancanbethesameasfemale	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/eventsubeventof	event that is happened as a sub-event of another event
+http://ste-lod-crew.fr/nell/ontology/citycapitalofcountry	specifies that a particular city is the capital of a particular country
+http://ste-lod-crew.fr/nell/ontology/actorcanbethesameasathlete	Describes actors that are the same instances as athlete
+http://ste-lod-crew.fr/nell/ontology/mountainatgeopoliticallocation	geopoliticallocation and mountain are related
+http://ste-lod-crew.fr/nell/ontology/countrycapital	specifies that a particular city is the capital of a particular country
+http://ste-lod-crew.fr/nell/ontology/politicalgroupofpoliticianus	U.S. Politician who is member of a political group
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductgrowninlandscapefeatures	Describes the agricultural products that are grown in landscape features
+http://ste-lod-crew.fr/nell/ontology/website	A Website or (Web site) is a collection of web pages, typically common to a particular domain name or subdomain on the World Wide Web on the Internet. A web page is a document, typically written in HTML, that is almost always accessible via HTTP, a protocol that transfers information from the website's server to display in the user's Web browser.
+http://ste-lod-crew.fr/nell/ontology/physiologicalcondition	Most instances will be diseases or other abnormalities.  However, this category also includes conditions such as pregnancy or teething that are entirely normal and expected, but which are nevertheless exception and can require extra care.
+http://ste-lod-crew.fr/nell/ontology/inverseofsportschoolincountry	Describes the sports practiced in a country
+http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent	to work, one with another; cooperate, as on a literary work (http://dictionary.reference.com/browse/collaborate)
+http://ste-lod-crew.fr/nell/ontology/sportschoolincountry	Describes the sports practiced in a country
+http://ste-lod-crew.fr/nell/ontology/animaleatfood	Describes the foods that are eaten by an animal
+http://ste-lod-crew.fr/nell/ontology/professionactsatthesameareaofpoliticissue	Describes professions that work at the area of a political issue
+http://ste-lod-crew.fr/nell/ontology/universityoperatesinlanguage	Language spoken at a college/university.
+http://ste-lod-crew.fr/nell/ontology/acquired	to come into possession or ownership of; get as one's own (http://dictionary.reference.com/browse/acquire)
+http://ste-lod-crew.fr/nell/ontology/vegetableisproducedatcountry	Describes the countries that are big produces of vegetables
+http://ste-lod-crew.fr/nell/ontology/arthropodandotherarthropod	Describes similar arthropods
+http://ste-lod-crew.fr/nell/ontology/musicianinmusicartist	Specifies that a particular musician has performed as particular musicArtist
+http://ste-lod-crew.fr/nell/ontology/automobileenginesuchasautomobileengine	Describes the specific automobile Engine types that are generalizations of automobile Engines
+http://ste-lod-crew.fr/nell/ontology/inverseofastronautsuchasastronaut	Describes the specific astronaut types that are generalizations of astronauts
+http://ste-lod-crew.fr/nell/ontology/beveragecansoftendisease	Describes beverages that can help soften the symptons of diseases
+http://ste-lod-crew.fr/nell/ontology/televisionstation	A television station is a broadcaster which transmits television (audio & video).
+http://ste-lod-crew.fr/nell/ontology/winningscoreofsportsgame	Specifies the score with which the winning team in a particular sportsGame lost.
+http://ste-lod-crew.fr/nell/ontology/publicationjournalist	specifies that a particular journalist writes for a particular publication
+http://ste-lod-crew.fr/nell/ontology/fatherofperson	father of a person
+http://ste-lod-crew.fr/nell/ontology/sporthassportsteamposition	The relation between a sport and team positions filled by athletes
+http://ste-lod-crew.fr/nell/ontology/superpartoforganization	one organization is a subpart of a larger, controlling organization
+http://ste-lod-crew.fr/nell/ontology/hasofficeincountry	specifies that a particular company has offices in a particular country
+http://ste-lod-crew.fr/nell/ontology/hotel	This type is intended to be used for hotels, bed and breakfasts, backpacker hostels, or any other such place you might stay while travelling
+http://ste-lod-crew.fr/nell/ontology/inverseofmalemovedtostateorprovince	Describes the male people that moved to live in a state or province
+http://ste-lod-crew.fr/nell/ontology/inverseofautomobilemakerchiefexecutiveceo	Describes the CEOs of automobile maker companies
+http://ste-lod-crew.fr/nell/ontology/invertebratefeedonfood	Describes the foods that are eaten by an invertebrate
+http://ste-lod-crew.fr/nell/ontology/personhasresidenceinstateorprovince	the state or province that a person has residence in
+http://ste-lod-crew.fr/nell/ontology/inverseofmusicgenressuchasmusicgenres	Describes the musicgenre types that are generalizations of specific musicgenres
+http://ste-lod-crew.fr/nell/ontology/radiostationincity	Specifies that a particular radio station is headquarted in a particular city
+http://ste-lod-crew.fr/nell/ontology/arthropodcanbeveryirritatingtomammal	Arthropode that usually irritates mammal
+http://ste-lod-crew.fr/nell/ontology/nerve	"a single nerve cell or bundle of nerve cells"
+http://ste-lod-crew.fr/nell/ontology/relatedto	associated; connected (http://dictionary.reference.com/browse/related)
+http://ste-lod-crew.fr/nell/ontology/personasia	citizens of countries in Asia
+http://ste-lod-crew.fr/nell/ontology/airportsuchasairport	Describes the airport types that are generalizations of specific aiports
+http://ste-lod-crew.fr/nell/ontology/cityradiostation	Specifies that a particular radio station is headquarted in a particular city
+http://ste-lod-crew.fr/nell/ontology/inverseoffishservedwithfood	Describes the kind of food that are tipically serverd with a fish
+http://ste-lod-crew.fr/nell/ontology/inverseofmammaleatsinsect	Describes the insects that mammals eats
+http://ste-lod-crew.fr/nell/ontology/sportsportsgameexample	Specifies the sport that was played in a particular sportsGame.
+http://ste-lod-crew.fr/nell/ontology/inverseofprofessionactsatthesameareaofpoliticissue	Describes professions that work at the area of a political issue
+http://ste-lod-crew.fr/nell/ontology/countrystates	The country which the state or province is a part of.
+http://ste-lod-crew.fr/nell/ontology/restaurantlocatedinskyscraper	Describes restaurants located in skyscrapers
+http://ste-lod-crew.fr/nell/ontology/locationinzipcode	Describes one or more locations to which a zipcode may correspond.
+http://ste-lod-crew.fr/nell/ontology/sportsgamehometeam	Specifies that a particular team is the home team in a particular sportsGame
+http://ste-lod-crew.fr/nell/ontology/companyalsoknownas	"this is another name for this company"
+http://ste-lod-crew.fr/nell/ontology/inverseofbankboughtbank	Describes the banks that bought other banks
+http://ste-lod-crew.fr/nell/ontology/inverseofvegetableisproducedatcountry	Describes the countries that are big produces of vegetables
+http://ste-lod-crew.fr/nell/ontology/food	A food is any edible substance with nutritional value, whether it's a basic foodstuff like rice or apples, or a commercial product like Poptarts or I Can't Believe It's Not Butter.  "Nutritional value" encompasses anything useful for growth or life, such as water, so long as the organism gets it through ingestion.
+http://ste-lod-crew.fr/nell/ontology/agentworkedondrug	This predicate relates a substance and a HumanAgent who is responsible for it.  Responsibility is understoond relatively broadly, and includes people or organizations responsible for the substance's discovery or marketing and manufacturing.  Additionally, agents that own the rights to the substance are also eligible to participate in this relationship.  Note that the humanAgent category include organizations, including universities, companies, and government agencies.
+http://ste-lod-crew.fr/nell/ontology/kitchenitem	Any item that might be found in a commercial or residential kitchen that is used for cullinary purposes or in pursuit of the same (e.g. a cupboard).
+http://ste-lod-crew.fr/nell/ontology/statecontainscity	specifies that a particular city is located in a particular state or province
+http://ste-lod-crew.fr/nell/ontology/creativeworkcontributedtobyagent	Specifies that a particular agent contributed to the production or creation of a particular creativeWork.  An actor in a movie contributes to that movie, but agentCreated would probably be to strong an assertion for that.
+http://ste-lod-crew.fr/nell/ontology/sportsteam	A sports team is a group of athletes who play a sport together competitively
+http://ste-lod-crew.fr/nell/ontology/weatherphenomenon	Anything that happens naturally in the atmosphere
+http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing	Describes clothing pieces that "should" (or can) be used with each other
+http://ste-lod-crew.fr/nell/ontology/building	A building is a man-made structure designed for shelter or for continuous or periodic occupancy. All buildings are structures and therefore typed "Structure" which imparts other basic properties (see /architecture/structure). If something is not a structure, it can't be typed as a building.  This category does not include complexes of individual buildings.
+http://ste-lod-crew.fr/nell/ontology/musclelocatedinbodypart	Describes the muscles in body parts
+http://ste-lod-crew.fr/nell/ontology/inverseofbakedgoodservedwithbeverage	Describes the baked goods that are usually served with a beverage
+http://ste-lod-crew.fr/nell/ontology/locationactedinbyagent	As with agentInteractsWithAgent, we take existing at a location to be an action at that location.
+http://ste-lod-crew.fr/nell/ontology/teammember	to join together in a team (http://dictionary.reference.com/browse/team)
+http://ste-lod-crew.fr/nell/ontology/countryoforganizationheadquarters	The country where a given organization is headquartered
+http://ste-lod-crew.fr/nell/ontology/mlauthor	A machine learning author is a person who has published research in the field of machine learning.
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductcanbethesameasvegetable	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/stadiumhometoleague	specifies that a particular league uses a particular venue for its games
+http://ste-lod-crew.fr/nell/ontology/teamalsoknownas	"this is another name for this team"
+http://ste-lod-crew.fr/nell/ontology/haswikipediaurl	The Wikipedia page for a given category instance
+http://ste-lod-crew.fr/nell/ontology/mlsoftwareauthor	Specifies ML software that is written by a particular ML author
+http://ste-lod-crew.fr/nell/ontology/professor	"A faculty member at a university or college"
+http://ste-lod-crew.fr/nell/ontology/dateoforganzationdissolution	The date on which a given organization was dissolved
+http://ste-lod-crew.fr/nell/ontology/bridge	"A bridge is a structure across water, valleys, railway cuts, areas of low elevation, or other features which are difficult to cross."
+http://ste-lod-crew.fr/nell/ontology/inverseofcoachworksincountry	Describes the country where a coach works
+http://ste-lod-crew.fr/nell/ontology/ismultipleof	Specifies the way in which a grouping of individual somethings can be referred to, including but not limited to relating the plural form to the singular.
+http://ste-lod-crew.fr/nell/ontology/highschool	Schools whose graduates would go directly on to universities, vocational schools, or other higher education.  No particular limit on age of incoming students.
+http://ste-lod-crew.fr/nell/ontology/hotelbuiltatpark	hotel and park are related
+http://ste-lod-crew.fr/nell/ontology/refineryproduct	"a product derived from a petroleum refinery"
+http://ste-lod-crew.fr/nell/ontology/personus	citizens of the U.S.A.
+http://ste-lod-crew.fr/nell/ontology/teamplaysincity	The home city of a sports team, typically a location where the team frequently competes.
+http://ste-lod-crew.fr/nell/ontology/vein	"A vein is a blood vessel that carries blood toward the heart."
+http://ste-lod-crew.fr/nell/ontology/inverseofgrainusedtomakecandy	grain and candy are related
+http://ste-lod-crew.fr/nell/ontology/inverseofanimalfeedoninsect	Describes the animals that feed on Insects
+http://ste-lod-crew.fr/nell/ontology/visualartistartform	The type of visual art that a visualArtist produces. Also known as an artist's medium.
+http://ste-lod-crew.fr/nell/ontology/videogame	A video game is a piece of interactive software used primarily for entertainment, including computer games, console games, arcade games, and hand-held games. However, this category excludes video game consoles.
+http://ste-lod-crew.fr/nell/ontology/bank	Umbrella category for all kinds of banks
+http://ste-lod-crew.fr/nell/ontology/cityoforganizationheadquarters	The city where a given organization is headquartered
+http://ste-lod-crew.fr/nell/ontology/sportteam	The sport that a team plays.
+http://ste-lod-crew.fr/nell/ontology/director	Movie directors.
+http://ste-lod-crew.fr/nell/ontology/isshorterthan	Indicates that arg1 has a greater height than arg2
+http://ste-lod-crew.fr/nell/ontology/personhasmother	mother of a person
+http://ste-lod-crew.fr/nell/ontology/mldataset	A dataset used in machine learning
+http://ste-lod-crew.fr/nell/ontology/visualartist	A visual artist creates artistic works which are mainly experienced by sight. This category includes painters, sculptors and architects, but excludes authors.
+http://ste-lod-crew.fr/nell/ontology/locationofevent	the location that an event is happened at
+http://ste-lod-crew.fr/nell/ontology/attractionofcity	The city that an attraction is located in
+http://ste-lod-crew.fr/nell/ontology/organizationactsinlocation	location of an organization or company
+http://ste-lod-crew.fr/nell/ontology/color	Color (or colour) is the visual perceptual property corresponding in humans to the categories called red, yellow, white, etc.
+http://ste-lod-crew.fr/nell/ontology/placeofworship	A place of worship is a building which is used by members of a religion for worship.
+http://ste-lod-crew.fr/nell/ontology/furniturefoundinroom	Relates furniture to rooms in which it is often found
+http://ste-lod-crew.fr/nell/ontology/cityaquariums	The city an aquarium is located in.
+http://ste-lod-crew.fr/nell/ontology/cityhasairport	The city an airport is located in.
+http://ste-lod-crew.fr/nell/ontology/eventcausedbyagent	Companion to agentParticipatedInEvent.  Note that one needn't participate in an event in order to be a causal factor.
+http://ste-lod-crew.fr/nell/ontology/inverseofwriterwasbornincity	Describes the city where a write was born in
+http://ste-lod-crew.fr/nell/ontology/sportsgameloser	Specifies that a particular team that played in a particular sportsGame was the loser thereof.
+http://ste-lod-crew.fr/nell/ontology/inverseofnewpaperhaswebsite	Present the oficial website of a newspaper
+http://ste-lod-crew.fr/nell/ontology/mammal	Mammals (formally Mammalia) are a class of vertebrate, air-breathing animals whose females are characterized by the possession of mammary glands while both males and females are characterized by hair and/or fur, three middle ear bones used in hearing, and a neocortex region in the brain.
+http://ste-lod-crew.fr/nell/ontology/crimeorcharge	A crime or other kind of offence or violation with which a person can be charged
+http://ste-lod-crew.fr/nell/ontology/hometeamingame	Specifies that a particular team is the home team in a particular sportsGame
+http://ste-lod-crew.fr/nell/ontology/year	Four-digit years
+http://ste-lod-crew.fr/nell/ontology/inverseofriveremptiesintoriver	Describes the tributaries of a river
+http://ste-lod-crew.fr/nell/ontology/productinstances	Specifies that a particular product is a particular kind of thing
+http://ste-lod-crew.fr/nell/ontology/organizationleadbyagent	General relation as with certain political positions, we have an agent that controls the thing that he works for
+http://ste-lod-crew.fr/nell/ontology/websiteoperatedbyagent	The organization that operates a website
+http://ste-lod-crew.fr/nell/ontology/inverseofplantrepresentemotion	Describes the emotions represented by a plant
+http://ste-lod-crew.fr/nell/ontology/inverseofplantgrowinginplant	Describes the plants that grow on other plants
+http://ste-lod-crew.fr/nell/ontology/inverseofanimalsuchasmollusk	Describes the mollusk that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/organization	An organization is an organized body of members or people with a particular purpose; in the Freebase context, a organization doesn't have a business association, like a company.  Companies have their own type in the business domain, located here.  In addition, many types of organizations have their own, more specialized co-types that give them additional properties.
+http://ste-lod-crew.fr/nell/ontology/militaryeventtype	A military event type is simply a sub-type (or sub-category) of the category military event.
+http://ste-lod-crew.fr/nell/ontology/persongraduatedfromuniversity	Describes the people graduated from a university
+http://ste-lod-crew.fr/nell/ontology/blog	A blog (or weblog) is a user-generated website where entries are made in journal style and displayed in a reverse chronological order. Blogs often provide commentary or news on a particular subject, such as food, politics, or local news; some function as more personal online diaries.
+http://ste-lod-crew.fr/nell/ontology/inverseofconferencessuchasconferences	Describes the conferences types that are generalizations of specific conferences
+http://ste-lod-crew.fr/nell/ontology/jobposition	Positions are job titles or named roles within an organization. Examples include "CEO", "President", "mayor", "vice president for research", "sergeant", etc. They do not include generic activities or career terms like "pianist", "researcher", "scientist", etc.
+http://ste-lod-crew.fr/nell/ontology/arthropodsuchascrustacean	Hyponym Relation
+http://ste-lod-crew.fr/nell/ontology/river	A river is a natural waterway usually formed by water derived from either precipitation or glacial meltwater, and flows from higher ground to lower ground. Most commonly rivers flow on the surface but there are many examples of underground rivers. In some areas of highly variable rainfall, some rivers carry water only occasionally and may be dry for several years at a time. Such waterways of all sizes, including streams and creeks, can be listed under this type.
+http://ste-lod-crew.fr/nell/ontology/citylocatedincountry	specifies that a particular city is located in a particular country
+http://ste-lod-crew.fr/nell/ontology/brotherof	person has a brother
+http://ste-lod-crew.fr/nell/ontology/musicgenreartist	Specifies that a musicArtist performs in a particular genre
+http://ste-lod-crew.fr/nell/ontology/politicsbillsponsoredbypoliticianus	U.S. Politician sponsoring a particular legislative bill
+http://ste-lod-crew.fr/nell/ontology/archaea	single-celled organisms lacking nuclei, formerly called archaebacteria but now known to differ fundamentally from bacteria
+http://ste-lod-crew.fr/nell/ontology/athletepublishesinblog	The blog where an athlete publishes
+http://ste-lod-crew.fr/nell/ontology/personhasage	"the age of this person"
+http://ste-lod-crew.fr/nell/ontology/bacteria	single-celled or noncellular spherical or spiral or rod-shaped organisms lacking chlorophyll that reproduce by fission;
+http://ste-lod-crew.fr/nell/ontology/inverseofanimaleatvegetable	Describes the vegetables eaten by an animal
+http://ste-lod-crew.fr/nell/ontology/geopoliticallocationcontainscity	specifies that a particular city is located in a particular geopolitical location
+http://ste-lod-crew.fr/nell/ontology/religion	Religious sects, denominations, and (meta-)organizations. NOT church buildings or individual chapters/institutions.
+http://ste-lod-crew.fr/nell/ontology/sportsevent	is when a sport is played or otherwise engaged in, including but not limited to what would be termed a "sports game".  See child categories for examples.
+http://ste-lod-crew.fr/nell/ontology/hassibling	two persons are siblings
+http://ste-lod-crew.fr/nell/ontology/automobileengine	The engine type is to be used to classify specific powerplants used in an automobile. These may be year-specific, but more frequently they often span multiple years, models, makes and generations.
+http://ste-lod-crew.fr/nell/ontology/condiment	A sauce or seasoning added to food to impart a particular flavor or to complement the dish. (Wikipedia)
+http://ste-lod-crew.fr/nell/ontology/organizationleadbyperson	person leading an organization/company
+http://ste-lod-crew.fr/nell/ontology/officeitem	Items usually found in an office that are used for clerical or intellectual work.
+http://ste-lod-crew.fr/nell/ontology/personborninstateorprovince	the state or province that a person was born in
+http://ste-lod-crew.fr/nell/ontology/transportationincity	City of a transportation system.
+http://ste-lod-crew.fr/nell/ontology/automobilemodel	A model is a specific car carried under a make.
+http://ste-lod-crew.fr/nell/ontology/professionssuchasprofessions	Describes the professions types that are generalizations of specific professions
+http://ste-lod-crew.fr/nell/ontology/sportsgamewinnerscore	Specifies the score with which the winning team in a particular sportsGame lost.
+http://ste-lod-crew.fr/nell/ontology/sportsgame	A sports game is a particular instance of a sporting event where teams or athletes compete. This could be a series of matches if the competitors remain the same, but this does not extend to something like a tournament or season where the series of matches draws on different combinations from a set of teams.
+http://ste-lod-crew.fr/nell/ontology/countryleadbyperson	specifies that a particular person is the leader of a particular country
+http://ste-lod-crew.fr/nell/ontology/stateorprovinceofpersonbirth	the state or province that a person was born in
+http://ste-lod-crew.fr/nell/ontology/monarch	"A monarch is a person who heads a monarchy, such as a king or queen"
+http://ste-lod-crew.fr/nell/ontology/candy	A food which is made primarily of sugar and generally sold for wide distribution.  This would include many dessert items, like pie and cake, that might not be strictly "candy" per se.
+http://ste-lod-crew.fr/nell/ontology/cityzoos	The city a zoo is located in
+http://ste-lod-crew.fr/nell/ontology/animalistypeofanimal	Type-specific generalization of animals.
+http://ste-lod-crew.fr/nell/ontology/parlourgame	Parlour games, drawing room games, car games, and similar passtimes that are not card games, dice games, board games, etc.
+http://ste-lod-crew.fr/nell/ontology/boardgame	Games played with physical pieces on a board (electronic games not allowed)
+http://ste-lod-crew.fr/nell/ontology/academicprogramatuniversity	"this academic program is offered by this university"
+http://ste-lod-crew.fr/nell/ontology/ethnicgroup	A group of individuals that share common characteristics, such as ancestry, country of origin, language, religion, culture and physical appearance.
+http://ste-lod-crew.fr/nell/ontology/toolusedbyprofession	"those who practice this profession use this tool"
+http://ste-lod-crew.fr/nell/ontology/militaryconflict	"A military conflict is any event that involves armed forces acting in hostility. This includes wars, battles, and guerilla actions."
+http://ste-lod-crew.fr/nell/ontology/inverseoffooddecreasestheriskofdisease	Describes the foods that can reduce the risks of having a disease
+http://ste-lod-crew.fr/nell/ontology/plantgrowinginplant	Describes the plants that grow on other plants
+http://ste-lod-crew.fr/nell/ontology/athletehomestadium	a sports arena, usually oval or horseshoe-shaped, with tiers of seats for spectators (which is home for an athlete) (http://dictionary.reference.com/browse/stadium)
+http://ste-lod-crew.fr/nell/ontology/equipmentusedbysport	Specifies equipment that is used by a particular sport.
+http://ste-lod-crew.fr/nell/ontology/arachnidssuchasarachnids	Describes the specific arachnid types that are generalizations of arachnids
+http://ste-lod-crew.fr/nell/ontology/athletewinsawardtrophytournament	Describes the athletes who won an award trophy tournament
+http://ste-lod-crew.fr/nell/ontology/dateevent	specifies that the duration of a particular event overlapped with a particular date.
+http://ste-lod-crew.fr/nell/ontology/hasbrother	person has a brother
+http://ste-lod-crew.fr/nell/ontology/mammalsuchasmammal	Describes the specific actors types that are generalizations of actors
+http://ste-lod-crew.fr/nell/ontology/statecontainsfarm	The state/province a farm is located in
+http://ste-lod-crew.fr/nell/ontology/languageofsportsgame	Describes the origin language of the sports name
+http://ste-lod-crew.fr/nell/ontology/inverseofwineryatfarm	farm and winery are related
+http://ste-lod-crew.fr/nell/ontology/protein	Proteins are any complex organic compounds that consist of one or more chains of amino acids. Proteins are typically essential components of any living cell and indispensable to the proper functioning of all organisms.
+http://ste-lod-crew.fr/nell/ontology/grandprix	one of several international races.
+http://ste-lod-crew.fr/nell/ontology/inverseofsoftwareprogrammedinprogramminglanguage	Relates a software to its programming language
+http://ste-lod-crew.fr/nell/ontology/personleadscity	specifies that a particular person is the leader (e.g. Mayor) of a particular city
+http://ste-lod-crew.fr/nell/ontology/wifeof	person has a wife
+http://ste-lod-crew.fr/nell/ontology/canbethesameas	Describes two instances that are the same thing in different categories
+http://ste-lod-crew.fr/nell/ontology/locationrepresentedbypolitician	Describes the city, state, country or other location represented by a politician
+http://ste-lod-crew.fr/nell/ontology/awardtrophytournament	Sports award is a CVT which connects together the winner of a sports award, the award they won, the season for which they won the award and the team they represented (if applicable).
+http://ste-lod-crew.fr/nell/ontology/trophywonbyteam	Trophies that a team has won
+http://ste-lod-crew.fr/nell/ontology/biologicalmotherofperson	is biological mother of a person
+http://ste-lod-crew.fr/nell/ontology/beveragemadefrombeverage	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/actor	An actor is a person who performs in movies, television, plays, or other forms of entertainment.
+http://ste-lod-crew.fr/nell/ontology/inverseofstadiumoreventvenuedisclosescompany	Describes a stadium or event venue that discloses a company
+http://ste-lod-crew.fr/nell/ontology/officeheldbypolitician	Specifies that a particular politician holds a particular office
+http://ste-lod-crew.fr/nell/ontology/musicsongisatrackofmusicalbum	Identifies a music song which is a track of a music album
+http://ste-lod-crew.fr/nell/ontology/bakegoodistypicalincountry	Describes the typicall bakegoods of the countries
+http://ste-lod-crew.fr/nell/ontology/beveragecontainsprotein	Describes the proteins contained in beverages
+http://ste-lod-crew.fr/nell/ontology/continent	A continent is a large land mass, defined mostly by conventional use, but closely related to tectonic plates within the earth's crust.
+http://ste-lod-crew.fr/nell/ontology/hobbiessuchashobbies	Describes the hobbies types that are generalizations of specific hobbies
+http://ste-lod-crew.fr/nell/ontology/city	City/town/village refers to all named inhabited places at the most locally recognized level, but above the level of neighborhood. It is the most local region where there is a form of government or self-organization.   Cities/towns/villages are larger than neighborhoods, and are typically contained within a larger administrative division such as a county, department, province, etc. It should be noted, however, that large or significant cities may themselves also function as higher-level administrative divisions.   For more information, please see the Freebase wiki page on City/Town/Village.
+http://ste-lod-crew.fr/nell/ontology/vegetableproductioninstateorprovince	Describes the vegetables produced in a state or province
+http://ste-lod-crew.fr/nell/ontology/inverseofmountainatgeopoliticallocation	geopoliticallocation and mountain are related
+http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince	Describes the states that borders a state
+http://ste-lod-crew.fr/nell/ontology/specializationof	one thing is a more specific kind of another thing
+http://ste-lod-crew.fr/nell/ontology/retailstore	Brick & mortar retail stores and franchises.  Retail means selling goods, not services (e.g. prepared food)
+http://ste-lod-crew.fr/nell/ontology/animalsuchasinsect	Describes the insect that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/skyscraper	"A very tall building"
+http://ste-lod-crew.fr/nell/ontology/trophywonbycoaches	specifies that a particular coach coaches a team that won a particular award or trophy
+http://ste-lod-crew.fr/nell/ontology/arthropodthatfeedoninsect	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/sportsgamedate	"the date on which this game occurred"
+http://ste-lod-crew.fr/nell/ontology/agent	a person or business authorized to act on another's behalf; a person or thing that acts or has the power to act; a natural force or object producing or used for obtaining specific results (http://dictionary.reference.com/browse/agent), and more generally, anything that can exhibit agency, such as non-human life forms.
+http://ste-lod-crew.fr/nell/ontology/election	An opportunity for constituents to vote for a political party or candidate for a governmental office or seat, or the ability to run for a governmental office or seat (as is the case with primaries). (FreeBase)
+http://ste-lod-crew.fr/nell/ontology/personalcareitem	Items used by people to care for their bodies or to maintain a certain appearance. Could also be called toiletries.
+http://ste-lod-crew.fr/nell/ontology/farmlocatedincountry	The country a farm is located in
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductcutintogeometricshape	Describes the agricultural products that are usually cut into geometric shapes
+http://ste-lod-crew.fr/nell/ontology/geopoliticallocation	Those geopolitical entities that are location
+http://ste-lod-crew.fr/nell/ontology/inverseofarthropodcalledarthropod	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/cityparks	The city a park is located in.
+http://ste-lod-crew.fr/nell/ontology/bookwriter	author of a book
+http://ste-lod-crew.fr/nell/ontology/meetingeventtype	A kind of meeting, the name of a series of meetings, or some other way to refer to a category of meeting
+http://ste-lod-crew.fr/nell/ontology/abstractthing	thought, quality, characteristic apart from concrete realities, specific objects, or actual instances; theoretical, not applied or practical (http://dictionary.reference.com/browse/abstract)
+http://ste-lod-crew.fr/nell/ontology/geopoliticallocationcontainscountry	specifies that a particular country is located in a particular geopolitical entity
+http://ste-lod-crew.fr/nell/ontology/eventcausedbyevent	Any events that is caused by another event
+http://ste-lod-crew.fr/nell/ontology/inverseofinvertebrateturnintoinsect	Describes the metamorphosis of some invertebrates into another insects
+http://ste-lod-crew.fr/nell/ontology/musicfestivalssuchasmusicfestivals	Describes the musicfestivals types that are generalizations of specific musicfestivals
+http://ste-lod-crew.fr/nell/ontology/dateoforganizationcreation	The date on which a given organization was founded
+http://ste-lod-crew.fr/nell/ontology/inverseofarachnidiseatenbybird	Describes arachnids that are hunted and eaten by this bird
+http://ste-lod-crew.fr/nell/ontology/cityofpersondeath	the city that a person died in
+http://ste-lod-crew.fr/nell/ontology/coachwontrophy	specifies that a particular coach coaches a team that won a particular award or trophy
+http://ste-lod-crew.fr/nell/ontology/poem	This type is for all kinds of poems, from epics to doggerel.
+http://ste-lod-crew.fr/nell/ontology/musicartistgenre	Specifies that a musicArtist performs in a particular genre
+http://ste-lod-crew.fr/nell/ontology/statelocatedincountry	The country which the state or province is a part of.
+http://ste-lod-crew.fr/nell/ontology/profession	The career or job which a person performs for most of their working life, or for which they are best known (FreeBase)
+http://ste-lod-crew.fr/nell/ontology/inverseofamphibiansuchasamphibian	Describes the amphibian types that are generalizations of specific amphibians
+http://ste-lod-crew.fr/nell/ontology/agentleadsorganization	General relation as with certain political positions, we have an agent that controls the thing that he works for
+http://ste-lod-crew.fr/nell/ontology/inverseofcelebritysuchascelebrity	Describes the specific celebrity types that are generalizations of celebrities
+http://ste-lod-crew.fr/nell/ontology/inverseofathletepublishesinblog	The blog where an athlete publishes
+http://ste-lod-crew.fr/nell/ontology/personeurope	citizens of countries in Europe
+http://ste-lod-crew.fr/nell/ontology/animaltypehasanimal	Type-specific generalization of animals.
+http://ste-lod-crew.fr/nell/ontology/sportsteampositionathlete	The team position played by an athlete.
+http://ste-lod-crew.fr/nell/ontology/inverseofarchaeasuchasarchaea	Describes the specific archaea types that are generalizations of archaeas
+http://ste-lod-crew.fr/nell/ontology/inverseofvegetableproductioninstateorprovince	Describes the vegetables produced in a state or province
+http://ste-lod-crew.fr/nell/ontology/stadiumoreventvenue	A building where large spectator events (usually sporting events) take place.
+http://ste-lod-crew.fr/nell/ontology/inverseofanimaleatfood	Describes the foods that are eaten by an animal
+http://ste-lod-crew.fr/nell/ontology/chef	A chef is a professional cook.
+http://ste-lod-crew.fr/nell/ontology/politicianusmemberofpoliticalgroup	U.S. Politician who is member of a political group
+http://ste-lod-crew.fr/nell/ontology/sportsgamesport	Specifies the sport that was played in a particular sportsGame.
+http://ste-lod-crew.fr/nell/ontology/personbornincountry	the country that a person was born in
+http://ste-lod-crew.fr/nell/ontology/sportsgamescore	"the score of this game"
+http://ste-lod-crew.fr/nell/ontology/meetingeventtitlehasmeetingeventtype	What series of meetings a particular meeting belongs to, or what kind of a meeting it is
+http://ste-lod-crew.fr/nell/ontology/personbylocation	Parent category to break up people by regional/national location, which exists as a way to constrain some of the political predicates to the U.S.  For simplicity of decision-making, we use "citizenship" as the rule for belongingness in these categories; this is probably "good enough" for what we want to do with the political predicates.
+http://ste-lod-crew.fr/nell/ontology/vegetable	An edible plant or part of a plant other than a sweet fruit or seed. This usually means the leaf, stem, or root of a plant.  This is meant to dovetail with the more botanical definition we have of fruit, and to not allow cullinary / colloquial vegetables that qualify for membership in our fruit category.  Mushrooms are not vegetables.
+http://ste-lod-crew.fr/nell/ontology/stadiumalsoknownas	"this is another name for this stadium or event venue"
+http://ste-lod-crew.fr/nell/ontology/hasofficeincity	specifies that a particular company has offices in a particular city
+http://ste-lod-crew.fr/nell/ontology/coachstudiedatuniversity	Describes the university where the coach studied at
+http://ste-lod-crew.fr/nell/ontology/companyhasshareholder	Any organization, person, or geopolitical entity that holds shares (majority or otherwise) of the given company.
+http://ste-lod-crew.fr/nell/ontology/criminal	"a person who commits a crime"
+http://ste-lod-crew.fr/nell/ontology/inverseofanimaldevelopdisease	Describes the diseases that can be developed by an animal
+http://ste-lod-crew.fr/nell/ontology/personhasjobposition	This relation holds when the person has held the position at some point in some organization.
+http://ste-lod-crew.fr/nell/ontology/invertebrateturnintoinsect	Describes the metamorphosis of some invertebrates into another insects
+http://ste-lod-crew.fr/nell/ontology/videogamessuchasvideogames	Describes the videogame types that are generalizations of specific videogames
+http://ste-lod-crew.fr/nell/ontology/inverseofbacteriacancauseillnessfromfood	Describes the foods that bacterias can cause illness from
+http://ste-lod-crew.fr/nell/ontology/companyproducesvideogamesystem	company produces a video game system
+http://ste-lod-crew.fr/nell/ontology/inverseofuniversityledmusicfestival	identifies the university that led a Musical Festival
+http://ste-lod-crew.fr/nell/ontology/organizationterminatedperson	This relation holds when the organization has teminated the employment relationship. This includes firings, RIFs, resignations, and retirements. Normal ending of a contract does not constitute terminatedEmployment. A termination event (the endinf of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith used to work for IBM, that is not enough to assert a terminatedEmployment relation.
+http://ste-lod-crew.fr/nell/ontology/controlledbyagent	to exercise restraint or direction over; dominate; command (http://dictionary.reference.com/browse/control)
+http://ste-lod-crew.fr/nell/ontology/agenthaswebsite	The organization that operates a website
+http://ste-lod-crew.fr/nell/ontology/personaustralia	citizens of Australia
+http://ste-lod-crew.fr/nell/ontology/fish	A fish is any aquatic vertebrate animal that is covered with scales, and equipped with two sets of paired fins and several unpaired fins. Most fish are "cold-blooded", or ectothermic, allowing their body temperatures to vary as ambient temperatures change.
+http://ste-lod-crew.fr/nell/ontology/companyceo	specifies that a particular CEO is the CEO of a particular company
+http://ste-lod-crew.fr/nell/ontology/drug	A drug is a chemical substance that has, or is reputed to have, a phyisological effect on an organism. Medicinal, herbal, and illegal drugs can be included in this type.
+http://ste-lod-crew.fr/nell/ontology/hasspouse	person has a spouse
+http://ste-lod-crew.fr/nell/ontology/professiontypehasprofession	Type-specific generalization of professions.
+http://ste-lod-crew.fr/nell/ontology/musicinstrument	A Musical instrument is a device constructed or modified with the purpose of making music. In principle, anything that produces sound, and can somehow be controlled by a musician, can serve as a musical instrument. (See e.g. the hardart.)
+http://ste-lod-crew.fr/nell/ontology/personhascitizenship	the citizenship of a person
+http://ste-lod-crew.fr/nell/ontology/organizationhasbuilding	Which organization a building belongs to
+http://ste-lod-crew.fr/nell/ontology/publicationwritesabout	Specifies that a particular person has been written about in a particular publication
+http://ste-lod-crew.fr/nell/ontology/currency	A currency is money that is used (or has been used) as a medium of exchange
+http://ste-lod-crew.fr/nell/ontology/headquarteredin	specifies that a particular company is headquartered in a particular city
+http://ste-lod-crew.fr/nell/ontology/musicsong	"A song is any musical work including instrumentals as well as songs with lyrics."
+http://ste-lod-crew.fr/nell/ontology/athletealsoknownas	"this is another name for this athlete"
+http://ste-lod-crew.fr/nell/ontology/animalssuchasmammals	Describes the animal types that are generalizations of mammals
+http://ste-lod-crew.fr/nell/ontology/inverseofautomobileenginesuchasautomobileengine	Describes the specific automobile Engine types that are generalizations of automobile Engines
+http://ste-lod-crew.fr/nell/ontology/objectfoundinscene	Object found in scene (NEIL)
+http://ste-lod-crew.fr/nell/ontology/petroleumrefiningcompany	"a company in the petroleum sector"
+http://ste-lod-crew.fr/nell/ontology/worker	to be employed, esp. as a means of earning one's livelihood (http://dictionary.reference.com/browse/work)
+http://ste-lod-crew.fr/nell/ontology/agentinvolvedwithitem	Most general agent-to-item relation.  As with agentInteractsWithAgent, we'll use this for states of being as well as actions, at least for now.
+http://ste-lod-crew.fr/nell/ontology/subpartof	a portion or division of a whole that is separate or distinct; piece, fragment, fraction, or section; constituent (http://dictionary.reference.com/browse/part)
+http://ste-lod-crew.fr/nell/ontology/meat	A type of animal flesh that is used as food. (Wikipedia)
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductgrowinginstateorprovince	Describes the agricultural products that are produced in a state or province
+http://ste-lod-crew.fr/nell/ontology/wineryatfarm	farm and winery are related
+http://ste-lod-crew.fr/nell/ontology/sportsteamposition	The name of a position on a sports team (e.g., quarterback)
+http://ste-lod-crew.fr/nell/ontology/olympics	are a major international event featuring summer and winter sports, in which thousands of athletes participate in a variety of competitions. The Games are currently held every two years, with Summer and Winter Olympic Games alternating, although they occur every four years within their respective seasonal games.
+http://ste-lod-crew.fr/nell/ontology/automobilemakercardealersinstateorprovince	Describes the car dealers in a state or province
+http://ste-lod-crew.fr/nell/ontology/politicalofficecanbethesameasjobposition	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/hospital	"A hospital is an institution for health care, often but not always providing for longer-term patient stays.  All varieties of hospitals -- private, public, military, etc. -- are included."
+http://ste-lod-crew.fr/nell/ontology/politicianusendorsedbypoliticianus	U.S. Politician that endorses another U.S. politician
+http://ste-lod-crew.fr/nell/ontology/item	Any tangible thing that does not have the power to act (agency)
+http://ste-lod-crew.fr/nell/ontology/inverseofawardtrophytournamentwasawardedonstadium	Stadium of event venue where a award trophy tournament was at least once awarded
+http://ste-lod-crew.fr/nell/ontology/animalsuchasfish	Describes the fish that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/hospitalincity	The city a hostpital is located in.
+http://ste-lod-crew.fr/nell/ontology/mammalcanbeirritatedbyarthropod	Arthropode that usually irritates mammal
+http://ste-lod-crew.fr/nell/ontology/languageschoolincity	Describes the language schools for specific languages in a city
+http://ste-lod-crew.fr/nell/ontology/charactertrait	habitual patterns of behavior, thought, and emotion (http://en.wikipedia.org/wiki/Trait_theory)
+http://ste-lod-crew.fr/nell/ontology/grainusedtomakecandy	grain and candy are related
+http://ste-lod-crew.fr/nell/ontology/visualartform	A categorization of the visual arts. An art form is a specific form for artistic expression to take.An art form more or less corresponds to the tools or materials used to create an art work (FreeBase)
+http://ste-lod-crew.fr/nell/ontology/personmexico	citizens of Mexico
+http://ste-lod-crew.fr/nell/ontology/location	The Location type is used for any topic with a fixed location on the planet Earth. It includes geographic features such as oceans and mountains, political entities like cities and man-made objects like buildings
+http://ste-lod-crew.fr/nell/ontology/politiciansponsoredpoliticsbill	Politician(s) sponsoring a particular legislative bill
+http://ste-lod-crew.fr/nell/ontology/personafricacanbethesameaswriter	Describes writers that are the same instances as personafrica
+http://ste-lod-crew.fr/nell/ontology/inverseoflanguegeschoolincity	Describes the language schools for specific languages in a city
+http://ste-lod-crew.fr/nell/ontology/politicaloffice	This type is for the office, title, or position within a government.  It includes both single-person offices (prime minister, emperor, mayor), titles of members of a governing body (representative, sentator, MP), and titles of additional positions within a governing body (leader of the opposition, speaker of the house).
+http://ste-lod-crew.fr/nell/ontology/personafrica	citizens of countries in Africa
+http://ste-lod-crew.fr/nell/ontology/drugworkedonbyagent	This predicate relates a substance and a HumanAgent who is responsible for it.  Responsibility is understoond relatively broadly, and includes people or organizations responsible for the substance's discovery or marketing and manufacturing.  Additionally, agents that own the rights to the substance are also eligible to participate in this relationship.  Note that the humanAgent category include organizations, including universities, companies, and government agencies.
+http://ste-lod-crew.fr/nell/ontology/diseasemaybecausedbydrug	Describes a disease that can be caused by a drug
+http://ste-lod-crew.fr/nell/ontology/inverseofstateorprovinceattainstrainstation	Describes the trainstantions location (state or province)
+http://ste-lod-crew.fr/nell/ontology/actorstarredinmovie	to perform as an actor (in movie) (http://dictionary.reference.com/browse/act)
+http://ste-lod-crew.fr/nell/ontology/bodypartwithinbodypart	"indicates that one body part is contained inside another"
+http://ste-lod-crew.fr/nell/ontology/producesproducttype	Specifies that a particular compnay produces a particular type of product
+http://ste-lod-crew.fr/nell/ontology/bedroomitem	Any item that is commonly found in a bedroom.
+http://ste-lod-crew.fr/nell/ontology/zipcode	US ZIP codes.  Other postal codes are not allowed
+http://ste-lod-crew.fr/nell/ontology/aquariumssuchasaquariums	Describes the specific aquarium types that are generalizations of aquariums
+http://ste-lod-crew.fr/nell/ontology/arterycalledartery	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/statelocatedingeopoliticallocation	specifies that a particular state or province is located in a particular geopolitical location
+http://ste-lod-crew.fr/nell/ontology/mollusk	invertebrate having a soft unsegmented body usually enclosed in a shell
+http://ste-lod-crew.fr/nell/ontology/inverseofmammalsuchasmammal	Describes the specific actors types that are generalizations of actors
+http://ste-lod-crew.fr/nell/ontology/animalsuchasinvertebrate	Describes the invertebrate that are from a specific type of animals
+http://ste-lod-crew.fr/nell/ontology/objectcontainsobject	meronym
+http://ste-lod-crew.fr/nell/ontology/politicalparty	organized political group that primarily aims for the attainment of political power and public office for its designated members.
+http://ste-lod-crew.fr/nell/ontology/hasvisualappearance	The NEIL-learned visual appearance of something
+http://ste-lod-crew.fr/nell/ontology/politicsgroup	Organizations, which may or may not be part of the government, that act in the arenas of politics or government.
+http://ste-lod-crew.fr/nell/ontology/stadiumhometoathlete	a sports arena, usually oval or horseshoe-shaped, with tiers of seats for spectators (which is home for an athlete) (http://dictionary.reference.com/browse/stadium)
+http://ste-lod-crew.fr/nell/ontology/cityhostsattraction	Attraction occurs in the city
+http://ste-lod-crew.fr/nell/ontology/attractionmadeofbuildingmaterial	Describes the materials used to build attractions
+http://ste-lod-crew.fr/nell/ontology/sportfansincountry	Describes the sports that have fans living in a country
+http://ste-lod-crew.fr/nell/ontology/persondiedinlocation	the location that a person died in
+http://ste-lod-crew.fr/nell/ontology/iteminvolvedwithagent	Most general agent-to-item relation.  As with agentInteractsWithAgent, we'll use this for states of being as well as actions, at least for now.
+http://ste-lod-crew.fr/nell/ontology/animalpreyson	Animals that are hunted and eaten by this animal.
+http://ste-lod-crew.fr/nell/ontology/personhasresidenceingeopoliticallocation	the geopolitical location that person has residence in
+http://ste-lod-crew.fr/nell/ontology/schoolgraduatedperson	This holds when the person has graduated from the educational institution at some time. This includes high schools, say, as well as universities. A division of an institution ("Yale Business School") will be scored as the same answer as the institution as a whole ("Yale").
+http://ste-lod-crew.fr/nell/ontology/inverseofcountriessuchascountries	Describes the countries types that are generalizations of specific countries
+http://ste-lod-crew.fr/nell/ontology/publicationpublishedinmagazine	Magazine in which a publication was published in
+http://ste-lod-crew.fr/nell/ontology/consumerelectronicitem	An item intended for ordinary people that runs on electricity, excluding appliances. This category includes accessories for consumer electronic items, such as video games and DVDs.
+http://ste-lod-crew.fr/nell/ontology/economicsectorusingacademicfield	Academic fields used by economic fields
+http://ste-lod-crew.fr/nell/ontology/sportsgameloserscore	Specifies the score with which the loosing team in a particular sportsGame lost.
+http://ste-lod-crew.fr/nell/ontology/cityleadbyperson	specifies that a particular person is the leader (e.g. Mayor) of a particular city
+http://ste-lod-crew.fr/nell/ontology/lymphnode	"a lymph node in the body"
+http://ste-lod-crew.fr/nell/ontology/locationexistsatdate	Most general location-to-date relation.  Note that locations are not eternal.
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductgrowinginstateorprovince	Describes the agricultural products that are produced in a state or province
+http://ste-lod-crew.fr/nell/ontology/locationcontainslocation	a location that is a subpart of another location
+http://ste-lod-crew.fr/nell/ontology/county	Intermediate administrative region between state/province and local munincipal.  This category also encompasses customary abberations, such as the boroughs of the City of Greater New York being treated as logically equivalent to counties.
+http://ste-lod-crew.fr/nell/ontology/agentcreatedorganization	The person, organization, or geopoiltical entity that founded the given organization
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductcomingfromvertebrate	Describes the agricultural products that come from a vertebrate
+http://ste-lod-crew.fr/nell/ontology/parkincity	The city a park is located in.
+http://ste-lod-crew.fr/nell/ontology/shoppingmall	"A shopping mall is a building or group of buildings containing many stores, restaurants, and businesses."
+http://ste-lod-crew.fr/nell/ontology/muscle	"A muscle is a contractile form of tissue which animals use to effect movement."
+http://ste-lod-crew.fr/nell/ontology/thinghasshape	Object has shape (NEIL)
+http://ste-lod-crew.fr/nell/ontology/televisionshowisbasedonmovie	Movie that a television show was based in
+http://ste-lod-crew.fr/nell/ontology/hassister	person has a sister
+http://ste-lod-crew.fr/nell/ontology/citylanguage	Typical language spoken in a city (official or otherwise)
+http://ste-lod-crew.fr/nell/ontology/inverseofinvertebratehascolor	Describes the color of invertebrates
+http://ste-lod-crew.fr/nell/ontology/biologicalfatherofperson	is biological father of a person
+http://ste-lod-crew.fr/nell/ontology/locationresidenceofperson	the location that person has residence in
+http://ste-lod-crew.fr/nell/ontology/meetingeventtypeincludesmeetingeventtitle	What series of meetings a particular meeting belongs to, or what kind of a meeting it is
+http://ste-lod-crew.fr/nell/ontology/architectssuchasarchitects	Describes the specific architect types that are generalizations of architects
+http://ste-lod-crew.fr/nell/ontology/animaleatvegetable	Describes the vegetables eaten by an animal
+http://ste-lod-crew.fr/nell/ontology/moviestaractor	to perform as an actor (in movie) (http://dictionary.reference.com/browse/act)
+http://ste-lod-crew.fr/nell/ontology/inverseoffoodcancausedisease	Describes the diseases that can be caused by a food
+http://ste-lod-crew.fr/nell/ontology/biotechcompany	A company in a biotechnology field, including pharmaceutical companies.
+http://ste-lod-crew.fr/nell/ontology/professionusestool	"those who practice this profession use this tool"
+http://ste-lod-crew.fr/nell/ontology/agentstudiesphysiologicalcondition	This predicate holds between a HumanAgent and a condition, and means that the HumanAgent performs research related to condition.
+http://ste-lod-crew.fr/nell/ontology/movie	A release of a visual narrative composed of a series of moving images that is considered a complete presentation and is intended to be classified as a film. A film can be of any length of running time and presented in a theatrical, television, internet-streaming and direct-to-home-video presentation. (FreeBase)
+http://ste-lod-crew.fr/nell/ontology/organizationrepresentedbyagent	Specialization of proxyFor for agent-to-organization relations. populate=false only because presumed to be uninteresting
+http://ste-lod-crew.fr/nell/ontology/televisionshowssuchastelevisionshows	Describes the televisionshows types that are generalizations of specific televisionshows
+http://ste-lod-crew.fr/nell/ontology/personineconomicsector	People who work in a given economic sector
+http://ste-lod-crew.fr/nell/ontology/professionalorganization	A professional organization is an organization of people who work in a particular field.
+http://ste-lod-crew.fr/nell/ontology/attractionbefallincity	Attraction occurs in the city
+http://ste-lod-crew.fr/nell/ontology/buildingfeature	Any physical property or physical attribute that a building might have.
+http://ste-lod-crew.fr/nell/ontology/nonprofitorganization	"A non-profit organization is a legally-constituted organization that does not make a profit from its operations."
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductcontainchemical	Describes the agricultural products that contain a chemical
+http://ste-lod-crew.fr/nell/ontology/roomcancontainitem	Relates items to rooms in which they are often found
+http://ste-lod-crew.fr/nell/ontology/airportincity	The city an airport is located in.
+http://ste-lod-crew.fr/nell/ontology/inverseofarchitectssuchasarchitects	Describes the specific architect types that are generalizations of architects
+http://ste-lod-crew.fr/nell/ontology/aquariumincity	The city an aquarium is located in.
+http://ste-lod-crew.fr/nell/ontology/dateofsportsgame	"the date on which this game occurred"
+http://ste-lod-crew.fr/nell/ontology/governmentorganization	A government is the organization, or agency through which a political unit exercises its authority,
+http://ste-lod-crew.fr/nell/ontology/generalizationof	one thing is a more specific kind of another thing
+http://ste-lod-crew.fr/nell/ontology/birdmayconsumeprotein	Describes the proteins eaten by a bird
+http://ste-lod-crew.fr/nell/ontology/musicartistmusician	Specifies that a particular musician has performed as particular musicArtist
+http://ste-lod-crew.fr/nell/ontology/televisionstationaffiliatedwith	The network that a TV station gets its programming from
+http://ste-lod-crew.fr/nell/ontology/farmlocatedinstate	The state/province a farm is located in
+http://ste-lod-crew.fr/nell/ontology/academicfieldhasperson	People trained or active in a given academic field
+http://ste-lod-crew.fr/nell/ontology/criminalarrestedincountry	Country where criminal was arrested
+http://ste-lod-crew.fr/nell/ontology/inverseofmagazineisleadbyceo	Identifies the CEO of a Magazine
+http://ste-lod-crew.fr/nell/ontology/dateofmeetingeventtitle	When a particular meeting will take place
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductcamefromcountry	Describes the agricultural products that came from a country
+http://ste-lod-crew.fr/nell/ontology/householditem	Any item that could reasonably be found in or about a residence.
+http://ste-lod-crew.fr/nell/ontology/citylocatedingeopoliticallocation	specifies that a particular city is located in a particular geopolitical location
+http://ste-lod-crew.fr/nell/ontology/furniture	Any functional or decorative mobile object with which a dwelling might be said to be "furnished", or any immobile variant of the same (such as an oven built into a wall).
+http://ste-lod-crew.fr/nell/ontology/agentactsinlocation	As with agentInteractsWithAgent, we take existing at a location to be an action at that location.
+http://ste-lod-crew.fr/nell/ontology/personleadsorganization	person leading an organization/company
+http://ste-lod-crew.fr/nell/ontology/plant	Member of kingdom plantae.  A seed is considered to be a plant because it has been fertilized, although the larger structure of a fruit which merely contains a seed is not itself a plant.  A picked flower, such as a product sold as such, is not a plant because it is something that has a new name as a result of a mortal action on a plant.
+http://ste-lod-crew.fr/nell/ontology/meetingeventtitleinofficebuildingroom	In which room a particular meeting will take place
+http://ste-lod-crew.fr/nell/ontology/ceo	A CEO is the chief executive officer of a company.
+http://ste-lod-crew.fr/nell/ontology/mammalinducesemotion	The emotion that human beings generally have by looking at a mammal
+http://ste-lod-crew.fr/nell/ontology/vehicle	Any vessel or other conveyance machine used for purposes of travel.  Apparel and other personal affects, e.g. shoes or walking sticks, do not count.
+http://ste-lod-crew.fr/nell/ontology/inverseofbirdmayconsumeprotein	Describes the proteins eaten by a bird
+http://ste-lod-crew.fr/nell/ontology/touristattractionsuchastouristattraction	Describes the specific tourist attraction types that are generalizations of tourist attractions
+http://ste-lod-crew.fr/nell/ontology/personnorthamerica	citizens of countries in North America
+http://ste-lod-crew.fr/nell/ontology/proxyof	one thing can be taken to refer to another, but the reverse is not necessarily or equally so
+http://ste-lod-crew.fr/nell/ontology/physiologicalconditionpossiblytreatedbydrug	relates a substance to a condition that it might treat. This relation includes conditions that the substance has been designed or approved to treat, as well as conditions for which it is being investigated as a possible treatment.  Common folk remedies would also be eligible for this relation.  For example, it would be reasonable to say that "chicken noodle soup" is a possible treatment for "colds".
+http://ste-lod-crew.fr/nell/ontology/officeheldbypoliticianus	U.S. Politician who holds an office
+http://ste-lod-crew.fr/nell/ontology/streetincity	"this street is at least partly inside this city"
+http://ste-lod-crew.fr/nell/ontology/inverseofacademicfieldsuchasacademicfield	Describes a specialization fo an Academic Field
+http://ste-lod-crew.fr/nell/ontology/musicgenressuchasmusicgenres	Describes the musicgenre types that are generalizations of specific musicgenres
+http://ste-lod-crew.fr/nell/ontology/moviethatgeneratestelevisionshow	Movie that a television show was based in
+http://ste-lod-crew.fr/nell/ontology/flooritem	Any item that is commonly found on the floor
+http://ste-lod-crew.fr/nell/ontology/fishservedwithfood	Describes the kind of food that are tipically serverd with a fish
+http://ste-lod-crew.fr/nell/ontology/athletebeatathlete	Describes the athletes whom beat other athletes
+http://ste-lod-crew.fr/nell/ontology/automobilemakerdealersincity	Describes the car dealers in a city
+http://ste-lod-crew.fr/nell/ontology/inverseofaquariumsuchasaquarium	Describes the specific aquarium types that are generalizations of aquariums
+http://ste-lod-crew.fr/nell/ontology/locatedat	assigns locations to things.
+http://ste-lod-crew.fr/nell/ontology/hashusband	person has a husband
+http://ste-lod-crew.fr/nell/ontology/agriculturalproductincludingagriculturalproduct	Describes the agricultural products that are generalizations of other agriculture products
+http://ste-lod-crew.fr/nell/ontology/personinacademicfield	People trained or active in a given academic field
+http://ste-lod-crew.fr/nell/ontology/virus	A small infectious agent that replicates only inside the living cells of other organisms
+http://ste-lod-crew.fr/nell/ontology/event	An event is a topic that can be described by the time or date at which it happened. Long-lasting events may be described as occurring between two dates. It is sometimes appropriate to create abstract events, as collections of other events
+http://ste-lod-crew.fr/nell/ontology/crustacean	form a very large group of arthropods, usually treated as a subphylum, which includes such familiar animals as crabs, lobsters, crayfish, shrimp, krill and barnacles. Like other arthropods, crustaceans have an exoskeleton, which they moult to grow. They are distinguished from other groups of arthropods, such as insects, myriapods and chelicerates by the possession of biramous (two-parted) limbs, and by the nauplius form of the larvae.
+http://ste-lod-crew.fr/nell/ontology/agentcontrols	to exercise restraint or direction over; dominate; command (http://dictionary.reference.com/browse/control)
+http://ste-lod-crew.fr/nell/ontology/televisionshow	"Television shows, or a television series that includes multiple episodes"
+http://ste-lod-crew.fr/nell/ontology/newspaperincity	Specifies the city in which a particular newspaper is headquartered
+http://ste-lod-crew.fr/nell/ontology/meetingeventtitlehasspeakingperson	Who will be speaking at a particular meeting
+http://ste-lod-crew.fr/nell/ontology/weapon	"A weapon is any tool used for fighting"
+http://ste-lod-crew.fr/nell/ontology/diseasecausesphysiologicalcondition	Describes diseases that may cause a physiological condition
+http://ste-lod-crew.fr/nell/ontology/bakedgoodservedwithbeverage	Describes the baked goods that are usually served with a beverage
+http://ste-lod-crew.fr/nell/ontology/vehicleistypeofvehicle	Type-specific generalization of vehicles.
+http://ste-lod-crew.fr/nell/ontology/dateofpersonbirth	"the date on which this person was born"
+http://ste-lod-crew.fr/nell/ontology/skyscrapercontainsrestaurant	Describes restaurants located in skyscrapers
+http://ste-lod-crew.fr/nell/ontology/magazineisleadbyceo	Identifies the CEO of a Magazine
+http://ste-lod-crew.fr/nell/ontology/beverage	A liquid meant for human consumption
+http://ste-lod-crew.fr/nell/ontology/universityincity	The city a university is located in.
+http://ste-lod-crew.fr/nell/ontology/visualartmovement	A tendency or style in art with a specific common philosophy or goal, followed by a group of artists during a restricted period of time, or, at least, with the heyday of the movement more or less strictly so restricted (usually a few months, years or decades) (FreeBase).  This does not include things that are merly genres, such as "fantasy art" or "oceanic art".
+http://ste-lod-crew.fr/nell/ontology/inverseofautomobilemakerdealersincity	Describes the car dealers in a city
+http://ste-lod-crew.fr/nell/ontology/scoreofsportsgame	"the score of this game"
+http://ste-lod-crew.fr/nell/ontology/currencycountry	specifies that a particular country uses a particular currency
+http://ste-lod-crew.fr/nell/ontology/newpaperhaswebsite	Present the oficial website of a newspaper
+http://ste-lod-crew.fr/nell/ontology/religionofperson	The religion to which a person has belonged.
+http://ste-lod-crew.fr/nell/ontology/malecanbethesameascomedian	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/reptile	Reptiles are animals in the (Linnaean) class Reptilia. They are characterized by breathing air, laying tough-shelled amniotic eggs, and having skin covered in scales and/or scutes.
+http://ste-lod-crew.fr/nell/ontology/riveremptiesintoriver	Describes the tributaries of a river
+http://ste-lod-crew.fr/nell/ontology/island	any piece of land surrounded entirely by water
+http://ste-lod-crew.fr/nell/ontology/cardgame	Games that are played with only a physical deck of cards (electronic games not allowed)
+http://ste-lod-crew.fr/nell/ontology/highway	is a public road, especially a major road connecting two or more destinations.
+http://ste-lod-crew.fr/nell/ontology/producedby	Specifies that a particular compnay produces a particular product
+http://ste-lod-crew.fr/nell/ontology/visualizableobject	a visual object (for NEIL)
+http://ste-lod-crew.fr/nell/ontology/universityhasacademicprogram	"this academic program is offered by this university"
+http://ste-lod-crew.fr/nell/ontology/geopoliticalentity	That which would an object of geopolitical analysis, including but not limited to countries, administrative or de facto subdivisions thereof, supernational groupings and organizations, geographical regions, and cultural groups.
+http://ste-lod-crew.fr/nell/ontology/attraction	sight or feature that you might visit as a tourist. Examples include monuments, parks, museums, and the like. This type includes Location, which means it is usually used for things which are themselves locations (like those described above
+http://ste-lod-crew.fr/nell/ontology/leagueteams	The league that a team plays in.
+http://ste-lod-crew.fr/nell/ontology/iteminvolvedinevent	Umbrella relation for identifying items in events.
+http://ste-lod-crew.fr/nell/ontology/bacteriaisthecausativeagentofphysiologicalcondition	Describes the bacterias that causes physiological conditions
+http://ste-lod-crew.fr/nell/ontology/politicianrepresentslocation	Describes the city, state, country or other location represented by a politician
+http://ste-lod-crew.fr/nell/ontology/planet	is a celestial body orbiting a star or stellar remnant that is massive enough to be rounded by its own gravity, is not massive enough to cause thermonuclear fusion, and has cleared its neighbouring region of planetesimals
+http://ste-lod-crew.fr/nell/ontology/visualartformartist	The type of visual art that a visualArtist produces. Also known as an artist's medium.
+http://ste-lod-crew.fr/nell/ontology/inverseofcoachcanspeaklanguage	Describes the languages that coaches might speak
+http://ste-lod-crew.fr/nell/ontology/citysportsteams	The home city of a sports team, typically a location where the team frequently competes.
+http://ste-lod-crew.fr/nell/ontology/university	A university is a post-high school educational institution. This category includes colleges and technical schools.
+http://ste-lod-crew.fr/nell/ontology/restaurantincity	The city a restaurant is located in.
+http://ste-lod-crew.fr/nell/ontology/teamwontrophy	Trophies that a team has won
+http://ste-lod-crew.fr/nell/ontology/personmovedtostateorprovince	Describes the people that moved to live in a state or province
+http://ste-lod-crew.fr/nell/ontology/objectpartofobject	meronym
+http://ste-lod-crew.fr/nell/ontology/chemicalistypeofchemical	"indicates that one chemical is special case of another chemical"
+http://ste-lod-crew.fr/nell/ontology/mountainrange	A mountain range is a group of mountains bordered by lowlands or separated from other mountain ranges by passes or rivers.
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductcookedwithagricultureproduct	Describes the agricultural products that are usually cooked with another agricultural product
+http://ste-lod-crew.fr/nell/ontology/inverseofbeveragemadefrombeverage	Describes the names an artery can be called
+http://ste-lod-crew.fr/nell/ontology/inverseofpoliticianuswenttoschool	Describes the school where a US politician studied
+http://ste-lod-crew.fr/nell/ontology/cityhasstreet	"this street is at least partly inside this city"
+http://ste-lod-crew.fr/nell/ontology/bodypart	Refers to any part of the human body. It can be either visible to the naked eye (gross anatomical structure) or microscopic.
+http://ste-lod-crew.fr/nell/ontology/radiostation	A radio station is a broadcaster which transmits audio. This category includes broadcast radio, satellite radio and internet radio stations.
+http://ste-lod-crew.fr/nell/ontology/countrycities	specifies that a particular city is located in a particular country
+http://ste-lod-crew.fr/nell/ontology/jobpositionusesacademicfield	Academic fields useful for job positions
+http://ste-lod-crew.fr/nell/ontology/inverseofclothmadeofplant	Plants that can be used to make cloths
+http://ste-lod-crew.fr/nell/ontology/writerwrotebook	author of a book
+http://ste-lod-crew.fr/nell/ontology/personleadsgeopoliticalorganization	specifies that a particular person plays a leading role in a particular geopolitical organization (which includes the governments of countries)
+http://ste-lod-crew.fr/nell/ontology/athletessuchasathletes	Describes the specific athlete types that are generalizations of athletes
+http://ste-lod-crew.fr/nell/ontology/inverseofathleteinjuredhisbodypart	Describes the athletes that had injured any body part
+http://ste-lod-crew.fr/nell/ontology/personleadscountry	specifies that a particular person is the leader of a particular country
+http://ste-lod-crew.fr/nell/ontology/religionusesplaceofworship	The religion practied in a place of worship.
+http://ste-lod-crew.fr/nell/ontology/islandhasskiarea	Describes island that have ski a area
+http://ste-lod-crew.fr/nell/ontology/recordlabel	A record label is a company that releases music albums.
+http://ste-lod-crew.fr/nell/ontology/dateatwhichexistsitem	a item exists in a determined time (or date)
+http://ste-lod-crew.fr/nell/ontology/lyrics	Refernce to the lyrics of a song, as distinct from a reference to the song itself
+http://ste-lod-crew.fr/nell/ontology/inverseofhobbiessuchashobbies	Describes the hobbies types that are generalizations of specific hobbies
+http://ste-lod-crew.fr/nell/ontology/inverseofpersongraduatedfromuniversity	Describes the people graduated from a university
+http://ste-lod-crew.fr/nell/ontology/sportsgameteam	Specifies the teams that played in a particular sports game
+http://ste-lod-crew.fr/nell/ontology/room	A conceptually-distinct subspace within a building.  The entire space within a building could be considered to be a room in the case of, say, a one-room schoolhouse.
+http://ste-lod-crew.fr/nell/ontology/countrylocatedingeopoliticallocation	specifies that a particular country is located in a particular geopolitical entity
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductcamefromcountry	Describes the agricultural products that came from a country
+http://ste-lod-crew.fr/nell/ontology/politicsbillsponsoredbypolitician	Politician(s) sponsoring a particular legislative bill
+http://ste-lod-crew.fr/nell/ontology/itemexistsatlocation	An item that is typically found in a particular place.  While most any item could concievably exist at most any place, the intent for this relation and its children is to capture "common knowledge" about what would be expected to be found where.
+http://ste-lod-crew.fr/nell/ontology/teamplaysinleague	The league that a team plays in.
+http://ste-lod-crew.fr/nell/ontology/subfieldofacademicfield	Subfields within a given academic field
+http://ste-lod-crew.fr/nell/ontology/cityhastrainstation	The city a train station is in.
+http://ste-lod-crew.fr/nell/ontology/plantrepresentemotion	Describes the emotions represented by a plant
+http://ste-lod-crew.fr/nell/ontology/athleteplayedforschool	The school that an athlete used to play for its team
+http://ste-lod-crew.fr/nell/ontology/inverseofbuildingispartofuniversity	Describes buildings that universities might own
+http://ste-lod-crew.fr/nell/ontology/politicianusendorsespoliticianus	U.S. Politician that endorses another U.S. politician
+http://ste-lod-crew.fr/nell/ontology/politicianuswenttoschool	Describes the school where a US politician studied
+http://ste-lod-crew.fr/nell/ontology/athleteplayssport	to engage in (a game, pastime, etc.) (http://dictionary.reference.com/browse/play)
+http://ste-lod-crew.fr/nell/ontology/personborninlocation	the location that a person is born in
+http://ste-lod-crew.fr/nell/ontology/dateof	assigns dates to things.
+http://ste-lod-crew.fr/nell/ontology/organizationheadquarteredinstateorprovince	The state or province where a given organization is headquartered
+http://ste-lod-crew.fr/nell/ontology/companiesheadquarteredhere	specifies that a particular company is headquartered in a particular city
+http://ste-lod-crew.fr/nell/ontology/astronautssuchasaustronauts	Describes the specific astronaut types that are generalizations of astronauts
+http://ste-lod-crew.fr/nell/ontology/citynewspaper	Specifies the city in which a particular newspaper is headquartered
+http://ste-lod-crew.fr/nell/ontology/ethnicgroupofperson	The ethnicity of a person
+http://ste-lod-crew.fr/nell/ontology/chemicaltypehaschemical	"indicates that one chemical is special case of another chemical"
+http://ste-lod-crew.fr/nell/ontology/creditunion	Banks that are credit unions
+http://ste-lod-crew.fr/nell/ontology/language	Spoken human languages (and dialects).
+http://ste-lod-crew.fr/nell/ontology/husbandof	person has a husband
+http://ste-lod-crew.fr/nell/ontology/statehaslake	The state/province a river is in.
+http://ste-lod-crew.fr/nell/ontology/stadiumhometeam	The stadium or other sporting venue which a team designates as its "home." Typically, a large percentage of the team's games occur in this location.
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductcomingfromvertebrate	Describes the agricultural products that come from a vertebrate
+http://ste-lod-crew.fr/nell/ontology/placeofworshippracticesreligion	The religion practied in a place of worship.
+http://ste-lod-crew.fr/nell/ontology/locationlocatedwithinlocation	a location that is a subpart of another location
+http://ste-lod-crew.fr/nell/ontology/loseringame	Specifies that a particular team that played in a particular sportsGame was the loser thereof.
+http://ste-lod-crew.fr/nell/ontology/organizationhasofficialwebsite	An official top-level URL for an organization's website
+http://ste-lod-crew.fr/nell/ontology/coachcanspeaklanguage	Describes the languages that coaches might speak
+http://ste-lod-crew.fr/nell/ontology/inverseoftelevisionshowssuchastelevisionshows	Describes the televisionshows types that are generalizations of specific televisionshows
+http://ste-lod-crew.fr/nell/ontology/meetingeventtitleatdate	When a particular meeting will take place
+http://ste-lod-crew.fr/nell/ontology/conference	A conference is a regular or recurring meeting of people to "confer" about a topic. It may take many forms.
+http://ste-lod-crew.fr/nell/ontology/inverseofbooksuchasbook	Describes the specific book types that are generalizations of actors
+http://ste-lod-crew.fr/nell/ontology/topmemberoforganization	Identifies people in high-level, leading positions at organizations.  Applicable positions have authority over the entire organization (e.g. presidents, VPs, directors, and C-level executives), not merely over departments or subsidiaries.
+http://ste-lod-crew.fr/nell/ontology/bacteriacancauseillnessfromfood	Describes the foods that bacterias can cause illness from
+http://ste-lod-crew.fr/nell/ontology/agriculturalproduct	a living thing (or something derived therefrom) which is specifically cultivated and produced to sustain or enrich life
+http://ste-lod-crew.fr/nell/ontology/cityliesonriver	Rivers that flow or through or immediately adjacent to the city.
+http://ste-lod-crew.fr/nell/ontology/videogamesystem	includes any form of electronic game device, from handheld units as small as a phone to large powerful computer systems and even arcade coin-operated systems.
+http://ste-lod-crew.fr/nell/ontology/inverseofathleteplayedforschool	The school that an athlete used to play for its team
+http://ste-lod-crew.fr/nell/ontology/personhiredbyorganization	This relation connects an organization to individuals that it hired.  It does include people hired as contractors, not just people hired as employees. It does not include elected officials. It does not include organizations that may be hired for some particular purpose. Typically, hiring someone does involve paying them, though that is seldom stated explicitly when the relation is mentioned. A hiring event (the actual initiation of the employment) must be mentioned for this relation to apply; if the text just says that Mary Smith works for IBM, that is not enough to assert a hired relation.
+http://ste-lod-crew.fr/nell/ontology/dayofweek	Seven named days of the week
+http://ste-lod-crew.fr/nell/ontology/physicalcharacteristic	Features of a substance that are primarily sensory (physical) and generally measurable (businessdictionary.com)
+http://ste-lod-crew.fr/nell/ontology/cheese	Any cheese
+http://ste-lod-crew.fr/nell/ontology/personhasresidenceincity	the city that a person has residence in
+http://ste-lod-crew.fr/nell/ontology/inverseofcriminalarrestedincountry	Country where criminal was arrested
+http://ste-lod-crew.fr/nell/ontology/inverseofweaponmadeincountry	Describes the weapons produced by a country
+http://ste-lod-crew.fr/nell/ontology/zipcodeinlocation	Describes one or more locations to which a zipcode may correspond.
+http://ste-lod-crew.fr/nell/ontology/politicsblog	A blog substantially and charactarizably, but not exclusively, devoted to politics or political issues.  A general current-events blog such as might be equated with a general newspaper should not be classified as a politicsBlog, although an identifyable subsection or the blog of a particular staff member could be.
+http://ste-lod-crew.fr/nell/ontology/mlarea	A specific area of investigation within the sub-field of machine learning.
+http://ste-lod-crew.fr/nell/ontology/inverseofastronautwasonamissionwithastronaut	Describes astronauts that were at a space mission togheter
+http://ste-lod-crew.fr/nell/ontology/losingscoreofsportsgame	Specifies the score with which the loosing team in a particular sportsGame lost.
+http://ste-lod-crew.fr/nell/ontology/physicsterm	Any word with a specific meaning in the physics domain
+http://ste-lod-crew.fr/nell/ontology/languagespokenatisland	Describes languages spoken at islands
+http://ste-lod-crew.fr/nell/ontology/journalistwritesforpublication	specifies that a particular journalist writes for a particular publication
+http://ste-lod-crew.fr/nell/ontology/inverseofagriculturalproductgrowninlandscapefeature	Describes the agricultural products that are grown in landscape features
+http://ste-lod-crew.fr/nell/ontology/teamplayssport	The sport that a team plays.
+http://ste-lod-crew.fr/nell/ontology/wineryproduceswine	Describes the wines sold by a winery
+http://ste-lod-crew.fr/nell/ontology/comedian	"a person who makes a living by making you laugh"
+http://ste-lod-crew.fr/nell/ontology/leaguecoaches	specifies that a particular coach coaches a team that plays in a particular league
+http://ste-lod-crew.fr/nell/ontology/time	a specific time
+http://ste-lod-crew.fr/nell/ontology/coachalsoknownas	"this is another name for this coach"
+http://ste-lod-crew.fr/nell/ontology/architect	"a person who designs buildings or other structures"
+http://ste-lod-crew.fr/nell/ontology/inverseofautomobilemakercardealersinstateorprovince	Describes the car dealers in a state or province
+http://ste-lod-crew.fr/nell/ontology/scientistcanbethesameaswriter	Describes two instances that are the same thing in these two different categories
+http://ste-lod-crew.fr/nell/ontology/eventdate	specifies that the duration of a particular event overlapped with a particular date.
+http://ste-lod-crew.fr/nell/ontology/cityrestaurants	The city a restaurant is located in.
+http://ste-lod-crew.fr/nell/ontology/winneringame	Specifies that a particular team that played in a particular sportsGame was the winner thereof.
+http://ste-lod-crew.fr/nell/ontology/personbirthdate	"the date on which this person was born"
+http://ste-lod-crew.fr/nell/ontology/personbelongstoorganization	organization or company that person is belonged to
+http://ste-lod-crew.fr/nell/ontology/inverseofclothingmadefromplant	Describes the clothing items made of a plant
+http://ste-lod-crew.fr/nell/ontology/inverseofreligionssuchasreligions	Describes the religions types that are generalizations of specific religions
+http://ste-lod-crew.fr/nell/ontology/buildinghostsmeetingeventtitle	In which building a particular meeting will take place
+http://ste-lod-crew.fr/nell/ontology/meatcomesfromanimal	Describes the animals and their meat cuts
+http://ste-lod-crew.fr/nell/ontology/inverseofbankbankincountry	Describes the banks in a country
+http://ste-lod-crew.fr/nell/ontology/politicianendorsedbypolitician	Politician that endorses another politician
+http://ste-lod-crew.fr/nell/ontology/inverseofsportfansincountry	Describes the sports that have fans living in a country
+http://ste-lod-crew.fr/nell/ontology/inverseofbeveragecontainsprotein	Describes the proteins contained in beverages
+http://ste-lod-crew.fr/nell/ontology/month	Twelve months of the year.
+http://ste-lod-crew.fr/nell/ontology/ceoof	specifies that a particular CEO is the CEO of a particular company
+http://ste-lod-crew.fr/nell/ontology/automodelproducedbymaker	"this automobile manufacturer produces this particular automobile make or model"
+http://ste-lod-crew.fr/nell/ontology/restaurant	The restaurant type represents single restaurants as well as restaurant chains.
+http://ste-lod-crew.fr/nell/ontology/personalsoknownas	"this is another name for this person"
+http://ste-lod-crew.fr/nell/ontology/cityhotels	The city a hotel is located in.
+http://ste-lod-crew.fr/nell/ontology/agentcompeteswithagent	Non-cooperative interaction.  Primary alternative to agentCollaboratesWithAgent.
+http://ste-lod-crew.fr/nell/ontology/sportsgameawayteam	Specifies that a particular team is the away team in a particular sportsGame.
+http://ste-lod-crew.fr/nell/ontology/inverseofcompanyproducesvideogamesystem	company produces a video game system
+http://ste-lod-crew.fr/nell/ontology/artery	"Arteries are muscular blood vessels that carry blood away from the heart."
+http://ste-lod-crew.fr/nell/ontology/visualizablething	something which can be recognized visually
+http://ste-lod-crew.fr/nell/ontology/persondiedatage	"the age at which this person died"

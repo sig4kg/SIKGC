@@ -1,7 +1,7 @@
 **/outputs
 **/checkpoint
 **/release
-**/resources/*
+#**/resources/*
 **/.idea
 .pyenv
 **/workspace.xml

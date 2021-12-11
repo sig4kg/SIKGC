@@ -64,6 +64,7 @@ def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
     extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
     new_count = len(extend_hrt_df.index) - train_count
     rate = new_count / train_count
+    print("update context data")
     context_resource.hrt_int_df = extend_hrt_df
     return rate
 
@@ -103,6 +104,7 @@ def RC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
     new_count = len(new_hrt_df.index) - train_count
     rate = new_count / train_count
     # overwrite train data in context
+    print("update context data")
     context_resource.hrt_int_df = train_hrt_df
     return rate
 
@@ -120,6 +122,7 @@ def M_block(context_resource:ContextResources, work_dir):
     # read new data to context
     # we only keep entities in original abox. If node absent from original abox, we delete them.
     materialized_hrt_int_df = nt_2_hrt_int_df(work_dir + "cleaned_tbox_abox.nt", context_resource)
+    print("update context data")
     context_resource.hrt_int_df = pd.concat([context_resource.hrt_int_df, materialized_hrt_int_df]).drop_duplicates(keep='first').reset_index(drop=True)
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)

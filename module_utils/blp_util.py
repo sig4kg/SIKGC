@@ -57,8 +57,8 @@ def split_all_triples(work_dir, inductive=False):
             miss_rel = pd.concat([rels, rels_train, rels_train]).drop_duplicates(keep=False)
             filtered_tris = sample_dev[sample_dev['rel'].isin(list(miss_rel))]
             sample_train = pd.concat([sample_train, filtered_tris])
-        sample_train.to_csv(osp.join(work_dir, f'train.tsv'), header=False, index=False, sep='\t', mode='a')
-        sample_dev.to_csv(osp.join(work_dir, f'dev.tsv'), header=False, index=False, sep='\t', mode='a')
+        sample_train.to_csv(osp.join(work_dir, f'train.tsv'), header=False, index=False, sep='\t')
+        sample_dev.to_csv(osp.join(work_dir, f'dev.tsv'), header=False, index=False, sep='\t')
         os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")
 
 

@@ -57,6 +57,10 @@ def to_dllite(schema_file, work_dir):
 def delete_file(file_path):
     os.system("rm " + file_path)
 
+def delete_dir(dir):
+    os.system(f'[ -d "{dir}" ] && rm -rf {dir}')
+
+
 def gen_pred_transE(work_dir):
     wait_until_file_is_saved(f"{work_dir}train/train2id.txt", 60)
     os.system(f"cp {work_dir}train/train2id.txt {work_dir}train/test2id.txt")

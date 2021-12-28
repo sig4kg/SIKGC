@@ -39,18 +39,18 @@ def prepare_M(work_dir, schema_file):
         print("Schema in DL-Lite exists: " + work_dir + "tbox_dllite.ttl")
 
 
-def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
+def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, use_gpu=False):
     context_2_hrt_transE(work_dir, context_resource)
     train_count = len(context_resource.hrt_int_df.index)
     run_scripts.gen_pred_transE(work_dir)
     wait_until_train_pred_data_ready(work_dir)
 
     # 1.train transE
-    train_transe_NELL995.train(work_dir + "train/")
+    train_transe_NELL995.train(work_dir + "train/", use_gpu=use_gpu)
     wait_until_file_is_saved(work_dir + "checkpoint/transe.ckpt")
 
     # 2. produce triples
-    train_transe_NELL995.produce(work_dir + "train/", work_dir + "transE_raw_hrts.txt")
+    train_transe_NELL995.produce(work_dir + "train/", work_dir + "transE_raw_hrts.txt", use_gpu=use_gpu)
     wait_until_file_is_saved(work_dir + "transE_raw_hrts.txt", 30)
 
     # 3. consistency checking for new triples + old triples

@@ -47,7 +47,7 @@ def nt_2_hrt_int_df(in_file, context_resource: ContextResources):
         lambda x: context_resource.ent2id[x] if x in context_resource.ent2id else np.nan)  # to int
     df[['rel']] = df[['rel']].applymap(
         lambda x: context_resource.rel2id[x] if x in context_resource.rel2id else np.nan)  # to int
-    df = df.dropna(how='any')
+    df = df.dropna(how='any').astype('int64')
     return df
 
 

@@ -33,7 +33,7 @@ def train(in_path, use_gpu=False):
     )
 
     # train the model
-    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=2, alpha=1.0, use_gpu=use_gpu)
+    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=200, alpha=1.0, use_gpu=use_gpu)
     trainer.run()
     out_path = Path(in_path + '../checkpoint/transe.ckpt')
     if not out_path.parent.exists():
@@ -59,7 +59,4 @@ def produce(in_path, out_file):
 
 if __name__ == "__main__":
     train("../resources/NELL-995/")
-# train("../outputs/ctc/train/")
-# produce("../resources/NELL-995/", "../outputs/ctc/test.txt")
-# produce("../outputs/ctc/NELL-995/", "../outputs/ctc/test.txt")
-# produce("../outputs/ctc/train/", "../outputs/ctc/test.txt")
+

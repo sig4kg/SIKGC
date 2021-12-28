@@ -7,7 +7,7 @@ from scripts import run_scripts
 from module_utils.materialize_util import *
 
 
-def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir=""):
+def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", consistency_check=True):
     init_workdir(work_dir)
     # prepare tbox patterns
     if tbox_patterns_dir == "" or not os.path.exists(tbox_patterns_dir):
@@ -20,9 +20,13 @@ def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir=""):
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
-    abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13]).scan_patterns(work_dir=work_dir)
-    wait_until_file_is_saved(work_dir + "valid_hrt.txt")
-    read_scanned_2_context_df(work_dir, context_resource)
+    if consistency_check:
+        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13]).scan_patterns(work_dir=work_dir)
+        wait_until_file_is_saved(work_dir + "valid_hrt.txt")
+        read_scanned_2_context_df(work_dir, context_resource)
+    else:
+        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13])
+        context_resource.hrt_int_df = context_resource.hrt_to_scan_df
     return context_resource, abox_scanner_scheduler
 
 def prepare_M(work_dir, schema_file):

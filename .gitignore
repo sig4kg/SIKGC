@@ -1,7 +1,8 @@
 **/outputs
 **/checkpoint
 **/release
-#**/resources/*
+**/resources/DBpedia-politics
+**/resources/DBpedia-text
 **/.idea
 .pyenv
 **/workspace.xml

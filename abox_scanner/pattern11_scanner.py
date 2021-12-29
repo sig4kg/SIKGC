@@ -19,12 +19,14 @@ class Pattern11(PatternScanner):
             if r1 in self._pattern_dict:
                 disjoint_r2_l = self._pattern_dict[r1]
                 r1_triples_df = g[1]
+                tmp_list = []
                 for r2 in disjoint_r2_l:
                     if r2 not in gp.groups:
                         continue
                     r2_triples_df = gp.get_group(r2)
                     r2_head = r2_triples_df['head'].to_list()
-                    df.update(r1_triples_df.query(f"is_new == True and head in @r2_head")['is_valid'].apply(lambda x: False))
+                    tmp_list.extend(r2_head)
+                df.update(r1_triples_df.query(f"is_new == True and head in @tmp_list")['is_valid'].apply(lambda x: False))
         return df
 
     def pattern_to_int(self, entry: str):

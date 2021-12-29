@@ -70,7 +70,7 @@ class TripleProducer(object):
         })
 
 
-    def produce_triples(self, type_constrain = False):
+    def produce_triples(self, type_constrain = False, threshold=0.5):
         self.lib.initTest()
         self.data_loader.set_sampling_mode('link')
         if type_constrain:
@@ -87,14 +87,14 @@ class TripleProducer(object):
                 self.lib.produceHead(score.__array_interface__["data"][0],
                                      order.__array_interface__["data"][0],
                                      index,
-                                     float(0.5),
+                                     float(threshold),
                                      type_constrain)
                 score = self.test_one_step(data_tail)
                 order = np.argsort(score)
                 self.lib.produceTail(score.__array_interface__["data"][0],
                                      order.__array_interface__["data"][0],
                                      index,
-                                     float(0.5),
+                                     float(threshold),
                                      type_constrain)
                 pbar.update(1)
 

@@ -42,7 +42,7 @@ def train(in_path, use_gpu=False):
     # transe.save_checkpoint(out_dir + '/transe.ckpt')
 
 
-def produce(in_path, out_file, use_gpu=False):
+def produce(in_path, out_file, threshold=0.5, use_gpu=False):
     # dataloader for test
     test_dataloader = TestDataLoader(in_path, "link")
     transe = TransE(
@@ -54,7 +54,7 @@ def produce(in_path, out_file, use_gpu=False):
     # test the model
     transe.load_checkpoint(in_path + '../checkpoint/transe.ckpt')
     producer = TripleProducer(model=transe, data_loader=test_dataloader, use_gpu=use_gpu, output_file=out_file)
-    producer.produce_triples(type_constrain=False)
+    producer.produce_triples(type_constrain=False, threshold=threshold)
 
 
 if __name__ == "__main__":

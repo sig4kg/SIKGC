@@ -33,7 +33,7 @@ def train(in_path, use_gpu=False):
     )
 
     # train the model
-    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=200, alpha=1.0, use_gpu=use_gpu)
+    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=500, alpha=1.0, use_gpu=use_gpu)
     trainer.run()
     out_path = Path(in_path + '../checkpoint/transe.ckpt')
     if not out_path.parent.exists():

@@ -63,6 +63,9 @@ public class Main {
             case "DL-lite":
                 DLLite.owl2dllite(ontologyFullPath, outputFullPath + "/tbox_dllite.ttl");
                 break;
+            case "Consistency":
+                Materialize2.checkConsistency(ontologyFullPath, aboxFullPath, outputFullPath + "/tbox_and_abox.nt");
+                break;
             default:
                 return;
         }

@@ -13,6 +13,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Materialize2 {
+    public static void checkConsistency(String in_tbox_file, String in_abox_file, String out_file) throws Exception {
+        System.out.println("Materializing: " + in_tbox_file + " and " + in_abox_file);
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+        if (!in_abox_file.equals("")) {
+            File initialFileA = new File(in_abox_file);
+            InputStream inputStreamA = new FileInputStream(initialFileA);
+            OWLOntology ontologyA = manager.loadOntologyFromOntologyDocument(inputStreamA);
+            if (inputStreamA == null) {
+                throw new IllegalArgumentException("file not found! " + in_abox_file);
+            }
+        } else {
+            System.out.println("no abox for materialization, will use tbox only.");
+        }
+
+        File initialFileB = new File(in_tbox_file);
+        InputStream inputStreamB = new FileInputStream(initialFileB);
+        // the stream holding the file content
+        if (inputStreamB == null) {
+            throw new IllegalArgumentException("file not found! " + in_tbox_file);
+        }
+        OWLOntology ontologyB = manager.loadOntologyFromOntologyDocument(inputStreamB);
+        // merge tbox and abox
+        System.out.println("Merge tbox and abox.");
+        OWLOntologyMerger merger = new OWLOntologyMerger(manager);
+        IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged");
+        OWLOntology ontology = merger.createMergedOntology(manager, mergedOntologyIRI1);
+        // create Hermit reasoner
+        OWLDataFactory df = manager.getOWLDataFactory();
+        Configuration configuration = new Configuration();
+        configuration.ignoreUnsupportedDatatypes = true;
+        ReasonerFactory rf = new ReasonerFactory();
+        OWLReasoner reasoner = rf.createReasoner(ontology, configuration);
+        boolean consistencyCheck = reasoner.isConsistent();
+        if (consistencyCheck) {
+            System.out.println("tbox and abox are consistent.");
+        } else {
+            System.out.println("tbox and abox are not consistent.");
+        }
+        File ontologyFile = new File(out_file);
+        // Now we create a stream since the ontology manager can then write to that stream.
+        try (OutputStream outputStream = new FileOutputStream(ontologyFile)) {
+            // We use the nt format as for the input ontology.
+            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+//            TurtleDocumentFormat format = new TurtleDocumentFormat();
+//            N3DocumentFormat format = new N3DocumentFormat();
+            manager.saveOntology(ontology, format, outputStream);
+            System.out.println("Output saved: " + out_file);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
     public static void materialize(String in_tbox_file, String in_abox_file, String out_file) throws Exception {
         System.out.println("Materializing: " + in_tbox_file + " and " + in_abox_file);
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();

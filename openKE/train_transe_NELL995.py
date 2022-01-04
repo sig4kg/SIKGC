@@ -1,11 +1,11 @@
-from openKE.openke.config import Trainer, TripleProducer
+from openKE.openke.config import Trainer, TripleProducer, Tester
 from openKE.openke.module.model import TransE
 from openKE.openke.module.loss import MarginLoss
 from openKE.openke.module.strategy import NegativeSampling
 from openKE.openke.data import TrainDataLoader, TestDataLoader
 from pathlib import Path
 
-def train(in_path, use_gpu=False):
+def train(in_path, epoch=500, use_gpu=False, test=False):
     # dataloader for training
     train_dataloader = TrainDataLoader(
         in_path=in_path,
@@ -33,13 +33,19 @@ def train(in_path, use_gpu=False):
     )
 
     # train the model
-    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=500, alpha=1.0, use_gpu=use_gpu)
+    trainer = Trainer(model=model, data_loader=train_dataloader, train_times=epoch, alpha=1.0, use_gpu=use_gpu)
     trainer.run()
     out_path = Path(in_path + '../checkpoint/transe.ckpt')
     if not out_path.parent.exists():
         out_path.parent.mkdir(exist_ok=False)
     transe.save_checkpoint(in_path + '../checkpoint/transe.ckpt')
     # transe.save_checkpoint(out_dir + '/transe.ckpt')
+    if test:
+        # dataloader for test
+        test_dataloader = TestDataLoader("../resources/NELL-995/", "link")
+        transe.load_checkpoint(in_path + '../checkpoint/transe.ckpt')
+        tester = Tester(model = transe, data_loader = test_dataloader, use_gpu = False)
+        tester.run_link_prediction(type_constrain = False)
 
 
 def produce(in_path, out_file, threshold=0.5, use_gpu=False):
@@ -58,5 +64,6 @@ def produce(in_path, out_file, threshold=0.5, use_gpu=False):
 
 
 if __name__ == "__main__":
-    train("../resources/NELL-995/")
+    train("../resources/NELL-995/", epoch=500, use_gpu=True, test=True)
+
 

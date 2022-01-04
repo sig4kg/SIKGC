@@ -517,6 +517,7 @@ def produce(model,
         #             [produced_triples_filtered, fitered_hrts])
 
         batch_count += 1
+    # read to cpu and ready to output
     if use_gpu:
         produced_triples = produced_triples.cpu()
         ent_emb = ent_emb.cpu()
@@ -626,7 +627,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         train_loss = 0
         for step, data in enumerate(train_loader):
             loss = model(*data).mean()
-
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()

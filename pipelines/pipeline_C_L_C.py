@@ -7,15 +7,15 @@ from blp.producer import ex
 from scripts.run_scripts import clean_blp
 
 
-def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_epoch=2, inductive=False):
-    context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, class_and_op_file_path=class_op_and_pattern_path, create_id_file=False)
+def c_l_c(input_hrt_raw_triple_file, work_dir, input_dir, pattern_path, max_epoch=2, inductive=False):
+    context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, class_and_op_file_path=input_dir, create_id_file=False)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
-    abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
+    abox_scanner_scheduler = AboxScannerScheduler(pattern_path, context_resource)
     # first round scan, get ready for training
     abox_scanner_scheduler.register_pattern([1, 2]).scan_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
     read_scanned_2_context_df(work_dir, context_resource)
-    prepare_blp(class_op_and_pattern_path, work_dir)
+    prepare_blp(input_dir, work_dir)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
         hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=False)    # generate all_triples.tsv, entities.txt, relations.txt\
         wait_until_file_is_saved(work_dir + "all_triples.tsv")
@@ -23,7 +23,10 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         wait_until_blp_data_ready(work_dir, inductive=inductive)
 
         # 1. run blp
-        ex.run(config_updates={'work_dir': work_dir, 'inductive': inductive, "do_downstream_sample": False})
+        ex.run(config_updates={'work_dir': work_dir,
+                               'inductive': inductive,
+                               "do_downstream_sample": False,
+                               'model': "bert-bow"})
         wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
         # 2. consistency checking for new triples
@@ -61,7 +64,14 @@ if __name__ == "__main__":
     # print("CLC pipeline")
     # c_l_c("../outputs/umls/all_triples.tsv", "../outputs/umls/")
     os.system("rm ../outputs/clc/*")
-    c_l_c("../resources/DBpedia-politics/test_dbpedia.txt", "../outputs/clc/", class_op_and_pattern_path='../resources/DBpedia-politics/tbox-dbpedia/')
+    # c_l_c("../resources/DBpedia-politics/test_dbpedia.txt",
+    #       "../outputs/clc/",
+    #       input_dir='../resources/DBpedia-politics/',
+    #       pattern_path='../resources/DBpedia-politics/tbox_patterns/', inductive=False)
+    c_l_c("../resources/DBpedia-politics/test_dbpedia.txt",
+          "../outputs/clc/",
+          input_dir='../resources/DBpedia-politics/',
+          pattern_path='../resources/DBpedia-politics/tbox_patterns/', inductive=True)
 
 
 

@@ -81,11 +81,6 @@ class AboxScannerScheduler:
             mask = (df[['head', 'rel', 'tail']].isin(new_items[['head', 'rel', 'tail']])).all(axis=1)
             # pandas has defect with df[mask], it get same values as new_items.
             df.update(df[mask]['is_new'].apply(lambda x: False))
-            # for idx, row in df.iterrows():
-            #     if mask[idx]:
-            #         row['is_new'] = True
-
-
 
         init_invalid = len(df.query("is_valid == False"))
         for scanner in self._strategies:
@@ -102,6 +97,7 @@ class AboxScannerScheduler:
             invalids = invalids.astype(int)
         invalids.to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         valids = df.query("is_valid == True")[['head', 'rel', 'tail']]
+        valids = valids.drop_duplicates(keep='first')
         if len(valids) > 0:
             valids = valids.astype(int)
         valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')

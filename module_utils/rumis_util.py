@@ -1,6 +1,6 @@
 from __future__ import annotations
 import pandas as pd
-from abox_scanner.abox_utils import ContextResources, read_hrt_2_df
+from abox_scanner.abox_utils import ContextResources
 
 
 def read_hrt_rumis_2_hrt_int_df(hrt_rumis_file, context_resource: ContextResources):
@@ -11,11 +11,10 @@ def read_hrt_rumis_2_hrt_int_df(hrt_rumis_file, context_resource: ContextResourc
     df[['rel']] = df[['rel']].applymap(lambda x: context_resource.rel2id[x])  # to int
     return df
 
-
-def read_hrt_original_2_hrt_rumis(hrt_original, hrt_rumis_file):
-    df = read_hrt_2_df(hrt_original)
-    df = df.apply(lambda x: '<' + x + '>')
-    df[['head', 'rel', 'tail']].to_csv(hrt_rumis_file, header=None, index=None, sep='\t')
+# def read_hrt_original_2_hrt_rumis(hrt_original, hrt_rumis_file):
+#     df = read_hrt_2_df(hrt_original)
+#     df = df.apply(lambda x: '<' + x + '>')
+#     df[['head', 'rel', 'tail']].to_csv(hrt_rumis_file, header=None, index=None, sep='\t')
 
 
 def hrt_int_df_2_hrt_rumis(context_resource: ContextResources, hrt_rumis_file):

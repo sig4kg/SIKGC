@@ -5,16 +5,13 @@ import pandas as pd
 from tqdm.auto import trange
 from blp.producer import ex
 from scripts.run_scripts import clean_blp
+from pipeline_util import *
 
 
-def c_l_c(input_hrt_raw_triple_file, work_dir, input_dir, pattern_path, max_epoch=2, inductive=False):
-    context_resource = ContextResources(input_hrt_raw_triple_file, work_dir=work_dir, class_and_op_file_path=input_dir, create_id_file=False)
-    # pattern_input_dir, class2int, node2class_int, all_triples_int
-    abox_scanner_scheduler = AboxScannerScheduler(pattern_path, context_resource)
-    # first round scan, get ready for training
-    abox_scanner_scheduler.register_pattern([1, 2]).scan_patterns(work_dir=work_dir)
-    wait_until_file_is_saved(work_dir + "valid_hrt.txt")
-    read_scanned_2_context_df(work_dir, context_resource)
+def c_l_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1, inductive=False):
+    run_scripts.delete_dir(work_dir)
+    context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
+                                                               tbox_patterns_dir=tbox_patterns_dir)
     prepare_blp(input_dir, work_dir)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
         hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=False)    # generate all_triples.tsv, entities.txt, relations.txt\
@@ -24,9 +21,11 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, input_dir, pattern_path, max_epoc
 
         # 1. run blp
         ex.run(config_updates={'work_dir': work_dir,
+                               'dataset': 'treat',
                                'inductive': inductive,
-                               "do_downstream_sample": False,
-                               'model': "bert-bow"})
+                               "do_downstream_sample": True,
+                               'max_epochs':2,
+                               'model': "transductive"})
         wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
         # 2. consistency checking for new triples
@@ -58,23 +57,7 @@ def c_l_c(input_hrt_raw_triple_file, work_dir, input_dir, pattern_path, max_epoc
 
 
 if __name__ == "__main__":
-    # df1 = pd.DataFrame(data=[0,1,2])
-    # df2 = pd.DataFrame(data=[1,2,3,4,5,6,7])
-    # df2notindf1 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
-    # print("CLC pipeline")
-    # c_l_c("../outputs/umls/all_triples.tsv", "../outputs/umls/")
-    os.system("rm ../outputs/clc/*")
-    # c_l_c("../resources/DBpedia-politics/test_dbpedia.txt",
-    #       "../outputs/clc/",
-    #       input_dir='../resources/DBpedia-politics/',
-    #       pattern_path='../resources/DBpedia-politics/tbox_patterns/', inductive=False)
-    c_l_c("../resources/DBpedia-politics/test_dbpedia.txt",
-          "../outputs/clc/",
-          input_dir='../resources/DBpedia-politics/',
-          pattern_path='../resources/DBpedia-politics/tbox_patterns/', inductive=True)
-
-
-
-
-
-
+    print("CLC pipeline")
+    c_l_c(work_dir="../outputs/log_clc/", input_dir="../resources/treat/",
+          schema_file='../resources/treat/tbox.nt',
+          tbox_patterns_dir='../resources/treat/tbox_patterns/', inductive=False)

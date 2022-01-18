@@ -7,8 +7,11 @@ fi
 set -e
 
 # CLI args
-WORK_DIR=$1
-SCHEMA_FILE=$0
+WORK_DIR=$2
+SCHEMA_FILE=$1
+
+echo "WORK_DIR: $WORK_DIR"
+echo "SCHEMA_FILE: $SCHEMA_FILE"
 
 if [ ! -d "$WORK_DIR" ];then
   mkdir "$WORK_DIR"
@@ -31,10 +34,10 @@ if [ ! -f "$WORK_DIR/TBoxTREAT-1.0.jar" ];then
 fi
 
 if [ -f "$SCHEMA_FILE" ];then
-  cp $SCHEMA_FILE $WORK_DIR/original_tbox
+  cp $SCHEMA_FILE $WORK_DIR/original_tbox.tmp
 fi
 
 echo "Computing TBox scanner patterns..."
-java -Dtask=TBoxScanner -Dschema=original_tbox -Doutput_dir=./tbox_patterns/ -jar $WORK_DIR/TBoxTREAT-1.0.jar
-#java -Dtask=AllClass -Dschema=original_tbox -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
+java -Dtask=TBoxScanner -Dschema=original_tbox.tmp -Doutput_dir=./tbox_patterns/ -jar $WORK_DIR/TBoxTREAT-1.0.jar
+java -Dtask=AllClass -Dschema=original_tbox.tmp -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
 echo "Done with Computing TBox scanner patterns."

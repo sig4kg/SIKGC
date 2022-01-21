@@ -113,7 +113,12 @@ def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
         if time_counter > timeout_sec:
             # print(f"saving {file_path} timeout")
             break
-    return os.path.exists(file_path)
+    is_saved = os.path.exists(file_path)
+    if is_saved:
+        print(f"{file_path} has been saved.")
+    else:
+        print(f"saving {file_path} timeout")
+    return is_saved
 
 
 

@@ -5,9 +5,13 @@ from openKE import train_transe_NELL995
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from scripts import run_scripts
 from module_utils.materialize_util import *
+from module_utils.blp_util import *
+from blp.producer import ex
+from scripts.run_scripts import clean_blp
+from module_utils.anyburl_util import *
 
 
-def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", consistency_check=True):
+def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", consistency_check=True, create_id_file=True):
     init_workdir(work_dir)
     # prepare tbox patterns
     if tbox_patterns_dir == "" or not os.path.exists(tbox_patterns_dir):
@@ -16,7 +20,7 @@ def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", cons
     # mv data to work_dir
     os.system(f"cp {input_dir}* {work_dir}")
     # initialize context resource and check consistency
-    context_resource = ContextResources(input_dir + "abox_hrt_uri.txt", class_and_op_file_path=work_dir, work_dir=work_dir, create_id_file=True)
+    context_resource = ContextResources(input_dir + "abox_hrt_uri.txt", class_and_op_file_path=work_dir, work_dir=work_dir, create_id_file=create_id_file)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
@@ -131,4 +135,74 @@ def M_block(context_resource:ContextResources, work_dir):
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)
     rate = (len(context_resource.hrt_int_df.index) - train_count) / train_count
+    return rate
+
+
+def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, inductive=False):
+    hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=False)    # generate all_triples.tsv, entities.txt, relations.txt\
+    wait_until_file_is_saved(work_dir + "all_triples.tsv")
+    split_all_triples(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
+    wait_until_blp_data_ready(work_dir, inductive=inductive)
+    # 1. run blp
+    ex.run(config_updates={'work_dir': work_dir,
+                           'dataset': 'treat',
+                           'inductive': inductive,
+                           "do_downstream_sample": True,
+                           'max_epochs':2,
+                           'model': "transductive"})
+    wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
+
+    # 2. consistency checking for new triples
+    pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
+    print("all produced triples: " + str(len(pred_hrt_df)))
+    # diff
+    new_hrt_df = pd.concat([pred_hrt_df.drop_duplicates(keep='first'), context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    print("all old triples: " + str(len(context_resource.hrt_int_df)))
+    print("all new triples: " + str(len(new_hrt_df)))
+
+    # 3. get valid new triples
+    clean_blp(work_dir)
+    abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+    wait_until_file_is_saved(work_dir + "valid_hrt.txt")
+    new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
+
+    # 4. check rate
+    new_count = len(new_hrt_df)
+    train_count = len(context_resource.hrt_int_df)
+    rate = new_count / train_count
+
+    # 5. add new valid hrt to train data
+    extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0).drop_duplicates(keep='first')
+    context_resource.hrt_int_df = extend_hrt_df
+    return rate
+
+
+def anyBURL_C_Block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
+    hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
+    prepare_anyburl_configs(work_dir)
+    split_all_triples_anyburl(work_dir)
+    wait_until_anyburl_data_ready(work_dir)
+    print("running anyBURL...")
+    run_scripts.run_anyburl(work_dir)
+    wait_until_file_is_saved(work_dir + "predictions/alpha-100", 60)
+
+    # consistency checking for new triples
+    new_hrt_df = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource)
+    #  backup and clean last round data
+    run_scripts.clean_anyburl(work_dir=work_dir)
+    abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+    # get valid new triples
+    rate = 0
+    if wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):
+        new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
+        new_hrt_df = pd.concat([new_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+        # add new valid hrt to train set
+        old_hrt_df = context_resource.hrt_int_df
+        train_hrt_df = pd.concat([old_hrt_df, new_hrt_df], axis=0).drop_duplicates(keep='first')
+        # overwrite train data in context
+        context_resource.hrt_int_df = train_hrt_df
+        # check rate
+        new_count = new_hrt_df.count()
+        train_count = len(context_resource.hrt_int_df)
+        rate = new_count / train_count
     return rate

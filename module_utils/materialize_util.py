@@ -29,7 +29,9 @@ def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir):
     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + context_resource.id2ent[x] + '>')
     df[['rel']] = df[['rel']].applymap(lambda x: '<' + context_resource.id2rel[x] + '>')  # to int
     df['dot'] = '.'
+    print(f"Saving to {work_dir}abox.nt")
     df[['head', 'rel', 'tail', 'dot']].to_csv(work_dir + "abox.nt", header=None, index=None, sep=' ')
+    wait_until_file_is_saved(work_dir + "abox.nt")
 
 
 def materialize(work_dir):

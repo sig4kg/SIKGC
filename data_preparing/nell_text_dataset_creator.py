@@ -192,8 +192,15 @@ def format_NELL_entity2type(abox_file, out_file):
     all_entities.to_csv(out_file, header=False, index=False, sep='\t', mode='w')
 
 
+def format_NELL_entity2text(in_file, out_file):
+    e_t = pd.read_csv(in_file, header=None, names=['e', 't'], sep='\t',
+                            error_bad_lines=False, engine="python")
+    e_t['e'] = e_t['e'].apply(lambda x: f"{NELLRES}{x}")
+    e_t.to_csv(out_file, header=False, index=False, sep='\t', mode='w')
+
 if __name__ == "__main__":
-    format_NELL("../resources/NELL/abox_hrt.txt", "../resources/NELL/abox_hrt_uri.txt")
+    # format_NELL("../resources/NELL/abox_hrt.txt", "../resources/NELL/abox_hrt_uri.txt")
+    format_NELL_entity2text("../resources/NELL-995_2/entity2text.txt", "../resources/NELL/entity2text.txt")
     # format_NELL_entity2type("../resources/NELL/NELLKG0.txt", "../resources/NELL-patterns/entity2type.txt")
 # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../resources/NELL-995_2/")
 # nell_ent_to_description([

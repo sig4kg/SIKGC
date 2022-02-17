@@ -38,6 +38,15 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
                 out_f.write(item + '\n')
             out_f.close()
 
+
+def refresh_training_data(work_dir, inductive=False):
+    if inductive:
+        os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
+        os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-train.tsv")
+    else:
+        os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")
+        os.system(f"cp {work_dir}all_triples.tsv {work_dir}train.tsv")
+
 def split_all_triples(work_dir, inductive=False):
     if inductive:
         drop_entities(work_dir + "all_triples.tsv", train_size=0.9, valid_size=0.1, test_size=0.0,
@@ -62,11 +71,15 @@ def split_all_triples(work_dir, inductive=False):
         os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")
 
 
-def prepare_blp(source_dir, work_dir):
-    os.system(f"cp {source_dir}entity2text.txt {work_dir}entity2text.txt")
-    os.system(f"cp {source_dir}relation2text.txt {work_dir}relation2text.txt")
-    os.system(f"cp {source_dir}entity2type.txt {work_dir}entity2type.txt")
-    os.system(f"cp {source_dir}entity2textlong.txt {work_dir}entity2textlong.txt")
+def prepare_blp(context_resource:ContextResources, source_dir, work_dir, inductive=False):
+    hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=True)
+    wait_until_file_is_saved(work_dir + "all_triples.tsv")
+    split_all_triples(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
+    os.system(f"[ -f {source_dir}entity2text.txt ] && rm {work_dir}all_triples.tsv")
+    os.system(f"[ -f {source_dir}entity2text.txt ] && cp {source_dir}entity2text.txt {work_dir}entity2text.txt")
+    os.system(f"[ -f {source_dir}relation2text.txt ] && cp {source_dir}relation2text.txt {work_dir}relation2text.txt")
+    os.system(f"[ -f {source_dir}entity2type.txt ] && cp {source_dir}entity2type.txt {work_dir}entity2type.txt")
+    os.system(f"[ -f {source_dir}entity2textlong.txt ] && cp {source_dir}entity2textlong.txt {work_dir}entity2textlong.txt")
 
 
 def wait_until_blp_data_ready(work_dir, inductive=False):

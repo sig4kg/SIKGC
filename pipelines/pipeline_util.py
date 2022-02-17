@@ -25,7 +25,8 @@ def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", cons
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
     if consistency_check:
-        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13]).scan_IJ_patterns(work_dir=work_dir)
+        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13], ['pos_domain', 'pos_range']).scan_IJ_patterns(work_dir=work_dir)
+        abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
         wait_until_file_is_saved(work_dir + "valid_hrt.txt")
         read_scanned_2_context_df(work_dir, context_resource)
     else:
@@ -63,6 +64,7 @@ def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
     # clean
     run_scripts.clean_tranE(work_dir)
     abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
 
     # 4. get valid new triples
@@ -101,6 +103,7 @@ def Rumis_C_block(context_resource:ContextResources, abox_scanner_scheduler:Abox
     #  backup and clean last round data
     run_scripts.clean_rumis(work_dir=work_dir)
     abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
     # get valid new triples
     if wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):
         new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
@@ -139,10 +142,10 @@ def M_block(context_resource:ContextResources, work_dir):
     return train_count, new_count, rate
 
 
-def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, inductive=False):
+def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, inductive=False, model="transductive"):
     hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=False)    # generate all_triples.tsv, entities.txt, relations.txt\
     wait_until_file_is_saved(work_dir + "all_triples.tsv")
-    split_all_triples(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
+    refresh_training_data(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
     wait_until_blp_data_ready(work_dir, inductive=inductive)
     # 1. run blp
     ex.run(config_updates={'work_dir': work_dir,
@@ -150,7 +153,7 @@ def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
                            'inductive': inductive,
                            "do_downstream_sample": True,
                            'max_epochs':2,
-                           'model': "transductive"})
+                           'model': model})
     wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
     # 2. consistency checking for new triples
@@ -164,6 +167,7 @@ def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
     # 3. get valid new triples
     clean_blp(work_dir)
     abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
     new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
 
@@ -178,7 +182,7 @@ def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
     return train_count, new_count, rate
 
 
-def anyBURL_C_Block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
+def anyBURL_C_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
     hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
     prepare_anyburl_configs(work_dir)
     split_all_triples_anyburl(work_dir)
@@ -192,6 +196,7 @@ def anyBURL_C_Block(context_resource:ContextResources, abox_scanner_scheduler:Ab
     #  backup and clean last round data
     run_scripts.clean_anyburl(work_dir=work_dir)
     abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
     # get valid new triples
     new_count = 0
     rate = 0

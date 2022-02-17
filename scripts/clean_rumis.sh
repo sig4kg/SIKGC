@@ -20,7 +20,7 @@ if [ ! -d "$LAST_ROUND" ];then
 fi
 
 if [ -d "$WORK_DIR/DLV" ];then
-    mv $WORK_DIR/DLV $LAST_ROUND
+    mv -f $WORK_DIR/DLV $LAST_ROUND
 fi
 [ -f "$WORK_DIR/ideal.data.txt" ] && mv $WORK_DIR/ideal.data.txt $LAST_ROUND
 [ -f "$WORK_DIR/training.data.txt" ] && mv $WORK_DIR/training.data.txt $LAST_ROUND

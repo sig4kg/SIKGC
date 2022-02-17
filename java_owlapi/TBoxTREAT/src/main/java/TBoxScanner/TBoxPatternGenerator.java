@@ -79,10 +79,10 @@ public class TBoxPatternGenerator {
             OWLDataFactory factory = man.getOWLDataFactory();
             ArrayList<Supplier<BasePattern>> patternConsumersIJPs = RegesterIJPatterns();
             ArrayList<Supplier<BasePattern>> patternConsumersSchemaCorrect = RegesterSchemaCorrectPatterns();
-//            for (Supplier<BasePattern> p : patternConsumersIJPs) {
-//                System.out.println("Generating pattern: " + p.get().toString());
-//                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
-//            }
+            for (Supplier<BasePattern> p : patternConsumersIJPs) {
+                System.out.println("Generating pattern: " + p.get().toString());
+                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
+            }
             for (Supplier<BasePattern> p : patternConsumersSchemaCorrect) {
                 System.out.println("Generating pattern: " + p.get().toString());
                 p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();

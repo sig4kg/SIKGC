@@ -1,29 +1,26 @@
 from abox_scanner import abox_utils
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
-from abox_scanner.abox_utils import read_scanned_2_context_df, wait_until_file_is_saved, ContextResources
+from abox_scanner.abox_utils import read_scanned_2_context_df, wait_until_file_is_saved
 from scripts import run_scripts
 from tqdm.auto import trange
-from module_utils.materialize_util import *
+from module_utils.rumis_util import *
 from pipeline_util import *
 
 
-def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
+def c_rumis_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir)
-    prepare_M(work_dir, schema_file)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        M_block(context_resource, work_dir)
+        tc, nc, rate = Rumis_C_block(context_resource, abox_scanner_scheduler, work_dir)
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
 
 
 if __name__ == "__main__":
-    print("CM pipeline")
-    c_m(work_dir="../outputs/cm/",
-        input_dir="../resources/NELL/",
-        schema_file='../resources/NELL/NELL.ontology.nt',
-        tbox_patterns_dir='../resources/NELL-patterns/')
-
-
+    print("CRC pipeline")
+    c_rumis_c(work_dir="../outputs/crc/",
+          input_dir="../resources/NELL/",
+          schema_file='../resources/NELL/NELL.ontology.nt',
+          tbox_patterns_dir='../resources/NELL-patterns/')
 
 
 

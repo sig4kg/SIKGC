@@ -126,4 +126,5 @@ if __name__ == "__main__":
     # remove_TBox_from_ABox("../outputs/cm/")
     # owl_2_nt("../outputs/cm/materialized_tbox_abox.owl", "../outputs/cm/")
     # materialize("../outputs/cm/")
-    clean_nt("../resources/NELL/NELL.ontology.nt", "../resources/NELL/NELL-ontology-clean.nt")
+    # clean_nt("../resources/NELL/NELL.ontology.nt", "../resources/NELL/NELL-ontology-clean.nt")
+    tbox_2_nt_dbpedia("../resources/DBpedia-politics/dbpedia_2016-10.owl", "../resources/DBpedia-politics/less_dbpedia_tbox.nt")

@@ -22,9 +22,9 @@ if [ ! -f "$WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar" ];then
     mvn clean install
     cd $dir
   fi
-  cp ../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0-jar-with-dependencies.jar $WORK_DIR/
+  cp ../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0.jar $WORK_DIR/
 fi
 
 echo "Materializing abox and tbox..."
-java -Dtask=DL-lite -Dschema=$SCHEMA_FILE -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0-jar-with-dependencies.jar
+java -Dtask=DL-lite -Dschema=$SCHEMA_FILE -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
 echo "Done with Materialization."

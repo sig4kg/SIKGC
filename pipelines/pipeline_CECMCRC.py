@@ -10,7 +10,7 @@ def cecmcrc(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=2):
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
         EC_block(context_resource, abox_scanner_scheduler, work_dir)
         M_block(context_resource, work_dir)
-        rate3 = RC_block(context_resource, abox_scanner_scheduler, work_dir)
+        rate3 = Rumis_C_block(context_resource, abox_scanner_scheduler, work_dir)
         if rate3 < 0:
             break
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)

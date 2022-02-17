@@ -16,7 +16,7 @@ def c_m(input_hrt_triple_file, work_dir, class_op_and_pattern_path, schema_file,
     abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
     abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13])
     # first round scan, get ready for training
-    abox_scanner_scheduler.scan_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.scan_IJ_patterns(work_dir=work_dir)
     wait_until_file_is_saved(f"{work_dir}valid_hrt.txt", 60)
     read_scanned_2_context_df(work_dir, context_resource)
     preparing_tbox_to_dllite(schema_file, work_dir)

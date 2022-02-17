@@ -38,7 +38,7 @@ def c_l_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1, indu
 
         # 3. get valid new triples
         clean_blp(work_dir)
-        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
         wait_until_file_is_saved(work_dir + "valid_hrt.txt")
         new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
         # new_count = len(new_hrt_df)

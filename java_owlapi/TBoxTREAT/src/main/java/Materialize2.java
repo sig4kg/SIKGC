@@ -113,7 +113,7 @@ public class Materialize2 {
         generators.add(new InferredSubClassAxiomGenerator());
         generators.add(new InferredClassAssertionAxiomGenerator());
 //        generators.add(new InferredDisjointClassesAxiomGenerator());
-//        generators.add(new InferredEquivalentClassAxiomGenerator());
+        generators.add(new InferredEquivalentClassAxiomGenerator());
 
         generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());
         generators.add(new InferredInverseObjectPropertiesAxiomGenerator());

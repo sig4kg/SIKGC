@@ -11,6 +11,8 @@ from abox_scanner.pattern8_scanner import Pattern8
 from abox_scanner.pattern9_scanner import Pattern9
 from abox_scanner.pattern10_scanner import Pattern10
 from abox_scanner.pattern11_scanner import Pattern11
+from abox_scanner.pattern_pos_domain import PatternPosDomain
+from abox_scanner.pattern_pos_range import PatternPosRange
 from abox_scanner.abox_utils import ContextResources
 import pandas as pd
 import numpy as np
@@ -30,7 +32,8 @@ class AboxScannerScheduler:
         """
         self._tbox_pattern_dir = tbox_pattern_dir
         self._context_resources = context_resources
-        self._strategies = []
+        self._IJP_strategies = []
+        self._schema_correct_strategies = []
         self._id2strategy = {1: Pattern1,
                              2: Pattern2,
                              5: Pattern5,
@@ -39,7 +42,9 @@ class AboxScannerScheduler:
                              10: Pattern10,
                              11: Pattern11,
                              12: Pattern12,
-                             13: Pattern13}
+                             13: Pattern13,
+                             'pos_domain': PatternPosDomain,
+                             'pos_range': PatternPosRange}
 
     def set_triples_to_scan_int_df(self, hrt_int_df) -> AboxScannerScheduler:
         self._context_resources.hrt_to_scan_df = hrt_int_df
@@ -47,25 +52,29 @@ class AboxScannerScheduler:
         return self
 
     def register_patterns_all(self) -> AboxScannerScheduler:
-        return self.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13])
+        return self.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13], ['pos_domain', 'pos_range'])
 
-    def register_pattern(self, pattern_ids) -> AboxScannerScheduler:
+    def register_pattern(self, neg_pattern_ids, pos_pattern_ids) -> AboxScannerScheduler:
+        def regp(ids, stratege_l):
+            for id in ids:
+                pattern_file = f"TBoxPattern_{id}.txt"
+                if pattern_file not in files:
+                    print(f"the pattern file for patter id={id} does not exist in {self._tbox_pattern_dir}")
+                    continue
+                entry = os.path.join(self._tbox_pattern_dir, pattern_file)
+                if id in self._id2strategy:
+                    ps_class = self._id2strategy[id]
+                    ps = ps_class(context_resources=self._context_resources)
+                    ps.pattern_to_int(entry)
+                    stratege_l.append(ps)
+
         files = os.listdir(self._tbox_pattern_dir)
         # for idx, file in enumerate(files):
-        for id in pattern_ids:
-            pattern_file = f"TBoxPattern_{id}.txt"
-            if pattern_file not in files:
-                print(f"the pattern file for patter id={id} does not exist in {self._tbox_pattern_dir}")
-                continue
-            entry = os.path.join(self._tbox_pattern_dir, pattern_file)
-            if id in self._id2strategy:
-                ps_class = self._id2strategy[id]
-                ps = ps_class(context_resources=self._context_resources)
-                ps.pattern_to_int(entry)
-                self._strategies.append(ps)
+        regp(neg_pattern_ids, self._IJP_strategies)
+        regp(pos_pattern_ids, self._schema_correct_strategies)
         return self
 
-    def scan_patterns(self, work_dir) -> None:
+    def scan_IJ_patterns(self, work_dir) -> None:
         """
         The Context delegates some work to the Strategy object instead of
         implementing multiple versions of the algorithm on its own.
@@ -83,7 +92,7 @@ class AboxScannerScheduler:
             df.update(df[mask]['is_new'].apply(lambda x: False))
 
         init_invalid = len(df.query("is_valid == False"))
-        for scanner in self._strategies:
+        for scanner in self._IJP_strategies:
             print("Scanning schema pattern: " + str(type(scanner)))
             scanner.scan_pattern_df_rel(df)
             total_invalid = len(df.query("is_valid == False"))
@@ -105,6 +114,34 @@ class AboxScannerScheduler:
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
 
+    def scan_schema_correct_patterns(self, work_dir) -> None:
+        """
+        The Context delegates some work to the Strategy object instead of
+        implementing multiple versions of the algorithm on its own.
+        """
+        # aggregate triples by relation
+        start_time = datetime.datetime.now()
+        old_df = self._context_resources.hrt_int_df
+        df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
+        new_items = pd.concat([df, old_df, old_df]).drop_duplicates(keep=False)
+        df['correct'] = True
+        for scanner in self._schema_correct_strategies:
+            print("Scanning schema pattern: " + str(type(scanner)))
+            scanner.scan_pattern_df_rel(df)
+
+        total_correct = len(df.query("correct == True"))
+        print(f"identified schema correct triples count: {str(total_correct)}")
+        out_path = Path(work_dir)
+        if not out_path.parent.exists():
+            out_path.parent.mkdir(exist_ok=False)
+        correct = df.query("correct == True")[['head', 'rel', 'tail']]
+        correct = correct.drop_duplicates(keep="first")
+        if len(correct) > 0:
+            correct = correct.astype(int)
+        correct.to_csv(f"{work_dir}schema_correct_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        print(f"scanned total count: {len(self._context_resources.hrt_to_scan_df)}; schema correct count: {str(len(correct))}")
+        print(f"The scanning duration is {datetime.datetime.now() - start_time}")
+        print(f"saving {work_dir}schema_correct_hrt.txt")
 
 
 

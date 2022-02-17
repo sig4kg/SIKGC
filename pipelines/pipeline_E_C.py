@@ -26,7 +26,7 @@ def e_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1, use_gp
     run_scripts.clean_tranE(work_dir)
     # check all triples
     context_resource.hrt_int_df = None
-    abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
 
     # 4. get valid new triples

@@ -8,7 +8,7 @@ def c_anyburl_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1
     context_resource, abox_scanner_scheduler = prepare_context(anyburl_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir, create_id_file=False)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        rate = anyBURL_C_Block(context_resource, abox_scanner_scheduler, anyburl_dir)
+        tc, nc, rate = anyBURL_C_Block(context_resource, abox_scanner_scheduler, anyburl_dir)
         if rate < 0.01:
             break
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)

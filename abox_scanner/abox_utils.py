@@ -122,18 +122,18 @@ def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
 
 
 
-def entid2classid_nell(ent2id, class2id):
-    entid2classid = dict()
-    for ent in ent2id:
-        concept = ent.split('_', 1)[0]
-        if concept in class2id:
-            entid2classid.update({ent2id[ent]: [class2id[concept]]})
-        else:
-            entid2classid.update({ent2id[ent]: [-1]})
-    return entid2classid
+# def entid2classid_nell(ent2id, class2id):
+#     entid2classid = dict()
+#     for ent in ent2id:
+#         concept = ent.split('_', 1)[0]
+#         if concept in class2id:
+#             entid2classid.update({ent2id[ent]: [class2id[concept]]})
+#         else:
+#             entid2classid.update({ent2id[ent]: [-1]})
+#     return entid2classid
 
 
-def entid2classid_dbpedia(ent2id, class2id, ent2type_file):
+def entid2classid(ent2id, class2id, ent2type_file):
     ent2classes = dict()
     with open(ent2type_file) as f:
         lines = f.readlines()
@@ -174,24 +174,25 @@ class PatternScanner(ABC):
 
 
 class ContextResources:
-    def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir, dataset='dbpedia', create_id_file=False):
+    def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir, create_id_file=False):
         init_workdir(work_dir)
          # h, r, t
         all_triples = read_original_hrt_triples_to_list(original_hrt_triple_file_path)
+        self.original_train_count = len(all_triples)
         self.ent2id, self.rel2id, self.hrt_to_scan_df = hrt_original2int(all_triples,
                                                                      f"{work_dir}train/",
                                                                      create_id_file=create_id_file)
         self.hrt_int_df = None
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
-        if dataset == 'dbpedia':
-            self.entid2classids = entid2classid_dbpedia(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
-        else:
-            self.entid2classids = entid2classid_nell(self.ent2id, self.class2id)
+        # if dataset == 'dbpedia':
+        #     self.entid2classids = entid2classid_dbpedia(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
+        # else:
+        #     self.entid2classids = entid2classid_nell(self.ent2id, self.class2id)
+        self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
         self.id2rel = {self.rel2id[key]: key for key in self.rel2id}
-        self.dataset_name = 'dbpedia'
-
+        # self.dataset_name = 'dbpedia'
 
 def test():
     with open("../resources/NELL-995/entity2id.txt") as f:

@@ -12,7 +12,7 @@ def c_e_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(class_op_and_pattern_path, context_resource)
     # first round scan, get ready for training
-    abox_scanner_scheduler.register_pattern([1, 2]).scan_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.register_pattern([1, 2]).scan_IJ_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
     read_scanned_2_context_df(work_dir, context_resource)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
@@ -32,7 +32,7 @@ def c_e_c(input_hrt_raw_triple_file, work_dir, class_op_and_pattern_path, max_ep
         # 3. consistency checking for new triples
         new_hrt_df = read_hrts_2_hrt_df(work_dir + "transE_raw_hrts.txt")
         run_scripts.clean_tranE(work_dir)
-        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
         wait_until_file_is_saved(work_dir + "valid_hrt.txt")
 
         # 4. get valid new triples

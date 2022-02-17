@@ -5,16 +5,16 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "AllClass");
+        String task = System.getProperty("task", "TBoxScanner");
 //        String schema_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
-//        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
-        String schema_file = System.getProperty("schema", "../../resources/treat/tbox.nt");
+        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+//        String schema_file = System.getProperty("schema", "../../resources/treat/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");
-//        String output_dir = System.getProperty("output_dir", "output");
+        String output_dir = System.getProperty("output_dir", "output");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
-        String output_dir = System.getProperty("output_dir", "../../resources/treat/");
-//        String abox_file = System.getProperty("abox", "");
-        String abox_file = System.getProperty("abox", "../../resources/treat/");
+//        String output_dir = System.getProperty("output_dir", "../../resources/treat/");
+        String abox_file = System.getProperty("abox", "");
+//        String abox_file = System.getProperty("abox", "../../resources/treat/");
         System.out.println(task + "\t" + schema_file + "\t" + output_dir);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
                 .getLocation();

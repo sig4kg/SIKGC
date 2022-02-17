@@ -77,8 +77,13 @@ public class TBoxPatternGenerator {
             OWLReasonerFactory rf = new JFactFactory();
             OWLReasoner reasoner = rf.createReasoner(ont);
             OWLDataFactory factory = man.getOWLDataFactory();
-            ArrayList<Supplier<BasePattern>> patternConsumers = RegesterPatterns();
-            for (Supplier<BasePattern> p : patternConsumers) {
+            ArrayList<Supplier<BasePattern>> patternConsumersIJPs = RegesterIJPatterns();
+            ArrayList<Supplier<BasePattern>> patternConsumersSchemaCorrect = RegesterSchemaCorrectPatterns();
+//            for (Supplier<BasePattern> p : patternConsumersIJPs) {
+//                System.out.println("Generating pattern: " + p.get().toString());
+//                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
+//            }
+            for (Supplier<BasePattern> p : patternConsumersSchemaCorrect) {
                 System.out.println("Generating pattern: " + p.get().toString());
                 p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
             }
@@ -87,7 +92,7 @@ public class TBoxPatternGenerator {
         }
     }
 
-    private ArrayList<Supplier<BasePattern>> RegesterPatterns() {
+    private ArrayList<Supplier<BasePattern>> RegesterIJPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
         patternConsumers.add(Pattern1::new);
         patternConsumers.add(Pattern2::new);
@@ -102,6 +107,13 @@ public class TBoxPatternGenerator {
         patternConsumers.add(Pattern11::new);
         patternConsumers.add(Pattern12::new);
         patternConsumers.add(Pattern13::new);
+        return patternConsumers;
+    }
+
+    private ArrayList<Supplier<BasePattern>> RegesterSchemaCorrectPatterns() {
+        ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
+        patternConsumers.add(PatternDomain::new);
+        patternConsumers.add(PatternRange::new);
         return patternConsumers;
     }
 

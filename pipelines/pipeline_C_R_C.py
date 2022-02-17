@@ -11,7 +11,7 @@ def c_r_c(input_dir, work_dir, pattern_path, max_epoch=2):
     abox_scanner_scheduler = AboxScannerScheduler(pattern_path, context_resource)
     abox_scanner_scheduler.register_pattern([1, 2])
     # first round scan, get ready for training
-    abox_scanner_scheduler.scan_patterns(work_dir=work_dir)
+    abox_scanner_scheduler.scan_IJ_patterns(work_dir=work_dir)
     wait_until_file_is_saved(f"{work_dir}valid_hrt.txt", 60)
     read_scanned_2_context_df(work_dir, context_resource)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
@@ -36,7 +36,7 @@ def c_r_c(input_dir, work_dir, pattern_path, max_epoch=2):
         new_hrt_df = pd.concat([new_hrt_df1, new_hrt_df2], 0).drop_duplicates(keep='first').reset_index(drop=True)
         #  backup and clean last round data
         run_scripts.clean_rumis(work_dir=work_dir)
-        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_patterns(work_dir=work_dir)
+        abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
         # get valid new triples
         if abox_utils.wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):
             new_hrt_df = abox_utils.read_hrt_2_df(work_dir + "valid_hrt.txt")

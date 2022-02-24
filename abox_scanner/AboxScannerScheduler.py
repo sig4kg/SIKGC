@@ -74,7 +74,7 @@ class AboxScannerScheduler:
         regp(pos_pattern_ids, self._schema_correct_strategies)
         return self
 
-    def scan_IJ_patterns(self, work_dir) -> None:
+    def scan_IJ_patterns(self, work_dir):
         """
         The Context delegates some work to the Strategy object instead of
         implementing multiple versions of the algorithm on its own.
@@ -113,17 +113,16 @@ class AboxScannerScheduler:
         print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids))}; valids count {str(len(valids))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
+        return valids, invalids
 
-    def scan_schema_correct_patterns(self, work_dir) -> None:
+    def scan_schema_correct_patterns(self, work_dir):
         """
         The Context delegates some work to the Strategy object instead of
         implementing multiple versions of the algorithm on its own.
         """
         # aggregate triples by relation
         start_time = datetime.datetime.now()
-        old_df = self._context_resources.hrt_int_df
         df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
-        new_items = pd.concat([df, old_df, old_df]).drop_duplicates(keep=False)
         df['correct'] = True
         for scanner in self._schema_correct_strategies:
             print("Scanning schema pattern: " + str(type(scanner)))
@@ -142,6 +141,7 @@ class AboxScannerScheduler:
         print(f"scanned total count: {len(self._context_resources.hrt_to_scan_df)}; schema correct count: {str(len(correct))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         print(f"saving {work_dir}schema_correct_hrt.txt")
+        return correct
 
 
 

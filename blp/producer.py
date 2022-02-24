@@ -210,7 +210,7 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
                 mrr_cat_count += batch_mrr_cat_count
 
         batch_count += 1
-        if (i + 1) % int(0.2 * total) == 0:
+        if int(0.2 * total) != 0 and (i + 1) % int(0.2 * total) == 0:
             _log.info(f'[{i + 1:,}/{total:,}]')
 
     for hits_dict in (hits_at_k, hits_at_k_filt):

@@ -11,11 +11,11 @@ def e_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1, use_gp
     wait_until_train_pred_data_ready(work_dir)
 
     # 1.train transE
-    train_transe_NELL995.train(work_dir + "train/", use_gpu=use_gpu)
+    train_transe.train(work_dir + "train/", use_gpu=use_gpu)
     wait_until_file_is_saved(work_dir + "checkpoint/transe.ckpt")
 
     # 2. produce triples
-    train_transe_NELL995.produce(work_dir + "train/", work_dir + "transE_raw_hrts.txt", threshold=20, use_gpu=use_gpu)
+    train_transe.produce(in_path=work_dir + "train/", out_file=work_dir + "transE_raw_hrts.txt", threshold=20, use_gpu=use_gpu)
     wait_until_file_is_saved(work_dir + "transE_raw_hrts.txt", 30)
 
     # 3. consistency checking for new triples + old triples

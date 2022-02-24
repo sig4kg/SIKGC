@@ -1,7 +1,7 @@
 from abox_scanner.abox_utils import init_workdir
 from module_utils.rumis_util import *
 from module_utils.transE_util import *
-from openKE import train_transe_NELL995
+from openKE import train_transe
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from scripts import run_scripts
 from module_utils.materialize_util import *
@@ -9,6 +9,28 @@ from module_utils.blp_util import *
 from blp.producer import ex
 from scripts.run_scripts import clean_blp
 from module_utils.anyburl_util import *
+
+
+def aggregate_scores():
+    nc, vc, cc, n = [], [], [], [0]
+    def add_new(new_count, new_valid_count, new_correct_count):
+        n[0] = n[0] + 1
+        nc.append(new_count)
+        vc.append(new_valid_count)
+        cc.append(new_correct_count)
+        tfc =0
+        ta = 0
+        ty = 0
+        for i in range(n[0]):
+            tfc += cc[i] / nc[i]
+            ta += cc[i]
+            ty += vc[i]
+        f_correctness = tfc / n[0]
+        f_coverage = ta /ty
+        f_h = 2 * f_correctness * f_coverage / (f_coverage + f_correctness) if (f_coverage + f_correctness) > 0 else 0
+        print(f"f_correctness: {f_correctness}; f_coverage: {f_coverage}; f_h: {f_h}")
+        return f_correctness, f_coverage, f_h
+    return add_new
 
 
 def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", consistency_check=True, create_id_file=True):
@@ -44,44 +66,47 @@ def prepare_M(work_dir, schema_file):
         print("Schema in DL-Lite exists: " + work_dir + "tbox_dllite.ttl")
 
 
-def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, use_gpu=False):
+def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, epoch= 50, use_gpu=False):
     context_2_hrt_transE(work_dir, context_resource)
-    train_count = len(context_resource.hrt_int_df.index)
     run_scripts.gen_pred_transE(work_dir)
     wait_until_train_pred_data_ready(work_dir)
 
     # 1.train transE
-    train_transe_NELL995.train(work_dir + "train/", use_gpu=use_gpu)
+    train_transe.train(work_dir + "train/", epoch=2, use_gpu=use_gpu)
     wait_until_file_is_saved(work_dir + "checkpoint/transe.ckpt")
 
     # 2. produce triples
-    train_transe_NELL995.produce(work_dir + "train/", work_dir + "transE_raw_hrts.txt", use_gpu=use_gpu)
+    train_transe.produce(work_dir + "train/", work_dir + "transE_raw_hrts.txt", use_gpu=use_gpu)
     wait_until_file_is_saved(work_dir + "transE_raw_hrts.txt", 30)
 
     # 3. consistency checking for new triples + old triples
-    new_hrt_df = read_hrts_2_hrt_df(work_dir + "transE_raw_hrts.txt")
-    to_scann_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
+    pred_hrt_df = read_hrts_2_hrt_df(work_dir + "transE_raw_hrts.txt")
+    # diff
+    new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_count = len(new_hrt_df)
+    del new_hrt_df
+    # scan
+    to_scann_hrt_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
     # clean
     run_scripts.clean_tranE(work_dir)
-    abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(work_dir=work_dir)
-    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
-    wait_until_file_is_saved(work_dir + "valid_hrt.txt")
-
-    # 4. get valid new triples
-    new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
+    valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(work_dir=work_dir)
+    corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
+    # count
+    new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_correct_count = len(new_corrects.index)
+    del new_corrects
+    train_count = len(context_resource.hrt_int_df.index)
+    new_valid_count = len(valids.index) - train_count
 
     # 5. add new valid hrt to train data
-    extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
-    new_count = len(extend_hrt_df.index) - train_count
-    rate = new_count / train_count
+    extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
     print("update context data")
     context_resource.hrt_int_df = extend_hrt_df
-    return train_count, new_count, rate
+    return train_count, new_count, new_valid_count, new_correct_count
 
 
 def Rumis_C_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
     # context int to rumis train
-    train_count = len(context_resource.hrt_int_df.index)
     hrt_int_df_2_hrt_rumis(context_resource, work_dir + "ideal.data.txt")
     wait_until_file_is_saved(work_dir + "ideal.data.txt", 120)
 
@@ -99,25 +124,30 @@ def Rumis_C_block(context_resource:ContextResources, abox_scanner_scheduler:Abox
     # consistency checking for new triples
     new_hrt_df1 = read_hrt_rumis_2_hrt_int_df(work_dir + "DLV/extension.opm.kg.pos.10.needcheck", context_resource)
     new_hrt_df2 = read_hrt_rumis_2_hrt_int_df(work_dir + "DLV/extension.opm.kg.neg.10.needcheck", context_resource)
-    new_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df1, new_hrt_df2], 0).drop_duplicates(keep='first').reset_index(drop=True)
+    pred_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df1, new_hrt_df2], 0).drop_duplicates(keep='first').reset_index(drop=True)
+
+    # diff
+    new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_count = len(new_hrt_df)
+    del new_hrt_df
+
     #  backup and clean last round data
     run_scripts.clean_rumis(work_dir=work_dir)
-    abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
-    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
-    # get valid new triples
-    if wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):
-        new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
-    else:
-        print("saving time out, exit")
+    valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(pred_hrt_df).scan_IJ_patterns(work_dir=work_dir)
+    corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
+    new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_correct_count = len(new_corrects.index)
+    del new_corrects
+    train_count = len(context_resource.hrt_int_df.index)
+    new_valid_count = len(valids.index) - train_count
 
     # add new valid hrt to train set
-    train_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
-    new_count = len(new_hrt_df.index) - train_count
-    rate = new_count / train_count
+    train_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
+
     # overwrite train data in context
     print("update context data")
     context_resource.hrt_int_df = train_hrt_df
-    return train_count, new_count, rate
+    return train_count, new_count, new_valid_count, new_correct_count
 
 
 def M_block(context_resource:ContextResources, work_dir):
@@ -138,14 +168,12 @@ def M_block(context_resource:ContextResources, work_dir):
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)
     new_count = len(context_resource.hrt_int_df.index) - train_count
-    rate = new_count / train_count
-    return train_count, new_count, rate
-
+    return train_count, new_count
 
 def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, inductive=False, model="transductive"):
     hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=False)    # generate all_triples.tsv, entities.txt, relations.txt\
     wait_until_file_is_saved(work_dir + "all_triples.tsv")
-    refresh_training_data(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
+    split_all_triples(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
     wait_until_blp_data_ready(work_dir, inductive=inductive)
     # 1. run blp
     ex.run(config_updates={'work_dir': work_dir,
@@ -161,25 +189,26 @@ def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
     print("all produced triples: " + str(len(pred_hrt_df)))
     # diff
     new_hrt_df = pd.concat([pred_hrt_df.drop_duplicates(keep='first'), context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_count = len(new_hrt_df)
     print("all old triples: " + str(len(context_resource.hrt_int_df)))
-    print("all new triples: " + str(len(new_hrt_df)))
+    print("all new triples: " + str(new_count))
 
     # 3. get valid new triples
     clean_blp(work_dir)
-    abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
-    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
-    wait_until_file_is_saved(work_dir + "valid_hrt.txt")
-    new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
-
-    # 4. check rate
-    new_count = len(new_hrt_df.index)
+    to_scan_df = pd.concat([context_resource.hrt_int_df, new_hrt_df]).drop_duplicates(keep="first").reset_index(drop=True)
+    valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=work_dir)
+    corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
+    new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_correct_count = len(new_corrects.index)
+    del new_corrects
+    # wait_until_file_is_saved(work_dir + "valid_hrt.txt")
+    # new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
     train_count = len(context_resource.hrt_int_df.index)
-    rate = new_count / train_count
-
+    new_valid_count = len(valids.index) - train_count
     # 5. add new valid hrt to train data
-    extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0).drop_duplicates(keep='first')
+    extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first')
     context_resource.hrt_int_df = extend_hrt_df
-    return train_count, new_count, rate
+    return train_count, new_count, new_valid_count, new_correct_count
 
 
 def anyBURL_C_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
@@ -193,23 +222,31 @@ def anyBURL_C_block(context_resource:ContextResources, abox_scanner_scheduler:Ab
 
     # consistency checking for new triples
     new_hrt_df = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource)
+    only_new_df = pd.concat([new_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_count = len(only_new_df.index)
+    del only_new_df
     #  backup and clean last round data
     run_scripts.clean_anyburl(work_dir=work_dir)
-    abox_scanner_scheduler.set_triples_to_scan_int_df(new_hrt_df).scan_IJ_patterns(work_dir=work_dir)
-    abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
-    # get valid new triples
-    new_count = 0
-    rate = 0
+    to_scan_df = pd.concat([context_resource.hrt_int_df, only_new_df]).drop_duplicates(keep="first").reset_index(drop=True)
+    valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=work_dir)
+    corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
+    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_valid_count = len(new_valids.index)
+    del new_valids
+    new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_correct_count = len(new_corrects.index)
+    del new_corrects
     train_count = len(context_resource.hrt_int_df.index)
-    if wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):
-        new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
-        new_hrt_df = pd.concat([new_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+
+    # if wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):
+    if len(valids.index) > 0:
+        # new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
+        # new_hrt_df = pd.concat([new_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
         # add new valid hrt to train set
         old_hrt_df = context_resource.hrt_int_df
-        train_hrt_df = pd.concat([old_hrt_df, new_hrt_df], axis=0).drop_duplicates(keep='first')
+        extend_hrt_df = pd.concat([old_hrt_df, valids], axis=0).drop_duplicates(keep='first')
         # overwrite train data in context
-        context_resource.hrt_int_df = train_hrt_df
+        context_resource.hrt_int_df = extend_hrt_df
         # check rate
-        new_count = len(new_hrt_df.index)
-        rate = new_count / train_count
-    return train_count, new_count, rate
+
+    return train_count, new_count, new_valid_count, new_correct_count

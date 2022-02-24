@@ -185,14 +185,10 @@ class ContextResources:
         self.hrt_int_df = None
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
-        # if dataset == 'dbpedia':
-        #     self.entid2classids = entid2classid_dbpedia(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
-        # else:
-        #     self.entid2classids = entid2classid_nell(self.ent2id, self.class2id)
         self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
         self.id2rel = {self.rel2id[key]: key for key in self.rel2id}
-        # self.dataset_name = 'dbpedia'
+
 
 def test():
     with open("../resources/NELL-995/entity2id.txt") as f:

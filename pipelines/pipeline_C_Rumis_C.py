@@ -8,10 +8,12 @@ from pipeline_util import *
 
 
 def c_rumis_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
+    get_scores = aggregate_scores()
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir)
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        tc, nc, rate = Rumis_C_block(context_resource, abox_scanner_scheduler, work_dir)
+        train_count, new_count, new_valid_count, new_correct_count = Rumis_C_block(context_resource, abox_scanner_scheduler, work_dir)
+        get_scores(new_count, new_valid_count, new_correct_count)
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
 
 

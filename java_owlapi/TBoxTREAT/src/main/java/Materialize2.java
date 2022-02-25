@@ -101,28 +101,27 @@ public class Materialize2 {
         if (!consistencyCheck) {
             System.out.println("Inconsistent input Ontology, Please check the OWL File");
         }
-        System.out.println("Materializing, may take time......");
+        System.out.println("Materialising, may take time......");
         reasoner.precomputeInferences(
                 InferenceType.CLASS_HIERARCHY,
                 InferenceType.CLASS_ASSERTIONS,
                 InferenceType.OBJECT_PROPERTY_HIERARCHY,
-//                InferenceType.DATA_PROPERTY_HIERARCHY,
                 InferenceType.OBJECT_PROPERTY_ASSERTIONS
         );
         List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
-        generators.add(new InferredSubClassAxiomGenerator());
+//        generators.add(new InferredSubClassAxiomGenerator());
         generators.add(new InferredClassAssertionAxiomGenerator());
 //        generators.add(new InferredDisjointClassesAxiomGenerator());
-        generators.add(new InferredEquivalentClassAxiomGenerator());
+//        generators.add(new InferredEquivalentClassAxiomGenerator());
 
-        generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());
-        generators.add(new InferredInverseObjectPropertiesAxiomGenerator());
-        generators.add(new InferredObjectPropertyCharacteristicAxiomGenerator());
-        generators.add(new InferredSubObjectPropertyAxiomGenerator());
+//        generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());
+//        generators.add(new InferredInverseObjectPropertiesAxiomGenerator());
+//        generators.add(new InferredObjectPropertyCharacteristicAxiomGenerator());
+//        generators.add(new InferredSubObjectPropertyAxiomGenerator());
 
 //         NOTE: InferredPropertyAssertionGenerator significantly slows down
 //         inference computation
-//        generators.add(new org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator());
+        generators.add(new org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator());
 
 //        generators.add(new InferredDataPropertyCharacteristicAxiomGenerator());
 //        generators.add(new InferredEquivalentDataPropertiesAxiomGenerator());

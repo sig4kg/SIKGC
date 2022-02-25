@@ -10,7 +10,7 @@ def preparing_tbox_to_dllite(tbox_file, work_dir):
     # if dataset == 'dbpedia':
     #     tbox_2_nt_dbpedia(tbox_file, work_dir + "tbox.nt")
     # else:
-    #     clean_nt(tbox_file, work_dir + "tbox.nt")
+    #     clean_annotations_nt(tbox_file, work_dir + "tbox.nt")
     if not os.path.exists(work_dir + "tbox_dllite.ttl"):
         scripts.run_scripts.to_dllite(tbox_file, work_dir)
         wait_until_file_is_saved(work_dir + "tbox_dllite.ttl")
@@ -37,7 +37,7 @@ def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir):
 def materialize(work_dir):
     # merge_TBox_2_ABox(work_dir + "abox.nt", work_dir + "tbox.nt", work_dir)
     scripts.run_scripts.run_materialization(work_dir)
-    clean_nt(work_dir + "materialized_tbox_abox.nt", work_dir + "cleaned_tbox_abox.nt")
+    # clean_annotations_nt(work_dir + "materialized_tbox_abox.nt", work_dir + "cleaned_tbox_abox.nt")
     wait_until_file_is_saved(work_dir + "cleaned_tbox_abox.nt")
 
 
@@ -87,18 +87,18 @@ ANNOTATION_REL = ['<http://www.w3.org/2000/01/rdf-schema#label>',
                   '^^<http://www.w3.org/2001/XMLSchema#boolean>']
 
 
-def clean_nt(in_nt_file: str, out_file):
-    with open(in_nt_file) as f:
-        with open(out_file, encoding='utf-8', mode='w') as out_f:
-            lines = f.readlines()
-            for l in lines:
-                if not l.startswith('<'):
-                    continue
-                if any([x in l for x in ANNOTATION_REL]):
-                    continue
-                out_f.write(l)
-        out_f.close()
-    f.close()
+# def clean_annotations_nt(in_nt_file: str, out_file):
+#     with open(in_nt_file) as f:
+#         with open(out_file, encoding='utf-8', mode='w') as out_f:
+#             lines = f.readlines()
+#             for l in lines:
+#                 if not l.startswith('<'):
+#                     continue
+#                 if any([x in l for x in ANNOTATION_REL]):
+#                     continue
+#                 out_f.write(l)
+#         out_f.close()
+#     f.close()
 
 
 # do not work on NELL.ontology.ttl
@@ -126,5 +126,5 @@ if __name__ == "__main__":
     # remove_TBox_from_ABox("../outputs/cm/")
     # owl_2_nt("../outputs/cm/materialized_tbox_abox.owl", "../outputs/cm/")
     # materialize("../outputs/cm/")
-    # clean_nt("../resources/NELL/NELL.ontology.nt", "../resources/NELL/NELL-ontology-clean.nt")
+    # clean_annotations_nt("../resources/NELL/NELL.ontology.nt", "../resources/NELL/NELL-ontology-clean.nt")
     tbox_2_nt_dbpedia("../resources/DBpedia-politics/dbpedia_2016-10.owl", "../resources/DBpedia-politics/less_dbpedia_tbox.nt")

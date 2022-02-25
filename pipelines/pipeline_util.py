@@ -212,6 +212,7 @@ def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
 
 
 def anyBURL_C_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir):
+    mk_dir(work_dir)
     hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
     prepare_anyburl_configs(work_dir)
     split_all_triples_anyburl(work_dir)
@@ -221,13 +222,12 @@ def anyBURL_C_block(context_resource:ContextResources, abox_scanner_scheduler:Ab
     wait_until_file_is_saved(work_dir + "predictions/alpha-100", 60)
 
     # consistency checking for new triples
-    new_hrt_df = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource)
-    only_new_df = pd.concat([new_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
-    new_count = len(only_new_df.index)
-    del only_new_df
+    pred_hrt_df = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource)
+    new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_count = len(new_hrt_df.index)
     #  backup and clean last round data
     run_scripts.clean_anyburl(work_dir=work_dir)
-    to_scan_df = pd.concat([context_resource.hrt_int_df, only_new_df]).drop_duplicates(keep="first").reset_index(drop=True)
+    to_scan_df = pd.concat([context_resource.hrt_int_df, new_hrt_df]).drop_duplicates(keep="first").reset_index(drop=True)
     valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=work_dir)
     corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
     new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)

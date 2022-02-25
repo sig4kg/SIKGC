@@ -24,7 +24,6 @@ public class TBoxPatternGenerator {
         this.out_dir = output_dir;
     }
 
-
     public void getAllClasses() {
         try {
             OWLOntologyManager man = OWLManager.createOWLOntologyManager();

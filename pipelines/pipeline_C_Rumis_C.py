@@ -8,6 +8,7 @@ from pipeline_util import *
 
 
 def c_rumis_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
+    run_scripts.delete_dir(work_dir)
     get_scores = aggregate_scores()
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir)

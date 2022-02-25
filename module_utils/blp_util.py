@@ -5,6 +5,7 @@ from blp.blp_data_utils import drop_entities
 from abox_scanner.abox_utils import wait_until_file_is_saved
 import os
 import os.path as osp
+from scripts.run_scripts import mk_dir
 import csv
 
 
@@ -64,6 +65,7 @@ def split_all_triples(work_dir, inductive=False):
 
 
 def prepare_blp(source_dir, work_dir):
+    mk_dir(work_dir)
     os.system(f"[ -f {source_dir}entity2text.txt ] && rm {work_dir}all_triples.tsv")
     os.system(f"[ -f {source_dir}entity2text.txt ] && cp {source_dir}entity2text.txt {work_dir}entity2text.txt")
     os.system(f"[ -f {source_dir}relation2text.txt ] && cp {source_dir}relation2text.txt {work_dir}relation2text.txt")

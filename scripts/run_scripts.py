@@ -76,8 +76,11 @@ def to_dllite(schema_file, work_dir):
 def delete_file(file_path):
     os.system("rm " + file_path)
 
+
 def delete_dir(dir):
-    os.system(f'[ -d "{dir}" ] && rm -rf {dir}')
+    cmd = f'[ -d {dir} ] && rm -rf {dir}'
+    os.system(cmd)
+
 
 def mk_dir(dir):
     os.system(f'[ ! -d "{dir}" ] && mkdir {dir}')

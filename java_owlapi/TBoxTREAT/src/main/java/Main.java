@@ -58,7 +58,7 @@ public class Main {
                 Materialize2.materialize(ontologyFullPath, aboxFullPath, outputFullPath + "/materialized_tbox_abox.nt");
                 break;
             case "toNT":
-                FormatConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
+                TBoxConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
                 break;
             case "DL-lite":
                 DLLite.owl2dllite(ontologyFullPath, outputFullPath + "/tbox_dllite.ttl");

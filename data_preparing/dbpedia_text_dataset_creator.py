@@ -3,6 +3,7 @@ import platform
 from SPARQLWrapper import SPARQLWrapper, JSON
 from tqdm import tqdm
 import time
+import pandas as pd
 
 
 # DEFAULT_GRAPH = "http://dbpedia.org"
@@ -100,15 +101,12 @@ def query_rel_text(rel_file, work_dir):
     save_and_append_results(rel2shorttext_l, work_dir + "relation2text.txt")
 
 
-def query_entity_text_and_class(entity_file, work_dir):
-    no_class = []
+def query_entity_text(entity_file, work_dir):
     no_long_text = []
     batch = 1000
     flush_num = batch
-    ent2classes_l = []
     ent2longtext_l = []
     ent2shorttext_l = []
-    ent_class_triples_l = []
     with open(entity_file) as f:
         lines = f.readlines()
         count = int(lines[0].strip())
@@ -117,134 +115,176 @@ def query_entity_text_and_class(entity_file, work_dir):
             for idx, l in enumerate(lines[1:]):
                 items = l.split('\t')
                 entity_iri = items[0]
-                classes = get_classes(entity_iri)
-                if len(classes) == 0:
-                    no_class.append(entity_iri)
+                long_text = get_long_text(entity_iri)
+                if len(long_text) == 0:
+                    no_long_text.append(entity_iri)
                 else:
-                    # ent2classes_l.append(f"{entity_iri}\t" + ";".join(classes))
-                    ent_class_triples_l.extend([f"<{entity_iri}> <{TYPE_OF}> <{clz}> ."
-                                                for clz in classes if "http://dbpedia.org/class/yago/" not in clz
-                                                and "http://www.ontologydesignpatterns.org/" not in clz])
-
-                # long_text = get_long_text(entity_iri)
-                # if len(long_text) == 0:
-                #     no_long_text.append(entity_iri)
-                # else:
-                #     ent2longtext_l.append(f"{entity_iri}\t{long_text}")
-                # short_text = get_short_text(entity_iri)
-                # if len(short_text) == 0:
-                #     short_text = entity_iri.split('/')[-1].replace('_', ' ')
-                # ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
-
+                    ent2longtext_l.append(f"{entity_iri}\t{long_text}")
+                short_text = get_short_text(entity_iri)
+                if len(short_text) == 0:
+                    short_text = entity_iri.split('/')[-1].replace('_', ' ')
+                ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
                 flush_num -= 1
                 pbar.update(1)
                 if flush_num == 0 or idx == count - 1:
-                    # save_and_append_results(ent2classes_l, work_dir + "entity2type.txt")
-                    # save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
-                    # save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
-                    save_and_append_results(ent_class_triples_l, work_dir + "entity_types.nt")
+                    save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
+                    save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
                     flush_num = batch
-                    # ent2classes_l = []
-                    # ent2longtext_l = []
-                    ent_class_triples_l = []
-    # save_and_append_results(no_class, work_dir + "no_class.txt")
-    # save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
+                    ent2longtext_l = []
+    save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
     print("done")
 
 
-def query_wiki_redirect(work_dir):
+def query_wiki_redirect_type(entities):
     no_class = []
-    no_long_text = []
     ent2classes_l = []
+    for ent in tqdm(entities):
+        ent = ent.strip()
+        classes = get_classes_redirected(ent)
+        if len(classes) == 0:
+            no_class.append(ent)
+        else:
+            classes = list(set(classes))
+            classes = [clz for clz in classes if "http://dbpedia.org/class/yago/" not in clz
+                       and "http://www.ontologydesignpatterns.org/" not in clz and "http://www.wikidata.org/" not in clz]
+            ent2classes_l.append((ent, list(set(classes))))
+    return ent2classes_l, no_class
+
+
+def query_wiki_redirect_text(entities):
+    no_long_text = []
     ent2longtext_l = []
-    with open(work_dir + "no_class.txt") as f:
-        lines = f.readlines()
-        for ent in tqdm(lines):
-            ent = ent.strip()
-            classes = get_classes_redirected(ent)
+    for ent in tqdm(entities):
+        ent = ent.strip()
+        long_text = get_long_text_redirected(ent)
+        if len(long_text) == 0:
+            no_long_text.append(ent)
+        else:
+            ent2longtext_l.append(f"{ent}\t" + long_text)
+    print("done")
+    return ent2longtext_l, no_long_text
+
+
+def query_disambiguration_type(all_triples, all_no_class_ents):
+    no_class = []
+    ent2classes_l = []
+    for ent in tqdm(all_no_class_ents):
+        triples = list(filter(lambda x: ent in x, all_triples))
+        found = False
+        for tri in triples:
+            tri_hrt = tri
+            query_clause = f"<{tri_hrt[0]}> <{tri_hrt[1]}> <{tri_hrt[2]}>"
+            query_clause = query_clause.replace(f"<{ent}>", "?x")
+            query_str = f"SELECT distinct ?object " \
+                "WHERE {" \
+                f"<{ent}> <{DISAMBIGUATE}> ?x . " \
+                f"{query_clause} . " \
+                f"?x <{TYPE_OF}> ?object . " \
+                "} LIMIT 500"
+            classes = get_query_values(query_str)
             if len(classes) == 0:
-                no_class.append(ent)
+                continue
             else:
-                ent2classes_l.append(f"{ent}\t" + ";".join(classes))
-        save_and_append_results(ent2classes_l, work_dir + "entity2type_redirected.txt")
-    with open(work_dir + "no_long_text.txt") as f:
-        lines = f.readlines()
-        for ent in tqdm(lines):
-            ent = ent.strip()
-            long_text = get_long_text_redirected(ent)
-            if len(long_text) == 0:
-                no_long_text.append(ent)
-            else:
-                ent2longtext_l.append(f"{ent}\t" + long_text)
-        save_and_append_results(ent2longtext_l, work_dir + "entity2textlong_redirected.txt")
-    save_and_append_results(no_class, work_dir + "no_class2.txt")
-    save_and_append_results(no_long_text, work_dir + "no_long_text2.txt")
-    print("done")
+                classes = list(set(classes))
+                classes = [clz for clz in classes if "http://dbpedia.org/class/yago/" not in clz
+                           and "http://www.ontologydesignpatterns.org/" not in clz and "http://www.wikidata.org/" not in clz]
+                ent2classes_l.append((ent, list(set(classes))))
+                found = True
+                break
+        if not found:
+            no_class.append(ent)
+    return ent2classes_l, no_class
 
 
-def query_disambiguration(triple_file, work_dir):
-    no_class = []
+def query_disambiguration_text(all_triples, all_no_longtext_ents, work_dir):
     no_long_text = []
-    ent2classes_l = []
     ent2longtext_l = []
-    with open(triple_file) as f:
-        all_triples = f.readlines()
-    with open(work_dir + "no_class2.txt") as f:
-        all_no_class_ents = f.readlines()
-        for ent in tqdm(all_no_class_ents):
-            ent = ent.strip()
-            triples = list(filter(lambda x: ent in x.strip().split('\t'), all_triples))
-            found = False
-            for tri in triples:
-                tri_hrt = tri.strip().split('\t')
-                query_clause = f"<{tri_hrt[0]}> <{tri_hrt[1]}> <{tri_hrt[2]}>"
-                query_clause = query_clause.replace(f"<{ent}>", "?x")
-                query_str = f"SELECT distinct ?object " \
-                    "WHERE {" \
-                    f"<{ent}> <{DISAMBIGUATE}> ?x . " \
-                    f"{query_clause} . " \
-                    f"?x <{TYPE_OF}> ?object . " \
-                    "} LIMIT 500"
-                classes = get_query_values(query_str)
-                if len(classes) == 0:
-                    continue
-                else:
-                    ent2classes_l.append(f"{ent}\t" + ";".join(classes))
-                    found = True
-                    break
-            if not found:
-                no_class.append(ent)
-    save_and_append_results(ent2classes_l, work_dir + "entity2type_disambigurate.txt")
-
-    with open(work_dir + "no_long_text2.txt") as f:
-        all_no_longtext_ents = f.readlines()
-        for ent in tqdm(all_no_longtext_ents):
-            ent = ent.strip()
-            triples = list(filter(lambda x: ent in x.split('\t'), all_triples))
-            found = False
-            for tri in triples:
-                tri_hrt = tri.strip().split('\t')
-                query_clause = f"<{tri_hrt[0]}> <{tri_hrt[1]}> <{tri_hrt[2]}>"
-                query_clause = query_clause.replace(f"<{ent}>", "?x")
-                query_str = f"SELECT distinct ?object " \
-                    "WHERE {" \
-                    f"<{ent}> <{DISAMBIGUATE}> ?x . " \
-                    f"{query_clause} . " \
-                    f"?x <{COMMENT}> ?object . " \
-                    "} LIMIT 500"
-                long_text = get_query_values(query_str)
-                if len(long_text) == 0:
-                    continue
-                else:
-                    ent2longtext_l.append(f"{ent}\t" + long_text[0])
-                    found = True
-            if not found:
-                no_long_text.append(ent)
+    for ent in tqdm(all_no_longtext_ents):
+        ent = ent.strip()
+        triples = list(filter(lambda x: ent in x, all_triples))
+        found = False
+        for tri in triples:
+            tri_hrt = tri
+            query_clause = f"<{tri_hrt[0]}> <{tri_hrt[1]}> <{tri_hrt[2]}>"
+            query_clause = query_clause.replace(f"<{ent}>", "?x")
+            query_str = f"SELECT distinct ?object " \
+                "WHERE {" \
+                f"<{ent}> <{DISAMBIGUATE}> ?x . " \
+                f"{query_clause} . " \
+                f"?x <{COMMENT}> ?object . " \
+                "} LIMIT 500"
+            long_text = get_query_values(query_str)
+            if len(long_text) == 0:
+                continue
+            else:
+                ent2longtext_l.append(f"{ent}\t" + long_text[0])
+                found = True
+        if not found:
+            no_long_text.append(ent)
     save_and_append_results(ent2longtext_l, work_dir + "entity2textlong_disambigurate.txt")
-
-    save_and_append_results(no_class, work_dir + "no_class3.txt")
     save_and_append_results(no_long_text, work_dir + "no_long_text3.txt")
     print("done")
+
+
+def get_triples_entities(triple_file):
+    entities = set()
+    all_triples = []
+    with open(triple_file) as f:
+        lines = f.readlines()
+        for l in lines:
+            items = l.strip().split("\t")
+            all_triples.append(items)
+            entities.add(items[0])
+            entities.add(items[2])
+    return all_triples, list(entities)
+
+
+def generate_entity2type(triple_file, work_dir):
+    no_direct_class = []
+    batch = 1000
+    flush_num = batch
+    ent2classes_l = []
+    all_triples, entities = get_triples_entities(triple_file)
+    with tqdm(total=len(entities), desc=f"preparing dbpedia type data...") as pbar:
+        for idx, ent in enumerate(entities):
+            classes = get_classes(ent)
+            classes = list(set(classes))
+            classes = [clz for clz in classes if "http://dbpedia.org/class/yago/" not in clz
+                       and "http://www.ontologydesignpatterns.org/" not in clz and "http://www.wikidata.org/" not in clz]
+
+            if len(classes) == 0:
+                no_direct_class.append(ent)
+            else:
+                ent2classes_l.append((ent, classes))
+            flush_num -= 1
+            pbar.update(1)
+            if flush_num == 0 or idx == len(entities) - 1:
+                save_and_append_results([f"{x[0]}\t{';'.join(x[1])}" for x in ent2classes_l], work_dir + "entity2type.txt")
+                flush_num = batch
+                ent2classes_l.clear()
+
+    print("query_disambiguration_type...")
+    disamb, no_class = query_disambiguration_type(all_triples, no_direct_class)
+    ent2classes_l.extend(disamb)
+    save_and_append_results([f"{x[0]}\t{';'.join(x[1])}" for x in ent2classes_l], work_dir + "entity2type.txt")
+    ent2classes_l.clear()
+    print("query_wiki_redirect_type...")
+    redirect, no_class = query_wiki_redirect_type(no_class)
+    ent2classes_l.extend(redirect)
+    save_and_append_results([f"{x[0]}\t{';'.join(x[1])}" for x in ent2classes_l], work_dir + "entity2type.txt")
+    save_and_append_results(no_class, work_dir + "no_type.txt")
+
+
+def entity_type_nt(entity2type_file, work_dir):
+    type_nt = []
+    with open(entity2type_file) as f:
+        lines = f.readlines()
+        for l in lines:
+            items = l.strip().split('\t')
+            ent = items[0]
+            classes = items[1].split(';')
+            type_nt.extend([f"{ent}\t{TYPE_OF}\t{xx}\n" for xx in classes])
+    save_and_append_results(type_nt, work_dir + "abox_type.nt")
 
 
 def save_and_append_results(d_list, out_filename):
@@ -258,11 +298,20 @@ def save_and_append_results(d_list, out_filename):
         out_f.close()
 
 
+def get_all_classes_relations(entity2class_uri_file, hrt_uri_file, out_dir):
+    df = pd.read_csv(hrt_uri_file, header=None, names=['head', 'rel', 'tail'], sep="\t", error_bad_lines=False, engine="python")
+    df['rel'].drop_duplicates(keep="first").to_csv(out_dir + "properties.txt", header=False, index=False, mode='w')
+    all_types = []
+    with open(entity2class_uri_file) as f:
+        lines = f.readlines()
+        for l in lines:
+            items = l.strip().split('\t')
+            classes = items[1].split(';')
+            all_types.extend(classes)
+    all_types = list(set(all_types))
+    save_and_append_results(all_types, out_dir + "types.txt")
+
+
 if __name__ == "__main__":
-    query_entity_text_and_class("../resources/DBpedia-politics/entity2id.txt", work_dir="../outputs/test_dbpedia/")
-    # time.sleep(10)
-    # query_wiki_redirect("../outputs/test_dbpedia/")
-    # time.sleep(10)
-    # query_disambiguration("../resources/DBpedia-politics/PoliticalTriplesWD.txt", work_dir="../outputs/test_dbpedia/")
-    # time.sleep(10)
-    # query_rel_text("../resources/DBpedia-politics/relation2id.txt", work_dir="../outputs/test_dbpedia/")
+    # get_all_classes_relations("../resources/DBpedia-politics/entity2type.txt", "../resources/DBpedia-politics/PoliticalTriplesWD.txt", out_dir="../outputs/test_dbpedia/")
+    generate_entity2type("../resources/DBpedia-politics/PoliticalTriplesWD.txt", "../outputs/dbpedia_data/")

@@ -327,12 +327,12 @@ public class DLLite {
         OWLOntology merged = merger.createMergedOntology(man, mergedOntologyIRI1);
 
         // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
-        SubClassOfRedundant redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
-        List<OWLSubClassOfAxiom> toRemove = redtUtil.findRedundants();
-        for (OWLAxiom ax: toRemove) {
-            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
-            man.applyChange(removeAxiom);
-        }
+//        SubClassOfRedundant redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
+//        List<OWLSubClassOfAxiom> toRemove = redtUtil.findRedundants();
+//        for (OWLAxiom ax: toRemove) {
+//            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
+//            man.applyChange(removeAxiom);
+//        }
         // replace D, N with expressions
         System.out.println("Replace D and N with expressions...");
         Set<OWLSubClassOfAxiom> subclassof = merged.getAxioms(AxiomType.SUBCLASS_OF);
@@ -371,7 +371,7 @@ public class DLLite {
         reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
         List<InferredAxiomGenerator<? extends OWLAxiom>> gens2 =
                 new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
-        gens2.add(new InferredSubClassAxiomGenerator());
+        gens2.add(new InferredSubClassAxiomGenerator()); //B1 \in B2 or B1 \in \negB2
         OWLOntology infOnt2 = man.createOntology();
         // Now get the inferred ontology generator to generate some inferred
         // axioms for us (into our fresh ontology). We specify the reasoner that
@@ -395,16 +395,17 @@ public class DLLite {
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
+        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         for (OWLAxiom ax: toRemoveAxiom) {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
             man.applyChange(removeAxiom);
         }
         // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
-        redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
-        for (OWLAxiom ax: redtUtil.findRedundants()) {
-            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
-            man.applyChange(removeAxiom);
-        }
+//        redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
+//        for (OWLAxiom ax: redtUtil.findRedundants()) {
+//            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
+//            man.applyChange(removeAxiom);
+//        }
         System.out.println("Saving new ontology " + out_file);
         File inferredOntologyFile = new File(out_file);
         // Now we create a stream since the ontology manager can then write to that stream.

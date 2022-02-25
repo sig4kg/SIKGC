@@ -240,7 +240,7 @@ def get_triples_entities(triple_file):
 
 
 def generate_entity2type(triple_file, work_dir):
-    no_direct_class = []
+    no_class = []
     batch = 1000
     flush_num = batch
     ent2classes_l = []
@@ -253,7 +253,17 @@ def generate_entity2type(triple_file, work_dir):
                        and "http://www.ontologydesignpatterns.org/" not in clz and "http://www.wikidata.org/" not in clz]
 
             if len(classes) == 0:
-                no_direct_class.append(ent)
+                print("query_disambiguration_type...")
+                disamb, _ = query_disambiguration_type(all_triples, [ent])
+                if len(disamb) > 0:
+                    ent2classes_l.extend(disamb)
+                else:
+                    print("query_wiki_redirect_type...")
+                    redirect, _ = query_wiki_redirect_type([ent])
+                    if len(redirect) > 0:
+                        ent2classes_l.extend(redirect)
+                    else:
+                        no_class.append(ent)
             else:
                 ent2classes_l.append((ent, classes))
             flush_num -= 1
@@ -262,16 +272,6 @@ def generate_entity2type(triple_file, work_dir):
                 save_and_append_results([f"{x[0]}\t{';'.join(x[1])}" for x in ent2classes_l], work_dir + "entity2type.txt")
                 flush_num = batch
                 ent2classes_l.clear()
-
-    print("query_disambiguration_type...")
-    disamb, no_class = query_disambiguration_type(all_triples, no_direct_class)
-    ent2classes_l.extend(disamb)
-    save_and_append_results([f"{x[0]}\t{';'.join(x[1])}" for x in ent2classes_l], work_dir + "entity2type.txt")
-    ent2classes_l.clear()
-    print("query_wiki_redirect_type...")
-    redirect, no_class = query_wiki_redirect_type(no_class)
-    ent2classes_l.extend(redirect)
-    save_and_append_results([f"{x[0]}\t{';'.join(x[1])}" for x in ent2classes_l], work_dir + "entity2type.txt")
     save_and_append_results(no_class, work_dir + "no_type.txt")
 
 

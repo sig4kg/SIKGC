@@ -6,10 +6,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         String task = System.getProperty("task", "SubsetTBox");
-        String schema_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
+//        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/treat/tbox.nt");
-//        String schema_file = System.getProperty("schema", "pizza.owl");
+        String schema_file = System.getProperty("schema", "");
         String output_dir = System.getProperty("output_dir", "output/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/treat/");

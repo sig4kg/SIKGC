@@ -5,15 +5,17 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "TBoxScanner");
-//        String schema_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
+        String task = System.getProperty("task", "SubsetTBox");
+        String schema_file = System.getProperty("ontology", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
-        String schema_file = System.getProperty("schema", "../../resources/treat/tbox.nt");
+//        String schema_file = System.getProperty("schema", "../../resources/treat/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");
-        String output_dir = System.getProperty("output_dir", "output");
+        String output_dir = System.getProperty("output_dir", "output/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/treat/");
         String abox_file = System.getProperty("abox", "");
+        String type_file = System.getProperty("types", "output/types.txt");
+        String rel_file = System.getProperty("rels", "output/properties.txt");
 //        String abox_file = System.getProperty("abox", "../../resources/treat/");
         System.out.println(task + "\t" + schema_file + "\t" + output_dir);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
@@ -40,7 +42,7 @@ public class Main {
         }
         String outputFullPath = outputFull.getAbsolutePath();
         String ontologyFullPath = rootPath + schema_file;
-        String aboxFullPath = abox_file.equalsIgnoreCase("")? "":rootPath + abox_file;
+        String aboxFullPath = abox_file.equalsIgnoreCase("") ? "" : rootPath + abox_file;
         System.out.println("ontology file path: " + ontologyFullPath);
         System.out.println("abox file path: " + aboxFullPath);
         TBoxPatternGenerator tboxScanner = null;
@@ -65,6 +67,9 @@ public class Main {
                 break;
             case "Consistency":
                 Materialize2.checkConsistency(ontologyFullPath, aboxFullPath, outputFullPath + "/tbox_and_abox.nt");
+                break;
+            case "SubsetTBox":
+                TBoxConverter.getTBoxSubset(ontologyFullPath, outputFullPath + "/less_tbox.ttl", type_file, rel_file);
                 break;
             default:
                 return;

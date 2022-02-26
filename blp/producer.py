@@ -39,7 +39,7 @@ def config():
     inductive = False
     dim = 128
     model = 'transductive'
-    # model = 'bert-bow'
+    # model = 'blp'
     rel_model = 'transe'
     loss_fn = 'margin'
     encoder_name = 'bert-base-cased'

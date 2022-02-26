@@ -62,7 +62,7 @@ public class TBoxConverter {
         }
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
         OWLOntology ont = man.loadOntologyFromOntologyDocument(inputStream);
-        // remove annotations, datatype
+        // remove annotations
         List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
         toRemoveAxiom.addAll(ont.getAxioms(AxiomType.ANNOTATION_ASSERTION));
         for (OWLAxiom ax: toRemoveAxiom) {
@@ -102,7 +102,7 @@ public class TBoxConverter {
         moreOps.forEach((String uri) -> {
             if (!toKeepProperties.contains(uri)) {toKeepProperties.add(uri);};
         });
-
+        // remove other classes
         OWLEntityRemover entRemover = new OWLEntityRemover(ont);
         ont.classesInSignature().forEach(element -> {
             if (!toKeepClasses.contains(element.getIRI().toString())) {
@@ -110,7 +110,7 @@ public class TBoxConverter {
                 man.applyChanges(entRemover.getChanges());
             };
         });
-
+        // remove datatypes
         OWLEntityRemover entRemover2 = new OWLEntityRemover(ont);
         ont.datatypesInSignature().forEach(element -> {
             if (!toKeepClasses.contains(element.getIRI().toString())) {
@@ -118,24 +118,20 @@ public class TBoxConverter {
                 man.applyChanges(entRemover2.getChanges());
             };
         });
-
-        List<OWLAxiom> toRemoveAxiom2 = new ArrayList<OWLAxiom>();
-        ont.objectPropertiesInSignature().forEach(element -> {
-            if (!toKeepProperties.contains(element.getIRI().toString())) {
-                toRemoveAxiom2.addAll(ont.getAxioms(element));
-            };
-        });
-
+        //remove other properties
+        OWLEntityRemover entRemover3 = new OWLEntityRemover(ont);
         ont.dataPropertiesInSignature().forEach(element -> {
             if (!toKeepProperties.contains(element.getIRI().toString())) {
-                toRemoveAxiom2.addAll(ont.getAxioms(element));
+                element.accept(entRemover3);
+                man.applyChanges(entRemover3.getChanges());
             };
         });
-
-        for (OWLAxiom ax: toRemoveAxiom2) {
-            RemoveAxiom removeAxiom = new RemoveAxiom(ont, ax);
-            man.applyChange(removeAxiom);
-        }
+        ont.objectPropertiesInSignature().forEach(element -> {
+            if (!toKeepProperties.contains(element.getIRI().toString())) {
+                element.accept(entRemover3);
+                man.applyChanges(entRemover3.getChanges());
+            };
+        });
 
         TurtleDocumentFormat format = new TurtleDocumentFormat();
         File inferredOntologyFile = new File(out_tbox_file);

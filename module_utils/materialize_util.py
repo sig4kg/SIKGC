@@ -41,6 +41,7 @@ def materialize(work_dir):
     wait_until_file_is_saved(work_dir + "cleaned_tbox_abox.nt")
 
 
+# we only keep entities in original abox. If node absent from original abox, we delete them.
 def nt_2_hrt_int_df(in_file, context_resource: ContextResources):
     df = pd.read_csv(
         in_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")

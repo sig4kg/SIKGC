@@ -121,18 +121,6 @@ def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
     return is_saved
 
 
-
-# def entid2classid_nell(ent2id, class2id):
-#     entid2classid = dict()
-#     for ent in ent2id:
-#         concept = ent.split('_', 1)[0]
-#         if concept in class2id:
-#             entid2classid.update({ent2id[ent]: [class2id[concept]]})
-#         else:
-#             entid2classid.update({ent2id[ent]: [-1]})
-#     return entid2classid
-
-
 def entid2classid(ent2id, class2id, ent2type_file):
     ent2classes = dict()
     with open(ent2type_file) as f:

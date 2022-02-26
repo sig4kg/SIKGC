@@ -66,13 +66,13 @@ def prepare_M(work_dir, schema_file):
         print("Schema in DL-Lite exists: " + work_dir + "tbox_dllite.ttl")
 
 
-def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, epoch= 50, use_gpu=False):
+def EC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, epoch=50, use_gpu=False):
     context_2_hrt_transE(work_dir, context_resource)
     run_scripts.gen_pred_transE(work_dir)
     wait_until_train_pred_data_ready(work_dir)
 
     # 1.train transE
-    train_transe.train(work_dir + "train/", epoch=2, use_gpu=use_gpu)
+    train_transe.train(work_dir + "train/", epoch=epoch, use_gpu=use_gpu)
     wait_until_file_is_saved(work_dir + "checkpoint/transe.ckpt")
 
     # 2. produce triples
@@ -170,7 +170,10 @@ def M_block(context_resource:ContextResources, work_dir):
     new_count = len(context_resource.hrt_int_df.index) - train_count
     return train_count, new_count
 
-def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler, work_dir, inductive=False, model="transductive"):
+def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScannerScheduler,
+             work_dir,
+             inductive=False,
+             model="transductive", epoch=50):
     hrt_int_df_2_hrt_blp(context_resource, work_dir, triples_only=False)    # generate all_triples.tsv, entities.txt, relations.txt\
     wait_until_file_is_saved(work_dir + "all_triples.tsv")
     split_all_triples(work_dir, inductive=inductive) # split all_triples.tsv to train.tsv, dev.tsv, takes time
@@ -180,7 +183,7 @@ def LC_block(context_resource:ContextResources, abox_scanner_scheduler:AboxScann
                            'dataset': 'treat',
                            'inductive': inductive,
                            "do_downstream_sample": True,
-                           'max_epochs':2,
+                           'max_epochs':epoch,
                            'model': model})
     wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 

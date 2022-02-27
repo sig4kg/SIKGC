@@ -51,6 +51,8 @@ class ExpConfig:
             self.setNELL()
         elif dataset == "TREAT":
             self.setTREAT()
+        elif dataset == "TEST":
+            self.setTest()
         else:
             self.setDBpedia()
         return self
@@ -114,4 +116,4 @@ def combined_producers(dataset, work_dir, loops=2):
 
 
 if __name__ == "__main__":
-    single_producer("NELL", "../outputs/single/")
+    single_producer("TEST", "../outputs/single/")

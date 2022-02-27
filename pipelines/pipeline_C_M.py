@@ -11,10 +11,11 @@ def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir)
     prepare_M(work_dir, schema_file)
+    get_scores = aggregate_scores()
     scores = []
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
         f_correctness, f_coverage, f_h = M_block(context_resource, work_dir)
-        scores.append((f_correctness, f_coverage, f_h))
+        scores.append(get_scores(f_correctness, f_coverage, f_h))
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
     return scores
 

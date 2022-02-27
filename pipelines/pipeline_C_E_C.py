@@ -14,8 +14,8 @@ def c_e_c(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1, epoch=2,
                                                                               work_dir,
                                                                               epoch=epoch,
                                                                               use_gpu=use_gpu)
-        f_correctness, f_coverage, f_h = get_scores(new_count, new_valid_count, new_correct_count)
-        scores.append((f_correctness, f_coverage, f_h))
+        scores_dict = get_scores(new_count, new_valid_count, new_correct_count)
+        scores.append(scores_dict)
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
     return scores
 

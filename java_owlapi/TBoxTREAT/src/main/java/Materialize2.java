@@ -106,7 +106,8 @@ public class Materialize2 {
                 InferenceType.CLASS_HIERARCHY,
                 InferenceType.CLASS_ASSERTIONS,
                 InferenceType.OBJECT_PROPERTY_HIERARCHY,
-                InferenceType.OBJECT_PROPERTY_ASSERTIONS
+                InferenceType.OBJECT_PROPERTY_ASSERTIONS,
+                InferenceType.DISJOINT_CLASSES
         );
         List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
 //        generators.add(new InferredSubClassAxiomGenerator());

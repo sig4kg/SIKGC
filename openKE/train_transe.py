@@ -64,6 +64,6 @@ def produce(in_path, out_file, threshold=0.5, use_gpu=False):
 
 
 if __name__ == "__main__":
-    train("../resources/NELL-995/", epoch=500, use_gpu=True, test=True)
+    train("../resources/NELL-995/", epoch=500, use_gpu=False)
 
 

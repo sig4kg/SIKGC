@@ -4,6 +4,7 @@ from pipeline_C_E_C import c_e_c
 from pipeline_CECMCRC import cecmcrc
 from pipeline_CLCMCRC import clcmcac
 from scripts import run_scripts
+import argparse
 
 
 class ExpConfig:
@@ -12,8 +13,8 @@ class ExpConfig:
     tbox_patterns_dir = ""
     inductive = False
     literal_model = "blp"
-    max_epoch=2
-    use_gpu=False
+    max_epoch = 2
+    use_gpu = False
 
     def setTest(self):
         self.input_dir = "../resources/TEST/"
@@ -58,62 +59,67 @@ class ExpConfig:
         return self
 
 
-def single_producer(dataset, work_dir, use_gpu=False, loops=2):
+def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2):
     run_scripts.mk_dir(work_dir)
     conf = ExpConfig().get_config(dataset)
-    print("CRC pipeline")
-    scores1 = c_anyburl_c(work_dir=work_dir + f"cac_{dataset}/",
-                          input_dir=conf.input_dir,
-                          schema_file=conf.schema_file,
-                          tbox_patterns_dir=conf.tbox_patterns_dir)
-
-    print("CEC pipeline")
-    scores2 = c_e_c(work_dir=work_dir + f"cec_{dataset}/",
-                    input_dir=conf.input_dir,
-                    schema_file=conf.schema_file,
-                    tbox_patterns_dir=conf.tbox_patterns_dir,
-                    loops=loops,
-                    epoch=conf.e_max_epoch,
-                    use_gpu=use_gpu)
-
-    print("CLC pipeline")
-    scores3 = c_l_c(work_dir=work_dir + f"clc_{dataset}/",
-                    input_dir=conf.input_dir,
-                    schema_file=conf.schema_file,
-                    tbox_patterns_dir=conf.tbox_patterns_dir,
-                    inductive=conf.inductive,
-                    epoch=conf.l_max_epoch,
-                    loops=loops,
-                    model=conf.literal_model)
-    with open(work_dir + "experiment_single.log", encoding='utf-8', mode='w') as out_f:
-        out_f.write("scores: f_correctness, f_coverage, f_h")
-        for idx, s in enumerate(scores1):
-            out_f.write(f"CRC loop {idx}: {s[0]}\t{s[1]}\t{s[2]}\n")
-        for idx, s in enumerate(scores2):
-            out_f.write(f"CEC loop {idx}: {s[0]}\t{s[1]}\t{s[2]}\n")
-        for idx, s in enumerate(scores3):
-            out_f.write(f"CLC loop {idx}: {s[0]}\t{s[1]}\t{s[2]}\n")
-    out_f.close()
-
-
-
-def combined_producers(dataset, work_dir, loops=2):
-    conf = ExpConfig().get_config(dataset)
-    print("clcmcac pipeline")
-    scores = clcmcac(work_dir=work_dir + f"clc_{dataset}/",
-            input_dir=conf.input_dir,
-            schema_file=conf.schema_file,
-            tbox_patterns_dir=conf.tbox_patterns_dir,
-            inductive=conf.inductive,
-            epoch=conf.l_max_epoch,
-            loops=loops,
-            model=conf.literal_model)
-    with open(work_dir + "experiment_single.log", encoding='utf-8', mode='w') as out_f:
+    scores = []
+    if pipeline == "cac":
+        print("CRC pipeline")
+        scores = c_anyburl_c(work_dir=work_dir + f"cac_{dataset}/",
+                             input_dir=conf.input_dir,
+                             schema_file=conf.schema_file,
+                             loops=loops,
+                             tbox_patterns_dir=conf.tbox_patterns_dir)
+    elif pipeline == "cec":
+        print("CEC pipeline")
+        scores = c_e_c(work_dir=work_dir + f"cec_{dataset}/",
+                       input_dir=conf.input_dir,
+                       schema_file=conf.schema_file,
+                       tbox_patterns_dir=conf.tbox_patterns_dir,
+                       loops=loops,
+                       epoch=conf.e_max_epoch,
+                       use_gpu=use_gpu)
+    elif pipeline == "clc":
+        print("CLC pipeline")
+        scores = c_l_c(work_dir=work_dir + f"clc_{dataset}/",
+                       input_dir=conf.input_dir,
+                       schema_file=conf.schema_file,
+                       tbox_patterns_dir=conf.tbox_patterns_dir,
+                       inductive=conf.inductive,
+                       epoch=conf.l_max_epoch,
+                       loops=loops,
+                       model=conf.literal_model)
+    elif pipeline == "clcmcac":
+        print("clcmcac pipeline")
+        scores = clcmcac(work_dir=work_dir + f"clc_{dataset}/",
+                         input_dir=conf.input_dir,
+                         schema_file=conf.schema_file,
+                         tbox_patterns_dir=conf.tbox_patterns_dir,
+                         inductive=conf.inductive,
+                         epoch=conf.l_max_epoch,
+                         loops=loops,
+                         model=conf.literal_model)
+    with open(work_dir + "experiment.log", encoding='utf-8', mode='w') as out_f:
         out_f.write("scores: f_correctness, f_coverage, f_h")
         for idx, s in enumerate(scores):
-            out_f.write(f"CRC loop {idx}: {s[0]}\t{s[1]}\t{s[2]}\n")
+            out_f.write(f"loop {idx}:\n")
+            for k in s:
+                out_f.write(f"{k}: {s[k]} \n")
+            out_f.write("-------------")
     out_f.close()
 
 
 if __name__ == "__main__":
-    single_producer("TEST", "../outputs/single/")
+    parser = argparse.ArgumentParser(description="experiment settings")
+    # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
+    parser.add_argument('--dataset', type=str, default="TEST")
+    parser.add_argument('--work_dir', type=str, default="../outputs/test/")
+    parser.add_argument('--pipeline', type=str, default="cac")
+    parser.add_argument('--use_gpu', type=bool, default=False)
+    parser.add_argument('--loops', type=int, default=2)
+    args = parser.parse_args()
+    producers(dataset=args.dataset,
+              work_dir=args.work_dir,
+              pipeline=args.pipeline,
+              use_gpu=args.use_gpu,
+              loops=args.loops)

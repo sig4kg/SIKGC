@@ -23,7 +23,7 @@ def c_rumis_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
 if __name__ == "__main__":
     print("CRC pipeline")
     c_rumis_c(work_dir="../outputs/crc/",
-          input_dir="../resources/NELL/",
+          input_dir="../resources/TEST/",
           schema_file='../resources/NELL/NELL.ontology.nt',
           tbox_patterns_dir='../resources/NELL-patterns/')
 

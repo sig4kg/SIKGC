@@ -20,10 +20,13 @@ fi
 [ ! -f "$WORK_DIR/dlv.bin" ] && cp ../scripts/dlv.bin $WORK_DIR/
 echo "learning horn rule..."
 java -jar $WORK_DIR/rumis-1.0.jar -e=pos -l=$WORK_DIR/ideal.data.txt
+sleep 2
 echo "learning nonmonotonic rule..."
 java -jar $WORK_DIR/rumis-1.0.jar -e=neg -p=horn-rules.txt -l=$WORK_DIR/ideal.data.txt -r=2 -t=10
+sleep 2
 echo "Spliting train data..."
 java -jar $WORK_DIR/rumis-1.0.jar -e=new -l=$WORK_DIR/ideal.data.txt -o=0.9 1>$WORK_DIR/training.data.txt
+sleep 2
 [ -f "horn-rules.txt" ] && mv horn-rules.txt $WORK_DIR/
 [ -f "horn-rules-stats.txt" ] && mv horn-rules-stats.txt $WORK_DIR/
 [ -f "revised-rules.txt" ] && mv revised-rules.txt $WORK_DIR/

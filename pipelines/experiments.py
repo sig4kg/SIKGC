@@ -37,10 +37,10 @@ class ExpConfig:
         self.l_max_epoch = 50
 
     def setTREAT(self):
-        self.input_dir = "../resources/treat/"
-        self.schema_file = '../resources/treat/tbox.nt'
-        self.tbox_patterns_dir = "../resources/treat/tbox_patterns/"
-        self.inductive = True
+        self.input_dir = "../resources/TREAT/"
+        self.schema_file = '../resources/TREAT/tbox.nt'
+        self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
+        self.inductive = False
         self.literal_model = "fasttext"
         self.e_max_epoch = 50
         self.l_max_epoch = 50

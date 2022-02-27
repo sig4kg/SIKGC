@@ -77,31 +77,64 @@ public class TBoxConverter {
         OWLReasoner reasoner = reasonerFactory.createReasoner(ont, configuration); // It takes time to create Hermit reasoner
 
         //get  all parent classes
-        List<String> moreClasses = new ArrayList<>();
-        for (String class_uri : toKeepClasses) {
-            OWLClass c = dataFactory.getOWLClass(class_uri);
-            NodeSet<OWLClass> sups = reasoner.getSuperClasses(c);
-            for (OWLClass sup : sups.getFlattened()) {
-                moreClasses.add(sup.toString());
-            }
-        }
+//        List<String> moreClasses = new ArrayList<>();
+//        for (String class_uri : toKeepClasses) {
+//            OWLClass c = dataFactory.getOWLClass(class_uri);
+//            NodeSet<OWLClass> sups = reasoner.getSuperClasses(c);
+//            for (OWLClass sup : sups.getFlattened()) {
+//                moreClasses.add(sup.toString());
+//            }
+//        }
         List<String> toExclude =  new ArrayList<>(Arrays.asList("http://dbpedia.org/class/yago/",
                 "http://www.ontologydesignpatterns.org/" ,
                 "http://www.wikidata.org/"));
-        moreClasses.forEach((String uri) -> {
-            if (!toKeepClasses.contains(uri) && !toExclude.stream().anyMatch(uri::contains)) {toKeepClasses.add(uri);};
-        });
-        List<String> moreOps = new ArrayList<>();
-        for (String pro_uri : toKeepProperties) {
-            OWLObjectProperty op = dataFactory.getOWLObjectProperty(pro_uri);
-            NodeSet<OWLObjectPropertyExpression> pSups = reasoner.getSuperObjectProperties(op.getNamedProperty(), false);
-            for (OWLObjectPropertyExpression sup : pSups.getFlattened()) {
-                moreOps.add(sup.toString());
+//        moreClasses.forEach((String uri) -> {
+//            if (!toKeepClasses.contains(uri) && !toExclude.stream().anyMatch(uri::contains)) {toKeepClasses.add(uri);};
+//        });
+//        List<String> moreOps = new ArrayList<>();
+//        for (String pro_uri : toKeepProperties) {
+//            OWLObjectProperty op = dataFactory.getOWLObjectProperty(pro_uri);
+//            NodeSet<OWLObjectPropertyExpression> pSups = reasoner.getSuperObjectProperties(op.getNamedProperty(), false);
+//            for (OWLObjectPropertyExpression sup : pSups.getFlattened()) {
+//                moreOps.add(sup.toString());
+//            }
+//        }
+//        moreOps.forEach((String uri) -> {
+//            if (!toKeepProperties.contains(uri)) {toKeepProperties.add(uri);};
+//        });
+
+        // fix domain and range
+        ArrayList<String> toFixDomain = new ArrayList<>();
+        ArrayList<String> toFixRange = new ArrayList<>();
+        for (String p_uri : toKeepProperties) {
+            OWLObjectProperty op = dataFactory.getOWLObjectProperty(p_uri);
+            Set<OWLObjectPropertyDomainAxiom> pd = ont.getObjectPropertyDomainAxioms(op);
+            if (pd.size() == 0) {
+                toFixDomain.add(p_uri);
+            } else {
+                pd.forEach((OWLObjectPropertyDomainAxiom ax) ->{
+                    String d = ax.getDomain().toString();
+                    if (toKeepClasses.contains(d)) {
+                        toKeepClasses.add(d);
+                    }
+                });
+            }
+            Set<OWLObjectPropertyRangeAxiom> pr = ont.getObjectPropertyRangeAxioms(op);
+            if (pr.size() == 0) {
+                toFixRange.add(p_uri);
+            } else {
+                pr.forEach((OWLObjectPropertyRangeAxiom ax) ->{
+                    String d = ax.getRange().toString();
+                    if (toKeepClasses.contains(d)) {
+                        toKeepClasses.add(d);
+                    }
+                });
             }
         }
-        moreOps.forEach((String uri) -> {
-            if (!toKeepProperties.contains(uri)) {toKeepProperties.add(uri);};
-        });
+
+
+
+
         // remove other classes
         OWLEntityRemover entRemover = new OWLEntityRemover(ont);
         ont.classesInSignature().forEach(element -> {
@@ -132,8 +165,7 @@ public class TBoxConverter {
                 man.applyChanges(entRemover3.getChanges());
             };
         });
-        // fix domain and range
-        for (String p_uri : toKeepClasses)
+
 
 
         TurtleDocumentFormat format = new TurtleDocumentFormat();

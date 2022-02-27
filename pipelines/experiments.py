@@ -100,7 +100,6 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          loops=loops,
                          model=conf.literal_model)
     with open(work_dir + "experiment.log", encoding='utf-8', mode='w') as out_f:
-        out_f.write("scores: f_correctness, f_coverage, f_h")
         for idx, s in enumerate(scores):
             out_f.write(f"loop {idx}:\n")
             for k in s:

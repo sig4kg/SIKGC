@@ -44,7 +44,7 @@ def aggregate_scores():
                   "f_coverage2": f_coverage2,
                   "f_consistency_coverage": f_h2}
         for key in result:
-            print(f"key: {result[key]}")
+            print(f"{key}: {result[key]}")
         return result
     return add_new
 

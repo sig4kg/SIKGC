@@ -1,6 +1,7 @@
 from pipeline_C_L_C import c_l_c
 from pipeline_C_anyBURL_C import c_anyburl_c
 from pipeline_C_E_C import c_e_c
+from pipeline_C_Rumis_C import c_rumis_c
 from pipeline_CECMCRC import cecmcrc
 from pipeline_CLCMCRC import clcmcac
 from scripts import run_scripts
@@ -89,6 +90,13 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                        epoch=conf.l_max_epoch,
                        loops=loops,
                        model=conf.literal_model)
+    elif pipeline == "crc":
+        print("CRC pipeline")
+        scores = c_rumis_c(work_dir=work_dir + f"crc_{dataset}/",
+                  input_dir=conf.input_dir,
+                  schema_file=conf.schema_file,
+                  loops=loops,
+                  tbox_patterns_dir=conf.tbox_patterns_dir)
     elif pipeline == "clcmcac":
         print("clcmcac pipeline")
         scores = clcmcac(work_dir=work_dir + f"clc_{dataset}/",

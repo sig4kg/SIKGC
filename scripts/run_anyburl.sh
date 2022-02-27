@@ -30,7 +30,7 @@ fi
 
 [ ! -f "$WORK_DIR/AnyBURL-JUNO.jar" ] && cp ../scripts/AnyBURL-JUNO.jar $WORK_DIR/
 echo "Learning horn rule via AnyBURLs..."
-java -Xmx3G -cp $WORK_DIR/AnyBURL-JUNO.jar de.unima.ki.anyburl.LearnReinforced $WORK_DIR/config-learn.properties
+java -Xmx15G -cp $WORK_DIR/AnyBURL-JUNO.jar de.unima.ki.anyburl.LearnReinforced $WORK_DIR/config-learn.properties
 # the following cmds are not executed after last cmd exits from multi-threads
 #echo "Learning new triples..."
 #java -Xmx3G -cp $WORK_DIR/AnyBURL-JUNO.jar de.unima.ki.anyburl.Apply $WORK_DIR/config-apply.properties

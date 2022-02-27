@@ -93,10 +93,10 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
     elif pipeline == "crc":
         print("CRC pipeline")
         scores = c_rumis_c(work_dir=work_dir + f"crc_{dataset}/",
-                  input_dir=conf.input_dir,
-                  schema_file=conf.schema_file,
-                  loops=loops,
-                  tbox_patterns_dir=conf.tbox_patterns_dir)
+                           input_dir=conf.input_dir,
+                           schema_file=conf.schema_file,
+                           loops=loops,
+                           tbox_patterns_dir=conf.tbox_patterns_dir)
     elif pipeline == "clcmcac":
         print("clcmcac pipeline")
         scores = clcmcac(work_dir=work_dir + f"clc_{dataset}/",
@@ -109,17 +109,17 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          model=conf.literal_model)
     elif pipeline == "cecmcrc":
         print("cecmcrc pipeline")
-        cecmcrc(work_dir=work_dir + f"clc_{dataset}/",
-                input_dir=conf.input_dir,
-                schema_file=conf.schema_file,
-                tbox_patterns_dir=conf.tbox_patterns_dir,
-                epoch=conf.e_max_epoch,
-                loops=loops,
-                use_gpu=conf.use_gpu)
+        scores = cecmcrc(work_dir=work_dir + f"clc_{dataset}/",
+                         input_dir=conf.input_dir,
+                         schema_file=conf.schema_file,
+                         tbox_patterns_dir=conf.tbox_patterns_dir,
+                         epoch=conf.e_max_epoch,
+                         loops=loops,
+                         use_gpu=conf.use_gpu)
     else:
         print("Unsupported pipeline, please use any of these: cac, cec, crc, cm, cecmcrc, clcmcac.")
         pass
-    with open(work_dir + "experiment.log", encoding='utf-8', mode='w') as out_f:
+    with open(work_dir + f"{pipeline}_{dataset}.log", encoding='utf-8', mode='w') as out_f:
         for idx, s in enumerate(scores):
             out_f.write(f"loop {idx}:\n")
             for k in s:

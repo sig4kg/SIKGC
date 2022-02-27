@@ -132,6 +132,9 @@ public class TBoxConverter {
                 man.applyChanges(entRemover3.getChanges());
             };
         });
+        // fix domain and range
+        for (String p_uri : toKeepClasses)
+
 
         TurtleDocumentFormat format = new TurtleDocumentFormat();
         File inferredOntologyFile = new File(out_tbox_file);

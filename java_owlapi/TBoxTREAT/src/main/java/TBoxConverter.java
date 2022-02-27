@@ -15,10 +15,7 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class TBoxConverter {
@@ -91,49 +88,48 @@ public class TBoxConverter {
 //        moreClasses.forEach((String uri) -> {
 //            if (!toKeepClasses.contains(uri) && !toExclude.stream().anyMatch(uri::contains)) {toKeepClasses.add(uri);};
 //        });
-//        List<String> moreOps = new ArrayList<>();
-//        for (String pro_uri : toKeepProperties) {
-//            OWLObjectProperty op = dataFactory.getOWLObjectProperty(pro_uri);
-//            NodeSet<OWLObjectPropertyExpression> pSups = reasoner.getSuperObjectProperties(op.getNamedProperty(), false);
-//            for (OWLObjectPropertyExpression sup : pSups.getFlattened()) {
-//                moreOps.add(sup.toString());
-//            }
-//        }
-//        moreOps.forEach((String uri) -> {
-//            if (!toKeepProperties.contains(uri)) {toKeepProperties.add(uri);};
-//        });
+        List<String> moreOps = new ArrayList<>();
+        for (String pro_uri : toKeepProperties) {
+            OWLObjectProperty op = dataFactory.getOWLObjectProperty(pro_uri);
+            NodeSet<OWLObjectPropertyExpression> pSups = reasoner.getSuperObjectProperties(op.getNamedProperty(), false);
+            for (OWLObjectPropertyExpression sup : pSups.getFlattened()) {
+                moreOps.add(sup.toString());
+            }
+        }
+        moreOps.forEach((String uri) -> {
+            if (!toKeepProperties.contains(uri) &&
+                    !uri.contains("http://www.ontologydesignpatterns.org/")
+                    && ! uri.contains("owl:topObjectProperty"))
+            {toKeepProperties.add(uri);};
+        });
 
         // fix domain and range
         ArrayList<String> toFixDomain = new ArrayList<>();
         ArrayList<String> toFixRange = new ArrayList<>();
+        Set<OWLAxiom> domainsAndRanges = new HashSet<OWLAxiom>();
         for (String p_uri : toKeepProperties) {
             OWLObjectProperty op = dataFactory.getOWLObjectProperty(p_uri);
-            Set<OWLObjectPropertyDomainAxiom> pd = ont.getObjectPropertyDomainAxioms(op);
+            Set<OWLClass> pd = reasoner.getObjectPropertyDomains(op).getFlattened();
             if (pd.size() == 0) {
                 toFixDomain.add(p_uri);
-            } else {
-                pd.forEach((OWLObjectPropertyDomainAxiom ax) ->{
-                    String d = ax.getDomain().toString();
-                    if (toKeepClasses.contains(d)) {
-                        toKeepClasses.add(d);
+            } else{
+                pd.forEach((OWLClass mc) ->{
+                    if (toKeepClasses.contains(mc.toString())) {
+                        toKeepClasses.add(mc.toString());
                     }
                 });
             }
-            Set<OWLObjectPropertyRangeAxiom> pr = ont.getObjectPropertyRangeAxioms(op);
+            Set<OWLClass> pr = reasoner.getObjectPropertyRanges(op).getFlattened();
             if (pr.size() == 0) {
                 toFixRange.add(p_uri);
             } else {
-                pr.forEach((OWLObjectPropertyRangeAxiom ax) ->{
-                    String d = ax.getRange().toString();
-                    if (toKeepClasses.contains(d)) {
-                        toKeepClasses.add(d);
+                pr.forEach((OWLClass mc) ->{
+                    if (toKeepClasses.contains(mc.toString())) {
+                        toKeepClasses.add(mc.toString());
                     }
                 });
             }
         }
-
-
-
 
         // remove other classes
         OWLEntityRemover entRemover = new OWLEntityRemover(ont);

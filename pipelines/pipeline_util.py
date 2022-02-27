@@ -25,6 +25,8 @@ def aggregate_scores():
         ty = 0
         total_new = 0
         for i in range(n[0]):
+            if nc[i] == 0:
+                continue
             tf_correctness += cc[i] / nc[i]
             tf_consistency += vc[i] / nc[i]
             ta += cc[i]

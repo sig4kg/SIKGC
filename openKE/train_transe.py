@@ -48,7 +48,7 @@ def train(in_path, epoch=500, use_gpu=False):
     #     tester.run_link_prediction(type_constrain = False)
 
 
-def produce(in_path, out_file, threshold=0.5, use_gpu=False):
+def produce(in_path, out_file, threshold=5, use_gpu=False):
     # dataloader for test
     test_dataloader = TestDataLoader(in_path, "link")
     transe = TransE(

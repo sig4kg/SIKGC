@@ -36,7 +36,7 @@ class ExpConfig:
         self.inductive = True
         self.literal_model = "blp"
         # self.rel_model = "transE"
-        self.e_max_epoch = 500
+        self.e_max_epoch = 200
         self.l_max_epoch = 50
 
     def setTREAT(self):

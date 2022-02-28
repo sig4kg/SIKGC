@@ -24,9 +24,9 @@ def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
 if __name__ == "__main__":
     print("CM pipeline")
     c_m(work_dir="../outputs/cm/",
-        input_dir="../resources/NELL/",
-        schema_file='../resources/NELL/NELL.ontology.nt',
-        tbox_patterns_dir='../resources/NELL-patterns/')
+        input_dir="../resources/TREAT/",
+        schema_file='../resources/TREAT/tbox.nt',
+        tbox_patterns_dir='../resources/TREAT/tbox_patterns/')
 
 
 

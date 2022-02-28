@@ -3,7 +3,9 @@ from pipeline_C_anyBURL_C import c_anyburl_c
 from pipeline_C_E_C import c_e_c
 from pipeline_C_Rumis_C import c_rumis_c
 from pipeline_CECMCRC import cecmcrc
-from pipeline_CLCMCRC import clcmcac
+from pipeline_CLCMCAC import clcmcac
+from pipeline_CACMCLC import cacmclc
+from pipeline_CACMCEC import cacmcec
 from scripts import run_scripts
 import argparse
 
@@ -107,6 +109,25 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          epoch=conf.l_max_epoch,
                          loops=loops,
                          model=conf.literal_model)
+    elif pipeline == "cacmclc":
+        print("cacmclc pipeline")
+        scores = cacmclc(work_dir=work_dir + f"clc_{dataset}/",
+                         input_dir=conf.input_dir,
+                         schema_file=conf.schema_file,
+                         tbox_patterns_dir=conf.tbox_patterns_dir,
+                         inductive=conf.inductive,
+                         epoch=conf.l_max_epoch,
+                         loops=loops,
+                         model=conf.literal_model)
+    elif pipeline == "cacmcec":
+        print("cacmclc pipeline")
+        scores = cacmcec(work_dir=work_dir + f"clc_{dataset}/",
+                         input_dir=conf.input_dir,
+                         schema_file=conf.schema_file,
+                         tbox_patterns_dir=conf.tbox_patterns_dir,
+                         epoch=conf.l_max_epoch,
+                         loops=loops,
+                         use_gpu=conf.use_gpu)
     elif pipeline == "cecmcrc":
         print("cecmcrc pipeline")
         scores = cecmcrc(work_dir=work_dir + f"clc_{dataset}/",

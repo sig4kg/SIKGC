@@ -29,7 +29,7 @@ if __name__ == "__main__":
     #       schema_file='../resources/treat/tbox.nt',
     #       tbox_patterns_dir='../resources/treat/tbox_patterns/')
     c_l_c(work_dir="../outputs/clc/",
-          input_dir="../resources/TEST/",
+          input_dir="../resources/NELL/",
           schema_file='../resources/NELL/NELL.ontology.nt',
           tbox_patterns_dir='../resources/NELL-patterns/')
           # inductive=True,

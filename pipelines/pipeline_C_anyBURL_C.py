@@ -20,12 +20,7 @@ def c_anyburl_c(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1):
 
 if __name__ == "__main__":
     print("CRC pipeline")
-    wd="../outputs/treat/"
-    run_scripts.mk_dir(wd)
-    anyburl_dir = wd + "anyburl/"
-    c_anyburl_c(work_dir=anyburl_dir, input_dir="../resources/treat/",
-                schema_file='../resources/treat/tbox.nt',
-                tbox_patterns_dir='../resources/treat/tbox_patterns/')
+
 
 
 

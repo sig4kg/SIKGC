@@ -109,23 +109,25 @@ public class TBoxConverter {
         Set<OWLAxiom> domainsAndRanges = new HashSet<OWLAxiom>();
         for (String p_uri : toKeepProperties) {
             OWLObjectProperty op = dataFactory.getOWLObjectProperty(p_uri);
-            Set<OWLClass> pd = reasoner.getObjectPropertyDomains(op).getFlattened();
+            Set<OWLObjectPropertyDomainAxiom> pd = ont.getObjectPropertyDomainAxioms(op);
             if (pd.size() == 0) {
                 toFixDomain.add(p_uri);
-            } else{
-                pd.forEach((OWLClass mc) ->{
-                    if (toKeepClasses.contains(mc.toString())) {
-                        toKeepClasses.add(mc.toString());
+            } else {
+                pd.forEach((OWLObjectPropertyDomainAxiom ax) ->{
+                    String d = ax.getDomain().toString();
+                    if (toKeepClasses.contains(d)) {
+                        toKeepClasses.add(d);
                     }
                 });
             }
-            Set<OWLClass> pr = reasoner.getObjectPropertyRanges(op).getFlattened();
+            Set<OWLObjectPropertyRangeAxiom> pr = ont.getObjectPropertyRangeAxioms(op);
             if (pr.size() == 0) {
                 toFixRange.add(p_uri);
             } else {
-                pr.forEach((OWLClass mc) ->{
-                    if (toKeepClasses.contains(mc.toString())) {
-                        toKeepClasses.add(mc.toString());
+                pr.forEach((OWLObjectPropertyRangeAxiom ax) ->{
+                    String d = ax.getRange().toString();
+                    if (toKeepClasses.contains(d)) {
+                        toKeepClasses.add(d);
                     }
                 });
             }
@@ -162,8 +164,6 @@ public class TBoxConverter {
             };
         });
 
-
-
         TurtleDocumentFormat format = new TurtleDocumentFormat();
         File inferredOntologyFile = new File(out_tbox_file);
         // Now we create a stream since the ontology manager can then write to that stream.
@@ -173,6 +173,16 @@ public class TBoxConverter {
             e.printStackTrace();
             throw e;
         }
+        File f = new File("fixDomain.txt");
+        FileWriter fw = new FileWriter(f);
+        PrintWriter pw = new PrintWriter(fw);
+        toFixDomain.forEach(pw::println);
+        pw.close();
 
+        File f2 = new File("fixRange.txt");
+        FileWriter fw2 = new FileWriter(f2);
+        PrintWriter pw2 = new PrintWriter(fw2);
+        toFixRange.forEach(pw2::println);
+        pw2.close();
     }
 }

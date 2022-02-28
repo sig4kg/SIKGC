@@ -172,6 +172,7 @@ class ContextResources:
                                                                      create_id_file=create_id_file)
         self.hrt_int_df = None
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
+        self.classid2class = {self.class2id[key]: key for key in self.class2id}
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
         self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}

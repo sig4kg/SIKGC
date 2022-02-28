@@ -1,4 +1,5 @@
 import pandas as pd
+from tqdm import tqdm
 
 from abox_scanner.abox_utils import PatternScanner, ContextResources
 
@@ -11,17 +12,19 @@ class Pattern1(PatternScanner):
         self._context_resources = context_resources
 
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
-        def scan_pattern_single_rel(df: pd.DataFrame):
-            # for df in aggregated_triples:
-            rel = df.iloc[0]['rel']
+        df = triples
+        gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
+        for g in tqdm(gp, desc="scanning pattern 1"):
+            rel = g[0]
+            r_triples_df = g[1]
             if rel in self._pattern_dict:
                 invalid = self._pattern_dict[rel]['invalid']
-                for idx, row in df.iterrows():
+                for idx, row in r_triples_df.iterrows():
                     h_classes = self._context_resources.entid2classids[row['head']]
                     if any([h_c in invalid for h_c in h_classes]):
-                        df.loc[idx, 'is_valid'] = False
-            return df
-        triples.update(triples.query("is_valid == True").groupby('rel').apply(lambda x: scan_pattern_single_rel(x)))
+                        r_triples_df.loc[idx, 'is_valid'] = False
+            df.update(r_triples_df.query("is_valid == False")['is_valid'])
+        return df
 
     def pattern_to_int(self, entry: str):
         with open(entry) as f:

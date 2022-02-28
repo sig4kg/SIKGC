@@ -21,11 +21,17 @@ def c_rumis_c(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1):
 
 
 if __name__ == "__main__":
-    print("CRC pipeline")
-    c_rumis_c(work_dir="../outputs/crc/",
-          input_dir="../resources/TEST/",
-          schema_file='../resources/NELL/NELL.ontology.nt',
-          tbox_patterns_dir='../resources/NELL-patterns/')
+    # print("CRC pipeline")
+    # c_rumis_c(work_dir="../outputs/crc/",
+    #       input_dir="../resources/TEST/",
+    #       schema_file='../resources/NELL/NELL.ontology.nt',
+    #       tbox_patterns_dir='../resources/NELL-patterns/')
+    ss = aggregate_scores();
+    tt1 = ss(2,1,1)
+    tt2 = ss(3,0,0)
+    tt3 = ss(0,0,0)
+    tt4 = ss(2,1,0)
+    tt5 =ss(2,2,1)
 
 
 

@@ -93,10 +93,10 @@ class AboxScannerScheduler:
 
         init_invalid = len(df.query("is_valid == False"))
         for scanner in self._IJP_strategies:
-            print("Scanning schema pattern: " + str(type(scanner)))
+            # print("Scanning schema pattern: " + str(type(scanner)))
             scanner.scan_pattern_df_rel(df)
             total_invalid = len(df.query("is_valid == False"))
-            print(f"identified invalid triples count: {str(total_invalid - init_invalid)}")
+            print(f"{str(type(scanner))} identified invalid triples count: {str(total_invalid - init_invalid)}")
             init_invalid = total_invalid
         out_path = Path(work_dir)
         if not out_path.parent.exists():
@@ -128,7 +128,7 @@ class AboxScannerScheduler:
             print("Scanning schema pattern: " + str(type(scanner)))
             scanner.scan_pattern_df_rel(df)
 
-        total_correct = len(df.query("correct == True"))
+        total_correct = len(df.query("correct==True"))
         print(f"identified schema correct triples count: {str(total_correct)}")
         out_path = Path(work_dir)
         if not out_path.parent.exists():

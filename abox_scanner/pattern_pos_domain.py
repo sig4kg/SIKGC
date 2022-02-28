@@ -1,7 +1,7 @@
 import pandas as pd
 
 from abox_scanner.abox_utils import PatternScanner, ContextResources
-
+from tqdm import tqdm
 # domain
 
 
@@ -11,19 +11,22 @@ class PatternPosDomain(PatternScanner):
         self._context_resources = context_resources
 
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
-        def scan_pattern_single_rel(df: pd.DataFrame):
-            # for df in aggregated_triples:
-            rel = df.iloc[0]['rel']
+        df = triples
+        gp = df.query("correct==True").groupby('rel', group_keys=True, as_index=False)
+        for g in tqdm(gp, desc="scanning pattern domain"):
+            rel = g[0]
+            r_triples_df = g[1]
             if rel in self._pattern_dict:
                 correct = self._pattern_dict[rel]
-                for idx, row in df.iterrows():
+                for idx, row in r_triples_df.iterrows():
                     h_classes = self._context_resources.entid2classids[row['head']]
                     if not any([h_c in correct for h_c in h_classes]):
-                        df.loc[idx, 'correct'] = False
+                        r_triples_df.loc[idx, 'correct'] = False
             else:
-                df['correct'] = False
-            return df
-        triples.update(triples.query("correct == True").groupby('rel').apply(lambda x: scan_pattern_single_rel(x)))
+                r_triples_df['correct'] = False
+            df.update(r_triples_df.query("correct==False")['correct'].apply(lambda x: False))
+        return df
+
 
     def pattern_to_int(self, entry: str):
         with open(entry) as f:

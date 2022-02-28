@@ -36,7 +36,7 @@ class ExpConfig:
         self.inductive = True
         self.literal_model = "blp"
         # self.rel_model = "transE"
-        self.e_max_epoch = 200
+        self.e_max_epoch = 100
         self.l_max_epoch = 50
 
     def setTREAT(self):
@@ -45,7 +45,7 @@ class ExpConfig:
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
         self.inductive = False
         self.literal_model = "fasttext"
-        self.e_max_epoch = 200
+        self.e_max_epoch = 100
         self.l_max_epoch = 50
 
     def setDBpedia(self):

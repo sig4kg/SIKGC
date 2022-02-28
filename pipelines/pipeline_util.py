@@ -56,7 +56,6 @@ def aggregate_scores():
         for key in result:
             print(f"{key}: {result[key]}")
         return result
-
     return add_new
 
 
@@ -112,12 +111,13 @@ def EC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     wait_until_file_is_saved(work_dir + "transE_raw_hrts.txt", 30)
 
     # 3. consistency checking for new triples + old triples
-    pred_hrt_df = read_hrts_2_hrt_df(work_dir + "transE_raw_hrts.txt")
+    pred_hrt_df = read_hrts_2_hrt_df(work_dir + "transE_raw_hrts.txt").drop_duplicates(
+        keep='first').reset_index(drop=True)
+
     # diff
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
         keep=False)
     new_count = len(new_hrt_df.index)
-    del new_hrt_df
     # scan
     to_scann_hrt_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df], axis=0).drop_duplicates(
         keep='first').reset_index(drop=True)
@@ -207,7 +207,8 @@ def M_block(context_resource: ContextResources, work_dir):
 
     # read new data to context
     # we only keep entities in original abox. If node absent from original abox, we delete them.
-    materialized_hrt_int_df = nt_2_hrt_int_df(work_dir + "cleaned_tbox_abox.nt", context_resource)
+    materialized_hrt_int_df = nt_2_hrt_int_df(work_dir + "cleaned_tbox_abox.nt", context_resource).drop_duplicates(
+        keep='first').reset_index(drop=True)
     print("update context data")
     extend_hrt_df = pd.concat([context_resource.hrt_int_df, materialized_hrt_int_df]).drop_duplicates(
         keep='first').reset_index(drop=True)
@@ -238,7 +239,8 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
     # 2. consistency checking for new triples
-    pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
+    pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource).drop_duplicates(
+        keep='first').reset_index(drop=True)
     print("all produced triples: " + str(len(pred_hrt_df.index)))
     # diff
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df,
@@ -281,7 +283,8 @@ def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: 
     wait_until_file_is_saved(work_dir + "predictions/alpha-100", 60)
 
     # consistency checking for new triples
-    pred_hrt_df = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource)
+    pred_hrt_df = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource).drop_duplicates(
+        keep='first').reset_index(drop=True)
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
         keep=False)
     new_count = len(new_hrt_df.index)

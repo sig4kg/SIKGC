@@ -24,7 +24,7 @@ class ExpConfig:
         self.inductive = True
         self.literal_model = "blp"
         self.e_max_epoch = 2
-        self.l_max_epoch = 5
+        self.l_max_epoch = 2
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"
@@ -133,9 +133,9 @@ if __name__ == "__main__":
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
     parser.add_argument('--dataset', type=str, default="TEST")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="clc")
+    parser.add_argument('--pipeline', type=str, default="cec")
     parser.add_argument('--use_gpu', type=bool, default=False)
-    parser.add_argument('--loops', type=int, default=2)
+    parser.add_argument('--loops', type=int, default=3)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,

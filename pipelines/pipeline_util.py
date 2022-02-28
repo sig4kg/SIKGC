@@ -40,9 +40,9 @@ def aggregate_scores():
         f_coverage2 = ty / total_new if total_new > 0 else 0
         f_h2 = 2 * f_consistency * f_coverage2 / (f_coverage2 + f_consistency) if (
                                                                                               f_coverage2 + f_consistency) > 0 else 0
-        result = {"new_count": new_count,
-                  "new_valid_count": new_valid_count,
-                  "new_correct_count": new_correct_count,
+        result = {"new_count": nc,
+                  "new_valid_count": vc,
+                  "new_correct_count": cc,
                   "f_correctness": f_correctness,
                   "f_coverage": f_coverage,
                   "f_correctness_coverage": f_h,

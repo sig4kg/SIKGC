@@ -116,7 +116,7 @@ def EC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     # diff
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
         keep=False)
-    new_count = len(new_hrt_df)
+    new_count = len(new_hrt_df.index)
     del new_hrt_df
     # scan
     to_scann_hrt_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df], axis=0).drop_duplicates(
@@ -169,7 +169,7 @@ def Rumis_C_block(context_resource: ContextResources, abox_scanner_scheduler: Ab
     # diff
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
         keep=False)
-    new_count = len(new_hrt_df)
+    new_count = len(new_hrt_df.index)
     del new_hrt_df
 
     #  backup and clean last round data
@@ -239,11 +239,11 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
 
     # 2. consistency checking for new triples
     pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource)
-    print("all produced triples: " + str(len(pred_hrt_df)))
+    print("all produced triples: " + str(len(pred_hrt_df.index)))
     # diff
-    new_hrt_df = pd.concat([pred_hrt_df.drop_duplicates(keep='first'), context_resource.hrt_int_df,
+    new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df,
                             context_resource.hrt_int_df]).drop_duplicates(keep=False)
-    new_count = len(new_hrt_df)
+    new_count = len(new_hrt_df.index)
     print("all old triples: " + str(len(context_resource.hrt_int_df)))
     print("all new triples: " + str(new_count))
 

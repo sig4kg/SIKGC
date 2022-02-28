@@ -126,7 +126,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,
-                         epoch=conf.l_max_epoch,
+                         epoch=conf.e_max_epoch,
                          loops=loops,
                          use_gpu=conf.use_gpu)
     elif pipeline == "cecmcac":
@@ -135,7 +135,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,
-                         epoch=conf.l_max_epoch,
+                         epoch=conf.e_max_epoch,
                          loops=loops,
                          use_gpu=conf.use_gpu)
     elif pipeline == "cecmcrc":

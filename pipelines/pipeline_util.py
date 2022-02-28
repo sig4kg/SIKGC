@@ -207,7 +207,7 @@ def M_block(context_resource: ContextResources, work_dir):
 
     # read new data to context
     # we only keep entities in original abox. If node absent from original abox, we delete them.
-    materialized_hrt_int_df = nt_2_hrt_int_df(work_dir + "cleaned_tbox_abox.nt", context_resource).drop_duplicates(
+    materialized_hrt_int_df = nt_2_hrt_int_df(work_dir + "materialized_tbox_abox.nt", context_resource).drop_duplicates(
         keep='first').reset_index(drop=True)
     print("update context data")
     extend_hrt_df = pd.concat([context_resource.hrt_int_df, materialized_hrt_int_df]).drop_duplicates(

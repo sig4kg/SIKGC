@@ -38,7 +38,7 @@ def materialize(work_dir):
     # merge_TBox_2_ABox(work_dir + "abox.nt", work_dir + "tbox.nt", work_dir)
     scripts.run_scripts.run_materialization(work_dir)
     # clean_annotations_nt(work_dir + "materialized_tbox_abox.nt", work_dir + "cleaned_tbox_abox.nt")
-    wait_until_file_is_saved(work_dir + "cleaned_tbox_abox.nt")
+    wait_until_file_is_saved(work_dir + "materialized_tbox_abox.nt")
 
 
 # we only keep entities in original abox. If node absent from original abox, we delete them.

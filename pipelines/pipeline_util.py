@@ -244,7 +244,7 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df,
                             context_resource.hrt_int_df]).drop_duplicates(keep=False)
     new_count = len(new_hrt_df.index)
-    print("all old triples: " + str(len(context_resource.hrt_int_df)))
+    print("all old triples: " + str(len(context_resource.hrt_int_df.index)))
     print("all new triples: " + str(new_count))
 
     # 3. get valid new triples

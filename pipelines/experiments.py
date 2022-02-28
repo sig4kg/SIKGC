@@ -36,7 +36,7 @@ class ExpConfig:
         self.literal_model = "blp"
         # self.rel_model = "transE"
         self.e_max_epoch = 500
-        self.l_max_epoch = 500
+        self.l_max_epoch = 50
 
     def setTREAT(self):
         self.input_dir = "../resources/TREAT/"
@@ -45,7 +45,7 @@ class ExpConfig:
         self.inductive = False
         self.literal_model = "fasttext"
         self.e_max_epoch = 500
-        self.l_max_epoch = 500
+        self.l_max_epoch = 50
 
     def setDBpedia(self):
         pass

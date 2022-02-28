@@ -27,8 +27,8 @@ def aggregate_scores():
         for i in range(n[0]):
             if nc[i] == 0:
                 continue
-            tf_correctness += cc[i] / nc[i]
-            tf_consistency += vc[i] / nc[i]
+            tf_correctness += (cc[i] / nc[i])
+            tf_consistency += (vc[i] / nc[i])
             ta += cc[i]
             ty += vc[i]
             total_new += nc[i]
@@ -38,8 +38,12 @@ def aggregate_scores():
         f_h = 2 * f_correctness * f_coverage / (f_coverage + f_correctness) if (f_coverage + f_correctness) > 0 else 0
         f_consistency = tf_consistency / n[0]
         f_coverage2 = ty / total_new if total_new > 0 else 0
-        f_h2 = 2 * f_consistency * f_coverage2 / (f_coverage2 + f_consistency) if (f_coverage2 + f_consistency) > 0 else 0
-        result = {"f_correctness": f_correctness,
+        f_h2 = 2 * f_consistency * f_coverage2 / (f_coverage2 + f_consistency) if (
+                                                                                              f_coverage2 + f_consistency) > 0 else 0
+        result = {"new_count": new_count,
+                  "new_valid_count": new_valid_count,
+                  "new_correct_count": new_correct_count,
+                  "f_correctness": f_correctness,
                   "f_coverage": f_coverage,
                   "f_correctness_coverage": f_h,
                   "f_consistency": f_consistency,
@@ -48,6 +52,7 @@ def aggregate_scores():
         for key in result:
             print(f"{key}: {result[key]}")
         return result
+
     return add_new
 
 

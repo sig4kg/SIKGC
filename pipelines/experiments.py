@@ -60,7 +60,7 @@ class ExpConfig:
         return self
 
 
-def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2):
+def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=3):
     run_scripts.mk_dir(work_dir)
     conf = ExpConfig().get_config(dataset)
     scores = []
@@ -124,7 +124,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
             out_f.write(f"loop {idx}:\n")
             for k in s:
                 out_f.write(f"{k}: {s[k]} \n")
-            out_f.write("-------------")
+            out_f.write("-------------\n")
     out_f.close()
 
 
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
     parser.add_argument('--pipeline', type=str, default="cac")
     parser.add_argument('--use_gpu', type=bool, default=False)
-    parser.add_argument('--loops', type=int, default=2)
+    parser.add_argument('--loops', type=int, default=3)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,

@@ -128,7 +128,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          tbox_patterns_dir=conf.tbox_patterns_dir,
                          epoch=conf.e_max_epoch,
                          loops=loops,
-                         use_gpu=conf.use_gpu)
+                         use_gpu=use_gpu)
     elif pipeline == "cecmcac":
         print("cecmcac pipeline")
         scores = cecmcac(work_dir=work_dir + f"clc_{dataset}/",
@@ -137,7 +137,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          tbox_patterns_dir=conf.tbox_patterns_dir,
                          epoch=conf.e_max_epoch,
                          loops=loops,
-                         use_gpu=conf.use_gpu)
+                         use_gpu=use_gpu)
     elif pipeline == "cecmcrc":
         print("cecmcrc pipeline")
         scores = cecmcrc(work_dir=work_dir + f"clc_{dataset}/",
@@ -146,7 +146,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          tbox_patterns_dir=conf.tbox_patterns_dir,
                          epoch=conf.e_max_epoch,
                          loops=loops,
-                         use_gpu=conf.use_gpu)
+                         use_gpu=use_gpu)
     else:
         print("Unsupported pipeline, please use any of these: cac, cec, crc, cm, cecmcrc, clcmcac.")
         pass

@@ -8,7 +8,7 @@ def cacmclc(work_dir, input_dir, schema_file, tbox_patterns_dir,
     run_scripts.delete_dir(work_dir)
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir)
-    prepare_M(work_dir, schema_file)
+    # prepare_M(work_dir, schema_file)
     prepare_blp(input_dir, work_dir + "L/")
     scores = []
     for ep in trange(loops, colour="green", position=0, leave=True, desc="Pipeline processing"):

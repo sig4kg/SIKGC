@@ -10,7 +10,7 @@ from pipeline_util import *
 def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir)
-    prepare_M(work_dir, schema_file)
+    # prepare_M(work_dir, schema_file)
     get_scores = aggregate_scores()
     scores = []
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):

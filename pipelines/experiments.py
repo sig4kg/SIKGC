@@ -6,6 +6,7 @@ from pipeline_CECMCRC import cecmcrc
 from pipeline_CLCMCAC import clcmcac
 from pipeline_CACMCLC import cacmclc
 from pipeline_CACMCEC import cacmcec
+from pipeline_CECMCAC import cecmcac
 from scripts import run_scripts
 import argparse
 
@@ -120,8 +121,17 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          loops=loops,
                          model=conf.literal_model)
     elif pipeline == "cacmcec":
-        print("cacmclc pipeline")
+        print("cacmcec pipeline")
         scores = cacmcec(work_dir=work_dir + f"clc_{dataset}/",
+                         input_dir=conf.input_dir,
+                         schema_file=conf.schema_file,
+                         tbox_patterns_dir=conf.tbox_patterns_dir,
+                         epoch=conf.l_max_epoch,
+                         loops=loops,
+                         use_gpu=conf.use_gpu)
+    elif pipeline == "cecmcac":
+        print("cecmcac pipeline")
+        scores = cecmcac(work_dir=work_dir + f"clc_{dataset}/",
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,

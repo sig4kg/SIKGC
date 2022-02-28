@@ -12,17 +12,17 @@ def clcmcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
     prepare_blp(input_dir, work_dir + "L/")
     scores = []
     for ep in trange(loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        _, nc1, nv1, ncc1 = LC_block(context_resource,
+        init_c1, extend_c1, nc1, nv1, ncc1 = LC_block(context_resource,
                                      abox_scanner_scheduler,
                                      work_dir + "L/",
                                      inductive=inductive,
                                      epoch=epoch,
                                      model=model)
-        _, nc2 = M_block(context_resource, work_dir)
-        _, nc3, nv3, ncc3 = anyBURL_C_block(context_resource,
+        init_c2, extend_c2, nc2, nv2, ncc2 = M_block(context_resource, work_dir)
+        init_c3, extend_c3, nc3, nv3, ncc3 = anyBURL_C_block(context_resource,
                                             abox_scanner_scheduler,
                                             work_dir + "A/")
-        scores.append(get_scores(nc1 + nc2 + nc3, nv1 + nc2 + nv3, ncc1 + nc2 + ncc3))
+        scores.append(get_scores(init_c1, extend_c3, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3))
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
 
 

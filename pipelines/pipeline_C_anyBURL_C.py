@@ -9,10 +9,10 @@ def c_anyburl_c(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1):
                                                                tbox_patterns_dir=tbox_patterns_dir, create_id_file=False)
     scores = []
     for ep in trange(loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        train_count, new_count, new_valid_count, new_correct_count = anyBURL_C_block(context_resource, abox_scanner_scheduler, work_dir)
-        scores_dict = get_scores(new_count, new_valid_count, new_correct_count)
+        init_c1, extend_c1, new_count, new_valid_count, new_correct_count = anyBURL_C_block(context_resource, abox_scanner_scheduler, work_dir)
+        scores_dict = get_scores(init_c1, extend_c1, new_count, new_valid_count, new_correct_count)
         scores.append(scores_dict)
-        if new_valid_count / train_count < 0.01:
+        if new_valid_count / init_c1 < 0.01:
             break
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
     return scores

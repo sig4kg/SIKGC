@@ -14,8 +14,8 @@ def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1):
     get_scores = aggregate_scores()
     scores = []
     for ep in trange(max_epoch, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        f_correctness, f_coverage, f_h = M_block(context_resource, work_dir)
-        scores.append(get_scores(f_correctness, f_coverage, f_h))
+        init_c1, extend_c1, new_count, new_valid_count, new_correct_count = M_block(context_resource, work_dir)
+        scores.append(get_scores(init_c1, extend_c1, new_count, new_valid_count, new_correct_count))
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
     return scores
 

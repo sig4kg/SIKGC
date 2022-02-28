@@ -82,7 +82,8 @@ class AboxScannerScheduler:
         # aggregate triples by relation
         start_time = datetime.datetime.now()
         old_df = self._context_resources.hrt_int_df
-        df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
+        # df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
+        df = self._context_resources.hrt_to_scan_df
         new_items = pd.concat([df, old_df, old_df]).drop_duplicates(keep=False)
         df['is_valid'] = True
         df['is_new'] = True
@@ -122,7 +123,7 @@ class AboxScannerScheduler:
         """
         # aggregate triples by relation
         start_time = datetime.datetime.now()
-        df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
+        df = self._context_resources.hrt_to_scan_df
         df['correct'] = True
         for scanner in self._schema_correct_strategies:
             print("Scanning schema pattern: " + str(type(scanner)))

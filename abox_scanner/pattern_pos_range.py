@@ -10,6 +10,7 @@ class PatternPosRange(PatternScanner):
 
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
         df = triples
+        df.update(df.query("is_valid==False")['correct'].apply(lambda x: False))
         gp = df.query("correct == True").groupby('rel', group_keys=True, as_index=False)
         for g in tqdm(gp, desc="scanning pattern range"):
             rel = g[0]

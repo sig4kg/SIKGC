@@ -2365,7 +2365,7 @@ http://treat.net/onto.owl#alarm_para_instance_853	http://treat.net/onto.owl#Alar
 http://treat.net/onto.owl#alm_100001_uam20_913	http://treat.net/onto.owl#Alarm_Instance
 http://treat.net/onto.owl#alarm_para_instance_854	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
 http://treat.net/onto.owl#alm_100001_uam20_726	http://treat.net/onto.owl#Alarm_Instance
-http://treat.net/onto.owl#alarm_para_instance_855	http://treat.net/onto.owl#Alarm_Para_Instance
+http://treat.net/onto.owl#alarm_para_instance_855	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell
 http://treat.net/onto.owl#alarm_para_instance_856	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
 http://treat.net/onto.owl#alm_100001_uam20_515	http://treat.net/onto.owl#Alarm_Instance
 http://treat.net/onto.owl#alarm_para_instance_857	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
@@ -2391,7 +2391,7 @@ http://treat.net/onto.owl#alarm_para_instance_867	http://treat.net/onto.owl#Alar
 http://treat.net/onto.owl#alm_100001_uam20_87	http://treat.net/onto.owl#Alarm_Instance
 http://treat.net/onto.owl#alarm_para_instance_868	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
 http://treat.net/onto.owl#alm_100001_uam20_722	http://treat.net/onto.owl#Alarm_Instance
-http://treat.net/onto.owl#alarm_para_instance_869	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell
+http://treat.net/onto.owl#alarm_para_instance_869	http://treat.net/onto.owl#Alarm_Para_Instance
 http://treat.net/onto.owl#alarm_para_instance_870	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
 http://treat.net/onto.owl#alm_100001_uam20_516	http://treat.net/onto.owl#Alarm_Instance
 http://treat.net/onto.owl#alarm_para_instance_871	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
@@ -2702,7 +2702,7 @@ http://treat.net/onto.owl#alarm_para_instance_1038	http://treat.net/onto.owl#Ala
 http://treat.net/onto.owl#alm_100001_uam20_573	http://treat.net/onto.owl#Alarm_Instance
 http://treat.net/onto.owl#alarm_para_instance_1039	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
 http://treat.net/onto.owl#alm_100001_uam20_207	http://treat.net/onto.owl#Alarm_Instance
-http://treat.net/onto.owl#alarm_para_instance_1040	http://treat.net/onto.owl#Alarm_Para_Instance
+http://treat.net/onto.owl#alarm_para_instance_1040	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell
 http://treat.net/onto.owl#alarm_para_instance_1041	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID
 http://treat.net/onto.owl#alm_100001_uam20_35	http://treat.net/onto.owl#Alarm_Instance
 http://treat.net/onto.owl#alarm_para_instance_1042	http://treat.net/onto.owl#Alarm_Para_Instance;http://treat.net/onto.owl#Cell_ID

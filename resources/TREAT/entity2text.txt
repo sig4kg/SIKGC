@@ -263,362 +263,362 @@ http://treat.net/onto.owl#alm_level_1	Critical
 http://treat.net/onto.owl#alm_level_2	Major
 http://treat.net/onto.owl#alm_level_3	Minor
 http://treat.net/onto.owl#alm_level_4	Warning
-http://treat.net/onto.owl#alm_para_0	MNC
-http://treat.net/onto.owl#alm_para_1	Alarm Generation Threshold
-http://treat.net/onto.owl#alm_para_2	Physical VM ID
-http://treat.net/onto.owl#alm_para_3	Alarm Cause
-http://treat.net/onto.owl#alm_para_4	Local IP Address 2
-http://treat.net/onto.owl#alm_para_5	APPID
-http://treat.net/onto.owl#alm_para_6	Local Process No.
-http://treat.net/onto.owl#alm_para_7	Channel path
-http://treat.net/onto.owl#alm_para_8	Average Packet Error Rate(%)
-http://treat.net/onto.owl#alm_para_9	CDR Version Info.
-http://treat.net/onto.owl#alm_para_10	MCC
-http://treat.net/onto.owl#alm_para_11	Geographical Redundancy Group ID
-http://treat.net/onto.owl#alm_para_12	App id
-http://treat.net/onto.owl#alm_para_13	Appling service name
-http://treat.net/onto.owl#alm_para_14	Security Traffic Type
-http://treat.net/onto.owl#alm_para_15	Alarm Clearance Threshold
-http://treat.net/onto.owl#alm_para_16	Address Pool Type
-http://treat.net/onto.owl#alm_para_17	VPNName
-http://treat.net/onto.owl#alm_para_18	Failed App
-http://treat.net/onto.owl#alm_para_19	Peer IP Address Type
-http://treat.net/onto.owl#alm_para_20	Source Pod Name
-http://treat.net/onto.owl#alm_para_21	Fault Type
-http://treat.net/onto.owl#alm_para_22	Current Threshold
-http://treat.net/onto.owl#alm_para_23	Sub Address Family
-http://treat.net/onto.owl#alm_para_24	Cluster Name
-http://treat.net/onto.owl#alm_para_25	Microservice Type
-http://treat.net/onto.owl#alm_para_26	Process type
-http://treat.net/onto.owl#alm_para_27	FailCause
-http://treat.net/onto.owl#alm_para_28	eNodeB Type
-http://treat.net/onto.owl#alm_para_29	Inter-AMF Flow Control Message Type
-http://treat.net/onto.owl#alm_para_30	Remote_service_ip
-http://treat.net/onto.owl#alm_para_31	Peer Port
-http://treat.net/onto.owl#alm_para_32	Segment Type
-http://treat.net/onto.owl#alm_para_33	Realm name
-http://treat.net/onto.owl#alm_para_34	Peer LSR ID
-http://treat.net/onto.owl#alm_para_35	Certificate name
-http://treat.net/onto.owl#alm_para_36	Alarm EventType
-http://treat.net/onto.owl#alm_para_37	Peer Port No.
-http://treat.net/onto.owl#alm_para_38	AlmCause
-http://treat.net/onto.owl#alm_para_39	VNFC Type
-http://treat.net/onto.owl#alm_para_40	NG-RAN Node ID
-http://treat.net/onto.owl#alm_para_41	Route index
-http://treat.net/onto.owl#alm_para_42	Node information list
-http://treat.net/onto.owl#alm_para_43	CBC index
-http://treat.net/onto.owl#alm_para_44	Resource Process ID
-http://treat.net/onto.owl#alm_para_45	Measurement object instance
-http://treat.net/onto.owl#alm_para_46	CDR file distributed unsuccessfully
-http://treat.net/onto.owl#alm_para_47	Tunnel Group Name
-http://treat.net/onto.owl#alm_para_48	Cause
-http://treat.net/onto.owl#alm_para_49	eNodeB ID type
-http://treat.net/onto.owl#alm_para_50	REASON
-http://treat.net/onto.owl#alm_para_51	MME Group ID of Redundancy USN
-http://treat.net/onto.owl#alm_para_52	Local Router ID
-http://treat.net/onto.owl#alm_para_53	Service Type
-http://treat.net/onto.owl#alm_para_54	Remote IP port
-http://treat.net/onto.owl#alm_para_55	Report Server Access Point IP Address
-http://treat.net/onto.owl#alm_para_56	Path Version
-http://treat.net/onto.owl#alm_para_57	Channel ID
+http://treat.net/onto.owl#alm_para_0	Physical VM ID
+http://treat.net/onto.owl#alm_para_1	App ID
+http://treat.net/onto.owl#alm_para_2	Peer Sub IP
+http://treat.net/onto.owl#alm_para_3	Description of Failure
+http://treat.net/onto.owl#alm_para_4	PartitionName
+http://treat.net/onto.owl#alm_para_5	Peer Geographical Redundancy Instance ID
+http://treat.net/onto.owl#alm_para_6	Destination entity code
+http://treat.net/onto.owl#alm_para_7	VPN
+http://treat.net/onto.owl#alm_para_8	Realm name
+http://treat.net/onto.owl#alm_para_9	Measurement object instance
+http://treat.net/onto.owl#alm_para_10	Ga Local Port
+http://treat.net/onto.owl#alm_para_11	Suppression Type
+http://treat.net/onto.owl#alm_para_12	Link No.
+http://treat.net/onto.owl#alm_para_13	Peer IP Address Type
+http://treat.net/onto.owl#alm_para_14	Peer LSR ID
+http://treat.net/onto.owl#alm_para_15	Software Type
+http://treat.net/onto.owl#alm_para_16	Peer Sub IP address
+http://treat.net/onto.owl#alm_para_17	VNRS VNFC ID
+http://treat.net/onto.owl#alm_para_18	Resource type
+http://treat.net/onto.owl#alm_para_19	CDR file backuped unsuccessfully
+http://treat.net/onto.owl#alm_para_20	CPU occupation rate
+http://treat.net/onto.owl#alm_para_21	PCRF host name
+http://treat.net/onto.owl#alm_para_22	IP Address
+http://treat.net/onto.owl#alm_para_23	LocalAddr
+http://treat.net/onto.owl#alm_para_24	Procedure
+http://treat.net/onto.owl#alm_para_25	Control Item Name
+http://treat.net/onto.owl#alm_para_26	Local Process ID
+http://treat.net/onto.owl#alm_para_27	Alarm Cause
+http://treat.net/onto.owl#alm_para_28	Local Discriminator
+http://treat.net/onto.owl#alm_para_29	License file name
+http://treat.net/onto.owl#alm_para_30	Operation
+http://treat.net/onto.owl#alm_para_31	Neighbor IP Address
+http://treat.net/onto.owl#alm_para_32	Resource Name
+http://treat.net/onto.owl#alm_para_33	table type
+http://treat.net/onto.owl#alm_para_34	Service IP
+http://treat.net/onto.owl#alm_para_35	NG-RAN Node ID
+http://treat.net/onto.owl#alm_para_36	Leap Second Difference from Reference Time
+http://treat.net/onto.owl#alm_para_37	Subsystem No.
+http://treat.net/onto.owl#alm_para_38	Local Router ID
+http://treat.net/onto.owl#alm_para_39	IP address for BS
+http://treat.net/onto.owl#alm_para_40	Tunnel Group Name
+http://treat.net/onto.owl#alm_para_41	Address Pool Type
+http://treat.net/onto.owl#alm_para_42	Local Geographical Redundancy Instance Id
+http://treat.net/onto.owl#alm_para_43	NG-RAN IP Address 2
+http://treat.net/onto.owl#alm_para_44	Instance Name
+http://treat.net/onto.owl#alm_para_45	Indicates the container ID.
+http://treat.net/onto.owl#alm_para_46	eNodeB Type
+http://treat.net/onto.owl#alm_para_47	Cell ID
+http://treat.net/onto.owl#alm_para_48	Pod name
+http://treat.net/onto.owl#alm_para_49	MVNO Identity
+http://treat.net/onto.owl#alm_para_50	Measurement entity name
+http://treat.net/onto.owl#alm_para_51	CBC index
+http://treat.net/onto.owl#alm_para_52	Network indicator
+http://treat.net/onto.owl#alm_para_53	Session Name
+http://treat.net/onto.owl#alm_para_54	Number of Faulty ETCD Instances
+http://treat.net/onto.owl#alm_para_55	Plugin_name
+http://treat.net/onto.owl#alm_para_56	Security Traffic Type
+http://treat.net/onto.owl#alm_para_57	Peer IP address
 http://treat.net/onto.owl#alm_para_58	Resource Sub Type
-http://treat.net/onto.owl#alm_para_59	CG Type not Configured
-http://treat.net/onto.owl#alm_para_60	eNodeB ID
-http://treat.net/onto.owl#alm_para_61	Network indicator
-http://treat.net/onto.owl#alm_para_62	Certificate Name
-http://treat.net/onto.owl#alm_para_63	ResID
-http://treat.net/onto.owl#alm_para_64	Isolated Service Name
-http://treat.net/onto.owl#alm_para_65	Link Type
-http://treat.net/onto.owl#alm_para_66	eNodeB Id
-http://treat.net/onto.owl#alm_para_67	Non-Broadcast TAI
-http://treat.net/onto.owl#alm_para_68	Measurement entity name
-http://treat.net/onto.owl#alm_para_69	Mobile Country Code
-http://treat.net/onto.owl#alm_para_70	Partition Name
-http://treat.net/onto.owl#alm_para_71	Signaling point code
-http://treat.net/onto.owl#alm_para_72	Source IP Address
-http://treat.net/onto.owl#alm_para_73	NSEI
-http://treat.net/onto.owl#alm_para_74	Local IP Address
-http://treat.net/onto.owl#alm_para_75	CG IP
-http://treat.net/onto.owl#alm_para_76	Indicates the cause for the alarm: the pseudo activation function is enabled.
-http://treat.net/onto.owl#alm_para_77	Interface IP Address
-http://treat.net/onto.owl#alm_para_78	Configuration Error Type
-http://treat.net/onto.owl#alm_para_79	RU Group Name
-http://treat.net/onto.owl#alm_para_80	User Name
-http://treat.net/onto.owl#alm_para_81	Process Id
-http://treat.net/onto.owl#alm_para_82	Path Interface Type
-http://treat.net/onto.owl#alm_para_83	processid
-http://treat.net/onto.owl#alm_para_84	Interface type
-http://treat.net/onto.owl#alm_para_85	LSP Protocol
-http://treat.net/onto.owl#alm_para_86	VNFC Identity
-http://treat.net/onto.owl#alm_para_87	Description of Failure
-http://treat.net/onto.owl#alm_para_88	CS Name
-http://treat.net/onto.owl#alm_para_89	Host IP
-http://treat.net/onto.owl#alm_para_90	CG port
-http://treat.net/onto.owl#alm_para_91	Remote Resource Name
-http://treat.net/onto.owl#alm_para_92	TAI
-http://treat.net/onto.owl#alm_para_93	Invalid cause
-http://treat.net/onto.owl#alm_para_94	GSN Port
-http://treat.net/onto.owl#alm_para_95	Subsystem No.
-http://treat.net/onto.owl#alm_para_96	Protocol version
-http://treat.net/onto.owl#alm_para_97	CDR Type
-http://treat.net/onto.owl#alm_para_98	Cell Name
-http://treat.net/onto.owl#alm_para_99	License file name
-http://treat.net/onto.owl#alm_para_100	Command Name
-http://treat.net/onto.owl#alm_para_101	Local IPAddress
-http://treat.net/onto.owl#alm_para_102	E-SMLC ID
-http://treat.net/onto.owl#alm_para_103	Local RU Name
-http://treat.net/onto.owl#alm_para_104	Service Channel ID
-http://treat.net/onto.owl#alm_para_105	Channel name
-http://treat.net/onto.owl#alm_para_106	Local IP
-http://treat.net/onto.owl#alm_para_107	Threshold rule name
-http://treat.net/onto.owl#alm_para_108	NodeIP
-http://treat.net/onto.owl#alm_para_109	App ID
-http://treat.net/onto.owl#alm_para_110	Inconsistent Type
-http://treat.net/onto.owl#alm_para_111	VLR No.
-http://treat.net/onto.owl#alm_para_112	CSLB VNFC ID
-http://treat.net/onto.owl#alm_para_113	NG-RAN ID
-http://treat.net/onto.owl#alm_para_114	Certificate type
-http://treat.net/onto.owl#alm_para_115	Service_pod_name
-http://treat.net/onto.owl#alm_para_116	Peer Sub IP
-http://treat.net/onto.owl#alm_para_117	Isolated Version
-http://treat.net/onto.owl#alm_para_118	RU Name
-http://treat.net/onto.owl#alm_para_119	Dest port
-http://treat.net/onto.owl#alm_para_120	Instance IP Address
-http://treat.net/onto.owl#alm_para_121	Peer Sub IP address
-http://treat.net/onto.owl#alm_para_122	Weak Algorithm
-http://treat.net/onto.owl#alm_para_123	Details Save Path
-http://treat.net/onto.owl#alm_para_124	flow direction
-http://treat.net/onto.owl#alm_para_125	Operation
-http://treat.net/onto.owl#alm_para_126	Distribution task identifier
-http://treat.net/onto.owl#alm_para_127	NFType
-http://treat.net/onto.owl#alm_para_128	Fault Resource
-http://treat.net/onto.owl#alm_para_129	RADIUS server IP address
-http://treat.net/onto.owl#alm_para_130	Neighbor Router ID
-http://treat.net/onto.owl#alm_para_131	Feature Name
-http://treat.net/onto.owl#alm_para_132	DRA host name
-http://treat.net/onto.owl#alm_para_133	Application
-http://treat.net/onto.owl#alm_para_134	Link Index
-http://treat.net/onto.owl#alm_para_135	File name of abnormal CDRs
-http://treat.net/onto.owl#alm_para_136	Process number of the same type
-http://treat.net/onto.owl#alm_para_137	VM Name
-http://treat.net/onto.owl#alm_para_138	Local Geographical Redundancy Instance ID
-http://treat.net/onto.owl#alm_para_139	Local Discriminator
-http://treat.net/onto.owl#alm_para_140	Package Name
-http://treat.net/onto.owl#alm_para_141	UDM Information
-http://treat.net/onto.owl#alm_para_142	VpnName
-http://treat.net/onto.owl#alm_para_143	Remote RU Name
-http://treat.net/onto.owl#alm_para_144	Process ID
-http://treat.net/onto.owl#alm_para_145	Load Balance Resource Type
-http://treat.net/onto.owl#alm_para_146	Peer Id
-http://treat.net/onto.owl#alm_para_147	Pod ID
-http://treat.net/onto.owl#alm_para_148	IP Type
-http://treat.net/onto.owl#alm_para_149	Risk Information
-http://treat.net/onto.owl#alm_para_150	Consumer_ip
-http://treat.net/onto.owl#alm_para_151	Peer port
-http://treat.net/onto.owl#alm_para_152	DB_name
-http://treat.net/onto.owl#alm_para_153	Geographical Redundancy Group Id
-http://treat.net/onto.owl#alm_para_154	Peer IP
-http://treat.net/onto.owl#alm_para_155	Remote_service_name
-http://treat.net/onto.owl#alm_para_156	DNS Client IP
-http://treat.net/onto.owl#alm_para_157	Flow Control Message Type
-http://treat.net/onto.owl#alm_para_158	Local Cluster ID
-http://treat.net/onto.owl#alm_para_159	LocalAddr
-http://treat.net/onto.owl#alm_para_160	Diameter index
-http://treat.net/onto.owl#alm_para_161	Process No.
-http://treat.net/onto.owl#alm_para_162	Container Type
-http://treat.net/onto.owl#alm_para_163	Alarm recover threshold
-http://treat.net/onto.owl#alm_para_164	Location Info
-http://treat.net/onto.owl#alm_para_165	Provider_name
-http://treat.net/onto.owl#alm_para_166	Free Space
-http://treat.net/onto.owl#alm_para_167	Isolated Pod Name
-http://treat.net/onto.owl#alm_para_168	NF Type
-http://treat.net/onto.owl#alm_para_169	Service_ip
-http://treat.net/onto.owl#alm_para_170	License Resource
-http://treat.net/onto.owl#alm_para_171	Node Name
-http://treat.net/onto.owl#alm_para_172	link id
-http://treat.net/onto.owl#alm_para_173	Suppression Type
-http://treat.net/onto.owl#alm_para_174	Measurement Specification
-http://treat.net/onto.owl#alm_para_175	Configured GPS-UTC Leap Second Difference
-http://treat.net/onto.owl#alm_para_176	Direction of Fixed-flow control
-http://treat.net/onto.owl#alm_para_177	Request Message Type
-http://treat.net/onto.owl#alm_para_178	NF Instance ID
-http://treat.net/onto.owl#alm_para_179	CDR file backuped unsuccessfully
-http://treat.net/onto.owl#alm_para_180	Fault Reason
-http://treat.net/onto.owl#alm_para_181	Resource Unit
-http://treat.net/onto.owl#alm_para_182	RU ID
-http://treat.net/onto.owl#alm_para_183	IP Address/Port No.
-http://treat.net/onto.owl#alm_para_184	Flow Control Package ID
-http://treat.net/onto.owl#alm_para_185	Interface Instance ID
-http://treat.net/onto.owl#alm_para_186	Cell ID
-http://treat.net/onto.owl#alm_para_187	Number of Faulty ETCD Instances
-http://treat.net/onto.owl#alm_para_188	Resource Process Type
-http://treat.net/onto.owl#alm_para_189	Instance host name
-http://treat.net/onto.owl#alm_para_190	IE
-http://treat.net/onto.owl#alm_para_191	Local IP address
-http://treat.net/onto.owl#alm_para_192	Affected Resources
-http://treat.net/onto.owl#alm_para_193	Local Sub IP address
-http://treat.net/onto.owl#alm_para_194	Resource type
-http://treat.net/onto.owl#alm_para_195	Pod Name
-http://treat.net/onto.owl#alm_para_196	Resource Type
-http://treat.net/onto.owl#alm_para_197	Destination Pod Name
-http://treat.net/onto.owl#alm_para_198	Local IP port
-http://treat.net/onto.owl#alm_para_199	MPLS Resource Type
-http://treat.net/onto.owl#alm_para_200	ALARM Reason ID
-http://treat.net/onto.owl#alm_para_201	APP ID
-http://treat.net/onto.owl#alm_para_202	VPN Instance Name
-http://treat.net/onto.owl#alm_para_203	NG-RAN IP Address 1
-http://treat.net/onto.owl#alm_para_204	eNodeB Code
-http://treat.net/onto.owl#alm_para_205	Leap Second Difference from Reference Time
-http://treat.net/onto.owl#alm_para_206	DNS Server IP
-http://treat.net/onto.owl#alm_para_207	Business Unit
-http://treat.net/onto.owl#alm_para_208	Destination IP address
-http://treat.net/onto.owl#alm_para_209	NFInstanceID
-http://treat.net/onto.owl#alm_para_210	GSN IP address
-http://treat.net/onto.owl#alm_para_211	File name
-http://treat.net/onto.owl#alm_para_212	Session Name
-http://treat.net/onto.owl#alm_para_213	Process Type
-http://treat.net/onto.owl#alm_para_214	MVNO Identity
-http://treat.net/onto.owl#alm_para_215	Peer entity host name
-http://treat.net/onto.owl#alm_para_216	Remote_service_pod
-http://treat.net/onto.owl#alm_para_217	Object Type
-http://treat.net/onto.owl#alm_para_218	Peer Cluster ID
-http://treat.net/onto.owl#alm_para_219	Account Name
-http://treat.net/onto.owl#alm_para_220	IP address for BS
-http://treat.net/onto.owl#alm_para_221	Plugin Type
-http://treat.net/onto.owl#alm_para_222	Backup channel list
-http://treat.net/onto.owl#alm_para_223	Alarm Reason
-http://treat.net/onto.owl#alm_para_224	Ga Local Port
-http://treat.net/onto.owl#alm_para_225	Mobile network code
-http://treat.net/onto.owl#alm_para_226	Distributed channel list
-http://treat.net/onto.owl#alm_para_227	Dest IP
-http://treat.net/onto.owl#alm_para_228	Procedure
-http://treat.net/onto.owl#alm_para_229	Mobile country code
-http://treat.net/onto.owl#alm_para_230	Name of format engine package
-http://treat.net/onto.owl#alm_para_231	Neighbor IP Address
-http://treat.net/onto.owl#alm_para_232	Node IP address
-http://treat.net/onto.owl#alm_para_233	3GPP AAA Server Name
-http://treat.net/onto.owl#alm_para_234	Tracking Area Code
-http://treat.net/onto.owl#alm_para_235	VPN
-http://treat.net/onto.owl#alm_para_236	IP Address of the Remote Session
-http://treat.net/onto.owl#alm_para_237	Service ID
-http://treat.net/onto.owl#alm_para_238	Threshold rule
-http://treat.net/onto.owl#alm_para_239	Service Name
-http://treat.net/onto.owl#alm_para_240	Report Server Access Point Port No.
-http://treat.net/onto.owl#alm_para_241	CPU occupation rate
-http://treat.net/onto.owl#alm_para_242	Isolated Transport
-http://treat.net/onto.owl#alm_para_243	H-SFN Reference Time
-http://treat.net/onto.owl#alm_para_244	Pod name
-http://treat.net/onto.owl#alm_para_245	NG-RAN IP Address 2
-http://treat.net/onto.owl#alm_para_246	Number of Flow-Controlled Links
-http://treat.net/onto.owl#alm_para_247	Peer RU Name
-http://treat.net/onto.owl#alm_para_248	Local NFType
-http://treat.net/onto.owl#alm_para_249	Cluster ID
-http://treat.net/onto.owl#alm_para_250	Consumer_name
-http://treat.net/onto.owl#alm_para_251	VNRS VNFC ID
-http://treat.net/onto.owl#alm_para_252	Number of Remaining Traffic Peaks Allowed
-http://treat.net/onto.owl#alm_para_253	Interface Name
-http://treat.net/onto.owl#alm_para_254	Mobile Network Code
-http://treat.net/onto.owl#alm_para_255	Peer element
-http://treat.net/onto.owl#alm_para_256	MCC MNC
-http://treat.net/onto.owl#alm_para_257	Plane ID
-http://treat.net/onto.owl#alm_para_258	Service_name
-http://treat.net/onto.owl#alm_para_259	CG Port No.
-http://treat.net/onto.owl#alm_para_260	Link Number
-http://treat.net/onto.owl#alm_para_261	InfoStr
-http://treat.net/onto.owl#alm_para_262	Peer IP Address
-http://treat.net/onto.owl#alm_para_263	Direction
-http://treat.net/onto.owl#alm_para_264	DNS LNK Type
-http://treat.net/onto.owl#alm_para_265	Resource Item
-http://treat.net/onto.owl#alm_para_266	Module number
-http://treat.net/onto.owl#alm_para_267	Control Item Name
-http://treat.net/onto.owl#alm_para_268	Peer Geographical Redundancy Instance Id
-http://treat.net/onto.owl#alm_para_269	Security Protocol Number
-http://treat.net/onto.owl#alm_para_270	Resource Unit Name
-http://treat.net/onto.owl#alm_para_271	Cached File Size
-http://treat.net/onto.owl#alm_para_272	CG IP address
-http://treat.net/onto.owl#alm_para_273	NG-RAN Type
-http://treat.net/onto.owl#alm_para_274	Cache Threshold
-http://treat.net/onto.owl#alm_para_275	OPC
-http://treat.net/onto.owl#alm_para_276	CG Protocol
-http://treat.net/onto.owl#alm_para_277	DPC
-http://treat.net/onto.owl#alm_para_278	table type
-http://treat.net/onto.owl#alm_para_279	Server IP
-http://treat.net/onto.owl#alm_para_280	alarm type
-http://treat.net/onto.owl#alm_para_281	Local Interface Name
-http://treat.net/onto.owl#alm_para_282	Source IP
-http://treat.net/onto.owl#alm_para_283	Local Port No.
-http://treat.net/onto.owl#alm_para_284	Interface Type
-http://treat.net/onto.owl#alm_para_285	Threshold(GB)
-http://treat.net/onto.owl#alm_para_286	Number of Links
-http://treat.net/onto.owl#alm_para_287	Local Geographical Redundancy Instance Id
-http://treat.net/onto.owl#alm_para_288	PCRF host name
-http://treat.net/onto.owl#alm_para_289	Local Interface Index
-http://treat.net/onto.owl#alm_para_290	NTP Server
-http://treat.net/onto.owl#alm_para_291	OSPF Area ID
-http://treat.net/onto.owl#alm_para_292	Indicates the container ID.
-http://treat.net/onto.owl#alm_para_293	Local IP Address 1
-http://treat.net/onto.owl#alm_para_294	IP address of third-party server
-http://treat.net/onto.owl#alm_para_295	IPv6 Address
-http://treat.net/onto.owl#alm_para_296	PartitionName
-http://treat.net/onto.owl#alm_para_297	Local entity index
-http://treat.net/onto.owl#alm_para_298	OSPF Process ID
-http://treat.net/onto.owl#alm_para_299	Peer IP address
-http://treat.net/onto.owl#alm_para_300	Isolated App Id
-http://treat.net/onto.owl#alm_para_301	Local Process ID
-http://treat.net/onto.owl#alm_para_302	Partition name
-http://treat.net/onto.owl#alm_para_303	Protocol Type
-http://treat.net/onto.owl#alm_para_304	Link No.
-http://treat.net/onto.owl#alm_para_305	Cache Path
-http://treat.net/onto.owl#alm_para_306	Possible cause
-http://treat.net/onto.owl#alm_para_307	Source port
-http://treat.net/onto.owl#alm_para_308	Remote IP Address
-http://treat.net/onto.owl#alm_para_309	UPF Instance Name
-http://treat.net/onto.owl#alm_para_310	Local port
-http://treat.net/onto.owl#alm_para_311	Alarm threshold
-http://treat.net/onto.owl#alm_para_312	NG-RAN Port
-http://treat.net/onto.owl#alm_para_313	Destination IP Address
-http://treat.net/onto.owl#alm_para_314	Initiator
-http://treat.net/onto.owl#alm_para_315	APN
-http://treat.net/onto.owl#alm_para_316	Password Status
-http://treat.net/onto.owl#alm_para_317	Domain flag
-http://treat.net/onto.owl#alm_para_318	System Time
-http://treat.net/onto.owl#alm_para_319	OSPFv3 Instance ID
-http://treat.net/onto.owl#alm_para_320	Report Server Name
-http://treat.net/onto.owl#alm_para_321	Local Port
-http://treat.net/onto.owl#alm_para_322	Resource Name
-http://treat.net/onto.owl#alm_para_323	Peer Service Instance Id
-http://treat.net/onto.owl#alm_para_324	OCS name
-http://treat.net/onto.owl#alm_para_325	Service Version
-http://treat.net/onto.owl#alm_para_326	Service IP
-http://treat.net/onto.owl#alm_para_327	Peer Name
-http://treat.net/onto.owl#alm_para_328	linkset id
-http://treat.net/onto.owl#alm_para_329	Destination entity code
-http://treat.net/onto.owl#alm_para_330	Role
-http://treat.net/onto.owl#alm_para_331	PeerAddr
-http://treat.net/onto.owl#alm_para_332	Cluster Node Name
-http://treat.net/onto.owl#alm_para_333	Office Identification
-http://treat.net/onto.owl#alm_para_334	VPN Name
-http://treat.net/onto.owl#alm_para_335	Path Interface type
-http://treat.net/onto.owl#alm_para_336	OPC Index
-http://treat.net/onto.owl#alm_para_337	Peer Geographical Redundancy Instance ID
-http://treat.net/onto.owl#alm_para_338	Software Type
-http://treat.net/onto.owl#alm_para_339	Faulty Link
-http://treat.net/onto.owl#alm_para_340	Software Package Version
-http://treat.net/onto.owl#alm_para_341	Local LSR ID
-http://treat.net/onto.owl#alm_para_342	Address Family
-http://treat.net/onto.owl#alm_para_343	Remaining times for enabling emergency license
-http://treat.net/onto.owl#alm_para_344	Backup task identifier
-http://treat.net/onto.owl#alm_para_345	Reason
-http://treat.net/onto.owl#alm_para_346	MME Code of Redundancy USN
-http://treat.net/onto.owl#alm_para_347	Plugin_name
-http://treat.net/onto.owl#alm_para_348	Measurement object class name
-http://treat.net/onto.owl#alm_para_349	Instance Name
-http://treat.net/onto.owl#alm_para_350	Port Name
-http://treat.net/onto.owl#alm_para_351	Database
-http://treat.net/onto.owl#alm_para_352	Indicates the port name.
-http://treat.net/onto.owl#alm_para_353	IP Address
-http://treat.net/onto.owl#alm_para_354	Resource Name or RU Name
-http://treat.net/onto.owl#alm_para_355	Node IP
+http://treat.net/onto.owl#alm_para_59	Alarm Generation Threshold
+http://treat.net/onto.owl#alm_para_60	3GPP AAA Server Name
+http://treat.net/onto.owl#alm_para_61	NF Type
+http://treat.net/onto.owl#alm_para_62	APP ID
+http://treat.net/onto.owl#alm_para_63	Certificate Name
+http://treat.net/onto.owl#alm_para_64	Peer IP
+http://treat.net/onto.owl#alm_para_65	Feature Name
+http://treat.net/onto.owl#alm_para_66	Source IP
+http://treat.net/onto.owl#alm_para_67	Isolated Pod Name
+http://treat.net/onto.owl#alm_para_68	MCC
+http://treat.net/onto.owl#alm_para_69	MPLS Resource Type
+http://treat.net/onto.owl#alm_para_70	Software Package Version
+http://treat.net/onto.owl#alm_para_71	Remote Resource Name
+http://treat.net/onto.owl#alm_para_72	Source Pod Name
+http://treat.net/onto.owl#alm_para_73	Channel name
+http://treat.net/onto.owl#alm_para_74	Application
+http://treat.net/onto.owl#alm_para_75	NG-RAN ID
+http://treat.net/onto.owl#alm_para_76	Command Name
+http://treat.net/onto.owl#alm_para_77	Diameter index
+http://treat.net/onto.owl#alm_para_78	Path Interface Type
+http://treat.net/onto.owl#alm_para_79	Interface type
+http://treat.net/onto.owl#alm_para_80	Remaining times for enabling emergency license
+http://treat.net/onto.owl#alm_para_81	Database
+http://treat.net/onto.owl#alm_para_82	Number of Flow-Controlled Links
+http://treat.net/onto.owl#alm_para_83	Plugin Type
+http://treat.net/onto.owl#alm_para_84	Mobile country code
+http://treat.net/onto.owl#alm_para_85	Report Server Access Point Port No.
+http://treat.net/onto.owl#alm_para_86	Cluster ID
+http://treat.net/onto.owl#alm_para_87	Peer entity host name
+http://treat.net/onto.owl#alm_para_88	Local IP port
+http://treat.net/onto.owl#alm_para_89	Local RU Name
+http://treat.net/onto.owl#alm_para_90	User Name
+http://treat.net/onto.owl#alm_para_91	Direction
+http://treat.net/onto.owl#alm_para_92	RU Group Name
+http://treat.net/onto.owl#alm_para_93	link id
+http://treat.net/onto.owl#alm_para_94	Reason
+http://treat.net/onto.owl#alm_para_95	Resource Item
+http://treat.net/onto.owl#alm_para_96	Tracking Area Code
+http://treat.net/onto.owl#alm_para_97	DNS LNK Type
+http://treat.net/onto.owl#alm_para_98	Destination IP Address
+http://treat.net/onto.owl#alm_para_99	Consumer_name
+http://treat.net/onto.owl#alm_para_100	CDR Version Info.
+http://treat.net/onto.owl#alm_para_101	APN
+http://treat.net/onto.owl#alm_para_102	Office Identification
+http://treat.net/onto.owl#alm_para_103	CG Port No.
+http://treat.net/onto.owl#alm_para_104	VLR No.
+http://treat.net/onto.owl#alm_para_105	Resource Name or RU Name
+http://treat.net/onto.owl#alm_para_106	Failed App
+http://treat.net/onto.owl#alm_para_107	Peer port
+http://treat.net/onto.owl#alm_para_108	Local Port No.
+http://treat.net/onto.owl#alm_para_109	Free Space
+http://treat.net/onto.owl#alm_para_110	Indicates the cause for the alarm: the pseudo activation function is enabled.
+http://treat.net/onto.owl#alm_para_111	Inconsistent Type
+http://treat.net/onto.owl#alm_para_112	Fault Type
+http://treat.net/onto.owl#alm_para_113	NTP Server
+http://treat.net/onto.owl#alm_para_114	Plane ID
+http://treat.net/onto.owl#alm_para_115	RU ID
+http://treat.net/onto.owl#alm_para_116	Service Name
+http://treat.net/onto.owl#alm_para_117	Fault Resource
+http://treat.net/onto.owl#alm_para_118	MNC
+http://treat.net/onto.owl#alm_para_119	Peer Cluster ID
+http://treat.net/onto.owl#alm_para_120	File name of abnormal CDRs
+http://treat.net/onto.owl#alm_para_121	Local IPAddress
+http://treat.net/onto.owl#alm_para_122	Local IP Address
+http://treat.net/onto.owl#alm_para_123	Cell Name
+http://treat.net/onto.owl#alm_para_124	Cached File Size
+http://treat.net/onto.owl#alm_para_125	Pod Name
+http://treat.net/onto.owl#alm_para_126	Consumer_ip
+http://treat.net/onto.owl#alm_para_127	Flow Control Package ID
+http://treat.net/onto.owl#alm_para_128	Isolated Version
+http://treat.net/onto.owl#alm_para_129	UDM Information
+http://treat.net/onto.owl#alm_para_130	VPN Name
+http://treat.net/onto.owl#alm_para_131	linkset id
+http://treat.net/onto.owl#alm_para_132	Remote_service_pod
+http://treat.net/onto.owl#alm_para_133	MME Code of Redundancy USN
+http://treat.net/onto.owl#alm_para_134	Local IP
+http://treat.net/onto.owl#alm_para_135	Service_ip
+http://treat.net/onto.owl#alm_para_136	NFType
+http://treat.net/onto.owl#alm_para_137	Destination Pod Name
+http://treat.net/onto.owl#alm_para_138	IP Address/Port No.
+http://treat.net/onto.owl#alm_para_139	Peer Geographical Redundancy Instance Id
+http://treat.net/onto.owl#alm_para_140	Process Type
+http://treat.net/onto.owl#alm_para_141	OSPF Area ID
+http://treat.net/onto.owl#alm_para_142	Provider_name
+http://treat.net/onto.owl#alm_para_143	ResID
+http://treat.net/onto.owl#alm_para_144	Risk Information
+http://treat.net/onto.owl#alm_para_145	Backup channel list
+http://treat.net/onto.owl#alm_para_146	Invalid cause
+http://treat.net/onto.owl#alm_para_147	RU Name
+http://treat.net/onto.owl#alm_para_148	Process Id
+http://treat.net/onto.owl#alm_para_149	CG port
+http://treat.net/onto.owl#alm_para_150	Local Sub IP address
+http://treat.net/onto.owl#alm_para_151	Local IP address
+http://treat.net/onto.owl#alm_para_152	Destination IP address
+http://treat.net/onto.owl#alm_para_153	CDR file distributed unsuccessfully
+http://treat.net/onto.owl#alm_para_154	Location Info
+http://treat.net/onto.owl#alm_para_155	Mobile network code
+http://treat.net/onto.owl#alm_para_156	Service_pod_name
+http://treat.net/onto.owl#alm_para_157	Host IP
+http://treat.net/onto.owl#alm_para_158	E-SMLC ID
+http://treat.net/onto.owl#alm_para_159	Local NFType
+http://treat.net/onto.owl#alm_para_160	Protocol Type
+http://treat.net/onto.owl#alm_para_161	Node IP
+http://treat.net/onto.owl#alm_para_162	Non-Broadcast TAI
+http://treat.net/onto.owl#alm_para_163	Isolated Transport
+http://treat.net/onto.owl#alm_para_164	NG-RAN Port
+http://treat.net/onto.owl#alm_para_165	Peer Service Instance Id
+http://treat.net/onto.owl#alm_para_166	Load Balance Resource Type
+http://treat.net/onto.owl#alm_para_167	Channel ID
+http://treat.net/onto.owl#alm_para_168	Affected Resources
+http://treat.net/onto.owl#alm_para_169	Remote_service_name
+http://treat.net/onto.owl#alm_para_170	Local Interface Index
+http://treat.net/onto.owl#alm_para_171	VPNName
+http://treat.net/onto.owl#alm_para_172	eNodeB ID type
+http://treat.net/onto.owl#alm_para_173	NG-RAN IP Address 1
+http://treat.net/onto.owl#alm_para_174	DNS Server IP
+http://treat.net/onto.owl#alm_para_175	System Time
+http://treat.net/onto.owl#alm_para_176	Sub Address Family
+http://treat.net/onto.owl#alm_para_177	Link Number
+http://treat.net/onto.owl#alm_para_178	Password Status
+http://treat.net/onto.owl#alm_para_179	Protocol version
+http://treat.net/onto.owl#alm_para_180	Port Name
+http://treat.net/onto.owl#alm_para_181	Object Type
+http://treat.net/onto.owl#alm_para_182	Path Interface type
+http://treat.net/onto.owl#alm_para_183	Local Process No.
+http://treat.net/onto.owl#alm_para_184	Peer Id
+http://treat.net/onto.owl#alm_para_185	Local Interface Name
+http://treat.net/onto.owl#alm_para_186	Request Message Type
+http://treat.net/onto.owl#alm_para_187	Address Family
+http://treat.net/onto.owl#alm_para_188	TAI
+http://treat.net/onto.owl#alm_para_189	Distribution task identifier
+http://treat.net/onto.owl#alm_para_190	App id
+http://treat.net/onto.owl#alm_para_191	Configured GPS-UTC Leap Second Difference
+http://treat.net/onto.owl#alm_para_192	Link Index
+http://treat.net/onto.owl#alm_para_193	Peer IP Address
+http://treat.net/onto.owl#alm_para_194	IPv6 Address
+http://treat.net/onto.owl#alm_para_195	Node Name
+http://treat.net/onto.owl#alm_para_196	Path Version
+http://treat.net/onto.owl#alm_para_197	Report Server Access Point IP Address
+http://treat.net/onto.owl#alm_para_198	Cluster Name
+http://treat.net/onto.owl#alm_para_199	Measurement Specification
+http://treat.net/onto.owl#alm_para_200	Peer RU Name
+http://treat.net/onto.owl#alm_para_201	Threshold rule
+http://treat.net/onto.owl#alm_para_202	alarm type
+http://treat.net/onto.owl#alm_para_203	Resource Unit
+http://treat.net/onto.owl#alm_para_204	Local IP Address 2
+http://treat.net/onto.owl#alm_para_205	Faulty Link
+http://treat.net/onto.owl#alm_para_206	APPID
+http://treat.net/onto.owl#alm_para_207	Certificate name
+http://treat.net/onto.owl#alm_para_208	DB_name
+http://treat.net/onto.owl#alm_para_209	Local port
+http://treat.net/onto.owl#alm_para_210	License Resource
+http://treat.net/onto.owl#alm_para_211	LSP Protocol
+http://treat.net/onto.owl#alm_para_212	Peer Port No.
+http://treat.net/onto.owl#alm_para_213	Instance IP Address
+http://treat.net/onto.owl#alm_para_214	VNFC Identity
+http://treat.net/onto.owl#alm_para_215	Cache Threshold
+http://treat.net/onto.owl#alm_para_216	Node information list
+http://treat.net/onto.owl#alm_para_217	Number of Links
+http://treat.net/onto.owl#alm_para_218	Local IP Address 1
+http://treat.net/onto.owl#alm_para_219	Alarm threshold
+http://treat.net/onto.owl#alm_para_220	MCC MNC
+http://treat.net/onto.owl#alm_para_221	Partition name
+http://treat.net/onto.owl#alm_para_222	Threshold(GB)
+http://treat.net/onto.owl#alm_para_223	Business Unit
+http://treat.net/onto.owl#alm_para_224	NodeIP
+http://treat.net/onto.owl#alm_para_225	Service Type
+http://treat.net/onto.owl#alm_para_226	Service Channel ID
+http://treat.net/onto.owl#alm_para_227	Name of format engine package
+http://treat.net/onto.owl#alm_para_228	Local Cluster ID
+http://treat.net/onto.owl#alm_para_229	OPC Index
+http://treat.net/onto.owl#alm_para_230	Remote_service_ip
+http://treat.net/onto.owl#alm_para_231	CS Name
+http://treat.net/onto.owl#alm_para_232	Initiator
+http://treat.net/onto.owl#alm_para_233	PeerAddr
+http://treat.net/onto.owl#alm_para_234	Process type
+http://treat.net/onto.owl#alm_para_235	Service Version
+http://treat.net/onto.owl#alm_para_236	Local Geographical Redundancy Instance ID
+http://treat.net/onto.owl#alm_para_237	IP address of third-party server
+http://treat.net/onto.owl#alm_para_238	Configuration Error Type
+http://treat.net/onto.owl#alm_para_239	Cache Path
+http://treat.net/onto.owl#alm_para_240	Domain flag
+http://treat.net/onto.owl#alm_para_241	eNodeB Id
+http://treat.net/onto.owl#alm_para_242	Isolated App Id
+http://treat.net/onto.owl#alm_para_243	Isolated Service Name
+http://treat.net/onto.owl#alm_para_244	DPC
+http://treat.net/onto.owl#alm_para_245	Report Server Name
+http://treat.net/onto.owl#alm_para_246	CG IP address
+http://treat.net/onto.owl#alm_para_247	Container Type
+http://treat.net/onto.owl#alm_para_248	Certificate type
+http://treat.net/onto.owl#alm_para_249	Neighbor Router ID
+http://treat.net/onto.owl#alm_para_250	VNFC Type
+http://treat.net/onto.owl#alm_para_251	NF Instance ID
+http://treat.net/onto.owl#alm_para_252	Geographical Redundancy Group ID
+http://treat.net/onto.owl#alm_para_253	Interface Type
+http://treat.net/onto.owl#alm_para_254	Interface Instance ID
+http://treat.net/onto.owl#alm_para_255	Remote RU Name
+http://treat.net/onto.owl#alm_para_256	Local Port
+http://treat.net/onto.owl#alm_para_257	eNodeB ID
+http://treat.net/onto.owl#alm_para_258	Current Threshold
+http://treat.net/onto.owl#alm_para_259	Package Name
+http://treat.net/onto.owl#alm_para_260	Process No.
+http://treat.net/onto.owl#alm_para_261	Fault Reason
+http://treat.net/onto.owl#alm_para_262	Alarm EventType
+http://treat.net/onto.owl#alm_para_263	DNS Client IP
+http://treat.net/onto.owl#alm_para_264	Security Protocol Number
+http://treat.net/onto.owl#alm_para_265	GSN IP address
+http://treat.net/onto.owl#alm_para_266	Details Save Path
+http://treat.net/onto.owl#alm_para_267	CG Protocol
+http://treat.net/onto.owl#alm_para_268	Mobile Network Code
+http://treat.net/onto.owl#alm_para_269	Number of Remaining Traffic Peaks Allowed
+http://treat.net/onto.owl#alm_para_270	eNodeB Code
+http://treat.net/onto.owl#alm_para_271	flow direction
+http://treat.net/onto.owl#alm_para_272	Signaling point code
+http://treat.net/onto.owl#alm_para_273	Resource Process ID
+http://treat.net/onto.owl#alm_para_274	Partition Name
+http://treat.net/onto.owl#alm_para_275	Microservice Type
+http://treat.net/onto.owl#alm_para_276	Server IP
+http://treat.net/onto.owl#alm_para_277	Resource Unit Name
+http://treat.net/onto.owl#alm_para_278	NG-RAN Type
+http://treat.net/onto.owl#alm_para_279	Source IP Address
+http://treat.net/onto.owl#alm_para_280	Process number of the same type
+http://treat.net/onto.owl#alm_para_281	Direction of Fixed-flow control
+http://treat.net/onto.owl#alm_para_282	Route index
+http://treat.net/onto.owl#alm_para_283	IP Type
+http://treat.net/onto.owl#alm_para_284	Distributed channel list
+http://treat.net/onto.owl#alm_para_285	File name
+http://treat.net/onto.owl#alm_para_286	Backup task identifier
+http://treat.net/onto.owl#alm_para_287	Service ID
+http://treat.net/onto.owl#alm_para_288	Local entity index
+http://treat.net/onto.owl#alm_para_289	Node IP address
+http://treat.net/onto.owl#alm_para_290	CG IP
+http://treat.net/onto.owl#alm_para_291	IE
+http://treat.net/onto.owl#alm_para_292	Dest port
+http://treat.net/onto.owl#alm_para_293	OPC
+http://treat.net/onto.owl#alm_para_294	OCS name
+http://treat.net/onto.owl#alm_para_295	FailCause
+http://treat.net/onto.owl#alm_para_296	Pod ID
+http://treat.net/onto.owl#alm_para_297	Interface IP Address
+http://treat.net/onto.owl#alm_para_298	VM Name
+http://treat.net/onto.owl#alm_para_299	Resource Process Type
+http://treat.net/onto.owl#alm_para_300	Local LSR ID
+http://treat.net/onto.owl#alm_para_301	AlmCause
+http://treat.net/onto.owl#alm_para_302	RADIUS server IP address
+http://treat.net/onto.owl#alm_para_303	Weak Algorithm
+http://treat.net/onto.owl#alm_para_304	Alarm recover threshold
+http://treat.net/onto.owl#alm_para_305	Cause
+http://treat.net/onto.owl#alm_para_306	Dest IP
+http://treat.net/onto.owl#alm_para_307	Process ID
+http://treat.net/onto.owl#alm_para_308	Average Packet Error Rate(%)
+http://treat.net/onto.owl#alm_para_309	OSPFv3 Instance ID
+http://treat.net/onto.owl#alm_para_310	Peer Port
+http://treat.net/onto.owl#alm_para_311	VpnName
+http://treat.net/onto.owl#alm_para_312	Flow Control Message Type
+http://treat.net/onto.owl#alm_para_313	GSN Port
+http://treat.net/onto.owl#alm_para_314	Alarm Clearance Threshold
+http://treat.net/onto.owl#alm_para_315	REASON
+http://treat.net/onto.owl#alm_para_316	Module number
+http://treat.net/onto.owl#alm_para_317	CSLB VNFC ID
+http://treat.net/onto.owl#alm_para_318	NSEI
+http://treat.net/onto.owl#alm_para_319	Channel path
+http://treat.net/onto.owl#alm_para_320	Instance host name
+http://treat.net/onto.owl#alm_para_321	MME Group ID of Redundancy USN
+http://treat.net/onto.owl#alm_para_322	Source port
+http://treat.net/onto.owl#alm_para_323	Cluster Node Name
+http://treat.net/onto.owl#alm_para_324	Role
+http://treat.net/onto.owl#alm_para_325	Service_name
+http://treat.net/onto.owl#alm_para_326	Measurement object class name
+http://treat.net/onto.owl#alm_para_327	Remote IP port
+http://treat.net/onto.owl#alm_para_328	IP Address of the Remote Session
+http://treat.net/onto.owl#alm_para_329	Indicates the port name.
+http://treat.net/onto.owl#alm_para_330	Account Name
+http://treat.net/onto.owl#alm_para_331	processid
+http://treat.net/onto.owl#alm_para_332	Geographical Redundancy Group Id
+http://treat.net/onto.owl#alm_para_333	ALARM Reason ID
+http://treat.net/onto.owl#alm_para_334	H-SFN Reference Time
+http://treat.net/onto.owl#alm_para_335	Resource Type
+http://treat.net/onto.owl#alm_para_336	Possible cause
+http://treat.net/onto.owl#alm_para_337	Threshold rule name
+http://treat.net/onto.owl#alm_para_338	Segment Type
+http://treat.net/onto.owl#alm_para_339	Appling service name
+http://treat.net/onto.owl#alm_para_340	Alarm Reason
+http://treat.net/onto.owl#alm_para_341	Mobile Country Code
+http://treat.net/onto.owl#alm_para_342	Peer element
+http://treat.net/onto.owl#alm_para_343	Link Type
+http://treat.net/onto.owl#alm_para_344	OSPF Process ID
+http://treat.net/onto.owl#alm_para_345	NFInstanceID
+http://treat.net/onto.owl#alm_para_346	UPF Instance Name
+http://treat.net/onto.owl#alm_para_347	Peer Name
+http://treat.net/onto.owl#alm_para_348	CDR Type
+http://treat.net/onto.owl#alm_para_349	DRA host name
+http://treat.net/onto.owl#alm_para_350	Interface Name
+http://treat.net/onto.owl#alm_para_351	InfoStr
+http://treat.net/onto.owl#alm_para_352	CG Type not Configured
+http://treat.net/onto.owl#alm_para_353	Remote IP Address
+http://treat.net/onto.owl#alm_para_354	VPN Instance Name
+http://treat.net/onto.owl#alm_para_355	Inter-AMF Flow Control Message Type
 http://treat.net/onto.owl#alm_3451	ALM-3451
 http://treat.net/onto.owl#alm_5117	ALM-5117
 http://treat.net/onto.owl#alm_5213	ALM-5213

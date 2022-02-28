@@ -8,10 +8,10 @@ public class Main {
         String task = System.getProperty("task", "TBoxScanner");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/less_tbox.ttl");
-        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
-//        String schema_file = System.getProperty("schema", "../../resources/treat/tbox.nt");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "");
-        String output_dir = System.getProperty("output_dir", "output/");
+        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/tbox_patterns");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/treat/");
         String abox_file = System.getProperty("abox", "");

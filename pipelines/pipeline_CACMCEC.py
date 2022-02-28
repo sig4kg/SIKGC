@@ -18,7 +18,7 @@ def cacmcec(work_dir, input_dir, schema_file, tbox_patterns_dir,
         init_c2, extend_c2, nc2, nv2, ncc2 = M_block(context_resource, work_dir)
         init_c1, extend_c1, nc1, nv1, ncc1 = EC_block(context_resource,
                                                       abox_scanner_scheduler,
-                                                      work_dir + "E/",
+                                                      work_dir,
                                                       epoch=epoch,
                                                       use_gpu=use_gpu)
         scores.append(get_scores(init_c1, extend_c3, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3))

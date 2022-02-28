@@ -165,7 +165,7 @@ if __name__ == "__main__":
     parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
     parser.add_argument('--pipeline', type=str, default="cecmcac")
-    parser.add_argument('--use_gpu', type=bool, default=False)
+    parser.add_argument('--use_gpu', type=bool, default=True)
     parser.add_argument('--loops', type=int, default=3)
     args = parser.parse_args()
     producers(dataset=args.dataset,

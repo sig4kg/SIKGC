@@ -9,7 +9,7 @@ def cacmcec(work_dir, input_dir, schema_file, tbox_patterns_dir,
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
                                                                tbox_patterns_dir=tbox_patterns_dir)
     # prepare_M(work_dir, schema_file)
-    prepare_blp(input_dir, work_dir + "L/")
+    # prepare_blp(input_dir, work_dir + "L/")
     scores = []
     for ep in trange(loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
         init_c3, extend_c3, nc3, nv3, ncc3 = anyBURL_C_block(context_resource,

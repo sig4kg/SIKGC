@@ -45,7 +45,7 @@ class ExpConfig:
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
         self.inductive = False
         self.literal_model = "fasttext"
-        self.e_max_epoch = 500
+        self.e_max_epoch = 200
         self.l_max_epoch = 50
 
     def setDBpedia(self):

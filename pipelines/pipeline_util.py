@@ -232,7 +232,7 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     ex.run(config_updates={'work_dir': work_dir,
                            'dataset': 'treat',
                            'inductive': inductive,
-                           "do_downstream_sample": True,
+                           "do_downstream_sample": False,
                            'max_epochs': epoch,
                            'model': model})
     wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)

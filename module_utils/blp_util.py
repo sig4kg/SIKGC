@@ -62,8 +62,7 @@ def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=
         sample_train.to_csv(osp.join(work_dir, f'train.tsv'), header=False, index=False, sep='\t')
         sample_dev.to_csv(osp.join(work_dir, f'dev.tsv'), header=False, index=False, sep='\t')
         if len(exclude_rels) > 0:
-            excludes = [context_resource.rel2id[i] for i in exclude_rels if i in context_resource.rel2id]
-            df_test = df.query("not rel in @excludes")
+            df_test = df.query("not rel in @exclude_rels")
             df_test.to_csv(f"{work_dir}test.tsv", header=False, index=False, sep='\t')
         else:
             os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")

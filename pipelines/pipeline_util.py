@@ -97,9 +97,8 @@ def prepare_M(work_dir, schema_file):
 
 
 def EC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir, epoch=50,
-             use_gpu=False):
-    context_2_hrt_transE(work_dir, context_resource)
-    run_scripts.gen_pred_transE(work_dir)
+             use_gpu=False, exclude_rels=[]):
+    context_2_hrt_transE(work_dir, context_resource, exclude_rels=exclude_rels)
     wait_until_train_pred_data_ready(work_dir)
 
     # 1.train transE
@@ -223,11 +222,11 @@ def M_block(context_resource: ContextResources, work_dir):
 def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
              work_dir,
              inductive=False,
-             model="transductive", epoch=50):
+             model="transductive", epoch=50, exclude_rels=[]):
     hrt_int_df_2_hrt_blp(context_resource, work_dir,
                          triples_only=False)  # generate all_triples.tsv, entities.txt, relations.txt\
     wait_until_file_is_saved(work_dir + "all_triples.tsv")
-    split_all_triples(work_dir, inductive=inductive)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
+    split_all_triples(work_dir, inductive=inductive, exclude_rels=exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
     wait_until_blp_data_ready(work_dir, inductive=inductive)
     # 1. run blp
     ex.run(config_updates={'work_dir': work_dir,
@@ -272,11 +271,11 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     return train_count, extend_count, new_count, new_valid_count, new_correct_count
 
 
-def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir):
+def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir, exclude_rels=[]):
     mk_dir(work_dir)
     hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
     prepare_anyburl_configs(work_dir)
-    split_all_triples_anyburl(work_dir)
+    split_all_triples_anyburl(work_dir, exclude_rels=exclude_rels)
     wait_until_anyburl_data_ready(work_dir)
     print("running anyBURL...")
     run_scripts.run_anyburl(work_dir)

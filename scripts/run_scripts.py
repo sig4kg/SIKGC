@@ -86,13 +86,6 @@ def mk_dir(dir):
     os.system(f'[ ! -d "{dir}" ] && mkdir {dir}')
 
 
-def gen_pred_transE(work_dir):
-    wait_until_file_is_saved(f"{work_dir}train/train2id.txt", 60)
-    os.system(f"cp {work_dir}train/train2id.txt {work_dir}train/test2id.txt")
-    os.system(f"cp ../resources/NELL-995/type_constrain.txt {work_dir}train/type_constrain.txt")
-    os.system(f"cp {work_dir}train/train2id.txt {work_dir}train/valid2id.txt")
-
-
 def prepare_blp(source_dir, work_dir):
     os.system(f"cp {source_dir}entity2text.txt {work_dir}entity2text.txt")
     os.system(f"cp {source_dir}entity2longtext.txt {work_dir}entity2longtext.txt")

@@ -28,6 +28,7 @@ class ExpConfig:
         self.literal_model = "blp"
         self.e_max_epoch = 2
         self.l_max_epoch = 2
+        self.exclude_rels = []
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"
@@ -38,6 +39,7 @@ class ExpConfig:
         # self.rel_model = "transE"
         self.e_max_epoch = 100
         self.l_max_epoch = 50
+        self.exclude_rels = []
 
     def setTREAT(self):
         self.input_dir = "../resources/TREAT/"
@@ -47,6 +49,13 @@ class ExpConfig:
         self.literal_model = "fasttext"
         self.e_max_epoch = 100
         self.l_max_epoch = 50
+        self.prefix = "http://treat.net/onto.owl#"
+        self.exclude_rels = [self.prefix + "has_parameter",
+                             self.prefix + "has_property",
+                             self.prefix + "log",
+                             self.prefix + "category",
+                             self.prefix + "has_additional_info",
+                             self.prefix + "sbi_mapping"]
 
     def setDBpedia(self):
         pass
@@ -73,7 +82,8 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                              input_dir=conf.input_dir,
                              schema_file=conf.schema_file,
                              loops=loops,
-                             tbox_patterns_dir=conf.tbox_patterns_dir)
+                             tbox_patterns_dir=conf.tbox_patterns_dir,
+                             exclude_rels=conf.exclude_rels)
     elif pipeline == "cec":
         print("CEC pipeline")
         scores = c_e_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
@@ -109,6 +119,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          inductive=conf.inductive,
                          epoch=conf.l_max_epoch,
                          loops=loops,
+                         exclude_rels=conf.exclude_rels,
                          model=conf.literal_model)
     elif pipeline == "cacmclc":
         print("cacmclc pipeline")
@@ -119,6 +130,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          inductive=conf.inductive,
                          epoch=conf.l_max_epoch,
                          loops=loops,
+                         exclude_rels=conf.exclude_rels,
                          model=conf.literal_model)
     elif pipeline == "cacmcec":
         print("cacmcec pipeline")
@@ -128,6 +140,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          tbox_patterns_dir=conf.tbox_patterns_dir,
                          epoch=conf.e_max_epoch,
                          loops=loops,
+                         exclude_rels=conf.exclude_rels,
                          use_gpu=use_gpu)
     elif pipeline == "cecmcac":
         print("cecmcac pipeline")
@@ -137,6 +150,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          tbox_patterns_dir=conf.tbox_patterns_dir,
                          epoch=conf.e_max_epoch,
                          loops=loops,
+                         exclude_rels=conf.exclude_rels,
                          use_gpu=use_gpu)
     elif pipeline == "cecmcrc":
         print("cecmcrc pipeline")

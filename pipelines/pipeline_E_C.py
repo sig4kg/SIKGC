@@ -7,7 +7,6 @@ def e_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1, use_gp
 
     context_2_hrt_transE(work_dir, context_resource)
     train_count = len(context_resource.hrt_int_df.index)
-    run_scripts.gen_pred_transE(work_dir)
     wait_until_train_pred_data_ready(work_dir)
 
     # 1.train transE

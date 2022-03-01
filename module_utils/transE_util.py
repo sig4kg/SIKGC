@@ -38,7 +38,8 @@ def context_2_hrt_transE(work_dir, context_resources: ContextResources, exclude_
     df2_train[['head', 'tail', 'rel']].to_csv(work_dir + "train/train2id.txt", header=False, index=False, sep='\t')
     wait_until_file_is_saved(work_dir + "train/train2id.txt", 60)
     if len(exclude_rels) > 0:
-        df_test = context_resources.hrt_int_df.query("not rel in @exclude_rels")
+        excludes = [context_resources.rel2id[i] for i in exclude_rels if i in context_resources.rel2id]
+        df_test = context_resources.hrt_int_df.query("not rel in @excludes")
         count_line = pd.DataFrame(data=[[len(df_test.index), '', '']], columns=['head', 'rel', 'tail'])
         df_test = pd.concat([count_line, df_test], 0)
         df_test[['head', 'tail', 'rel']].to_csv(f"{work_dir}train/test2id.txt", header=False, index=False, sep='\t')
@@ -49,7 +50,7 @@ def context_2_hrt_transE(work_dir, context_resources: ContextResources, exclude_
 
 
 def wait_until_train_pred_data_ready(work_dir):
-    os.system(f"[ -f {work_dir}type_constrain.txt ] && mv {work_dir}type_constrain.txt {work_dir}train/")
+    os.system(f"[ -f {work_dir}type_constrain.txt ] && cp {work_dir}type_constrain.txt {work_dir}train/")
     wait_until_file_is_saved(work_dir + "train/valid2id.txt", 60)
     wait_until_file_is_saved(work_dir + "train/type_constrain.txt", 60)
     wait_until_file_is_saved(work_dir + "train/entity2id.txt", 60)

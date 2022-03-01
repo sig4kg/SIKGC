@@ -49,6 +49,7 @@ def context_2_hrt_transE(work_dir, context_resources: ContextResources, exclude_
 
 
 def wait_until_train_pred_data_ready(work_dir):
+    os.system(f"[ -f {work_dir}type_constrain.txt ] && mv {work_dir}type_constrain.txt {work_dir}train/")
     wait_until_file_is_saved(work_dir + "train/valid2id.txt", 60)
     wait_until_file_is_saved(work_dir + "train/type_constrain.txt", 60)
     wait_until_file_is_saved(work_dir + "train/entity2id.txt", 60)

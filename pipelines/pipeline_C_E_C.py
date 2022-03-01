@@ -13,7 +13,7 @@ def c_e_c(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1, epoch=2,
                                                                               abox_scanner_scheduler,
                                                                               work_dir,
                                                                               epoch=epoch,
-                                                                              exclude_rels=exclude_rels,
+                                                                              exclude_rels=[],
                                                                               use_gpu=use_gpu)
         scores_dict = get_scores(init_c1, extend_c1, new_count, new_valid_count, new_correct_count)
         scores.append(scores_dict)

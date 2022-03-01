@@ -35,13 +35,13 @@ def context_2_hrt_transE(work_dir, context_resources: ContextResources, exclude_
     count = len(context_resources.hrt_int_df)
     first_line_df = pd.DataFrame(data=[[count, '', '']], columns=['head', 'rel', 'tail'])
     df2_train = pd.concat([first_line_df, context_resources.hrt_int_df], 0)
-    df2_train.to_csv(work_dir + "train/train2id.txt", header=False, index=False, sep='\t')
+    df2_train[['head', 'tail', 'rel']].to_csv(work_dir + "train/train2id.txt", header=False, index=False, sep='\t')
     wait_until_file_is_saved(work_dir + "train/train2id.txt", 60)
     if len(exclude_rels) > 0:
         df_test = context_resources.hrt_int_df.query("not rel in @exclude_rels")
         count_line = pd.DataFrame(data=[[len(df_test.index), '', '']], columns=['head', 'rel', 'tail'])
         df_test = pd.concat([count_line, df_test], 0)
-        df_test.to_csv(f"{work_dir}train/test2id.txt", header=False, index=False, sep='\t')
+        df_test[['head', 'tail', 'rel']].to_csv(f"{work_dir}train/test2id.txt", header=False, index=False, sep='\t')
     else:
         os.system(f"cp {work_dir}train/train2id.txt {work_dir}train/test2id.txt")
     wait_until_file_is_saved(work_dir + "train/test2id.txt", 60)

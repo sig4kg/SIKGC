@@ -92,6 +92,7 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                        tbox_patterns_dir=conf.tbox_patterns_dir,
                        loops=loops,
                        epoch=conf.e_max_epoch,
+                       exclude_rels=conf.exclude_rels,
                        use_gpu=use_gpu)
     elif pipeline == "clc":
         print("CLC pipeline")
@@ -102,6 +103,7 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                        inductive=conf.inductive,
                        epoch=conf.l_max_epoch,
                        loops=loops,
+                       exclude_rels=conf.exclude_rels,
                        model=conf.literal_model)
     elif pipeline == "crc":
         print("CRC pipeline")

@@ -111,7 +111,8 @@ class AboxScannerScheduler:
         if len(valids) > 0:
             valids = valids.astype(int)
         valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
-        print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids))}; valids count {str(len(valids))}")
+        print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids.index))}; valids count {str(len(valids.index))}")
+        print(f"consistency ratio: {str(len(valids.index) / len(df.index))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
         return valids, invalids
@@ -125,12 +126,16 @@ class AboxScannerScheduler:
         start_time = datetime.datetime.now()
         df = self._context_resources.hrt_to_scan_df
         df['correct'] = True
+        init_correct = len(df.query("correct == False"))
         for scanner in self._schema_correct_strategies:
             print("Scanning schema pattern: " + str(type(scanner)))
             scanner.scan_pattern_df_rel(df)
-
+            total_correct = len(df.query("is_valid == False"))
+            print(f"{str(type(scanner))} identified incorrect triples count: {str(total_correct - init_correct)}")
+            init_correct = total_correct
         total_correct = len(df.query("correct==True"))
         print(f"identified schema correct triples count: {str(total_correct)}")
+        print(f"correctness ratio: {str(total_correct / len(df.index))}")
         out_path = Path(work_dir)
         if not out_path.parent.exists():
             out_path.parent.mkdir(exist_ok=False)

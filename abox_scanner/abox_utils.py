@@ -127,9 +127,12 @@ def entid2classid(ent2id, class2id, ent2type_file):
         lines = f.readlines()
         for l in lines:
             items = l.strip().split('\t')
-            ent = items[0]
-            classes = items[1].split(';')
-            ent2classes.update({ent: classes})
+            if len(items) < 2:
+                ent2classes.update({items[0]: ""})
+            else:
+                ent = items[0]
+                classes = items[1].split(';')
+                ent2classes.update({ent: classes})
     entid2classids = dict()
     for ent in tqdm(ent2id, desc="reading entity classes..."):
         concept_int = []

@@ -328,7 +328,7 @@ def eval_and_get_score(model,
     for i, data in enumerate(triples_loader):
         # if max_num_batches is not None and i == max_num_batches:
         #     break
-        if len(data) < 3:
+        if len(data) > 3:
             break
         pos_pairs, rels, neg_idx = data
         tmp_id2entid = pos_pairs.flatten().to(device)

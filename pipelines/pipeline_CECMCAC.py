@@ -20,8 +20,10 @@ def cecmcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
         init_c3, extend_c3, nc3, nv3, ncc3 = anyBURL_C_block(context_resource,
                                                              abox_scanner_scheduler,
                                                              work_dir + "A/")
-        scores.append(get_scores(init_c1, extend_c3, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3))
+        s = get_scores(init_c1, extend_c3, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3)
+        scores.append(s)
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
+    return scores
 
 
 

@@ -69,14 +69,14 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
     scores = []
     if pipeline == "cac":
         print("CRC pipeline")
-        scores = c_anyburl_c(work_dir=work_dir + f"cac_{dataset}/",
+        scores = c_anyburl_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
                              input_dir=conf.input_dir,
                              schema_file=conf.schema_file,
                              loops=loops,
                              tbox_patterns_dir=conf.tbox_patterns_dir)
     elif pipeline == "cec":
         print("CEC pipeline")
-        scores = c_e_c(work_dir=work_dir + f"cec_{dataset}/",
+        scores = c_e_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
                        input_dir=conf.input_dir,
                        schema_file=conf.schema_file,
                        tbox_patterns_dir=conf.tbox_patterns_dir,
@@ -85,7 +85,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                        use_gpu=use_gpu)
     elif pipeline == "clc":
         print("CLC pipeline")
-        scores = c_l_c(work_dir=work_dir + f"clc_{dataset}/",
+        scores = c_l_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
                        input_dir=conf.input_dir,
                        schema_file=conf.schema_file,
                        tbox_patterns_dir=conf.tbox_patterns_dir,
@@ -95,14 +95,14 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                        model=conf.literal_model)
     elif pipeline == "crc":
         print("CRC pipeline")
-        scores = c_rumis_c(work_dir=work_dir + f"crc_{dataset}/",
+        scores = c_rumis_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
                            input_dir=conf.input_dir,
                            schema_file=conf.schema_file,
                            loops=loops,
                            tbox_patterns_dir=conf.tbox_patterns_dir)
     elif pipeline == "clcmcac":
         print("clcmcac pipeline")
-        scores = clcmcac(work_dir=work_dir + f"clc_{dataset}/",
+        scores = clcmcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,
@@ -112,7 +112,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          model=conf.literal_model)
     elif pipeline == "cacmclc":
         print("cacmclc pipeline")
-        scores = cacmclc(work_dir=work_dir + f"clc_{dataset}/",
+        scores = cacmclc(work_dir=work_dir + f"{pipeline}_{dataset}/",
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,
@@ -122,7 +122,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          model=conf.literal_model)
     elif pipeline == "cacmcec":
         print("cacmcec pipeline")
-        scores = cacmcec(work_dir=work_dir + f"clc_{dataset}/",
+        scores = cacmcec(work_dir=work_dir + f"{pipeline}_{dataset}/",
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,
@@ -131,7 +131,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          use_gpu=use_gpu)
     elif pipeline == "cecmcac":
         print("cecmcac pipeline")
-        scores = cecmcac(work_dir=work_dir + f"clc_{dataset}/",
+        scores = cecmcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,
@@ -140,7 +140,7 @@ def producers(dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=
                          use_gpu=use_gpu)
     elif pipeline == "cecmcrc":
         print("cecmcrc pipeline")
-        scores = cecmcrc(work_dir=work_dir + f"clc_{dataset}/",
+        scores = cecmcrc(work_dir=work_dir + f"{pipeline}_{dataset}/",
                          input_dir=conf.input_dir,
                          schema_file=conf.schema_file,
                          tbox_patterns_dir=conf.tbox_patterns_dir,
@@ -163,10 +163,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
     parser.add_argument('--dataset', type=str, default="TREAT")
-    parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="cecmcac")
-    parser.add_argument('--use_gpu', type=bool, default=True)
-    parser.add_argument('--loops', type=int, default=3)
+    parser.add_argument('--work_dir', type=str, default="../outputs/TREAT/")
+    parser.add_argument('--pipeline', type=str, default="cac")
+    parser.add_argument('--use_gpu', type=bool, default=False)
+    parser.add_argument('--loops', type=int, default=2)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,

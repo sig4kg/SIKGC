@@ -22,6 +22,8 @@ def cacmclc(work_dir, input_dir, schema_file, tbox_patterns_dir,
                                                       inductive=inductive,
                                                       epoch=epoch,
                                                       model=model)
-        scores.append(get_scores(init_c1, extend_c3, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3))
+        s = get_scores(init_c1, extend_c3, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3)
+        scores.append(s)
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
+    return scores
 

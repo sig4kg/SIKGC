@@ -44,7 +44,7 @@ def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
     wait_until_file_is_saved(anyburl_dir + "all_triples.txt")
 
 
-def split_all_triples_anyburl(anyburl_dir, exclude_rels=[]):
+def split_all_triples_anyburl(context_resource, anyburl_dir, exclude_rels=[]):
     df = read_hrt_2_df(anyburl_dir + "all_triples.txt")
     rels = df['rel'].drop_duplicates(keep='first')
     count_dev = int(len(df) * 0.1 if len(rels) < len(df) * 0.1 else len(rels))
@@ -61,7 +61,8 @@ def split_all_triples_anyburl(anyburl_dir, exclude_rels=[]):
     sample_train.to_csv(osp.join(anyburl_dir, f'train.txt'), header=False, index=False, sep='\t')
     sample_dev.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
     if len(exclude_rels) > 0:
-        df_test = df.query("not rel in @exclude_rels")
+        excludes = [context_resource.rel2id[i] for i in exclude_rels if i in context_resource.rel2id]
+        df_test = df.query("not rel in @excludes")
         df_test.to_csv(osp.join(anyburl_dir, f'test.txt'), header=False, index=False, sep='\t')
     else:
         os.system(f"cp {anyburl_dir}all_triples.txt {anyburl_dir}test.txt")

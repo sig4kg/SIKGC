@@ -40,7 +40,7 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
             out_f.close()
 
 
-def split_all_triples(work_dir, inductive=False, exclude_rels=[]):
+def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=[]):
     if inductive:
         drop_entities(work_dir + "all_triples.tsv", train_size=0.9, valid_size=0.1, test_size=0,
                       seed=0)
@@ -62,7 +62,8 @@ def split_all_triples(work_dir, inductive=False, exclude_rels=[]):
         sample_train.to_csv(osp.join(work_dir, f'train.tsv'), header=False, index=False, sep='\t')
         sample_dev.to_csv(osp.join(work_dir, f'dev.tsv'), header=False, index=False, sep='\t')
         if len(exclude_rels) > 0:
-            df_test = df.query("not rel in @exclude_rels")
+            excludes = [context_resource.rel2id[i] for i in exclude_rels if i in context_resource.rel2id]
+            df_test = df.query("not rel in @excludes")
             df_test.to_csv(f"{work_dir}test.tsv", header=False, index=False, sep='\t')
         else:
             os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")

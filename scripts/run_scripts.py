@@ -22,10 +22,10 @@ def run_anyburl(work_dir):
     os.system('../scripts/run_anyburl.sh ' + work_dir)
     wait_until_file_is_saved(work_dir + "/rules/alpha-100", 60)
     print("Predicting via AnyBURL...")
-    os.system(f"java -Xmx3G -cp {work_dir}/AnyBURL-JUNO.jar de.unima.ki.anyburl.Apply {work_dir}/config-apply.properties")
+    os.system(f"java -Xmx10G -cp {work_dir}/AnyBURL-JUNO.jar de.unima.ki.anyburl.Apply {work_dir}/config-apply.properties")
     wait_until_file_is_saved(work_dir + "/predictions/alpha-100_plog", 60)
     print("Evaluating AnyBURL...")
-    os.system(f"java -Xmx3G -cp {work_dir}/AnyBURL-JUNO.jar de.unima.ki.anyburl.Eval {work_dir}/config-eval.properties")
+    os.system(f"java -Xmx10G -cp {work_dir}/AnyBURL-JUNO.jar de.unima.ki.anyburl.Eval {work_dir}/config-eval.properties")
 
 
 

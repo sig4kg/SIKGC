@@ -590,10 +590,12 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         graph.add_weighted_edges_from(all_triples.tolist())
 
         train_ent = set(train_data.entities.tolist())
-        train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
-        train_val_test_ent = set(test_data.entities.tolist()).union(train_val_ent)
-        val_new_ents = train_val_ent.difference(train_ent)
-        test_new_ents = train_val_test_ent.difference(train_val_ent)
+        # train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
+        # train_val_test_ent = set(test_data.entities.tolist()).union(train_val_ent)
+        # val_new_ents = train_val_ent.difference(train_ent)
+        # test_new_ents = train_val_test_ent.difference(train_val_ent)
+        train_val_ent = set(valid_data.entities.tolist())
+        train_val_test_ent = set(test_data.entities.tolist())
     else:
         graph = None
         train_ent = set(train_data.entities.tolist())

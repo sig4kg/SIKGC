@@ -52,6 +52,7 @@ class ExpConfig:
         self.prefix = "http://treat.net/onto.owl#"
         self.exclude_rels = [self.prefix + "has_parameter",
                              self.prefix + "has_property",
+                             self.prefix + "alarm_source",
                              self.prefix + "log",
                              self.prefix + "category",
                              self.prefix + "has_additional_info",

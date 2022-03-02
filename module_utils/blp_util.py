@@ -70,7 +70,6 @@ def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=
 
 def prepare_blp(source_dir, work_dir):
     mk_dir(work_dir)
-    os.system(f"[ -f {source_dir}entity2text.txt ] && rm {work_dir}all_triples.tsv")
     os.system(f"[ -f {source_dir}entity2text.txt ] && cp {source_dir}entity2text.txt {work_dir}entity2text.txt")
     os.system(f"[ -f {source_dir}relation2text.txt ] && cp {source_dir}relation2text.txt {work_dir}relation2text.txt")
     os.system(f"[ -f {source_dir}entity2type.txt ] && cp {source_dir}entity2type.txt {work_dir}entity2type.txt")

@@ -573,7 +573,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                               collate_fn=train_data.collate_fn,
                               num_workers=0, drop_last=True)
 
-    train_eval_loader = DataLoader(train_data, eval_batch_size)
+    # train_eval_loader = DataLoader(train_data, eval_batch_size)
 
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
     valid_loader = DataLoader(valid_data, eval_batch_size)

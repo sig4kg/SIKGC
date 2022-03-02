@@ -41,13 +41,15 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
 
 
 def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=[]):
+    df = read_hrt_2_df(work_dir + "all_triples.tsv")
+    rels = df['rel'].drop_duplicates(keep='first')
+    rate = len(rels) * 3 / len(df.index)
+    rate = rate if rate < 0.1 else 0.1
     if inductive:
-        drop_entities(work_dir + "all_triples.tsv", train_size=0.9, valid_size=0.1, test_size=0,
+        drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
                       seed=0)
         os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
     else:
-        df = read_hrt_2_df(work_dir + "all_triples.tsv")
-        rels = df['rel'].drop_duplicates(keep='first')
         count_dev = 500 if len(rels) < 500 else len(rels)
         sample_dev = df.groupby('rel').sample(n=1)
         if len(sample_dev) < count_dev:

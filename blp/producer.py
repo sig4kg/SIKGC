@@ -19,10 +19,11 @@ from data import GraphDataset, TextGraphDataset, GloVeTokenizer
 import models
 import utils
 import pandas as pd
+import sacred
 
 # OUT_PATH = 'output/'
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
+sacred.Experiment(..., save_git_info=False)
 ex = Experiment()
 ex.logger = utils.get_logger()
 # Set up database logs

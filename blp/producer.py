@@ -23,8 +23,7 @@ import sacred
 
 # OUT_PATH = 'output/'
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-sacred.Experiment(..., save_git_info=False)
-ex = Experiment()
+ex = Experiment(save_git_info=False)
 ex.logger = utils.get_logger()
 # Set up database logs
 uri = os.environ.get('DB_URI')

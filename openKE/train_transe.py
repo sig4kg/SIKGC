@@ -25,6 +25,9 @@ def train(in_path, epoch=500, use_gpu=False):
         p_norm=1,
         norm_flag=True)
 
+    chp = Path(in_path + '../checkpoint/transe.ckpt')
+    if chp.exists():
+        transe.load_checkpoint(in_path + '../checkpoint/transe.ckpt')
     # define the loss function
     model = NegativeSampling(
         model=transe,

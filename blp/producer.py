@@ -644,11 +644,11 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
         _run.log_scalar('train_loss', train_loss / len(train_loader), epoch)
 
-        if dataset != 'Wikidata5M':
-            _log.info('Evaluating on sample of training set')
-            eval_link_prediction(model, train_eval_loader, train_data, train_ent,
-                                 epoch, emb_batch_size, prefix='train',
-                                 max_num_batches=len(valid_loader))
+        # if dataset != 'Wikidata5M':
+        #     _log.info('Evaluating on sample of training set')
+        #     eval_link_prediction(model, train_eval_loader, train_data, train_ent,
+        #                          epoch, emb_batch_size, prefix='train',
+        #                          max_num_batches=len(valid_loader))
 
         _log.info('Evaluating on validation set')
         val_mrr, _ = eval_link_prediction(model, valid_loader, train_data,
@@ -664,19 +664,19 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     if max_epochs > 0:
         model.load_state_dict(torch.load(checkpoint_file))
 
-    if dataset == 'Wikidata5M':
-        graph = nx.MultiDiGraph()
-        graph.add_weighted_edges_from(valid_data.triples.tolist())
+    # if dataset == 'Wikidata5M':
+    #     graph = nx.MultiDiGraph()
+    #     graph.add_weighted_edges_from(valid_data.triples.tolist())
 
-    _log.info('Evaluating on validation set (with filtering)')
-    eval_link_prediction(model, valid_loader, train_data, train_val_ent,
-                         max_epochs + 1, emb_batch_size, prefix='valid',
-                         filtering_graph=graph,
-                         new_entities=val_new_ents)
+    # _log.info('Evaluating on validation set (with filtering)')
+    # eval_link_prediction(model, valid_loader, train_data, train_val_ent,
+    #                      max_epochs + 1, emb_batch_size, prefix='valid',
+    #                      filtering_graph=graph,
+    #                      new_entities=val_new_ents)
 
-    if dataset == 'Wikidata5M':
-        graph = nx.MultiDiGraph()
-        graph.add_weighted_edges_from(test_data.triples.tolist())
+    # if dataset == 'Wikidata5M':
+    #     graph = nx.MultiDiGraph()
+    #     graph.add_weighted_edges_from(test_data.triples.tolist())
 
     if do_downstream_sample:
         _log.info('get sample and score for Ricky...')

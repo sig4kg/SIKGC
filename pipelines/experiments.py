@@ -37,7 +37,7 @@ class ExpConfig:
         self.inductive = True
         self.literal_model = "blp"
         # self.rel_model = "transE"
-        self.e_max_epoch = 100
+        self.e_max_epoch = 500
         self.l_max_epoch = 50
         self.exclude_rels = []
 
@@ -47,7 +47,7 @@ class ExpConfig:
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
         self.inductive = False
         self.literal_model = "fasttext"
-        self.e_max_epoch = 100
+        self.e_max_epoch = 500
         self.l_max_epoch = 50
         self.prefix = "http://treat.net/onto.owl#"
         self.exclude_rels = [self.prefix + "has_parameter",

@@ -9,3 +9,7 @@
 **/__pycache__
 .DS_Store
 */**/*.iml
+*/**/run_*_n*.sh
+*/**?run_*_t*.sh
+*/**?run_*_d*.sh
+

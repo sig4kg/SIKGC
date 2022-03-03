@@ -68,7 +68,7 @@ def split_all_triples_anyburl(context_resource, anyburl_dir, exclude_rels=[]):
         df_test = df
     df_hr = df_test.drop_duplicates(['head', 'rel'], keep='first')
     df_rt = df_test.drop_duplicates(['rel', 'tail'], keep='first')
-    if len(df_hr.index) < len(df_rt.index):
+    if len(df_hr.index) > len(df_rt.index):
         df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
     else:
         df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)

@@ -48,9 +48,9 @@ def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=
     if inductive:
         drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
                       seed=0)
-        os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
+        # os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
     else:
-        count_dev = 500 if len(rels) < 500 else len(rels)
+        count_dev = 500 if len(rels.index) < 500 and len(df.index) > 1000 else len(rels)
         sample_dev = df.groupby('rel').sample(n=1)
         if len(sample_dev) < count_dev:
             diff_df = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
@@ -63,11 +63,25 @@ def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=
             sample_train = pd.concat([sample_train, filtered_tris])
         sample_train.to_csv(osp.join(work_dir, f'train.tsv'), header=False, index=False, sep='\t')
         sample_dev.to_csv(osp.join(work_dir, f'dev.tsv'), header=False, index=False, sep='\t')
-        if len(exclude_rels) > 0:
-            df_test = df.query("not rel in @exclude_rels")
-            df_test.to_csv(f"{work_dir}test.tsv", header=False, index=False, sep='\t')
-        else:
-            os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")
+        # if len(exclude_rels) > 0:
+        #     df_test = df.query("not rel in @exclude_rels")
+        #     df_test.to_csv(f"{work_dir}test.tsv", header=False, index=False, sep='\t')
+        # else:
+        #     os.system(f"cp {work_dir}all_triples.tsv {work_dir}test.tsv")
+    if len(exclude_rels) > 0:
+        df_test = df.query("not rel in @exclude_rels")
+    else:
+        df_test = df
+    df_hr = df_test.drop_duplicates(['head', 'rel'], keep='first')
+    df_rt = df_test.drop_duplicates(['rel', 'tail'], keep='first')
+    if len(df_hr.index) > len(df_rt.index):
+        df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
+    else:
+        df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
+    df_hr.to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t')
+    df_rt.to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t')
+    wait_until_file_is_saved(f'{work_dir}test_hr.tsv')
+    wait_until_file_is_saved(f'{work_dir}test_rt.tsv')
 
 
 def prepare_blp(source_dir, work_dir):

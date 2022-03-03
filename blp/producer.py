@@ -378,7 +378,8 @@ def eval_and_get_score(model,
 @ex.capture
 @torch.no_grad()
 def produce(model,
-            triples_loader,
+            triples_loader_hr,
+            triples_loader_rt,
             text_dataset,
             entities,
             emb_batch_size,
@@ -386,7 +387,6 @@ def produce(model,
             _log: Logger,
             return_embeddings=False,
             threshold=0):
-    # compute_filtered = filtering_graph is not None
     use_gpu = False
     if device != torch.device('cpu'):
         model = model.module
@@ -394,9 +394,6 @@ def produce(model,
 
     if isinstance(model, models.InductiveLinkPrediction):
         num_entities = entities.shape[0]
-        # if compute_filtered:
-        #     max_ent_id = max(filtering_graph.nodes)
-        # else:
         max_ent_id = entities.max()
         ent2idx = utils.make_ent2idx(entities, max_ent_id)
     else:
@@ -432,39 +429,50 @@ def produce(model,
             _log.info(f'[{idx + batch_ents.shape[0]:,}/{num_entities:,}]')
 
         idx += emb_batch_size
-
     ent_emb = ent_emb.unsqueeze(0)
-
-    batch_count = 0
-    # _log.info('Computing metrics on set of triples')
-    # total = len(triples_loader) if max_num_batches is None else max_num_batches
     produced_triples = None
-    # produced_triples_filtered = None
-
     k = 10
     entities = entities.to(device)
-    for i, triples in enumerate(triples_loader):
-        # if max_num_batches is not None and i == max_num_batches:
-        #     break
-
+    for i, triples in enumerate(triples_loader_hr):
         heads, tails, rels = torch.chunk(triples, chunks=3, dim=1)
         # Map entity IDs to positions in ent_emb
         heads = ent2idx[heads].to(device)
         tails = ent2idx[tails].to(device)
         rels = rels.to(device)
-
         assert heads.min() >= 0
         assert tails.min() >= 0
-
         # Embed triple
         head_embs = ent_emb.squeeze()[heads]
+        rel_embs = model.rel_emb(rels)
+        # Score all possible tails
+        tails_predictions = model.score_fn(head_embs, ent_emb, rel_embs)
+        scores_t, indices_t = tails_predictions.topk(k=k)
+        truth_t_index = (indices_t == tails).nonzero()
+        truth_score_t = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.).to(device)
+        truth_score_t_values = scores_t[(indices_t == tails).nonzero(as_tuple=True)]
+        truth_score_t.index_put_((truth_t_index[:, 0],), truth_score_t_values)
+        pred_idx_at_k = indices_t[:, :k]
+        pred_t_k_hit = torch.chunk(pred_idx_at_k, chunks=k, dim=1)  # each column is a list of hit for all triples
+        score_t_k = torch.chunk(scores_t, chunks=k, dim=1)
+        for column_index, t in enumerate(pred_t_k_hit):
+            filtered_indices = (truth_score_t <= score_t_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
+                as_tuple=True)
+            tmp_hrts = torch.cat([entities[heads], entities[rels], entities[t], score_t_k[column_index]], 1)
+            fitered_hrts = tmp_hrts[filtered_indices]
+            produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
+    for i, triples in enumerate(triples_loader_rt):
+        heads, tails, rels = torch.chunk(triples, chunks=3, dim=1)
+        # Map entity IDs to positions in ent_emb
+        heads = ent2idx[heads].to(device)
+        tails = ent2idx[tails].to(device)
+        rels = rels.to(device)
+        assert heads.min() >= 0
+        assert tails.min() >= 0
+        # Embed triple
         tail_embs = ent_emb.squeeze()[tails]
         rel_embs = model.rel_emb(rels)
-
         # Score all possible heads and tails
         heads_predictions = model.score_fn(ent_emb, tail_embs, rel_embs)
-        tails_predictions = model.score_fn(head_embs, ent_emb, rel_embs)
-
         scores_h, indices_h = heads_predictions.topk(k=k)
         truth_h_index = (indices_h == heads).nonzero()
         truth_score_h = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.).to(device)
@@ -480,45 +488,6 @@ def produce(model,
             tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1)
             fitered_hrts = tmp_hrts[filtered_indices]
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
-
-        scores_t, indices_t = tails_predictions.topk(k=k)
-        truth_t_index = (indices_t == tails).nonzero()
-        truth_score_t = torch.empty(triples.shape[0], dtype=torch.float32).fill_(-999.).to(device)
-        truth_score_t_values = scores_t[(indices_t == tails).nonzero(as_tuple=True)]
-        truth_score_t.index_put_((truth_t_index[:, 0],), truth_score_t_values)
-        pred_idx_at_k = indices_t[:, :k]
-        pred_t_k_hit = torch.chunk(pred_idx_at_k, chunks=k, dim=1)  # each column is a list of hit for all triples
-        score_t_k = torch.chunk(scores_t, chunks=k, dim=1)
-
-        for column_index, t in enumerate(pred_t_k_hit):
-            filtered_indices = (truth_score_t <= score_t_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
-                as_tuple=True)
-            tmp_hrts = torch.cat([entities[heads], entities[rels], entities[t], score_t_k[column_index]], 1)
-            fitered_hrts = tmp_hrts[filtered_indices]
-            produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
-
-        # if compute_filtered:
-        #     filters = utils.get_triple_filters(triples, filtering_graph,
-        #                                        num_entities, ent2idx)
-        #     heads_filter, tails_filter = filters
-        #
-        #     filter_mask_h = heads_filter.to(device)
-        #     heads_predictions[filter_mask_h] = heads_predictions.min() - 1.0
-        #     scores_h, indices_h = heads_predictions.topk(k=k)
-        #
-        #     pred_idx_at_k = indices_h[:, :k]
-        #     pred_h_k_hit = torch.chunk(pred_idx_at_k, chunks=k, dim=1)  # each column is a list of hit for all triples
-        #
-        #     for column_index, h  in enumerate(pred_h_k_hit):
-        #         filtered_indices = (
-        #                     truth_score <= score_h_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
-        #             as_tuple=True)
-        #         tmp_hrts = torch.cat([h, rels, tails, score_h_k[column_index]], 1)
-        #         fitered_hrts = tmp_hrts[filtered_indices]
-        #         produced_triples_filtered = fitered_hrts if produced_triples_filtered is None else torch.cat(
-        #             [produced_triples_filtered, fitered_hrts])
-
-        batch_count += 1
     # read to cpu and ready to output
     if use_gpu:
         produced_triples = produced_triples.cpu()
@@ -573,39 +542,41 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                               collate_fn=train_data.collate_fn,
                               num_workers=0, drop_last=True)
 
-    # train_eval_loader = DataLoader(train_data, eval_batch_size)
+    train_eval_loader = DataLoader(train_data, eval_batch_size)
 
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
     valid_loader = DataLoader(valid_data, eval_batch_size)
 
-    test_data = GraphDataset(f'{work_dir}{prefix}test.tsv')
-    test_loader = DataLoader(test_data, eval_batch_size)
+    test_data_hr = GraphDataset(f'{work_dir}test_hr.tsv')
+    test_loader_hr = DataLoader(test_data_hr, eval_batch_size)
+    test_data_rt = GraphDataset(f'{work_dir}test_rt.tsv')
+    test_loader_rt = DataLoader(test_data_rt, eval_batch_size)
 
     # Build graph with all triples to compute filtered metrics
-    if dataset != 'Wikidata5M':
-        graph = nx.MultiDiGraph()
-        all_triples = torch.cat((train_data.triples,
-                                 valid_data.triples,
-                                 test_data.triples))
-        graph.add_weighted_edges_from(all_triples.tolist())
+    # if dataset != 'Wikidata5M':
+    graph = nx.MultiDiGraph()
+    all_triples = torch.cat((train_data.triples,
+                             valid_data.triples,
+                             test_data_hr.triples,
+                             test_data_rt.triples))
+    graph.add_weighted_edges_from(all_triples.tolist())
 
-        train_ent = set(train_data.entities.tolist())
-        # train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
-        # train_val_test_ent = set(test_data.entities.tolist()).union(train_val_ent)
-        # val_new_ents = train_val_ent.difference(train_ent)
-        # test_new_ents = train_val_test_ent.difference(train_val_ent)
-        train_val_ent = set(valid_data.entities.tolist())
-        train_val_test_ent = set(test_data.entities.tolist())
-    else:
-        graph = None
-        train_ent = set(train_data.entities.tolist())
-        train_val_ent = set(valid_data.entities.tolist())
-        train_val_test_ent = set(test_data.entities.tolist())
-        val_new_ents = test_new_ents = None
+    train_ent = set(train_data.entities.tolist())
+    train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
+    train_val_test_ent = set(test_data_hr.entities.tolist()).union(train_val_ent)
+    train_val_test_ent = set(test_data_rt.entities.tolist()).union(train_val_test_ent)
+    # val_new_ents = train_val_ent.difference(train_ent)
+    # test_new_ents = train_val_test_ent.difference(train_val_ent)
+    # else:
+        # graph = None
+        # train_ent = set(train_data.entities.tolist())
+        # train_val_ent = set(valid_data.entities.tolist())
+        # train_val_test_ent = set(test_data.entities.tolist())
+        # val_new_ents = test_new_ents = None
 
     # _run.log_scalar('num_train_entities', len(train_ent))
 
-    train_ent = torch.tensor(list(train_ent))
+    # train_ent = torch.tensor(list(train_ent))
     train_val_ent = torch.tensor(list(train_val_ent))
     train_val_test_ent = torch.tensor(list(train_val_test_ent))
 
@@ -695,7 +666,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     if do_produce:
         _log.info('Produce new triples...')
         produced_triples_with_scores, ent_emb = produce(model=model,
-                                                        triples_loader=test_loader,
+                                                        triples_loader_hr=test_loader_hr,
+                                                        triples_loader_rt=test_loader_rt,
                                                         text_dataset=train_data,
                                                         entities=train_val_test_ent,
                                                         emb_batch_size=emb_batch_size,
@@ -710,10 +682,10 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         df_tris[['r']] = df_tris[['r']].applymap(lambda x: id2rel[x])  # to string
         df_tris[['h', 't']] = df_tris[['h', 't']].applymap(lambda x: id2entity[x])  # to string
         df_tris.to_csv(osp.join(work_dir, f'blp_new_triples.csv'), header=False, index=False, sep='\t', mode='a')
+        # torch.save(ent_emb, osp.join(work_dir, f'ent_emb-{_run._id}.pt'))
 
     # Save final entity embeddings obtained with trained encoder
-    torch.save(ent_emb, osp.join(work_dir, f'ent_emb-{_run._id}.pt'))
-    torch.save(train_val_test_ent, osp.join(work_dir, f'ents-{_run._id}.pt'))
+    # torch.save(train_val_test_ent, osp.join(work_dir, f'ents-{_run._id}.pt'))
 
 
 @ex.command

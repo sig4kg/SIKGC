@@ -74,6 +74,8 @@ def split_all_triples_anyburl(context_resource, anyburl_dir, exclude_rels=[]):
         df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
     df_hr.to_csv(osp.join(anyburl_dir, f'test_hr.txt'), header=False, index=False, sep='\t')
     df_rt.to_csv(osp.join(anyburl_dir, f'test_rt.txt'), header=False, index=False, sep='\t')
+    wait_until_file_is_saved(anyburl_dir+'test_hr.txt')
+    wait_until_file_is_saved(anyburl_dir+'test_rt.txt')
 
 
 def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
@@ -99,7 +101,7 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
 
 
 def clean_anyburl_tmp_files(anyburl_dir):
-    os.system(f"[ -d {anyburl_dir}predictions ] && rm -r {anyburl_dir}predictions")
+    os.system(f"[ -d {anyburl_dir}predictions ] && rm {anyburl_dir}predictions/*")
     os.system(f"[ -f {anyburl_dir}config-apply.properties ] && rm {anyburl_dir}config-apply.properties")
 
 def wait_until_anyburl_data_ready(anyburl_dir):

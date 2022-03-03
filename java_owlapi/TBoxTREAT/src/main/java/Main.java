@@ -5,7 +5,7 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "AllClass");
+        String task = System.getProperty("task", "DL-lite");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/less_tbox.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");

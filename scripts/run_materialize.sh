@@ -25,8 +25,8 @@ if [ ! -f "$WORK_DIR/TBoxTREAT-1.0.jar" ];then
 fi
 echo "Materializing abox and tbox..."
 if [ -f "$WORK_DIR/tbox_dllite.ttl" ];then
-  java -Dtask=Materialize -Dschema=tbox_dllite.ttl -Dabox=abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
+  java -Xmx15G -Dtask=Materialize -Dschema=tbox_dllite.ttl -Dabox=abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
 else
-  java -Dtask=Materialize -Dschema=tbox.nt -Dabox=abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
+  java -Xmx15G -Dtask=Materialize -Dschema=tbox.nt -Dabox=abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
 fi
 echo "Done with Materialization."

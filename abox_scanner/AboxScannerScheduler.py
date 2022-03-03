@@ -115,12 +115,6 @@ class AboxScannerScheduler:
         print(f"consistency ratio: {str(len(valids.index) / len(df.index))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
-        invalids[['head', 'tail']] = invalids[['head', 'tail']].applymap(lambda x: self._context_resources.id2ent[x])  # to int
-        invalids[['rel']] = invalids[['rel']].applymap(lambda x: self._context_resources.id2rel[x])
-        invalids.to_csv(f"{work_dir}schema_invalid_uri.txt", header=None, index=None, sep='\t', mode='a')
-        valids[['head', 'tail']] = valids[['head', 'tail']].applymap(lambda x: self._context_resources.id2ent[x])  # to int
-        valids[['rel']] = valids[['rel']].applymap(lambda x: self._context_resources.id2rel[x])
-        valids.to_csv(f"{work_dir}schema_valid_uri.txt", header=None, index=None, sep='\t', mode='a')
         return valids, invalids
 
     def scan_schema_correct_patterns(self, work_dir):
@@ -146,18 +140,10 @@ class AboxScannerScheduler:
         if not out_path.parent.exists():
             out_path.parent.mkdir(exist_ok=False)
         correct = df.query("correct == True")[['head', 'rel', 'tail']]
-        incorrect = df.query("correct == False")[['head', 'rel', 'tail']]
-        incorrect[['head', 'tail']] = incorrect[['head', 'tail']].applymap(lambda x: self._context_resources.id2ent[x])  # to int
-        incorrect[['rel']] = incorrect[['rel']].applymap(lambda x: self._context_resources.id2rel[x])
-        incorrect = incorrect.drop_duplicates(keep="first")
-        incorrect.to_csv(f"{work_dir}schema_incorrect_uri.txt", header=None, index=None, sep='\t', mode='a')
         correct = correct.drop_duplicates(keep="first")
         if len(correct) > 0:
             correct = correct.astype(int)
         correct.to_csv(f"{work_dir}schema_correct_hrt.txt", header=None, index=None, sep='\t', mode='a')
-        correct[['head', 'tail']] = correct[['head', 'tail']].applymap(lambda x: self._context_resources.id2ent[x])  # to int
-        correct[['rel']] = correct[['rel']].applymap(lambda x: self._context_resources.id2rel[x])
-        correct.to_csv(f"{work_dir}schema_correct_uri.txt", header=None, index=None, sep='\t', mode='a')
         print(f"scanned total count: {len(self._context_resources.hrt_to_scan_df)}; schema correct count: {str(len(correct))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         print(f"saving {work_dir}schema_correct_hrt.txt")

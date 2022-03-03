@@ -16,7 +16,7 @@ if [ ! -d "$LAST_ROUND" ];then
 fi
 
 [ -d "$WORK_DIR/predictions" ] && mv $WORK_DIR/predictions/* $LAST_ROUND
-[ -d "$WORK_DIR/rules" ] && mv $WORK_DIR/rules $LAST_ROUND
+[ -d "$WORK_DIR/rules" ] && mv $WORK_DIR/rules/* $LAST_ROUND
 [ -f "$WORK_DIR/invalid_hrt.txt" ] && mv $WORK_DIR/invalid_hrt.txt $LAST_ROUND
 [ -f "$WORK_DIR/valid_hrt.txt" ] && mv $WORK_DIR/valid_hrt.txt $LAST_ROUND
 [ -f "$WORK_DIR/all_triples.txt" ] && mv $WORK_DIR/all_triples.txt $LAST_ROUND

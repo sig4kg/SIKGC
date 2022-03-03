@@ -274,15 +274,26 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
 def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir, exclude_rels=[]):
     mk_dir(work_dir)
     hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
-    prepare_anyburl_configs(work_dir)
     split_all_triples_anyburl(context_resource, work_dir, exclude_rels=exclude_rels)
+    prepare_anyburl_configs(work_dir, pred_with='hr')
     wait_until_anyburl_data_ready(work_dir)
-    print("running anyBURL...")
-    run_scripts.run_anyburl(work_dir)
+    print("learning anyBURL...")
+    run_scripts.learn_anyburl(work_dir)
+    print("predicting with anyBURL...")
+    run_scripts.predict_with_anyburl(work_dir)
+    tmp_pred_hrt1 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource).drop_duplicates(
+        keep='first').reset_index(drop=True)
+    clean_anyburl_tmp_files(work_dir)
+    prepare_anyburl_configs(work_dir, pred_with='rt')
+    wait_until_anyburl_data_ready(work_dir)
+    print("predicting with anyBURL...")
+    run_scripts.predict_with_anyburl(work_dir)
     wait_until_file_is_saved(work_dir + "predictions/alpha-100", 60)
-
+    tmp_pred_hrt2 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource).drop_duplicates(
+        keep='first').reset_index(drop=True)
+    run_scripts.clean_anyburl(work_dir=work_dir)
     # consistency checking for new triples
-    pred_hrt_df = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource).drop_duplicates(
+    pred_hrt_df = pd.concat([tmp_pred_hrt1, tmp_pred_hrt2]).drop_duplicates(
         keep='first').reset_index(drop=True)
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
         keep=False)

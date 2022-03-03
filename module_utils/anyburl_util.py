@@ -62,14 +62,23 @@ def split_all_triples_anyburl(context_resource, anyburl_dir, exclude_rels=[]):
     sample_dev.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
     if len(exclude_rels) > 0:
         df_test = df.query("not rel in @exclude_rels")
-        df_test.to_csv(osp.join(anyburl_dir, f'test.txt'), header=False, index=False, sep='\t')
+        # df_test.to_csv(osp.join(anyburl_dir, f'test.txt'), header=False, index=False, sep='\t')
     else:
-        os.system(f"cp {anyburl_dir}all_triples.txt {anyburl_dir}test.txt")
+        # os.system(f"cp {anyburl_dir}all_triples.txt {anyburl_dir}test.txt")
+        df_test = df
+    df_hr = df_test.drop_duplicates(['head', 'rel'], keep='first')
+    df_rt = df_test.drop_duplicates(['rel', 'tail'], keep='first')
+    if len(df_hr.index) > len(df_rt.index):
+        df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
+    else:
+        df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
+    df_hr.to_csv(osp.join(anyburl_dir, f'test_hr.txt'), header=False, index=False, sep='\t')
+    df_rt.to_csv(osp.join(anyburl_dir, f'test_rt.txt'), header=False, index=False, sep='\t')
 
 
-def prepare_anyburl_configs(anyburl_dir):
+def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
     config_apply = f"PATH_TRAINING  = {anyburl_dir}train.txt\n" \
-                   f"PATH_TEST      = {anyburl_dir}test.txt\n" \
+                   f"PATH_TEST      = {anyburl_dir}test_{pred_with}.txt\n" \
                    f"PATH_VALID     = {anyburl_dir}valid.txt\n" \
                    f"PATH_RULES     = {anyburl_dir}rules/alpha-100\n" \
                    f"PATH_OUTPUT    = {anyburl_dir}predictions/alpha-100\n" \
@@ -77,7 +86,7 @@ def prepare_anyburl_configs(anyburl_dir):
                    "TOP_K_OUTPUT = 10\n"\
                    "WORKER_THREADS = 7"
     config_eval = f"PATH_TRAINING  = {anyburl_dir}train.txt\n" \
-                  f"PATH_TEST      = {anyburl_dir}test.txt\n" \
+                  f"PATH_TEST      = {anyburl_dir}test_{pred_with}.txt\n" \
                   f"PATH_VALID     = {anyburl_dir}valid.txt\n" \
                   f"PATH_PREDICTIONS   = {anyburl_dir}predictions/alpha-100"
     config_learn = f"PATH_TRAINING  = {anyburl_dir}train.txt\n" \
@@ -89,10 +98,15 @@ def prepare_anyburl_configs(anyburl_dir):
     save_file(config_learn, anyburl_dir + "config-learn.properties")
 
 
+def clean_anyburl_tmp_files(anyburl_dir):
+    os.system(f"[ -d {anyburl_dir}predictions ] && rm -r {anyburl_dir}predictions")
+    os.system(f"[ -f {anyburl_dir}config-apply.properties ] && rm {anyburl_dir}config-apply.properties")
+
 def wait_until_anyburl_data_ready(anyburl_dir):
-    wait_until_file_is_saved(anyburl_dir + "dev.txt")
+    wait_until_file_is_saved(anyburl_dir + "test_hr.txt")
+    wait_until_file_is_saved(anyburl_dir + "test_rt.txt")
+    wait_until_file_is_saved(anyburl_dir + "valid.txt")
     wait_until_file_is_saved(anyburl_dir + "train.txt")
-    wait_until_file_is_saved(anyburl_dir + "test.txt")
     wait_until_file_is_saved(anyburl_dir + "config-apply.properties")
     wait_until_file_is_saved(anyburl_dir + "config-eval.properties")
     wait_until_file_is_saved(anyburl_dir + "config-learn.properties")

@@ -16,17 +16,19 @@ def run_rumis(work_dir):
     wait_until_file_is_saved(work_dir + "/rumis-1.0.jar", 10)
 
 
-def run_anyburl(work_dir):
+def learn_anyburl(work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]
     os.system('../scripts/run_anyburl.sh ' + work_dir)
     wait_until_file_is_saved(work_dir + "/rules/alpha-100", 60)
+
+
+def predict_with_anyburl(work_dir):
     print("Predicting via AnyBURL...")
     os.system(f"java -Xmx10G -cp {work_dir}/AnyBURL-JUNO.jar de.unima.ki.anyburl.Apply {work_dir}/config-apply.properties")
     wait_until_file_is_saved(work_dir + "/predictions/alpha-100_plog", 60)
     print("Evaluating AnyBURL...")
     os.system(f"java -Xmx10G -cp {work_dir}/AnyBURL-JUNO.jar de.unima.ki.anyburl.Eval {work_dir}/config-eval.properties")
-
 
 
 def clean_anyburl(work_dir):

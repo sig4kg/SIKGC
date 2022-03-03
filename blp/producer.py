@@ -700,7 +700,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                         entities=train_val_test_ent,
                                                         emb_batch_size=emb_batch_size,
                                                         return_embeddings=True,
-                                                        threshold=0.5)
+                                                        threshold=5)
         tris = produced_triples_with_scores.detach().numpy()
         df_tris = pd.DataFrame(tris, columns=['h', 'r', 't', 's'])
         df_tris = df_tris.astype({'h': int, 'r': int, 't': int}).groupby(['h', 'r', 't'])['s'].max().reset_index()

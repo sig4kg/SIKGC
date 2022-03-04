@@ -1,8 +1,10 @@
 **/outputs
 **/checkpoint
 **/release
-**/resources/DBpedia-politics
 **/resources/DBpedia-text
+**/resources/DBpediaP
+**/resources/DBpedia-politics/*
+**/resources/DBpedia-politics.zip
 **/.idea
 .pyenv
 **/workspace.xml
@@ -13,3 +15,4 @@
 */**?run_*_t*.sh
 */**?run_*_d*.sh
 
+/resources/DBpedia-politics.zip

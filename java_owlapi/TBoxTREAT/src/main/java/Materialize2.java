@@ -113,11 +113,10 @@ public class Materialize2 {
         generators.add(new InferredClassAssertionAxiomGenerator());
 //        generators.add(new InferredDisjointClassesAxiomGenerator());
 //        generators.add(new InferredEquivalentClassAxiomGenerator());
-
-//        generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());
-//        generators.add(new InferredInverseObjectPropertiesAxiomGenerator());
+        generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());
+        generators.add(new InferredInverseObjectPropertiesAxiomGenerator());
 //        generators.add(new InferredObjectPropertyCharacteristicAxiomGenerator());
-//        generators.add(new InferredSubObjectPropertyAxiomGenerator());
+        generators.add(new InferredSubObjectPropertyAxiomGenerator());
 
 //         NOTE: InferredPropertyAssertionGenerator significantly slows down
 //         inference computation

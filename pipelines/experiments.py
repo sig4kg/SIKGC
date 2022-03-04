@@ -59,7 +59,15 @@ class ExpConfig:
                              self.prefix + "sbi_mapping"]
 
     def setDBpedia(self):
-        pass
+        self.input_dir = "../resources/DBpedia-politics/"
+        self.schema_file = '../resources/DBpediaP/dbpedia_2016-10.owl'
+        self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
+        self.inductive = True
+        self.literal_model = "blp"
+        # self.rel_model = "transE"
+        self.e_max_epoch = 500
+        self.l_max_epoch = 50
+        self.exclude_rels = []
 
     def get_config(self, dataset):
         if dataset == "NELL":
@@ -68,8 +76,10 @@ class ExpConfig:
             self.setTREAT()
         elif dataset == "TEST":
             self.setTest()
-        else:
+        elif dataset == "DBpedia":
             self.setDBpedia()
+        else:
+            print("unsupported dataset")
         return self
 
 
@@ -179,9 +189,9 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
-    parser.add_argument('--dataset', type=str, default="TEST")
+    parser.add_argument('--dataset', type=str, default="DBpedia")
     parser.add_argument('--work_dir', type=str, default="../outputs/")
-    parser.add_argument('--pipeline', type=str, default="clc")
+    parser.add_argument('--pipeline', type=str, default="cac")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=3)
     args = parser.parse_args()

@@ -314,4 +314,4 @@ def get_all_classes_relations(entity2class_uri_file, hrt_uri_file, out_dir):
 
 if __name__ == "__main__":
     # get_all_classes_relations("../resources/DBpedia-politics/entity2type.txt", "../resources/DBpedia-politics/PoliticalTriplesWD.txt", out_dir="../outputs/test_dbpedia/")
-    generate_entity2type("../resources/DBpedia-politics/PoliticalTriplesWD.txt", "../outputs/dbpedia_data/")
+    generate_entity2type("../resources/DBpediaP/PoliticalTriplesWD.txt", "../outputs/dbpedia_data/")

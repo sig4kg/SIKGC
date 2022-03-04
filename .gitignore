@@ -2,9 +2,14 @@
 **/checkpoint
 **/release
 **/resources/DBpedia-text
-**/resources/DBpediaP
+**/resources/DBpediaP/*
+**/resources/DBpedia-politics
 **/resources/DBpedia-politics/*
 **/resources/DBpedia-politics.zip
+**/resources/NELL-995*
+**/resources/umls2
+**/resources/FB15K237
+**/java_owlapi/resources
 **/.idea
 .pyenv
 **/workspace.xml
@@ -14,5 +19,7 @@
 */**/run_*_n*.sh
 */**?run_*_t*.sh
 */**?run_*_d*.sh
+*/**/Base.so
 
 /resources/DBpedia-politics.zip
+/resources/DBpedia-politics/

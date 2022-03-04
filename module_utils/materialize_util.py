@@ -128,4 +128,4 @@ if __name__ == "__main__":
     # owl_2_nt("../outputs/cm/materialized_tbox_abox.owl", "../outputs/cm/")
     # materialize("../outputs/cm/")
     # clean_annotations_nt("../resources/NELL/NELL.ontology.nt", "../resources/NELL/NELL-ontology-clean.nt")
-    tbox_2_nt_dbpedia("../resources/DBpedia-politics/dbpedia_2016-10.owl", "../resources/DBpedia-politics/less_dbpedia_tbox.nt")
+    tbox_2_nt_dbpedia("../resources/DBpediaP/dbpedia_2016-10.owl", "../resources/DBpedia-politics/less_dbpedia_tbox.nt")

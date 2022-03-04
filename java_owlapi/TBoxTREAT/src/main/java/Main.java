@@ -9,11 +9,12 @@ public class Main {
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/less_tbox.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
-        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
-//        String schema_file = System.getProperty("schema", "");
-        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/tbox_patterns");
+//        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
+        String schema_file = System.getProperty("schema", "pizza.owl");
+//        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/tbox_patterns");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/treat/");
+        String output_dir = System.getProperty("output_dir", "output/");
         String abox_file = System.getProperty("abox", "");
         String type_file = System.getProperty("types", "output/types.txt");
         String rel_file = System.getProperty("rels", "output/properties.txt");

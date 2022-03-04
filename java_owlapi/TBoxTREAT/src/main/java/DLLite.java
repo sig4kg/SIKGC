@@ -326,13 +326,13 @@ public class DLLite {
         IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged1");
         OWLOntology merged = merger.createMergedOntology(man, mergedOntologyIRI1);
 
-        // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
-        SubClassOfRedundant redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
-        List<OWLSubClassOfAxiom> toRemove = redtUtil.findRedundants();
-        for (OWLAxiom ax: toRemove) {
-            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
-            man.applyChange(removeAxiom);
-        }
+//        // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
+//        SubClassOfRedundant redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
+//        List<OWLSubClassOfAxiom> toRemove = redtUtil.findRedundants();
+//        for (OWLAxiom ax: toRemove) {
+//            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
+//            man.applyChange(removeAxiom);
+//        }
         // replace D, N with expressions
         System.out.println("Replace D and N with expressions...");
         Set<OWLSubClassOfAxiom> subclassof = merged.getAxioms(AxiomType.SUBCLASS_OF);

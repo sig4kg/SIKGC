@@ -386,7 +386,7 @@ def produce(model,
             _run: Run,
             _log: Logger,
             return_embeddings=False,
-            threshold=0):
+            threshold=5):
     use_gpu = False
     if device != torch.device('cpu'):
         model = model.module
@@ -455,10 +455,10 @@ def produce(model,
         pred_t_k_hit = torch.chunk(pred_idx_at_k, chunks=k, dim=1)  # each column is a list of hit for all triples
         score_t_k = torch.chunk(scores_t, chunks=k, dim=1)
         for column_index, t in enumerate(pred_t_k_hit):
-            filtered_indices = (truth_score_t <= score_t_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
+            tokeep_indices = (truth_score_t + threshold >= score_t_k[column_index].view(triples.shape[0], )).nonzero(
                 as_tuple=True)
             tmp_hrts = torch.cat([entities[heads], entities[rels], entities[t], score_t_k[column_index]], 1)
-            fitered_hrts = tmp_hrts[filtered_indices]
+            fitered_hrts = tmp_hrts[tokeep_indices]
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
     for i, triples in enumerate(triples_loader_rt):
         heads, tails, rels = torch.chunk(triples, chunks=3, dim=1)
@@ -483,10 +483,10 @@ def produce(model,
         score_h_k = torch.chunk(scores_h, chunks=k, dim=1)
 
         for column_index, h in enumerate(pred_h_k_hit):
-            filtered_indices = (truth_score_h <= score_h_k[column_index].view(triples.shape[0], ) + threshold).nonzero(
-                as_tuple=True)  # pred_score + threshold >= truth_score
+            tokeep_indices = (truth_score_h + threshold >= score_h_k[column_index].view(triples.shape[0], )).nonzero(
+                as_tuple=True)  # true_score + threshold >= pred
             tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1)
-            fitered_hrts = tmp_hrts[filtered_indices]
+            fitered_hrts = tmp_hrts[tokeep_indices]
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
     # read to cpu and ready to output
     if use_gpu:

@@ -13,17 +13,20 @@ class Pattern1(PatternScanner):
 
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
         df = triples
-        gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
+        gp = df.query("is_valid == True and is_new == True").groupby('rel', group_keys=True, as_index=False)
         for g in tqdm(gp, desc="scanning pattern 1"):
             rel = g[0]
             r_triples_df = g[1]
+            need_update = False
             if rel in self._pattern_dict:
                 invalid = self._pattern_dict[rel]['invalid']
                 for idx, row in r_triples_df.iterrows():
                     h_classes = self._context_resources.entid2classids[row['head']]
                     if any([h_c in invalid for h_c in h_classes]):
                         r_triples_df.loc[idx, 'is_valid'] = False
-            df.update(r_triples_df.query("is_valid == False")['is_valid'])
+                        need_update = True
+            if need_update:
+                df.update(r_triples_df.query("is_valid == False")['is_valid'])
         return df
 
     def pattern_to_int(self, entry: str):

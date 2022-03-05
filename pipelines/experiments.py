@@ -43,7 +43,7 @@ class ExpConfig:
         self.literal_model = "blp"
         # self.rel_model = "transE"
         self.e_max_epoch = 500
-        self.l_max_epoch = 40
+        self.l_max_epoch = 30
         self.l_lr=3e-5
         self.l_use_scheduler=True
         self.l_batch_size=64
@@ -58,7 +58,7 @@ class ExpConfig:
         self.inductive = False
         self.literal_model = "fasttext"
         self.e_max_epoch = 500
-        self.l_max_epoch = 30
+        self.l_max_epoch = 20
         self.l_lr=3e-5
         self.l_use_scheduler=True
         self.l_batch_size=64
@@ -81,7 +81,7 @@ class ExpConfig:
         self.literal_model = "blp"
         # self.rel_model = "transE"
         self.e_max_epoch = 500
-        self.l_max_epoch = 50
+        self.l_max_epoch = 30
         self.l_lr=4e-5
         self.l_use_scheduler=True
         self.l_batch_size=64

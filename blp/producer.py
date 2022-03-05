@@ -455,8 +455,9 @@ def produce(model,
         pred_t_k_hit = torch.chunk(pred_idx_at_k, chunks=k, dim=1)  # each column is a list of hit for all triples
         score_t_k = torch.chunk(scores_t, chunks=k, dim=1)
         for column_index, t in enumerate(pred_t_k_hit):
-            tokeep_indices = (truth_score_t + threshold >= score_t_k[column_index].view(triples.shape[0], )).nonzero(
-                as_tuple=True)
+            tokeep_indices = (score_t_k[column_index].view(triples.shape[0], ) >= truth_score_t - threshold).nonzero(
+
+                as_tuple=True)  # x <= true + threshole   -> -x >= -true -threshole  ->
             tmp_hrts = torch.cat([entities[heads], entities[rels], entities[t], score_t_k[column_index]], 1)
             fitered_hrts = tmp_hrts[tokeep_indices]
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
@@ -483,7 +484,7 @@ def produce(model,
         score_h_k = torch.chunk(scores_h, chunks=k, dim=1)
 
         for column_index, h in enumerate(pred_h_k_hit):
-            tokeep_indices = (truth_score_h + threshold >= score_h_k[column_index].view(triples.shape[0], )).nonzero(
+            tokeep_indices = (score_h_k[column_index].view(triples.shape[0], ) >= truth_score_h - threshold).nonzero(
                 as_tuple=True)  # true_score + threshold >= pred
             tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1)
             fitered_hrts = tmp_hrts[tokeep_indices]
@@ -677,6 +678,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         df_tris = pd.DataFrame(tris, columns=['h', 'r', 't', 's'])
         df_tris = df_tris.astype({'h': int, 'r': int, 't': int}).groupby(['h', 'r', 't'])['s'].max().reset_index()
         df_tris[['h', 'r', 't']] = df_tris[['h', 'r', 't']].astype(int)
+        df_tris = df_tris.sort_values(by='s', axis=0, ascending=False).drop_duplicates(['h', 'r', 't'], keep='first')
         id2entity = dict((v, k) for k, v in train_data.entity2id.items())
         id2rel = dict((v, k) for k, v in train_data.rel2id.items())
         df_tris[['r']] = df_tris[['r']].applymap(lambda x: id2rel[x])  # to string

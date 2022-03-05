@@ -12,7 +12,7 @@ class FastTextEmbeddingLP(InductiveLinkPrediction):
     def __init__(self, dim, rel_model, loss_fn, num_relations,
                  regularizer):
         super().__init__(dim, rel_model, loss_fn, num_relations, regularizer)
-        self.embeddings='data/glove/glove.6B.300d.pt'
+        self.embeddings='XX'
         if dim is None:
             dim = self.encoder.get_dim()
         super().__init__(dim, rel_model, loss_fn, num_relations, regularizer)

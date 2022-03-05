@@ -44,7 +44,7 @@ class ExpConfig:
         # self.rel_model = "transE"
         self.e_max_epoch = 500
         self.l_max_epoch = 40
-        self.l_lr=3e-5
+        self.l_lr=4e-5
         self.l_use_scheduler=True
         self.l_batch_size=64
         self.l_emb_batch_size=1024
@@ -55,8 +55,9 @@ class ExpConfig:
         self.input_dir = "../resources/TREAT/"
         self.schema_file = '../resources/TREAT/tbox.nt'
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
-        self.inductive = False
-        self.literal_model = "fasttext"
+        self.inductive = True
+        # self.literal_model = "fasttext"
+        self.literal_model = "glove-bow"
         self.e_max_epoch = 500
         self.l_max_epoch = 30
         self.l_lr=3e-5
@@ -209,7 +210,7 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
-    parser.add_argument('--dataset', type=str, default="TEST")
+    parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/")
     parser.add_argument('--pipeline', type=str, default="clc")
     parser.add_argument('--use_gpu', type=bool, default=False)

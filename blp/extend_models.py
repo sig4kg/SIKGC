@@ -12,7 +12,7 @@ class FastTextEmbeddingLP(InductiveLinkPrediction):
     def __init__(self, dim, rel_model, loss_fn, num_relations,
                  regularizer):
         super().__init__(dim, rel_model, loss_fn, num_relations, regularizer)
-        self.encoder = FastTextEncoder()
+        self.embeddings='data/glove/glove.6B.300d.pt'
         if dim is None:
             dim = self.encoder.get_dim()
         super().__init__(dim, rel_model, loss_fn, num_relations, regularizer)
@@ -21,7 +21,7 @@ class FastTextEmbeddingLP(InductiveLinkPrediction):
         if text_mask is None:
             text_mask = torch.ones_like(text_tok, dtype=torch.float)
         # Extract average of word embeddings
-        embs = self.encoder.get_vector(text_tok)
+        embs = self.embeddings(text_tok)
         lengths = torch.sum(text_mask, dim=-1, keepdim=True)
         embs = torch.sum(text_mask.unsqueeze(dim=-1) * embs, dim=1)
         embs = embs / lengths

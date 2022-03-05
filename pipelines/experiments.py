@@ -27,7 +27,12 @@ class ExpConfig:
         self.inductive = True
         self.literal_model = "blp"
         self.e_max_epoch = 2
-        self.l_max_epoch = 2
+        self.l_max_epoch = 10
+        self.l_lr=3e-5
+        self.l_use_scheduler=True
+        self.l_batch_size=64
+        self.l_emb_batch_size=1024
+        self.l_eval_batch_size=64
         self.exclude_rels = []
 
     def setNELL(self):
@@ -39,6 +44,11 @@ class ExpConfig:
         # self.rel_model = "transE"
         self.e_max_epoch = 500
         self.l_max_epoch = 50
+        self.l_lr=3e-5
+        self.l_use_scheduler=True
+        self.l_batch_size=64
+        self.l_emb_batch_size=1024
+        self.l_eval_batch_size=64
         self.exclude_rels = []
 
     def setTREAT(self):
@@ -49,6 +59,11 @@ class ExpConfig:
         self.literal_model = "fasttext"
         self.e_max_epoch = 500
         self.l_max_epoch = 50
+        self.l_lr=3e-5
+        self.l_use_scheduler=True
+        self.l_batch_size=64
+        self.l_emb_batch_size=1024
+        self.l_eval_batch_size=64
         self.prefix = "http://treat.net/onto.owl#"
         self.exclude_rels = [self.prefix + "has_parameter",
                              self.prefix + "has_property",
@@ -67,6 +82,11 @@ class ExpConfig:
         # self.rel_model = "transE"
         self.e_max_epoch = 500
         self.l_max_epoch = 50
+        self.l_lr=4e-5
+        self.l_use_scheduler=True
+        self.l_batch_size=64
+        self.l_emb_batch_size=1024
+        self.l_eval_batch_size=64
         self.exclude_rels = []
 
     def get_config(self, dataset):

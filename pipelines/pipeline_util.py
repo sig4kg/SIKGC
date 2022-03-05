@@ -56,6 +56,7 @@ def aggregate_scores():
         for key in result:
             print(f"{key}: {result[key]}")
         return result
+
     return add_new
 
 
@@ -124,7 +125,8 @@ def EC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     run_scripts.clean_tranE(work_dir)
     valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(
         work_dir=work_dir)
-    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
+        keep=False)
     new_valid_count = len(new_valids.index)
     corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
     # count
@@ -175,7 +177,8 @@ def Rumis_C_block(context_resource: ContextResources, abox_scanner_scheduler: Ab
     run_scripts.clean_rumis(work_dir=work_dir)
     valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(pred_hrt_df).scan_IJ_patterns(
         work_dir=work_dir)
-    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
+        keep=False)
     new_valid_count = len(new_valids.index)
     corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
     new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
@@ -222,11 +225,19 @@ def M_block(context_resource: ContextResources, work_dir):
 def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
              work_dir,
              inductive=False,
-             model="transductive", epoch=50, exclude_rels=[]):
+             model="transductive",
+             epoch=50,
+             lr=3e-5,
+             use_scheduler=True,
+             batch_size=64,
+             emb_batch_size=1024,
+             eval_batch_size=64,
+             exclude_rels=[]):
     hrt_int_df_2_hrt_blp(context_resource, work_dir,
                          triples_only=False)  # generate all_triples.tsv, entities.txt, relations.txt\
     wait_until_file_is_saved(work_dir + "all_triples.tsv")
-    split_all_triples(context_resource, work_dir, inductive=inductive, exclude_rels=exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
+    split_all_triples(context_resource, work_dir, inductive=inductive,
+                      exclude_rels=exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
     wait_until_blp_data_ready(work_dir, inductive=inductive)
     # 1. run blp
     ex.run(config_updates={'work_dir': work_dir,
@@ -234,6 +245,11 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
                            'inductive': inductive,
                            "do_downstream_sample": False,
                            'max_epochs': epoch,
+                           'lr': lr,
+                           'use_scheduler': use_scheduler,
+                           'batch_size': batch_size,
+                           'emb_batch_size': emb_batch_size,
+                           'eval_batch_size': eval_batch_size,
                            'model': model})
     wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
@@ -253,7 +269,8 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     to_scan_df = pd.concat([context_resource.hrt_int_df, new_hrt_df]).drop_duplicates(keep="first").reset_index(
         drop=True)
     valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=work_dir)
-    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
+    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
+        keep=False)
     new_valid_count = len(new_valids.index)
     corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir).drop_duplicates(keep=False)
     new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
@@ -271,7 +288,8 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     return train_count, extend_count, new_count, new_valid_count, new_correct_count
 
 
-def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir, exclude_rels=[]):
+def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir,
+                    exclude_rels=[]):
     mk_dir(work_dir)
     hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
     split_all_triples_anyburl(context_resource, work_dir, exclude_rels=exclude_rels)
@@ -281,7 +299,8 @@ def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: 
     run_scripts.learn_anyburl(work_dir)
     print("predicting with anyBURL...")
     run_scripts.predict_with_anyburl(work_dir)
-    tmp_pred_hrt1 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource).drop_duplicates(
+    tmp_pred_hrt1 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100",
+                                                       context_resource).drop_duplicates(
         keep='first').reset_index(drop=True)
     clean_anyburl_tmp_files(work_dir)
     prepare_anyburl_configs(work_dir, pred_with='rt')
@@ -289,7 +308,8 @@ def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: 
     print("predicting with anyBURL...")
     run_scripts.predict_with_anyburl(work_dir)
     wait_until_file_is_saved(work_dir + "predictions/alpha-100", 60)
-    tmp_pred_hrt2 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100", context_resource).drop_duplicates(
+    tmp_pred_hrt2 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100",
+                                                       context_resource).drop_duplicates(
         keep='first').reset_index(drop=True)
     run_scripts.clean_anyburl(work_dir=work_dir)
     # consistency checking for new triples

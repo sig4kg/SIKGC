@@ -39,9 +39,8 @@ def aggregate_scores():
         f_coverage = ta / init_kgs[0]
         f_h = 2 * f_correctness * f_coverage / (f_coverage + f_correctness) if (f_coverage + f_correctness) > 0 else 0
         f_consistency = tf_consistency / n[0]
-        f_coverage2 = ty / total_new if total_new > 0 else 0
-        f_h2 = 2 * f_consistency * f_coverage2 / (f_coverage2 + f_consistency) if (
-                                                                                          f_coverage2 + f_consistency) > 0 else 0
+        f_coverage2 = ty / init_kgs[0]
+        f_h2 = 2 * f_consistency * f_coverage2 / (f_coverage2 + f_consistency) if (f_coverage2 + f_consistency) > 0 else 0
         result = {"init_kgs": init_kgs,
                   "target_kgs": target_kgs,
                   "new_count": nc,

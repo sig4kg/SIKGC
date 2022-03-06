@@ -74,20 +74,20 @@ public class TBoxConverter {
         OWLReasoner reasoner = reasonerFactory.createReasoner(ont, configuration); // It takes time to create Hermit reasoner
 
         //get  all parent classes
-//        List<String> moreClasses = new ArrayList<>();
-//        for (String class_uri : toKeepClasses) {
-//            OWLClass c = dataFactory.getOWLClass(class_uri);
-//            NodeSet<OWLClass> sups = reasoner.getSuperClasses(c);
-//            for (OWLClass sup : sups.getFlattened()) {
-//                moreClasses.add(sup.toString());
-//            }
-//        }
+        List<String> moreClasses = new ArrayList<>();
+        for (String class_uri : toKeepClasses) {
+            OWLClass c = dataFactory.getOWLClass(class_uri);
+            NodeSet<OWLClass> sups = reasoner.getSuperClasses(c);
+            for (OWLClass sup : sups.getFlattened()) {
+                moreClasses.add(sup.toString());
+            }
+        }
         List<String> toExclude =  new ArrayList<>(Arrays.asList("http://dbpedia.org/class/yago/",
                 "http://www.ontologydesignpatterns.org/" ,
                 "http://www.wikidata.org/"));
-//        moreClasses.forEach((String uri) -> {
-//            if (!toKeepClasses.contains(uri) && !toExclude.stream().anyMatch(uri::contains)) {toKeepClasses.add(uri);};
-//        });
+        moreClasses.forEach((String uri) -> {
+            if (!toKeepClasses.contains(uri) && !toExclude.stream().anyMatch(uri::contains)) {toKeepClasses.add(uri);};
+        });
         List<String> moreOps = new ArrayList<>();
         for (String pro_uri : toKeepProperties) {
             OWLObjectProperty op = dataFactory.getOWLObjectProperty(pro_uri);

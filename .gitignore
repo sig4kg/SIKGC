@@ -10,6 +10,7 @@
 **/resources/umls2
 **/resources/FB15K237
 **/java_owlapi/resources
+java_owlapi/TBoxTREAT/dependency-reduced-pom.xml
 **/.idea
 .pyenv
 **/workspace.xml

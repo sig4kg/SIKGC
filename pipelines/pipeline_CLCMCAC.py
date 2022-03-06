@@ -3,7 +3,7 @@ from pipeline_util import *
 
 
 def clcmcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
-            loops=1, epoch=2, inductive=True, model="blp", exclude_rels=[]):
+            loops=1, exclude_rels=[], blp_config={}):
     get_scores = aggregate_scores()
     run_scripts.delete_dir(work_dir)
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
@@ -15,10 +15,7 @@ def clcmcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
         init_c1, extend_c1, nc1, nv1, ncc1 = LC_block(context_resource,
                                                       abox_scanner_scheduler,
                                                       work_dir + "L/",
-                                                      inductive=inductive,
-                                                      epoch=epoch,
-                                                      model=model,
-                                                      exclude_rels=exclude_rels)
+                                                      exclude_rels=exclude_rels, blp_config=blp_config)
         init_c2, extend_c2, nc2, nv2, ncc2 = M_block(context_resource, work_dir)
         init_c3, extend_c3, nc3, nv3, ncc3 = anyBURL_C_block(context_resource,
                                                              abox_scanner_scheduler,

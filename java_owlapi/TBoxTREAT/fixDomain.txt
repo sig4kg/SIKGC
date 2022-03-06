@@ -46,7 +46,6 @@ http://dbpedia.org/ontology/associatedMusicalArtist
 http://dbpedia.org/ontology/coach
 http://dbpedia.org/ontology/notableWork
 http://dbpedia.org/ontology/creator
-http://dbpedia.org/ontology/flagBearer
 http://dbpedia.org/ontology/vicePrimeMinister
 http://dbpedia.org/ontology/era
 http://dbpedia.org/ontology/nominee
@@ -58,7 +57,6 @@ http://dbpedia.org/ontology/distributor
 http://dbpedia.org/ontology/secondPopularVote
 http://dbpedia.org/ontology/firstPopularVote
 http://dbpedia.org/ontology/parentCompany
-http://dbpedia.org/ontology/firstDriver
 http://dbpedia.org/ontology/recordLabel
 http://dbpedia.org/ontology/team
 http://dbpedia.org/ontology/similar
@@ -68,3 +66,7 @@ http://dbpedia.org/ontology/operator
 http://dbpedia.org/ontology/picture
 http://dbpedia.org/ontology/designer
 http://dbpedia.org/ontology/jurisdiction
+<http://dbpedia.org/ontology/Medalist>
+<http://dbpedia.org/ontology/champion>
+<http://dbpedia.org/ontology/championInSingle>
+<http://dbpedia.org/ontology/championInDouble>

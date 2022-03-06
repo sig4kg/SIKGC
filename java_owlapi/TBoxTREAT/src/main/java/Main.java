@@ -5,17 +5,18 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "DL-lite");
-//        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/dbpedia_2016-10.owl");
+        String task = System.getProperty("task", "Materialize");
+//        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/less_tbox.ttl");
-//        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+//        String schema_file = System.getProperty("schema", "output/less_tbox.ttl");
+        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
-        String schema_file = System.getProperty("schema", "pizza.owl");
+//        String schema_file = System.getProperty("schema", "pizza.owl");
 //        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/tbox_patterns");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/treat/");
         String output_dir = System.getProperty("output_dir", "output/");
-        String abox_file = System.getProperty("abox", "");
+        String abox_file = System.getProperty("abox", "../../resources/NELL/abox_consistent.nt");
         String type_file = System.getProperty("types", "output/types.txt");
         String rel_file = System.getProperty("rels", "output/properties.txt");
 //        String abox_file = System.getProperty("abox", "../../resources/treat/");

@@ -224,33 +224,16 @@ def M_block(context_resource: ContextResources, work_dir):
 
 def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
              work_dir,
-             inductive=False,
-             model="transductive",
-             epoch=50,
-             lr=3e-5,
-             use_scheduler=True,
-             batch_size=64,
-             emb_batch_size=1024,
-             eval_batch_size=64,
-             exclude_rels=[]):
+             exclude_rels=[], blp_config={}):
     hrt_int_df_2_hrt_blp(context_resource, work_dir,
                          triples_only=False)  # generate all_triples.tsv, entities.txt, relations.txt\
     wait_until_file_is_saved(work_dir + "all_triples.tsv")
-    split_all_triples(context_resource, work_dir, inductive=inductive,
+    split_all_triples(context_resource, work_dir, inductive=blp_config['inductive'],
                       exclude_rels=exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
-    wait_until_blp_data_ready(work_dir, inductive=inductive)
+    wait_until_blp_data_ready(work_dir, inductive=blp_config['inductive'])
     # 1. run blp
-    ex.run(config_updates={'work_dir': work_dir,
-                           'dataset': 'treat',
-                           'inductive': inductive,
-                           "do_downstream_sample": False,
-                           'max_epochs': epoch,
-                           'lr': lr,
-                           'use_scheduler': use_scheduler,
-                           'batch_size': batch_size,
-                           'emb_batch_size': emb_batch_size,
-                           'eval_batch_size': eval_batch_size,
-                           'model': model})
+    blp_config.update({'work_dir': work_dir})
+    ex.run(config_updates=blp_config)
     wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
 
     # 2. consistency checking for new triples

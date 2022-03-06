@@ -9,194 +9,96 @@ from pipeline_CACMCEC import cacmcec
 from pipeline_CECMCAC import cecmcac
 from scripts import run_scripts
 import argparse
+from exp_config import *
 
 
-class ExpConfig:
-    input_dir = ""
-    schema_file = ""
-    tbox_patterns_dir = ""
-    inductive = False
-    literal_model = "blp"
-    max_epoch = 2
-    use_gpu = False
-
-    def setTest(self):
-        self.input_dir = "../resources/TEST/"
-        self.schema_file = '../resources/NELL/NELL.ontology.nt'
-        self.tbox_patterns_dir = "../resources/NELL-patterns/"
-        self.inductive = True
-        self.literal_model = "blp"
-        self.e_max_epoch = 2
-        self.l_max_epoch = 4
-        self.l_lr=3e-5
-        self.l_use_scheduler=True
-        self.l_batch_size=64
-        self.l_emb_batch_size=1024
-        self.l_eval_batch_size=64
-        self.exclude_rels = []
-
-    def setNELL(self):
-        self.input_dir = "../resources/NELL/"
-        self.schema_file = '../resources/NELL/NELL.ontology.nt'
-        self.tbox_patterns_dir = "../resources/NELL-patterns/"
-        self.inductive = True
-        self.literal_model = "blp"
-        # self.rel_model = "transE"
-        self.e_max_epoch = 500
-        self.l_max_epoch = 30
-        self.l_lr=3e-5
-        self.l_use_scheduler=True
-        self.l_batch_size=32
-        self.l_emb_batch_size=1024
-        self.l_eval_batch_size=64
-        self.exclude_rels = []
-
-    def setTREAT(self):
-        self.input_dir = "../resources/TREAT/"
-        self.schema_file = '../resources/TREAT/tbox.nt'
-        self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
-        self.inductive = False
-        self.literal_model = "fasttext"
-        self.e_max_epoch = 500
-        self.l_max_epoch = 20
-        self.l_lr=3e-5
-        self.l_use_scheduler=True
-        self.l_batch_size=64
-        self.l_emb_batch_size=1024
-        self.l_eval_batch_size=64
-        self.prefix = "http://treat.net/onto.owl#"
-        self.exclude_rels = [self.prefix + "has_parameter",
-                             self.prefix + "has_property",
-                             self.prefix + "alarm_source",
-                             self.prefix + "log",
-                             self.prefix + "category",
-                             self.prefix + "has_additional_info",
-                             self.prefix + "sbi_mapping"]
-
-    def setDBpedia(self):
-        self.input_dir = "../resources/DBpedia-politics/"
-        self.schema_file = '../resources/DBpediaP/dbpedia_2016-10.owl'
-        self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
-        self.inductive = True
-        self.literal_model = "blp"
-        # self.rel_model = "transE"
-        self.e_max_epoch = 500
-        self.l_max_epoch = 20
-        self.l_lr=4e-5
-        self.l_use_scheduler=True
-        self.l_batch_size=32
-        self.l_emb_batch_size=512
-        self.l_eval_batch_size=64
-        self.exclude_rels = []
-
-    def get_config(self, dataset):
-        if dataset == "NELL":
-            self.setNELL()
-        elif dataset == "TREAT":
-            self.setTREAT()
-        elif dataset == "TEST":
-            self.setTest()
-        elif dataset == "DBpedia":
-            self.setDBpedia()
-        else:
-            print("unsupported dataset")
-        return self
-
-
-def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_gpu=False, loops=3):
+def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_gpu=False, loops=3, rel_model="transe", inductive=False):
     run_scripts.mk_dir(work_dir)
-    conf = ExpConfig().get_config(dataset)
+    blp_conf = BLPConfig().get_blp_config(rel_model, inductive)
+    data_conf = DatasetConfig().get_config(dataset)
     scores = []
     if pipeline == "cac":
         print("CRC pipeline")
         scores = c_anyburl_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                             input_dir=conf.input_dir,
-                             schema_file=conf.schema_file,
+                             input_dir=data_conf.input_dir,
+                             schema_file=data_conf.schema_file,
                              loops=loops,
-                             tbox_patterns_dir=conf.tbox_patterns_dir,
-                             exclude_rels=conf.exclude_rels)
+                             tbox_patterns_dir=data_conf.tbox_patterns_dir,
+                             exclude_rels=data_conf.exclude_rels)
     elif pipeline == "cec":
         print("CEC pipeline")
         scores = c_e_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                       input_dir=conf.input_dir,
-                       schema_file=conf.schema_file,
-                       tbox_patterns_dir=conf.tbox_patterns_dir,
+                       input_dir=data_conf.input_dir,
+                       schema_file=data_conf.schema_file,
+                       tbox_patterns_dir=data_conf.tbox_patterns_dir,
                        loops=loops,
-                       epoch=conf.e_max_epoch,
-                       exclude_rels=conf.exclude_rels,
+                       epoch=data_conf.e_max_epoch,
+                       exclude_rels=data_conf.exclude_rels,
                        use_gpu=use_gpu)
     elif pipeline == "clc":
         print("CLC pipeline")
         scores = c_l_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                       input_dir=conf.input_dir,
-                       schema_file=conf.schema_file,
-                       tbox_patterns_dir=conf.tbox_patterns_dir,
-                       inductive=conf.inductive,
-                       epoch=conf.l_max_epoch,
+                       input_dir=data_conf.input_dir,
+                       schema_file=data_conf.schema_file,
+                       tbox_patterns_dir=data_conf.tbox_patterns_dir,
                        loops=loops,
-                       exclude_rels=conf.exclude_rels,
-                       use_scheduler=conf.l_use_scheduler,
-                       batch_size=conf.l_batch_size,
-                       emb_batch_size=conf.l_emb_batch_size,
-                       eval_batch_size=conf.l_eval_batch_size,
-                       model=conf.literal_model)
+                       exclude_rels=data_conf.exclude_rels,
+                       blp_config=blp_conf
+                       )
     elif pipeline == "crc":
         print("CRC pipeline")
         scores = c_rumis_c(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                           input_dir=conf.input_dir,
-                           schema_file=conf.schema_file,
+                           input_dir=data_conf.input_dir,
+                           schema_file=data_conf.schema_file,
                            loops=loops,
-                           tbox_patterns_dir=conf.tbox_patterns_dir)
+                           tbox_patterns_dir=data_conf.tbox_patterns_dir)
     elif pipeline == "clcmcac":
         print("clcmcac pipeline")
         scores = clcmcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                         input_dir=conf.input_dir,
-                         schema_file=conf.schema_file,
-                         tbox_patterns_dir=conf.tbox_patterns_dir,
-                         inductive=conf.inductive,
-                         epoch=conf.l_max_epoch,
+                         input_dir=data_conf.input_dir,
+                         schema_file=data_conf.schema_file,
+                         tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
-                         exclude_rels=conf.exclude_rels,
-                         model=conf.literal_model)
+                         exclude_rels=data_conf.exclude_rels,
+                         blp_config=blp_conf)
     elif pipeline == "cacmclc":
         print("cacmclc pipeline")
         scores = cacmclc(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                         input_dir=conf.input_dir,
-                         schema_file=conf.schema_file,
-                         tbox_patterns_dir=conf.tbox_patterns_dir,
-                         inductive=conf.inductive,
-                         epoch=conf.l_max_epoch,
+                         input_dir=data_conf.input_dir,
+                         schema_file=data_conf.schema_file,
+                         tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
-                         exclude_rels=conf.exclude_rels,
-                         model=conf.literal_model)
+                         exclude_rels=data_conf.exclude_rels,
+                         blp_config=blp_conf)
     elif pipeline == "cacmcec":
         print("cacmcec pipeline")
         scores = cacmcec(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                         input_dir=conf.input_dir,
-                         schema_file=conf.schema_file,
-                         tbox_patterns_dir=conf.tbox_patterns_dir,
-                         epoch=conf.e_max_epoch,
+                         input_dir=data_conf.input_dir,
+                         schema_file=data_conf.schema_file,
+                         tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
-                         exclude_rels=conf.exclude_rels,
+                         epoch=data_conf.e_max_epoch,
+                         exclude_rels=data_conf.exclude_rels,
                          use_gpu=use_gpu)
     elif pipeline == "cecmcac":
         print("cecmcac pipeline")
         scores = cecmcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                         input_dir=conf.input_dir,
-                         schema_file=conf.schema_file,
-                         tbox_patterns_dir=conf.tbox_patterns_dir,
-                         epoch=conf.e_max_epoch,
+                         input_dir=data_conf.input_dir,
+                         schema_file=data_conf.schema_file,
+                         tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
-                         exclude_rels=conf.exclude_rels,
+                         epoch=data_conf.e_max_epoch,
+                         exclude_rels=data_conf.exclude_rels,
                          use_gpu=use_gpu)
     elif pipeline == "cecmcrc":
         print("cecmcrc pipeline")
         scores = cecmcrc(work_dir=work_dir + f"{pipeline}_{dataset}/",
-                         input_dir=conf.input_dir,
-                         schema_file=conf.schema_file,
-                         tbox_patterns_dir=conf.tbox_patterns_dir,
-                         epoch=conf.e_max_epoch,
+                         input_dir=data_conf.input_dir,
+                         schema_file=data_conf.schema_file,
+                         tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
+                         epoch=data_conf.e_max_epoch,
+                         exclude_rels=data_conf.exclude_rels,
                          use_gpu=use_gpu)
     else:
         print("Unsupported pipeline, please use any of these: cac, cec, crc, cm, cecmcrc, clcmcac.")
@@ -217,10 +119,14 @@ if __name__ == "__main__":
     parser.add_argument('--work_dir', type=str, default="../outputs/")
     parser.add_argument('--pipeline', type=str, default="clc")
     parser.add_argument('--use_gpu', type=bool, default=False)
-    parser.add_argument('--loops', type=int, default=3)
+    parser.add_argument('--loops', type=int, default=2)
+    parser.add_argument("--rel_model", type=str, default="transe")
+    parser.add_argument("--inductive", type=bool, default=False)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,
               pipeline=args.pipeline,
               use_gpu=args.use_gpu,
+              inductive=args.inductive,
+              rel_model=args.rel_model,
               loops=args.loops)

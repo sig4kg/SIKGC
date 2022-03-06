@@ -57,29 +57,6 @@ def config():
     do_downstream_sample = False
     do_produce = True
 
-def config_inductive():
-    work_dir = 'data/umls/'
-    dataset='Any'
-    inductive=True
-    dim=128
-    model='blp'
-    rel_model='transe'
-    loss_fn='margin'
-    encoder_name='bert-base-cased'
-    regularizer=0
-    max_len=32
-    num_negatives=64
-    lr=3e-5
-    use_scheduler=True
-    batch_size=64
-    emb_batch_size=1024
-    eval_batch_size=64
-    max_epochs=40
-    checkpoint=None
-    use_cached_text=False
-    do_downstream_sample = False
-    do_produce = True
-
 
 @ex.capture
 @torch.no_grad()

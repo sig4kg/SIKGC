@@ -46,7 +46,7 @@ class ExpConfig:
         self.l_max_epoch = 30
         self.l_lr=3e-5
         self.l_use_scheduler=True
-        self.l_batch_size=64
+        self.l_batch_size=32
         self.l_emb_batch_size=1024
         self.l_eval_batch_size=64
         self.exclude_rels = []
@@ -81,11 +81,11 @@ class ExpConfig:
         self.literal_model = "blp"
         # self.rel_model = "transE"
         self.e_max_epoch = 500
-        self.l_max_epoch = 30
+        self.l_max_epoch = 20
         self.l_lr=4e-5
         self.l_use_scheduler=True
-        self.l_batch_size=64
-        self.l_emb_batch_size=1024
+        self.l_batch_size=32
+        self.l_emb_batch_size=512
         self.l_eval_batch_size=64
         self.exclude_rels = []
 
@@ -135,6 +135,10 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                        epoch=conf.l_max_epoch,
                        loops=loops,
                        exclude_rels=conf.exclude_rels,
+                       use_scheduler=conf.l_use_scheduler,
+                       batch_size=conf.l_batch_size,
+                       emb_batch_size=conf.l_emb_batch_size,
+                       eval_batch_size=conf.l_eval_batch_size,
                        model=conf.literal_model)
     elif pipeline == "crc":
         print("CRC pipeline")

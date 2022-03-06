@@ -22,19 +22,6 @@ class TripleProducer(object):
         self.lib = ctypes.cdll.LoadLibrary(base_file)
         self.lib.produceHead.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int64, ctypes.c_float, ctypes.c_int64]
         self.lib.produceTail.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int64, ctypes.c_float, ctypes.c_int64]
-        # self.lib.test_link_prediction.argtypes = [ctypes.c_int64]
-
-        # self.lib.getTestLinkMRR.argtypes = [ctypes.c_int64]
-        # self.lib.getTestLinkMR.argtypes = [ctypes.c_int64]
-        # self.lib.getTestLinkHit10.argtypes = [ctypes.c_int64]
-        # self.lib.getTestLinkHit3.argtypes = [ctypes.c_int64]
-        # self.lib.getTestLinkHit1.argtypes = [ctypes.c_int64]
-        #
-        # self.lib.getTestLinkMRR.restype = ctypes.c_float
-        # self.lib.getTestLinkMR.restype = ctypes.c_float
-        # self.lib.getTestLinkHit10.restype = ctypes.c_float
-        # self.lib.getTestLinkHit3.restype = ctypes.c_float
-        # self.lib.getTestLinkHit1.restype = ctypes.c_float
 
         self.model = model
         self.data_loader = data_loader
@@ -68,7 +55,6 @@ class TripleProducer(object):
             'batch_r': self.to_var(data['batch_r'], self.use_gpu),
             'mode': data['mode']
         })
-
 
     def produce_triples(self, type_constrain = False, threshold=0.5):
         self.lib.initTest()

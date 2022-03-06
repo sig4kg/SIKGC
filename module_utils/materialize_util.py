@@ -24,14 +24,32 @@ def preparing_tbox_to_dllite(tbox_file, work_dir):
 #     df.to_csv(work_dir + "tbox_abox.nt", index=False, header=False, sep=' ')
 
 
-def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir):
+def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir, schema_in_nt=''):
     df = context_resource.hrt_int_df.copy(deep=True)
     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + context_resource.id2ent[x] + '>')
     df[['rel']] = df[['rel']].applymap(lambda x: '<' + context_resource.id2rel[x] + '>')  # to int
     df['dot'] = '.'
+    # get entity types
+    rdf_type = []
+    r = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
+    individual  = "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+    for entid in context_resource.entid2classids:
+        h = context_resource.id2ent[entid]
+        rdf_type.append([f"<{h}>", r, individual])
+        r = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
+        typeOfs = context_resource.entid2classids[entid]
+        for t in typeOfs:
+            if t in context_resource.classid2class:
+                rdf_type.append([f"<{h}>", r, f"<{context_resource.classid2class[t]}>"])
+    df_types = pd.DataFrame(data=rdf_type, columns=['head', 'rel', 'tail'])
+    df_types['dot'] = '.'
+    # create individual declaration
+    expanded_df = pd.concat([df_types, df])
     print(f"Saving to {work_dir}abox.nt")
-    df[['head', 'rel', 'tail', 'dot']].to_csv(work_dir + "abox.nt", header=None, index=None, sep=' ')
+    expanded_df.to_csv(work_dir + "abox.nt",  header=False, index=False, sep=' ')
     wait_until_file_is_saved(work_dir + "abox.nt")
+    if schema_in_nt != "":
+        os.system(f"cat {schema_in_nt} {work_dir}abox.nt > tbox_abox.nt")
 
 
 def materialize(work_dir):

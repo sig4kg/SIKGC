@@ -196,10 +196,10 @@ def Rumis_C_block(context_resource: ContextResources, abox_scanner_scheduler: Ab
     return train_count, extend_count, new_count, new_valid_count, new_correct_count
 
 
-def M_block(context_resource: ContextResources, work_dir):
+def M_block(context_resource: ContextResources, work_dir, schema_in_nt=''):
     # context int to materialization ntriples,
     train_count = len(context_resource.hrt_int_df.index)
-    hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
+    hrt_int_df_2_hrt_ntriples(context_resource, work_dir, schema_in_nt=schema_in_nt)
     wait_until_file_is_saved(work_dir + "abox.nt", 120)
 
     # the result is materialized_abox.nt

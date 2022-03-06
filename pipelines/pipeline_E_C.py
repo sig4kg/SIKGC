@@ -43,7 +43,7 @@ if __name__ == "__main__":
     print("EC pipeline")
     e_c(work_dir="../outputs/ec/",
         input_dir="../resources/NELL/",
-        schema_file='../resources/NELL/NELL.ontology.nt',
+        schema_file='../resources/NELL/tbox.nt',
         tbox_patterns_dir= '../resources/NELL-patterns/', use_gpu=True)
 
 

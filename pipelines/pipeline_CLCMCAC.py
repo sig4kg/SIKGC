@@ -30,5 +30,5 @@ def clcmcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
 if __name__ == "__main__":
     print("clcmcac pipeline")
     clcmcac(work_dir="../outputs/clcmcac/", input_dir="../resources/TEST/",
-            schema_file='../resources/NELL/NELL.ontology.nt',
+            schema_file='../resources/NELL/tbox.nt',
             tbox_patterns_dir='../resources/NELL-patterns/')

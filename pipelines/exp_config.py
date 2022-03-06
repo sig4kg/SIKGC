@@ -9,7 +9,7 @@ class BLPConfig:
         'regularizer': 1e-3,
         'max_len': 32,
         'num_negatives': 64,
-        'lr': 2e-4,
+        'lr': 1e-4,
         'use_scheduler': True,
         'batch_size': 64,
         'emb_batch_size': 64,
@@ -30,7 +30,7 @@ class BLPConfig:
             'regularizer': 0,
             'max_len': 32,
             'num_negatives': 64,
-            'lr': 2e-5,
+            'lr': 5e-5,
             'use_scheduler': True,
             'batch_size': 64,
             'emb_batch_size': 512,
@@ -87,14 +87,14 @@ class DatasetConfig:
 
     def setTest(self):
         self.input_dir = "../resources/TEST/"
-        self.schema_file = '../resources/NELL/NELL.ontology.nt'
+        self.schema_file = '../resources/NELL/tbox.nt'
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 2
         self.exclude_rels = []
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"
-        self.schema_file = '../resources/NELL/NELL.ontology.nt'
+        self.schema_file = '../resources/NELL/tbox.nt'
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []

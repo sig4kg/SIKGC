@@ -26,5 +26,5 @@ def cecmcrc(work_dir, input_dir, schema_file, tbox_patterns_dir, epoch=2, loops=
 if __name__ == "__main__":
     print("cecmcrc pipeline")
     cecmcrc(work_dir="../outputs/cecmcrc/", input_dir="../resources/TEST/",
-            schema_file='../resources/NELL/NELL.ontology.nt',
+            schema_file='../resources/NELL/tbox.nt',
             tbox_patterns_dir='../resources/NELL-patterns/')

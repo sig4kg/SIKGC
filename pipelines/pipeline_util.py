@@ -36,7 +36,7 @@ def aggregate_scores():
             total_new += nc[i]
 
         f_correctness = tf_correctness / n[0]
-        f_coverage = ta / ty if ty > 0 else 0
+        f_coverage = ta / init_kgs[0]
         f_h = 2 * f_correctness * f_coverage / (f_coverage + f_correctness) if (f_coverage + f_correctness) > 0 else 0
         f_consistency = tf_consistency / n[0]
         f_coverage2 = ty / total_new if total_new > 0 else 0

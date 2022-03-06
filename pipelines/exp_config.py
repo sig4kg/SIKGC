@@ -51,7 +51,7 @@ class BLPConfig:
             'regularizer': 0,
             'max_len': 32,
             'num_negatives': 64,
-            'lr': 2e-5,
+            'lr': 1e-5,
             'use_scheduler': True,
             'batch_size': 64,
             'emb_batch_size': 512,

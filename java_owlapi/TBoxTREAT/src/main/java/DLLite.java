@@ -396,6 +396,9 @@ public class DLLite {
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
         toRemoveAxiom.addAll(merged.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
+        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.DISJOINT_CLASSES));
+        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.EQUIVALENT_CLASSES));
+
         for (OWLAxiom ax: toRemoveAxiom) {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
             man.applyChange(removeAxiom);

@@ -507,7 +507,12 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                   num_devices=num_devices)
     else:
         if model.startswith('bert') or model == 'blp':
-            tokenizer = BertTokenizer.from_pretrained(encoder_name)
+            bert_path = "../saved_models/bert-base-cased"
+            local_models = Path(bert_path)
+            if local_models.exists():
+                tokenizer = BertTokenizer.from_pretrained(os.path.join(bert_path, "vocab.txt"))
+            else:
+                tokenizer = BertTokenizer.from_pretrained(encoder_name)
         else:
             tokenizer = GloVeTokenizer('data/glove/glove.6B.300d-maps.pt')
 

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -101,7 +103,15 @@ class BertEmbeddingsLP(InductiveLinkPrediction):
     def __init__(self, dim, rel_model, loss_fn, num_relations, encoder_name,
                  regularizer):
         super().__init__(dim, rel_model, loss_fn, num_relations, regularizer)
-        self.encoder = BertModel.from_pretrained(encoder_name,
+
+        bert_path = "../saved_models/bert-base-cased"
+        local_models = Path(bert_path)
+        if local_models.exists():
+            self.encoder = BertModel.from_pretrained(bert_path,
+                                                     output_attentions=False,
+                                                     output_hidden_states=False)
+        else:
+            self.encoder = BertModel.from_pretrained(encoder_name,
                                                  output_attentions=False,
                                                  output_hidden_states=False)
         hidden_size = self.encoder.config.hidden_size
@@ -124,7 +134,12 @@ class WordEmbeddingsLP(InductiveLinkPrediction):
             raise ValueError('Must provided one of encoder_name or embeddings')
 
         if encoder_name is not None:
-            encoder = BertModel.from_pretrained(encoder_name)
+            bert_path = "../saved_models/bert-base-cased"
+            local_models = Path(bert_path)
+            if local_models.exists():
+                encoder = BertModel.from_pretrained(bert_path)
+            else:
+                encoder = BertModel.from_pretrained(encoder_name)
             embeddings = encoder.embeddings.word_embeddings
         else:
             emb_tensor = torch.load(embeddings)

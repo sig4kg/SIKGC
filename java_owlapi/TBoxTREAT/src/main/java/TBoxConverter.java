@@ -159,6 +159,7 @@ public class TBoxConverter {
         }
 
         // remove other prefix classes
+        System.out.println("remove other classes");
         OWLEntityRemover entRemover = new OWLEntityRemover(ont);
         ont.classesInSignature().forEach(element -> {
             if (!toKeepClasses.contains(element.getIRI().toString())) {
@@ -167,6 +168,7 @@ public class TBoxConverter {
             };
         });
         // remove datatypes
+        System.out.println("remove datatypes");
         OWLEntityRemover entRemover2 = new OWLEntityRemover(ont);
         ont.datatypesInSignature().forEach(element -> {
             if (!toKeepClasses.contains(element.getIRI().toString())) {
@@ -175,6 +177,7 @@ public class TBoxConverter {
             };
         });
         //remove other properties
+        System.out.println("remove other properties");
         OWLEntityRemover entRemover3 = new OWLEntityRemover(ont);
         ont.objectPropertiesInSignature().forEach(element -> {
             if (!toKeepProperties.contains(element.getIRI().toString())) {

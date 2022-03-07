@@ -562,10 +562,10 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     model = utils.get_model(model, dim, rel_model, loss_fn,
                             len(train_val_test_ent), train_data.num_rels,
                             encoder_name, regularizer)
-    checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
-    checkpoint_path = Path(checkpoint_file)
-    if checkpoint_path.exists():
-        model.load_state_dict(torch.load(checkpoint_file, map_location='cpu'))
+
+    # checkpoint_path = Path(checkpoint_file)
+    # if checkpoint_path.exists():
+    #     model.load_state_dict(torch.load(checkpoint_file, map_location='cpu'))
 
     if device != torch.device('cpu'):
         model = torch.nn.DataParallel(model).to(device)
@@ -609,6 +609,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                           emb_batch_size, prefix='valid')
 
         # Keep checkpoint of best performing model (based on raw MRR)
+        checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
         if val_mrr > best_valid_mrr:
             best_valid_mrr = val_mrr
             torch.save(model.state_dict(), checkpoint_file)

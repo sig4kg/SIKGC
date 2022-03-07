@@ -5,11 +5,11 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "DL-lite");
-//        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
+        String task = System.getProperty("task", "SubsetTBox");
+        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/less_tbox.ttl");
 //        String schema_file = System.getProperty("schema", "output/less_tbox.ttl");
-        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
@@ -74,7 +74,7 @@ public class Main {
                 Materialize2.checkConsistency(ontologyFullPath, aboxFullPath, outputFullPath + "/tbox_and_abox.nt");
                 break;
             case "SubsetTBox":
-                TBoxConverter.getTBoxSubset(ontologyFullPath, outputFullPath + "/less_tbox.ttl", type_file, rel_file);
+                TBoxConverter.getTBoxSubset(ontologyFullPath, outputFullPath + "/less_tbox.nt", type_file, rel_file);
                 break;
             default:
                 return;

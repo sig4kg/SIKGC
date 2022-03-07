@@ -11,9 +11,9 @@ def preparing_tbox_to_dllite(tbox_file, work_dir):
     #     tbox_2_nt_dbpedia(tbox_file, work_dir + "tbox.nt")
     # else:
     #     clean_annotations_nt(tbox_file, work_dir + "tbox.nt")
-    if not os.path.exists(work_dir + "tbox_dllite.ttl"):
+    if not os.path.exists(work_dir + "tbox_dllite.nt"):
         scripts.run_scripts.to_dllite(tbox_file, work_dir)
-        wait_until_file_is_saved(work_dir + "tbox_dllite.ttl")
+        wait_until_file_is_saved(work_dir + "tbox_dllite.nt")
 
 
 # def merge_TBox_2_ABox(abox_file, tbox_file, work_dir):
@@ -47,9 +47,9 @@ def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir, sche
     expanded_df = pd.concat([df_types, df])
     print(f"Saving to {work_dir}abox.nt")
     expanded_df.to_csv(work_dir + "abox.nt",  header=False, index=False, sep=' ')
-    wait_until_file_is_saved(work_dir + "abox.nt")
+    wait_until_file_is_saved(work_dir + "abox.nt", 180)
     if schema_in_nt != "":
-        os.system(f"cat {schema_in_nt} {work_dir}abox.nt > tbox_abox.nt")
+        os.system(f"cat {schema_in_nt} {work_dir}abox.nt > {work_dir}tbox_abox.nt")
 
 
 def materialize(work_dir):

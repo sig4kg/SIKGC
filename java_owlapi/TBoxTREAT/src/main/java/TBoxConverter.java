@@ -45,7 +45,11 @@ public class TBoxConverter {
         List<String> toKeepClasses = new ArrayList<>();
         List<String> toKeepProperties = new ArrayList<>();
         try (Stream<String> lines1 = Files.lines(Paths.get(subset_type_file))) {
-            lines1.forEach(toKeepClasses::add);
+            lines1.forEach(x -> {
+                if (x.startsWith("http://")) {
+                    toKeepClasses.add(x);
+                }
+            });
         }
         try (Stream<String> lines2 = Files.lines(Paths.get(subset_property_file))) {
             lines2.forEach(toKeepProperties::add);
@@ -72,7 +76,28 @@ public class TBoxConverter {
         OWLDataFactory dataFactory = man.getOWLDataFactory();
         Reasoner.ReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory();
         OWLReasoner reasoner = reasonerFactory.createReasoner(ont, configuration); // It takes time to create Hermit reasoner
-
+        // materialise TBox
+        reasoner.precomputeInferences(
+                InferenceType.CLASS_HIERARCHY,
+                InferenceType.CLASS_ASSERTIONS,
+                InferenceType.OBJECT_PROPERTY_HIERARCHY,
+                InferenceType.OBJECT_PROPERTY_ASSERTIONS
+        );
+        List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
+        generators.add(new InferredSubClassAxiomGenerator());
+        generators.add(new InferredDisjointClassesAxiomGenerator());
+        generators.add(new InferredEquivalentClassAxiomGenerator());
+        generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());
+        generators.add(new InferredInverseObjectPropertiesAxiomGenerator());
+        generators.add(new InferredObjectPropertyCharacteristicAxiomGenerator());
+        generators.add(new InferredSubObjectPropertyAxiomGenerator());
+        InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
+        OWLOntology inferredAxiomsOntology = man.createOntology();
+        iog.fillOntology(dataFactory, inferredAxiomsOntology);
+        System.out.println("Merge materialized  TBox.");
+        OWLOntologyMerger merger = new OWLOntologyMerger(man);
+        IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged");
+        ont = merger.createMergedOntology(man, mergedOntologyIRI1);
         //get  all parent classes
         List<String> moreClasses = new ArrayList<>();
         for (String class_uri : toKeepClasses) {
@@ -133,7 +158,7 @@ public class TBoxConverter {
             }
         }
 
-        // remove other classes
+        // remove other prefix classes
         OWLEntityRemover entRemover = new OWLEntityRemover(ont);
         ont.classesInSignature().forEach(element -> {
             if (!toKeepClasses.contains(element.getIRI().toString())) {
@@ -151,20 +176,20 @@ public class TBoxConverter {
         });
         //remove other properties
         OWLEntityRemover entRemover3 = new OWLEntityRemover(ont);
-        ont.dataPropertiesInSignature().forEach(element -> {
-            if (!toKeepProperties.contains(element.getIRI().toString())) {
-                element.accept(entRemover3);
-                man.applyChanges(entRemover3.getChanges());
-            };
-        });
         ont.objectPropertiesInSignature().forEach(element -> {
             if (!toKeepProperties.contains(element.getIRI().toString())) {
                 element.accept(entRemover3);
                 man.applyChanges(entRemover3.getChanges());
             };
         });
+        ont.dataPropertiesInSignature().forEach(element -> {
+            if (!toKeepProperties.contains(element.getIRI().toString())) {
+                element.accept(entRemover3);
+                man.applyChanges(entRemover3.getChanges());
+            };
+        });
 
-        TurtleDocumentFormat format = new TurtleDocumentFormat();
+        NTriplesDocumentFormat format = new NTriplesDocumentFormat();
         File inferredOntologyFile = new File(out_tbox_file);
         // Now we create a stream since the ontology manager can then write to that stream.
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {

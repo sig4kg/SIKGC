@@ -20,9 +20,12 @@ class Pattern13(PatternScanner):
                 print("using cudf ...")
                 df = cudf.DataFrame.from_pandas(triples)
                 use_gpu = True
-            except:
+            except :
+                print("using pandas ...")
+                print()
                 df = triples
         else:
+            print("using pandas ...")
             df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
         for g in tqdm(gp, desc="scanning pattern 13"):

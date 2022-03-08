@@ -23,8 +23,8 @@ if __name__ == "__main__":
     abox_scanner_scheduler.register_pattern([1, 2, 5,8,9,10,11,12,13], ['pos_domain', 'pos_range'])
     valids, invalids = abox_scanner_scheduler.scan_IJ_patterns(work_dir='../outputs/test/')
     # abox_scanner_scheduler.scan_schema_correct_patterns(work_dir='../outputs/test/')
-    context_res.hrt_int_df = valids
-    hrt_int_df_2_hrt_ntriples(context_res, wdir)
+    # context_res.hrt_int_df = valids
+    # hrt_int_df_2_hrt_ntriples(context_res, wdir)
 
 
 

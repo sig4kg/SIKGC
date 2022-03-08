@@ -13,7 +13,7 @@ class Pattern1(PatternScanner):
 
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
         df = triples
-        gp = df.query("is_valid == True and is_new == True").groupby('rel', group_keys=True, as_index=False)
+        gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
         for g in tqdm(gp, desc="scanning pattern 1"):
             rel = g[0]
             r_triples_df = g[1]

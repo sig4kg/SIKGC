@@ -121,7 +121,7 @@ if __name__ == "__main__":
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=2)
     parser.add_argument("--rel_model", type=str, default="transe")
-    parser.add_argument("--inductive", type=bool, default=True)
+    parser.add_argument("--inductive", type=bool, default=False)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,

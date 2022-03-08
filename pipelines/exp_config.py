@@ -56,7 +56,7 @@ class BLPConfig:
             'batch_size': 64,
             'emb_batch_size': 512,
             'eval_batch_size': 64,
-            'max_epochs': 20,
+            'max_epochs': 2,
             'checkpoint': None,
             'use_cached_text': False
         }

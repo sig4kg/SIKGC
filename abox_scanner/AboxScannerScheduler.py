@@ -86,11 +86,17 @@ class AboxScannerScheduler:
         df = self._context_resources.hrt_to_scan_df
         new_items = pd.concat([df, old_df, old_df]).drop_duplicates(keep=False)
         df['is_valid'] = True
-        df['is_new'] = True
+        df['is_new'] = False
         if old_df is not None:
-            mask = (df[['head', 'rel', 'tail']].isin(new_items[['head', 'rel', 'tail']])).all(axis=1)
+            # mask = (df[['head', 'rel', 'tail']].isin(old_df[['head', 'rel', 'tail']])).all(axis=1)
             # pandas has defect with df[mask], it get same values as new_items.
-            df.update(df[mask]['is_new'].apply(lambda x: False))
+            # df.update(df[mask]['is_new'].apply(lambda x: False))
+            to_filter_out = old_df[['head', 'rel', 'tail']]
+            ind = pd.concat([df[['head', 'rel', 'tail']], to_filter_out, to_filter_out]).drop_duplicates(keep=False).index
+            new_column = pd.Series([True for i in ind], name='is_new', index=ind)
+            df.update(new_column)
+            del to_filter_out
+            del new_column
 
         init_invalid = len(df.query("is_valid == False"))
         for scanner in self._IJP_strategies:
@@ -107,7 +113,7 @@ class AboxScannerScheduler:
             invalids = invalids.astype(int)
         invalids.to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         valids = df.query("is_valid == True")[['head', 'rel', 'tail']]
-        valids = valids.drop_duplicates(keep='first')
+        # valids = valids.drop_duplicates(keep='first')
         if len(valids) > 0:
             valids = valids.astype(int)
         valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')

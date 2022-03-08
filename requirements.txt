@@ -18,3 +18,4 @@ protobuf
 pandas
 owlready2
 transformers
+importlib

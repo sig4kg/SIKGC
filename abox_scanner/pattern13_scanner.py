@@ -4,6 +4,7 @@ from tqdm import tqdm
 import torch
 
 
+
 # FunctionalProperty(r1), Inverseof(r1, r2) ---- <y r2 x> <z r2 x> and <x r1 y> <z r2 x>
 # r1    r2@@r3@@r4
 class Pattern13(PatternScanner):
@@ -12,10 +13,15 @@ class Pattern13(PatternScanner):
         self._context_resources = context_resources
 
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
+        use_gpu = False
         if torch.cuda.is_available():
-            import cudf
-            print("using cudf ...")
-            df = cudf.DataFrame.from_pandas(triples)
+            try:
+                import cudf
+                print("using cudf ...")
+                df = cudf.DataFrame.from_pandas(triples)
+                use_gpu = True
+            except:
+                df = triples
         else:
             df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
@@ -52,7 +58,7 @@ class Pattern13(PatternScanner):
                             x = row['head']
                             y = row['tail']
                             df.update(r2_df.query("head != @y and tail == @x and is_new==True")['is_valid'].apply(lambda x: False))
-        if torch.cuda.is_available():
+        if use_gpu:
             print("back to cudf ...")
             df = df.head().to_pandas()
         return df

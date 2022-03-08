@@ -14,6 +14,7 @@ class Pattern13(PatternScanner):
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
         if torch.cuda.is_available():
             import cudf
+            print("using cudf ...")
             df = cudf.DataFrame.from_pandas(triples)
         else:
             df = triples
@@ -52,6 +53,7 @@ class Pattern13(PatternScanner):
                             y = row['tail']
                             df.update(r2_df.query("head != @y and tail == @x and is_new==True")['is_valid'].apply(lambda x: False))
         if torch.cuda.is_available():
+            print("back to cudf ...")
             df = df.head().to_pandas()
         return df
 

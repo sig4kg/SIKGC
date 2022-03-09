@@ -4,6 +4,8 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from tqdm import tqdm
 import time
 import pandas as pd
+from abox_scanner import AboxScannerScheduler
+from abox_scanner.abox_utils import ContextResources
 
 
 # DEFAULT_GRAPH = "http://dbpedia.org"
@@ -310,6 +312,28 @@ def get_all_classes_relations(entity2class_uri_file, hrt_uri_file, out_dir):
             all_types.extend(classes)
     all_types = list(set(all_types))
     save_and_append_results(all_types, out_dir + "types.txt")
+
+
+def fix_dbpedia_property_constraints():
+    triples_path = "../resources/DBpedia-politics/PoliticalTriplesWD.txt"  # h, t, r
+    class_and_op_file_path = "../resources/DBpedia-politics/"
+    tbox_patterns_path = "../resources/DBpedia-politics/tbox_patterns/"
+    to_fix_domain_properties = ""
+    to_fix_range_properties = ""
+    work_dir = "../outputs/fixdata/"
+    context_resources = ContextResources(triples_path, class_and_op_file_path= class_and_op_file_path, work_dir=work_dir, create_id_file=False)
+    abox_scanner_scheduler = AboxScannerScheduler.AboxScannerScheduler(tbox_patterns_path, context_resources=context_resources)
+    abox_scanner_scheduler.register_pattern([1, 2, 5,8,9,10,11,12,13], ['pos_domain', 'pos_range'])
+    valids, invalids = abox_scanner_scheduler.scan_IJ_patterns(work_dir='../outputs/test/')
+    context_resources.hrt_int_df = valids
+    with open(to_fix_domain_properties) as fd:
+        lines = fd.readlines()
+        for p in lines:
+            p_id = context_resources.rel2id[p]
+            tris_p = context_resources.hrt_int_df.query("rel == p")
+            h_types = [context_resources.entid2classids[h] for idx, h in tris_p['head'].iterrows()]
+            
+
 
 
 if __name__ == "__main__":

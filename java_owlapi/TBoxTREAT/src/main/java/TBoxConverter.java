@@ -1,3 +1,4 @@
+import org.omg.CORBA.Any;
 import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -70,6 +71,28 @@ public class TBoxConverter {
             RemoveAxiom removeAxiom = new RemoveAxiom(ont, ax);
             man.applyChange(removeAxiom);
         }
+        List<String> toExclude =  new ArrayList<>(Arrays.asList("http://dbpedia.org/class/yago/",
+                "http://www.ontologydesignpatterns.org/" ,
+                "http://www.wikidata.org/"));
+        // remove some classes
+        System.out.println("remove other classes");
+        OWLEntityRemover entRemover = new OWLEntityRemover(ont);
+        ont.classesInSignature().forEach(element -> {
+            if (element.isNamed() && toExclude.stream().anyMatch(element.getIRI().toString()::contains)) {
+                element.accept(entRemover);
+                man.applyChanges(entRemover.getChanges());
+            };
+        });
+
+        // remove datatypes
+        System.out.println("remove datatypes");
+        OWLEntityRemover entRemover2 = new OWLEntityRemover(ont);
+        ont.datatypesInSignature().forEach(element -> {
+            if (!toKeepClasses.contains(element.getIRI().toString()) && element.isNamed()) {
+                element.accept(entRemover2);
+                man.applyChanges(entRemover2.getChanges());
+            };
+        });
 
         Configuration configuration = new Configuration();
         configuration.ignoreUnsupportedDatatypes = true;
@@ -77,6 +100,7 @@ public class TBoxConverter {
         Reasoner.ReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory();
         OWLReasoner reasoner = reasonerFactory.createReasoner(ont, configuration); // It takes time to create Hermit reasoner
         // materialise TBox
+        System.out.println("Materialising.");
         reasoner.precomputeInferences(
                 InferenceType.CLASS_HIERARCHY,
                 InferenceType.CLASS_ASSERTIONS,
@@ -107,12 +131,12 @@ public class TBoxConverter {
                 moreClasses.add(sup.toString());
             }
         }
-        List<String> toExclude =  new ArrayList<>(Arrays.asList("http://dbpedia.org/class/yago/",
-                "http://www.ontologydesignpatterns.org/" ,
-                "http://www.wikidata.org/"));
+
         moreClasses.forEach((String uri) -> {
             if (!toKeepClasses.contains(uri) && !toExclude.stream().anyMatch(uri::contains)) {toKeepClasses.add(uri);};
         });
+
+        //get all parent properties
         List<String> moreOps = new ArrayList<>();
         for (String pro_uri : toKeepProperties) {
             OWLObjectProperty op = dataFactory.getOWLObjectProperty(pro_uri);
@@ -160,22 +184,14 @@ public class TBoxConverter {
 
         // remove other prefix classes
         System.out.println("remove other classes");
-        OWLEntityRemover entRemover = new OWLEntityRemover(ont);
+        OWLEntityRemover entRemover1 = new OWLEntityRemover(ont);
         ont.classesInSignature().forEach(element -> {
-            if (!toKeepClasses.contains(element.getIRI().toString())) {
-                element.accept(entRemover);
-                man.applyChanges(entRemover.getChanges());
+            if (!toKeepClasses.contains(element.getIRI().toString()) && element.isNamed()) {
+                element.accept(entRemover1);
+                man.applyChanges(entRemover1.getChanges());
             };
         });
-        // remove datatypes
-        System.out.println("remove datatypes");
-        OWLEntityRemover entRemover2 = new OWLEntityRemover(ont);
-        ont.datatypesInSignature().forEach(element -> {
-            if (!toKeepClasses.contains(element.getIRI().toString())) {
-                element.accept(entRemover2);
-                man.applyChanges(entRemover2.getChanges());
-            };
-        });
+
         //remove other properties
         System.out.println("remove other properties");
         OWLEntityRemover entRemover3 = new OWLEntityRemover(ont);

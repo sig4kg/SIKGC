@@ -1,3 +1,5 @@
+import datetime
+
 from abox_scanner import abox_utils
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.abox_utils import read_scanned_2_context_df, wait_until_file_is_saved, ContextResources
@@ -15,7 +17,10 @@ def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1, schema_in_
     get_scores = aggregate_scores()
     scores = []
     for ep in trange(loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
+        start_time = datetime.datetime.now()
         init_c1, extend_c1, new_count, new_valid_count, new_correct_count = M_block(context_resource, work_dir, schema_in_nt=schema_in_nt)
+        duration = datetime.datetime.now() - start_time
+        print(f"Materialisation duration: {str(duration)}")
         scores.append(get_scores(init_c1, extend_c1, new_count, new_valid_count, new_correct_count))
     hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
     return scores

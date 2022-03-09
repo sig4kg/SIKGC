@@ -11,9 +11,6 @@ if __name__ == "__main__":
     tbox_patterns_path = "../resources/NELL-patterns/"
     wdir = "../outputs/test/"
 
-    # triples_path = "../resources/DBpedia-politics/PoliticalTriplesWD.txt"  # h, t, r
-    # class_and_op_file_path = "../resources/DBpedia-politics/"
-    # tbox_patterns_path = "../resources/DBpedia-politics/tbox_patterns/"
 
     context_res = ContextResources(triples_path, class_and_op_file_path= class_and_op_file_path, work_dir=wdir, create_id_file=False)
 

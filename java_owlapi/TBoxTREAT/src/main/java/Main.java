@@ -5,11 +5,11 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "DL-lite");
-//        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
+        String task = System.getProperty("task", "SubsetTBox");
+        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/less_tbox.ttl");
 //        String schema_file = System.getProperty("schema", "output/less_tbox.nt");
-        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");

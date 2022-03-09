@@ -90,7 +90,7 @@ public class Materialize2 {
             IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged");
             ontology = merger.createMergedOntology(manager, mergedOntologyIRI1);
         } else {
-            System.out.println("no abox for materialization, will use tbox only.");
+            System.out.println("no extra abox file for materialization, will use one file only.");
         }
         // create Hermit reasoner
         OWLDataFactory df = manager.getOWLDataFactory();
@@ -102,12 +102,12 @@ public class Materialize2 {
         if (!consistencyCheck) {
             System.out.println("Inconsistent input Ontology, Please check the OWL File");
         }
-        for (OWLNamedIndividual ind : ontology.getIndividualsInSignature()){
-            Set<OWLObjectPropertyAssertionAxiom> s = ontology.getObjectPropertyAssertionAxioms(ind);
-            if(s.size() > 0) {
-                System.out.println("stop");
-            }
-        }
+//        for (OWLNamedIndividual ind : ontology.getIndividualsInSignature()){
+//            Set<OWLObjectPropertyAssertionAxiom> s = ontology.getObjectPropertyAssertionAxioms(ind);
+//            if(s.size() > 0) {
+//                System.out.println("stop");
+//            }
+//        }
 
         System.out.println("Materialising, may take time......");
         reasoner.precomputeInferences(

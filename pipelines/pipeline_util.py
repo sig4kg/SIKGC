@@ -60,7 +60,7 @@ def aggregate_scores():
 
 
 def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", consistency_check=True,
-                    create_id_file=True):
+                    create_id_file=False):
     init_workdir(work_dir)
     # prepare tbox patterns
     if tbox_patterns_dir == "" or not os.path.exists(tbox_patterns_dir):

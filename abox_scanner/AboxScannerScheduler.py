@@ -86,8 +86,8 @@ class AboxScannerScheduler:
         df = self._context_resources.hrt_to_scan_df
         new_items = pd.concat([df, old_df, old_df]).drop_duplicates(keep=False)
         df['is_valid'] = True
-        df['is_new'] = False
         if old_df is not None:
+            df['is_new'] = False
             # mask = (df[['head', 'rel', 'tail']].isin(old_df[['head', 'rel', 'tail']])).all(axis=1)
             # pandas has defect with df[mask], it get same values as new_items.
             # df.update(df[mask]['is_new'].apply(lambda x: False))
@@ -97,6 +97,8 @@ class AboxScannerScheduler:
             df.update(new_column)
             del to_filter_out
             del new_column
+        else:
+            df['is_new'] = True
 
         init_invalid = len(df.query("is_valid == False"))
         for scanner in self._IJP_strategies:

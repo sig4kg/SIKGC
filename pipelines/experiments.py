@@ -2,6 +2,7 @@ from pipeline_C_L_C import c_l_c
 from pipeline_C_anyBURL_C import c_anyburl_c
 from pipeline_C_E_C import c_e_c
 from pipeline_C_Rumis_C import c_rumis_c
+from pipeline_C_M import c_m
 from pipeline_CECMCRC import cecmcrc
 from pipeline_CLCMCAC import clcmcac
 from pipeline_CACMCLC import cacmclc
@@ -52,6 +53,14 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                            schema_file=data_conf.schema_file,
                            loops=loops,
                            tbox_patterns_dir=data_conf.tbox_patterns_dir)
+    elif pipeline == "cm":
+        print("CM pipeline")
+        scores = c_m(work_dir=work_dir + f"{pipeline}_{dataset}/",
+                     input_dir=data_conf.input_dir,
+                     schema_file=data_conf.schema_file,
+                     loops=1,
+                     tbox_patterns_dir=data_conf.tbox_patterns_dir,
+                     schema_in_nt=data_conf.schema_in_nt)
     elif pipeline == "clcmcac":
         print("clcmcac pipeline")
         scores = clcmcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
@@ -115,9 +124,9 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
-    parser.add_argument('--dataset', type=str, default="TEST")
+    parser.add_argument('--dataset', type=str, default="NELL")
     parser.add_argument('--work_dir', type=str, default="../outputs/")
-    parser.add_argument('--pipeline', type=str, default="clc")
+    parser.add_argument('--pipeline', type=str, default="cm")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=2)
     parser.add_argument("--rel_model", type=str, default="transe")

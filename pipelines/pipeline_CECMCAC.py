@@ -7,7 +7,8 @@ def cecmcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
     get_scores = aggregate_scores()
     run_scripts.delete_dir(work_dir)
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,
-                                                               tbox_patterns_dir=tbox_patterns_dir)
+                                                               tbox_patterns_dir=tbox_patterns_dir,
+                                                               create_id_file=True)
     # prepare_M(work_dir, schema_file)
     scores = []
     for ep in trange(loops, colour="green", position=0, leave=True, desc="Pipeline processing"):

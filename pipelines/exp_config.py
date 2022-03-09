@@ -84,6 +84,7 @@ class DatasetConfig:
     schema_file = ""
     tbox_patterns_dir = ""
     max_epoch = 2
+    schema_in_nt = ""
 
     def setTest(self):
         self.input_dir = "../resources/TEST/"
@@ -91,6 +92,7 @@ class DatasetConfig:
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 2
         self.exclude_rels = []
+        self.schema_in_nt ='../resources/NELL/tbox.nt'
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"
@@ -98,6 +100,7 @@ class DatasetConfig:
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []
+        self.schema_in_nt ='../resources/NELL/tbox.nt'
 
     def setTREAT(self):
         self.input_dir = "../resources/TREAT/"
@@ -105,6 +108,7 @@ class DatasetConfig:
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
         self.inductive = False
         self.e_max_epoch = 500
+        self.schema_in_nt='../resources/TREAT/tbox.nt'
         self.prefix = "http://treat.net/onto.owl#"
         self.exclude_rels = [self.prefix + "has_parameter",
                              self.prefix + "has_property",

@@ -1,4 +1,3 @@
-import org.omg.CORBA.Any;
 import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;

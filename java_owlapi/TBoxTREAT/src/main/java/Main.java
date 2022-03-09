@@ -8,8 +8,9 @@ public class Main {
         String task = System.getProperty("task", "DL-lite");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/less_tbox.ttl");
-//        String schema_file = System.getProperty("schema", "output/less_tbox.ttl");
+//        String schema_file = System.getProperty("schema", "output/less_tbox.nt");
         String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");

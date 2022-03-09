@@ -260,7 +260,7 @@ public class DLLite {
         OWLOntology merged1 = merger.createMergedOntology(man, mergedOntologyIRI1);
 
         //remove class disjointness
-        System.out.println("Removing class axioms not in DL-Lite ...");
+        System.out.println("Removing DISJOINT_CLASSES axioms ...");
         List<OWLAxiom> toRemoveAxiom1 = new ArrayList<OWLAxiom>();
         toRemoveAxiom.addAll(merged1.getAxioms(AxiomType.DISJOINT_CLASSES));
         for (OWLAxiom ax: toRemoveAxiom) {
@@ -294,8 +294,8 @@ public class DLLite {
             // map D1 to (\some R) and D2 to (\some R-)
             OWLAxiom def1 = factory.getOWLEquivalentClassesAxiom(D1, expD1);
             OWLAxiom def2 = factory.getOWLEquivalentClassesAxiom(D2, expD2);
-            man.addAxiom(ont, def1);
-            man.addAxiom(ont, def2);
+            man.addAxiom(merged1, def1);
+            man.addAxiom(merged1, def2);
             map.put(D1.getIRI().toString(), expD1);
             map.put(D2.getIRI().toString(), expD2);
             // add neg for D1
@@ -303,14 +303,14 @@ public class DLLite {
             OWLClass negClsD1 = factory.getOWLClass(IRI.create(negClsNameD1));
             OWLClassExpression expComplD1 = D1.getObjectComplementOf();
             OWLAxiom negDefD1 = factory.getOWLEquivalentClassesAxiom(negClsD1, expComplD1);
-            man.addAxiom(ont, negDefD1);
+            man.addAxiom(merged1, negDefD1);
             map.put(negClsNameD1, expComplD1);
             // add neg for D2
             String negClsNameD2 = base + "#neg_some_ivs_" + nameR;
             OWLClass negClsD2 = factory.getOWLClass(IRI.create(negClsNameD2));
             OWLClassExpression expComplD2 = D2.getObjectComplementOf();
             OWLAxiom negDefD2 = factory.getOWLEquivalentClassesAxiom(negClsD2, expComplD2);
-            man.addAxiom(ont, negDefD2);
+            man.addAxiom(merged1, negDefD2);
             map.put(negClsNameD2, expComplD2);
         }
 

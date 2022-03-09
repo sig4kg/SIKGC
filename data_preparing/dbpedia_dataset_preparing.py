@@ -329,10 +329,10 @@ def fix_dbpedia_property_constraints():
     context_resources.hrt_int_df = valids
     exclude_type = "http://www.w3.org/2002/07/owl#Thing"
     p2domain = {}
-    with open(to_fix_domain_properties) as fd:
-        lines = fd.readlines()
+    with open(to_fix_domain_properties) as fd1:
+        lines1 = fd1.readlines()
         not_found = []
-        for p in lines:
+        for p in lines1:
             p = p.strip()
             if p not in context_resources.rel2id:
                 not_found.append(p)
@@ -364,53 +364,54 @@ def fix_dbpedia_property_constraints():
             if not found:
                 not_found.append(p)
 
-        p2range = {}
-        with open(to_fix_range_properties) as fd:
-            lines = fd.readlines()
-            not_found2 = []
-            for p in lines:
-                p = p.strip()
-                if p not in context_resources.rel2id:
-                    not_found2.append(p)
+    p2range = {}
+    with open(to_fix_range_properties) as fd2:
+        lines2 = fd2.readlines()
+        not_found2 = []
+        for p in lines2:
+            p = p.strip()
+            if p not in context_resources.rel2id:
+                not_found2.append(p)
+                continue
+            p_id = context_resources.rel2id[p]
+            tris_p = context_resources.hrt_int_df.query("rel == @p_id")
+            if len(tris_p.index) == 0:
+                not_found2.append(p)
+                continue
+            len_tris = len(tris_p.index)
+            h_types = [t for h in tris_p['tail'] for t in context_resources.entid2classids[h]]
+            h_counter = Counter(h_types)
+            found = False
+            for a in h_counter.most_common():
+                ta_count = a[1]
+                ta = a[0]
+                if ta == -1:
+                    len_tris = len_tris - 1
                     continue
-                p_id = context_resources.rel2id[p]
-                tris_p = context_resources.hrt_int_df.query("rel == @p_id")
-                if len(tris_p.index) == 0:
-                    not_found2.append(p)
+                ta_uri = context_resources.classid2class[ta]
+                if ta_uri == exclude_type or 'http://dbpedia.org/ontology/' not in ta_uri:
                     continue
-                len_tris = len(tris_p.index)
-                h_types = [t for h in tris_p['tail'] for t in context_resources.entid2classids[h]]
-                h_counter = Counter(h_types)
-                found = False
-                for a in h_counter.most_common():
-                    ta_count = a[1]
-                    ta = a[0]
-                    if ta == -1:
-                        len_tris = len_tris - 1
-                        continue
-                    ta_uri = context_resources.classid2class[ta]
-                    if ta_uri == exclude_type or 'http://dbpedia.org/ontology/' not in ta_uri:
-                        continue
-                    else:
-                        rate = ta_count / len_tris
-                        if rate > 0.75:
-                            p2range.update({p: ta_uri})
-                            found = True
-                        break
-                if not found:
-                    not_found2.append(p)
-        print(len(p2domain))
-        all_pro = set(p2domain.keys())
-        all_pro.add(p2range.keys())
-        constrains = []
-        for pp in all_pro:
-            if pp in p2domain:
-                row1 = f"<{p}> <http://www.w3.org/2000/01/rdf-schema#domain> <{p2domain[pp]}> .\n"
-                constrains.append(row1)
-            if pp in p2range:
-                row2 = f"<{p}> <http://www.w3.org/2000/01/rdf-schema#range> <{p2range[pp]}> .\n"
-                constrains.append(row2)
-        save_and_append_results(constrains, work_dir + "fixed_uri.nt")
+                else:
+                    rate = ta_count / len_tris
+                    if rate > 0.75:
+                        p2range.update({p: ta_uri})
+                        found = True
+                    break
+            if not found:
+                not_found2.append(p)
+
+    all_pro = [k for k in p2domain.keys()]
+    all_pro.extend([k for k in p2range.keys()])
+    all_pro = list(set(all_pro))
+    constrains = []
+    for pp in all_pro:
+        if pp in p2domain:
+            row1 = f"<{pp}> <http://www.w3.org/2000/01/rdf-schema#domain> <{p2domain[pp]}> ."
+            constrains.append(row1)
+        if pp in p2range:
+            row2 = f"<{pp}> <http://www.w3.org/2000/01/rdf-schema#range> <{p2range[pp]}> ."
+            constrains.append(row2)
+    save_and_append_results(constrains, work_dir + "fixed_uri.nt")
 
 
 

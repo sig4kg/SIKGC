@@ -44,27 +44,29 @@ def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=
     df = read_hrt_2_df(work_dir + "all_triples.tsv")
     rels = df['rel'].drop_duplicates(keep='first')
     total =len(df.index)
-    rate = len(rels.index) * 50 / total
+    rate = len(rels.index) * 100 / total
     rate = rate if rate < 0.1 else 0.1
-    if inductive:
-        drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
-                      seed=0)
+    # if inductive:
+    #     drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
+    #                   seed=0)
         # os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
-    else:
-        count_dev = int(total * rate)
-        count_dev = len(rels) if count_dev < len(rels) else count_dev
-        sample_dev = df.groupby('rel').sample(n=1)
-        if len(sample_dev) < count_dev:
-            diff_df = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
-            sample_dev = pd.concat([sample_dev, diff_df.sample(count_dev - len(sample_dev))])
-        sample_train = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
-        rels_train = sample_train['rel'].drop_duplicates(keep='first')
-        if len(rels_train) < len(rels):
-            miss_rel = pd.concat([rels, rels_train, rels_train]).drop_duplicates(keep=False)
-            filtered_tris = sample_dev[sample_dev['rel'].isin(list(miss_rel))]
-            sample_train = pd.concat([sample_train, filtered_tris])
-        sample_train.to_csv(osp.join(work_dir, f'train.tsv'), header=False, index=False, sep='\t')
-        sample_dev.to_csv(osp.join(work_dir, f'dev.tsv'), header=False, index=False, sep='\t')
+    # else:
+    train_name = "ind-train.tsv" if inductive else "train.tsv"
+    dev_name = "ind-dev.tsv" if inductive else "dev.tsv"
+    count_dev = int(total * rate)
+    count_dev = len(rels) if count_dev < len(rels) else count_dev
+    sample_dev = df.groupby('rel').sample(n=1)
+    if len(sample_dev) < count_dev:
+        diff_df = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
+        sample_dev = pd.concat([sample_dev, diff_df.sample(count_dev - len(sample_dev))])
+    sample_train = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
+    rels_train = sample_train['rel'].drop_duplicates(keep='first')
+    if len(rels_train) < len(rels):
+        miss_rel = pd.concat([rels, rels_train, rels_train]).drop_duplicates(keep=False)
+        filtered_tris = sample_dev[sample_dev['rel'].isin(list(miss_rel))]
+        sample_train = pd.concat([sample_train, filtered_tris])
+    sample_train.to_csv(osp.join(work_dir, train_name), header=False, index=False, sep='\t')
+    sample_dev.to_csv(osp.join(work_dir, dev_name), header=False, index=False, sep='\t')
         # if len(exclude_rels) > 0:
         #     df_test = df.query("not rel in @exclude_rels")
         #     df_test.to_csv(f"{work_dir}test.tsv", header=False, index=False, sep='\t')

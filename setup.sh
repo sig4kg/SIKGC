@@ -9,3 +9,4 @@ export PYTHONPATH=$PYTHONPATH:$DIR_TMP/pipelines
 export PYTHONPATH=$PYTHONPATH:$DIR_TMP/scripts
 export PYTHONWARNINGS='ignore:semaphore_tracker:UserWarning'
 echo PYTHONPATH=$PYTHONPATH
+export PATH=$PATH:$JAVA_HOME/bin

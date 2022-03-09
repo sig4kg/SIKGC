@@ -60,7 +60,7 @@ def aggregate_scores():
 
 
 def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", consistency_check=True,
-                    create_id_file=False):
+                    create_id_file=False, abox_file_hrt=""):
     init_workdir(work_dir)
     # prepare tbox patterns
     if tbox_patterns_dir == "" or not os.path.exists(tbox_patterns_dir):
@@ -69,7 +69,11 @@ def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", cons
     # mv data to work_dir
     os.system(f"cp {input_dir}* {work_dir}")
     # initialize context resource and check consistency
-    context_resource = ContextResources(input_dir + "abox_hrt_uri.txt", class_and_op_file_path=work_dir,
+    if abox_file_hrt != "":
+        abox_file_path = abox_file_hrt
+    else:
+        abox_file_path = input_dir + "abox_hrt_uri.txt"
+    context_resource = ContextResources(abox_file_path, class_and_op_file_path=work_dir,
                                         work_dir=work_dir, create_id_file=create_id_file)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_dir, context_resource)

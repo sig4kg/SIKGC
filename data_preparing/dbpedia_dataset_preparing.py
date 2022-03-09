@@ -1,3 +1,4 @@
+from collections import Counter
 from pathlib import Path
 import platform
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -315,27 +316,58 @@ def get_all_classes_relations(entity2class_uri_file, hrt_uri_file, out_dir):
 
 
 def fix_dbpedia_property_constraints():
-    triples_path = "../resources/DBpedia-politics/PoliticalTriplesWD.txt"  # h, t, r
+    triples_path = "../resources/DBpediaP/PoliticalTriplesWD.txt"  # h, t, r
     class_and_op_file_path = "../resources/DBpedia-politics/"
     tbox_patterns_path = "../resources/DBpedia-politics/tbox_patterns/"
-    to_fix_domain_properties = ""
-    to_fix_range_properties = ""
+    to_fix_domain_properties = "../resources/DBpediaP/fixDomain.txt"
+    to_fix_range_properties = "../resources/DBpediaP/fixRange.txt"
     work_dir = "../outputs/fixdata/"
     context_resources = ContextResources(triples_path, class_and_op_file_path= class_and_op_file_path, work_dir=work_dir, create_id_file=False)
     abox_scanner_scheduler = AboxScannerScheduler.AboxScannerScheduler(tbox_patterns_path, context_resources=context_resources)
-    abox_scanner_scheduler.register_pattern([1, 2, 5,8,9,10,11,12,13], ['pos_domain', 'pos_range'])
+    abox_scanner_scheduler.register_pattern([1, 2], ['pos_domain', 'pos_range'] ) #, 5,8,9,10,11,12,13
     valids, invalids = abox_scanner_scheduler.scan_IJ_patterns(work_dir='../outputs/test/')
     context_resources.hrt_int_df = valids
+    exclude_type = "http://www.w3.org/2002/07/owl#Thing"
+    p2domain = {}
     with open(to_fix_domain_properties) as fd:
         lines = fd.readlines()
+        not_found = []
         for p in lines:
+            p = p.strip()
+            if p not in context_resources.rel2id:
+                not_found.append(p)
+                continue
             p_id = context_resources.rel2id[p]
-            tris_p = context_resources.hrt_int_df.query("rel == p")
-            h_types = [context_resources.entid2classids[h] for idx, h in tris_p['head'].iterrows()]
-            
+            tris_p = context_resources.hrt_int_df.query("rel == @p_id")
+            if len(tris_p.index) == 0:
+                not_found.append(p)
+                continue
+            len_tris = len(tris_p.index)
+            h_types = [t for h in tris_p['head'] for t in context_resources.entid2classids[h]]
+            h_counter = Counter(h_types)
+            found = False
+            for a in h_counter.most_common():
+                ta_count = a[1]
+                ta = a[0]
+                if ta == -1:
+                    continue
+                ta_uri = context_resources.classid2class[ta]
+                if ta_uri == exclude_type or 'http://dbpedia.org/ontology/' not in ta_uri:
+                    continue
+                else:
+                    rate = ta_count / len_tris
+                    if rate > 0.75:
+                        p2domain.update({p: ta_uri})
+                        found = True
+                    break
+            if not found:
+                not_found.append(p)
+        print(len(p2domain))
+
 
 
 
 if __name__ == "__main__":
     # get_all_classes_relations("../resources/DBpedia-politics/entity2type.txt", "../resources/DBpedia-politics/PoliticalTriplesWD.txt", out_dir="../outputs/test_dbpedia/")
-    generate_entity2type("../resources/DBpediaP/PoliticalTriplesWD.txt", "../outputs/dbpedia_data/")
+    # generate_entity2type("../resources/DBpediaP/PoliticalTriplesWD.txt", "../outputs/dbpedia_data/")
+    fix_dbpedia_property_constraints()

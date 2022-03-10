@@ -106,7 +106,6 @@ class DatasetConfig:
         self.input_dir = "../resources/TREAT/"
         self.schema_file = '../resources/TREAT/tbox.nt'
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
-        self.inductive = False
         self.e_max_epoch = 500
         self.schema_in_nt='../resources/TREAT/tbox.nt'
         self.prefix = "http://treat.net/onto.owl#"
@@ -120,10 +119,11 @@ class DatasetConfig:
 
     def setDBpedia(self):
         self.input_dir = "../resources/DBpedia-politics/"
-        self.schema_file = '../resources/DBpediaP/dbpedia_2016-10.owl'
+        self.schema_file = '../resources/DBpediaP/resized_tbox.nt'
         self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []
+        self.schema_in_nt ='../resources/DBpediaP/resized_tbox.nt'
 
     def get_config(self, dataset):
         if dataset == "NELL":

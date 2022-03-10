@@ -5,6 +5,7 @@ import os
 import os.path as osp
 from itertools import zip_longest
 import pandas as pd
+import random
 
 
 def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, context_resource: ContextResources) -> pd.DataFrame:
@@ -47,24 +48,34 @@ def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
 def split_all_triples_anyburl(context_resource, anyburl_dir, exclude_rels=[]):
     df = read_hrt_2_df(anyburl_dir + "all_triples.txt")
     rels = df['rel'].drop_duplicates(keep='first')
-    count_dev = int(len(df) * 0.1 if len(rels) < len(df) * 0.1 else len(rels))
-    sample_dev = df.groupby('rel').sample(n=1)
-    if len(sample_dev) < count_dev:
-        diff_df = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
-        sample_dev = pd.concat([sample_dev, diff_df.sample(count_dev - len(sample_dev))])
-    sample_train = pd.concat([df, sample_dev, sample_dev]).drop_duplicates(keep=False)
+    total =len(df.index)
+    rate = len(rels.index) * 100 / total
+    rate = rate if rate < 0.1 else 0.1
+    count_dev = int(total * rate)
+    count_dev = len(rels) if count_dev < len(rels) else count_dev
+    groups = df.groupby('rel')
+    dev_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+    for g in groups:
+        r_triples_df = g[1]
+        sample_num = int(len(r_triples_df.index) * rate)
+        sample_num = 1 if sample_num < 1 else sample_num
+        random_sample_count = random.randint(1, sample_num)
+        dev_r = r_triples_df.sample(random_sample_count)
+        dev_df = pd.concat([dev_df, dev_r])
+    if len(dev_df) < count_dev:
+        diff_df = pd.concat([df, dev_df, dev_df]).drop_duplicates(keep=False)
+        dev_df = pd.concat([dev_df, diff_df.sample(count_dev - len(dev_df))])
+    sample_train = pd.concat([df, dev_df, dev_df]).drop_duplicates(keep=False)
     rels_train = sample_train['rel'].drop_duplicates(keep='first')
     if len(rels_train) < len(rels):
         miss_rel = pd.concat([rels, rels_train, rels_train]).drop_duplicates(keep=False)
-        filtered_tris = sample_dev[sample_dev['rel'].isin(list(miss_rel))]
+        filtered_tris = dev_df[dev_df['rel'].isin(list(miss_rel))]
         sample_train = pd.concat([sample_train, filtered_tris])
     sample_train.to_csv(osp.join(anyburl_dir, f'train.txt'), header=False, index=False, sep='\t')
-    sample_dev.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
+    dev_df.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
     if len(exclude_rels) > 0:
         df_test = df.query("not rel in @exclude_rels")
-        # df_test.to_csv(osp.join(anyburl_dir, f'test.txt'), header=False, index=False, sep='\t')
     else:
-        # os.system(f"cp {anyburl_dir}all_triples.txt {anyburl_dir}test.txt")
         df_test = df
     df_hr = df_test.drop_duplicates(['head', 'rel'], keep='first')
     df_rt = df_test.drop_duplicates(['rel', 'tail'], keep='first')

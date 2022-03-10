@@ -411,8 +411,8 @@ public class DLLite {
         // Now we create a stream since the ontology manager can then write to that stream.
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
             // We use the nt format as for the input ontology.
-//             NTriplesDocumentFormat format = new NTriplesDocumentFormat();
-            TurtleDocumentFormat format = new TurtleDocumentFormat();
+             NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+//            TurtleDocumentFormat format = new TurtleDocumentFormat();
             man.saveOntology(merged3, format, outputStream);
         } catch (Exception e) {
             System.out.println(e.getMessage());

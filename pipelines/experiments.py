@@ -17,9 +17,11 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
     run_scripts.mk_dir(work_dir)
     blp_conf = BLPConfig().get_blp_config(rel_model, inductive)
     data_conf = DatasetConfig().get_config(dataset)
-    if dataset == "DBpedia":
+    if dataset == "DBpedia" and inductive:
         blp_conf['max_epochs'] = 40
         blp_conf['lr'] = 1e-5,
+    elif dataset == "DBpedia":
+        blp_conf['max_epochs'] = 30
     scores = []
     if pipeline == "cac":
         print("CRC pipeline")

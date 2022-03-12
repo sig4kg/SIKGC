@@ -169,7 +169,6 @@ class BOW(WordEmbeddingsLP):
         lengths = torch.sum(text_mask, dim=-1, keepdim=True)
         embs = torch.sum(text_mask.unsqueeze(dim=-1) * embs, dim=1)
         embs = embs / lengths
-
         return embs
 
 

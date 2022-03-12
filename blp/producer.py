@@ -530,7 +530,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     else:
         if model.startswith('bert') or model == 'blp':
             tokenizer = BertTokenizer.from_pretrained(encoder_name)
-        if model == 'fasttext':
+        elif model == 'fasttext':
             tokenizer = extend_models.FastTextTokenizer()
         else:
             tokenizer = GloVeTokenizer('../saved_models/glove/glove.6B.300d-maps.pt')

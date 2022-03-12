@@ -25,7 +25,7 @@ class ExpConfig:
         self.schema_file = '../resources/NELL/NELL.ontology.nt'
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.inductive = True
-        self.literal_model = "blp"
+        self.literal_model = "fasttext"
         self.e_max_epoch = 2
         self.l_max_epoch = 4
         self.l_lr=3e-5
@@ -210,11 +210,12 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
-    parser.add_argument('--dataset', type=str, default="TREAT")
+    parser.add_argument('--dataset', type=str, default="TEST")
     parser.add_argument('--work_dir', type=str, default="../outputs/")
     parser.add_argument('--pipeline', type=str, default="clc")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=3)
+    parser.add_argument('--inductive', type=bool, default=True)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,

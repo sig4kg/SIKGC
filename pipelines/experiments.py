@@ -12,16 +12,12 @@ from scripts import run_scripts
 import argparse
 from exp_config import *
 
+# by Sylvia Wang
 
 def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_gpu=False, loops=3, rel_model="transe", inductive=False):
     run_scripts.mk_dir(work_dir)
-    blp_conf = BLPConfig().get_blp_config(rel_model, inductive)
+    blp_conf = BLPConfig().get_blp_config(rel_model, inductive, dataset)
     data_conf = DatasetConfig().get_config(dataset)
-    if dataset == "DBpedia" and inductive:
-        blp_conf.update({'max_epochs': 60})
-        blp_conf.update({'lr': 1e-5})
-    elif dataset == "DBpedia":
-        blp_conf.update({'max_epochs': 40})
     scores = []
     if pipeline == "cac":
         print("CRC pipeline")
@@ -129,13 +125,13 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
-    parser.add_argument('--dataset', type=str, default="TEST")
+    parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/")
     parser.add_argument('--pipeline', type=str, default="clc")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=2)
     parser.add_argument("--rel_model", type=str, default="transe")
-    parser.add_argument("--inductive", type=bool, default=False)
+    parser.add_argument("--inductive", type=bool, default=True)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,

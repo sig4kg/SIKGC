@@ -62,7 +62,7 @@ class BLPConfig:
         }
         return conf
 
-    def get_blp_config(self, rel_model, inductive):
+    def get_blp_config(self, rel_model, inductive, dataset):
         if rel_model == 'transe':
             tmp_conf = self.getTranse()
         elif rel_model == "complex":
@@ -75,6 +75,16 @@ class BLPConfig:
         tmp_conf.update({'inductive': inductive})
         if not inductive:
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
+
+        if dataset == "DBpedia" and inductive:
+            tmp_conf.update({'max_epochs': 60})
+            tmp_conf.update({'lr': 1e-5})
+        elif dataset == "DBpedia":
+            tmp_conf.update({'max_epochs': 40})
+        elif dataset == "TREAT" and inductive:
+            tmp_conf.update({'model': 'fasttext'})
+            tmp_conf.update({'lr': 2e-6})
+            tmp_conf.update({'max_epochs': 40})
         return tmp_conf
 
 

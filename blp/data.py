@@ -341,11 +341,10 @@ def test_text_graph_dataset():
     from torch.utils.data import DataLoader
 
     tok = transformers.AlbertTokenizer.from_pretrained('albert-base-v2')
-    gtr = TextGraphDataset('data/wikifb15k237/train-triples.txt', max_len=32,
+    gtr = TextGraphDataset('../outputs/clc_TREAT/ind-train.tsv', max_len=32,
                            neg_samples=32, tokenizer=tok, drop_stopwords=False)
     loader = DataLoader(gtr, batch_size=8, collate_fn=gtr.collate_fn)
     data = next(iter(loader))
-
     print('Done')
 
 

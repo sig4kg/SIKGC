@@ -1,7 +1,7 @@
 import os
 import os.path as osp
 from pathlib import Path
-
+from blp.extend_models import *
 import networkx as nx
 import torch
 from torch.optim import Adam
@@ -513,6 +513,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                 tokenizer = BertTokenizer.from_pretrained(os.path.join(bert_path, "vocab.txt"))
             else:
                 tokenizer = BertTokenizer.from_pretrained(encoder_name)
+        elif model == 'fasttext':
+            tokenizer = FastTextTokenizer()
         else:
             tokenizer = GloVeTokenizer('data/glove/glove.6B.300d-maps.pt')
 

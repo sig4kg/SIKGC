@@ -1,6 +1,7 @@
 import torch
 import logging
 import models
+import extend_models
 
 
 def get_model(model, dim, rel_model, loss_fn, num_entities, num_relations,
@@ -24,6 +25,8 @@ def get_model(model, dim, rel_model, loss_fn, num_entities, num_relations,
         return models.TransductiveLinkPrediction(dim, rel_model, loss_fn,
                                                  num_entities, num_relations,
                                                  regularizer)
+    elif model == 'fasttext':
+        return extend_models.FastTextEmbeddingLP(dim, rel_model, loss_fn, num_relations, regularizer)
     else:
         raise ValueError(f'Unkown model {model}')
 

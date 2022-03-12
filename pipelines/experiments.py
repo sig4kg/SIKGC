@@ -18,10 +18,10 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
     blp_conf = BLPConfig().get_blp_config(rel_model, inductive)
     data_conf = DatasetConfig().get_config(dataset)
     if dataset == "DBpedia" and inductive:
-        blp_conf.update({'max_epochs': 40})
+        blp_conf.update({'max_epochs': 60})
         blp_conf.update({'lr': 1e-5})
     elif dataset == "DBpedia":
-        blp_conf.update({'max_epochs': 30})
+        blp_conf.update({'max_epochs': 40})
     scores = []
     if pipeline == "cac":
         print("CRC pipeline")

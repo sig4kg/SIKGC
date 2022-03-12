@@ -6320,7 +6320,5 @@ http://treat.net/onto.owl#alarm_para_instance_3344
 http://treat.net/onto.owl#alm_221257768_usm41_8132
 http://treat.net/onto.owl#alm_221257768_usm41_8148
 http://treat.net/onto.owl#alm_221257855_usm41_8129
-http://treat.net/onto.owl#cell_3302
-http://treat.net/onto.owl#cell_3303
-http://treat.net/onto.owl#cell_3304
-http://treat.net/onto.owl#cell_3305
+http://treat.net/onto.owl#service_3329
+http://treat.net/onto.owl#service_3330

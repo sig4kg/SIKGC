@@ -1,427 +1,427 @@
-http://treat.net/onto.owl#nf_0	Access and Mobility Management Function
-http://treat.net/onto.owl#nf_1	Binding Support Function
-http://treat.net/onto.owl#nf_2	E-UTRAN NodeB
-http://treat.net/onto.owl#nf_3	Gateway GPRS Support Node
-http://treat.net/onto.owl#nf_4	Next Generation NodeB
-http://treat.net/onto.owl#nf_5	Home Subscriber Server
-http://treat.net/onto.owl#nf_6	Mobility Management Entity
-http://treat.net/onto.owl#nf_7	Mobile Switching Center
-http://treat.net/onto.owl#nf_8	Network Repository Function
-http://treat.net/onto.owl#nf_9	Network Slice Selection Function
-http://treat.net/onto.owl#nf_10	Policy Control Function
-http://treat.net/onto.owl#nf_11	Policy and Charging rules Function
-http://treat.net/onto.owl#nf_12	PDN Gateway for Control Plane
-http://treat.net/onto.owl#nf_13	PDN Gateway for User Plane
-http://treat.net/onto.owl#nf_14	Serving GPRS Support Node
-http://treat.net/onto.owl#nf_15	Serving Gateway for Control Plane
-http://treat.net/onto.owl#nf_16	Serving Gateway for User Plane
-http://treat.net/onto.owl#nf_17	Session Management Function
-http://treat.net/onto.owl#nf_18	Short Message Service Function
-http://treat.net/onto.owl#nf_19	Unified Data Management
-http://treat.net/onto.owl#nf_20	User Plane Function
-http://treat.net/onto.owl#nf_21	Data Network
-http://treat.net/onto.owl#vm_0	Operation and Maintenance Unit
-http://treat.net/onto.owl#vm_1	Operation and Maintenance Unit F
-http://treat.net/onto.owl#vm_2	Operation and Maintenance Unit G1
-http://treat.net/onto.owl#vm_3	Public Business Unit for Interface
-http://treat.net/onto.owl#vm_4	Public Business Unit for Interface G1
-http://treat.net/onto.owl#vm_5	Public Business Unit for Computation A
-http://treat.net/onto.owl#vm_6	Public Business Unit for Computation A1
-http://treat.net/onto.owl#vm_7	Public Business Unit for Computation A2
-http://treat.net/onto.owl#vm_8	Public Business Unit for Computation S
-http://treat.net/onto.owl#vm_9	Public Business Unit for Computation S1
-http://treat.net/onto.owl#vm_10	Public Business Unit for Memory
-http://treat.net/onto.owl#vm_11	Public Business Unit for Memory G1
-http://treat.net/onto.owl#vm_12	Public Business Unit for Memory G10
-http://treat.net/onto.owl#vm_13	Platform Public Business Unit for UDR
-http://treat.net/onto.owl#vm_14	Public Business Unit for Computation G1
-http://treat.net/onto.owl#vm_15	Public Business Unit for Computation N
-http://treat.net/onto.owl#vm_16	Public Business Unit for Computation N1
-http://treat.net/onto.owl#microservice_0	Access and Mobility Management
-http://treat.net/onto.owl#microservice_1	APP Control
-http://treat.net/onto.owl#microservice_2	Charging Management
-http://treat.net/onto.owl#microservice_3	Cloud Session Database
-http://treat.net/onto.owl#microservice_4	Cloud Service Load Balancer
-http://treat.net/onto.owl#microservice_5	Gb Interface Management
-http://treat.net/onto.owl#microservice_6	GPRS Tunneling Protocol for Controlling
-http://treat.net/onto.owl#microservice_7	Virtualized Network Routing Service
-http://treat.net/onto.owl#microservice_8	LINK
-http://treat.net/onto.owl#microservice_9	MME Chain Redundancy
-http://treat.net/onto.owl#microservice_10	Network Repository Function
-http://treat.net/onto.owl#microservice_11	Non Service-based Interface Management
-http://treat.net/onto.owl#microservice_12	Network Slice Selection Function
-http://treat.net/onto.owl#microservice_13	Service-based Interface Management
-http://treat.net/onto.owl#microservice_14	Session Management
-http://treat.net/onto.owl#microservice_15	Short Message Service
-http://treat.net/onto.owl#microservice_17	APP Operation and Maintenance Platform
-http://treat.net/onto.owl#microservice_18	Unified Service Node
-http://treat.net/onto.owl#alm_3451	License Emergency Protection
-http://treat.net/onto.owl#alm_5117	Communication Failure Between VNFMAdaptor and VNFM
-http://treat.net/onto.owl#alm_5213	License Control Item Is About to Expire
-http://treat.net/onto.owl#alm_5215	License Control Item Expired
-http://treat.net/onto.owl#alm_5217	License Control Item Restrict Service
-http://treat.net/onto.owl#alm_5221	License File Invalid
-http://treat.net/onto.owl#alm_5521	Service Center and Service Communication Failure
-http://treat.net/onto.owl#alm_5522	Service Isolation Fault
-http://treat.net/onto.owl#alm_5523	CSE Service Exception
-http://treat.net/onto.owl#alm_5541	CertMgr certificate expired
-http://treat.net/onto.owl#alm_5557	Downloading Plug-in Failed
-http://treat.net/onto.owl#alm_5558	Failed to Import a Plug-in Package to the Database
-http://treat.net/onto.owl#alm_5559	Failed to Deliver a Plug-in Task
-http://treat.net/onto.owl#alm_5560	Downloading or Loading Plug-in Failed
-http://treat.net/onto.owl#alm_6060	Faulty OMLB Component
-http://treat.net/onto.owl#alm_6806	Threshold-Controlled Conditions Met(Critical)
-http://treat.net/onto.owl#alm_6807	Threshold-Controlled Conditions Met(Major)
-http://treat.net/onto.owl#alm_6808	Threshold-Controlled Conditions Met(Minor)
-http://treat.net/onto.owl#alm_6809	Threshold-Controlled Conditions Met(Warning)
-http://treat.net/onto.owl#alm_7501	System Backup Failed
-http://treat.net/onto.owl#alm_10336	M3UA Route Unavailable
-http://treat.net/onto.owl#alm_10337	M3UA Destination Entity Inaccessible
-http://treat.net/onto.owl#alm_10341	SCCP DPC Prohibited
-http://treat.net/onto.owl#alm_10342	SCCP Subsystem Prohibited
-http://treat.net/onto.owl#alm_10343	Peer SCCP Fault
-http://treat.net/onto.owl#alm_10373	IP NS-VC Dynamic Negotiation Fault
-http://treat.net/onto.owl#alm_10407	RNC ID inconsistent with peer
-http://treat.net/onto.owl#alm_10701	User Congestion
-http://treat.net/onto.owl#alm_10750	Gr Interface Traffic Overload
-http://treat.net/onto.owl#alm_10752	E-SMLC Inaccessible
-http://treat.net/onto.owl#alm_10753	Fixed-Rate Flow Control Starts on the S6a/S6d Interface
-http://treat.net/onto.owl#alm_10754	Unified HTR Flow Control Started
-http://treat.net/onto.owl#alm_10770	SCTP Flow Control on the S1 Interface
-http://treat.net/onto.owl#alm_10810	CG Not Configured
-http://treat.net/onto.owl#alm_11452	MVNO Resource Congestion
-http://treat.net/onto.owl#alm_11947	Configuration Does Not Take Effect
-http://treat.net/onto.owl#alm_11962	Process Traffic Decrease
-http://treat.net/onto.owl#alm_12001	Number of Measurement Objects Reaches or Exceeds Maximum Specification
-http://treat.net/onto.owl#alm_12605	GGSN Path Down Manual Resume
-http://treat.net/onto.owl#alm_14003	eNodeB ID Repetition
-http://treat.net/onto.owl#alm_14004	Configuration Inconsistency in TAIs on the MME and eNodeB
-http://treat.net/onto.owl#alm_14005	Batched S1ap Link Faults
-http://treat.net/onto.owl#alm_14006	SCTP Packet Error Rate Too High
-http://treat.net/onto.owl#alm_14010	S1 Interface Payload Protocol ID Error
-http://treat.net/onto.owl#alm_14025	Frequent Intermittence of Links in Batches
-http://treat.net/onto.owl#alm_14033	SGsAP Peer Down
-http://treat.net/onto.owl#alm_14050	MVNO Resource Exceeds Limit
-http://treat.net/onto.owl#alm_80589	S1ap Link Down
-http://treat.net/onto.owl#alm_80590	MME Configuration Update Fault
-http://treat.net/onto.owl#alm_80591	Diameter Link Down
-http://treat.net/onto.owl#alm_80592	Diameter Route Invalid
-http://treat.net/onto.owl#alm_80593	Diameter Peer Down
-http://treat.net/onto.owl#alm_80597	SGsAP Link Down
-http://treat.net/onto.owl#alm_80610	GTPC Tunnel Path Broken
-http://treat.net/onto.owl#alm_80619	DNS Link Down
-http://treat.net/onto.owl#alm_80629	System Service Resource Congestion
-http://treat.net/onto.owl#alm_80630	System Service Resource Overload
-http://treat.net/onto.owl#alm_80631	Single Process Service Resource Congestion
-http://treat.net/onto.owl#alm_80632	Single Process Service Resource Overload
-http://treat.net/onto.owl#alm_80633	M3UA Signaling Link Failed
-http://treat.net/onto.owl#alm_80634	M3UA Signaling Link Congestion
-http://treat.net/onto.owl#alm_80635	M3UA Destination IP Address Inaccessible
-http://treat.net/onto.owl#alm_80636	GBP PDP Resource Congestion
-http://treat.net/onto.owl#alm_80637	GBP Cell Congestion
-http://treat.net/onto.owl#alm_80638	No Available NS-VC in NSE
-http://treat.net/onto.owl#alm_80639	Gb Ciphering Channel Fault
-http://treat.net/onto.owl#alm_80640	IP NS-VC Link Fault
-http://treat.net/onto.owl#alm_80641	Hard disk Operation Failed
-http://treat.net/onto.owl#alm_80642	Insufficient Disk Space
-http://treat.net/onto.owl#alm_80643	CDRs Cached on The Hard Disk
-http://treat.net/onto.owl#alm_80644	Abnormal NSE Configurations
-http://treat.net/onto.owl#alm_80645	Number of Empty CDR Files Created on the Disk Reaches the Threshold
-http://treat.net/onto.owl#alm_80647	Diameter Destination IP Address Inaccessible
-http://treat.net/onto.owl#alm_80648	SGsAP Destination IP Address Inaccessible
-http://treat.net/onto.owl#alm_80649	Flow Control on S1 Mode Paging
-http://treat.net/onto.owl#alm_80650	GTPC Path Number Congestion
-http://treat.net/onto.owl#alm_80651	GTPC Path Number Overload
-http://treat.net/onto.owl#alm_80652	One DNS Server No Response
-http://treat.net/onto.owl#alm_80653	All DNS Servers No Response
-http://treat.net/onto.owl#alm_80654	System Be Attacked by GTP-C Messages
-http://treat.net/onto.owl#alm_80655	Gp GTPU Tunnel Path Broken
-http://treat.net/onto.owl#alm_80656	Gp GTPC Tunnel Path Broken
-http://treat.net/onto.owl#alm_80658	User Resource Overload
-http://treat.net/onto.owl#alm_80659	User Resource Congest
-http://treat.net/onto.owl#alm_80661	GTPU Tunnel Path Broken
-http://treat.net/onto.owl#alm_80663	Communications Between CG and SGSN Interrupted
-http://treat.net/onto.owl#alm_80664	Internal CDRs Send Fail
-http://treat.net/onto.owl#alm_80666	Software Package Version Not Matching Local Configuration
-http://treat.net/onto.owl#alm_80667	System Flowctrl Startup
-http://treat.net/onto.owl#alm_80668	Inconsistent RAT-Type associated with the same TAI
-http://treat.net/onto.owl#alm_80669	APN-based Low-Priority Service Flow Control
-http://treat.net/onto.owl#alm_80670	Low-Priority Service Access Flow Control
-http://treat.net/onto.owl#alm_80671	Inter-MME Access Flow Control
-http://treat.net/onto.owl#alm_80672	H-SFN Reference Time Later Than the System Time
-http://treat.net/onto.owl#alm_80673	Notification of the Change in the Leap Second Difference Between the GPS Time and UTC
-http://treat.net/onto.owl#alm_80674	SBcAP Link Fault
-http://treat.net/onto.owl#alm_80675	SBcAP Destination IP Address Inaccessible
-http://treat.net/onto.owl#alm_80676	LCSAP Link Down
-http://treat.net/onto.owl#alm_80677	LCSAP Destination IP Address Inaccessible
-http://treat.net/onto.owl#alm_80678	DDN Throttling Instruction to the S-GW
-http://treat.net/onto.owl#alm_80679	Shaping Starts for Signaling Storms on the S11 Interface
-http://treat.net/onto.owl#alm_80680	Invalid Non-Broadcast TAI Configuration
-http://treat.net/onto.owl#alm_80681	Flow Control on Signaling Message Collection
-http://treat.net/onto.owl#alm_80682	Faulty Service Channel for Redundancy
-http://treat.net/onto.owl#alm_80683	Service VNFC Not Reachable
-http://treat.net/onto.owl#alm_80684	NB-IoT Signaling Flow Control
-http://treat.net/onto.owl#alm_80685	Process CPU Overload
-http://treat.net/onto.owl#alm_80700	Massive SCTP Message Flow Control
-http://treat.net/onto.owl#alm_80703	Number of eNodeBs Will Exceed Upper Limit
-http://treat.net/onto.owl#alm_81005	CDR pool Usage Exceed
-http://treat.net/onto.owl#alm_81006	service Node Insufficient
-http://treat.net/onto.owl#alm_81017	SignallingPathDisconnected
-http://treat.net/onto.owl#alm_81020	No response from the RADIUS accounting server
-http://treat.net/onto.owl#alm_81021	CG No Response
-http://treat.net/onto.owl#alm_81022	GTP Version Not Supported
-http://treat.net/onto.owl#alm_81023	OCS No Response
-http://treat.net/onto.owl#alm_81024	No response from the PCRF
-http://treat.net/onto.owl#alm_81025	CDRsInHardDisk
-http://treat.net/onto.owl#alm_81026	Interface IE Inconsistent
-http://treat.net/onto.owl#alm_81027	Internal Resources Usage Exceed
-http://treat.net/onto.owl#alm_81028	pathsUsageExceeded
-http://treat.net/onto.owl#alm_81033	Configuration and service conflicts
-http://treat.net/onto.owl#alm_81052	SCTP Link Congestion
-http://treat.net/onto.owl#alm_81054	DRA not reachable
-http://treat.net/onto.owl#alm_81055	Realm not reachable
-http://treat.net/onto.owl#alm_81056	No response from the 3GPP AAA server
-http://treat.net/onto.owl#alm_81057	Interface congestion
-http://treat.net/onto.owl#alm_81058	CDR Generation Rate Overload
-http://treat.net/onto.owl#alm_81059	Cached CDRs Expired
-http://treat.net/onto.owl#alm_81064	Network Overload Control
-http://treat.net/onto.owl#alm_81065	ApnTrafficFault
-http://treat.net/onto.owl#alm_81066	TrafficControlAlarm
-http://treat.net/onto.owl#alm_81081	SecChkFail
-http://treat.net/onto.owl#alm_81082	DiamDictLoadFail
-http://treat.net/onto.owl#alm_81083	Cfg Change NotApply
-http://treat.net/onto.owl#alm_82000	The Billing System Has Not Fetched CDRs in a Specified Period
-http://treat.net/onto.owl#alm_82001	Writing a File Fails
-http://treat.net/onto.owl#alm_82004	CDR Backup Fails
-http://treat.net/onto.owl#alm_82005	Backup Link Is Abnormal
-http://treat.net/onto.owl#alm_82006	CDR Distribution Fails
-http://treat.net/onto.owl#alm_82007	Distribution Link Is Abnormal
-http://treat.net/onto.owl#alm_82008	The GSN Does not Respond to the vCG
-http://treat.net/onto.owl#alm_82010	Disk Space Is Insufficient
-http://treat.net/onto.owl#alm_82012	Format Engine Package Is Abnormal
-http://treat.net/onto.owl#alm_82013	Hard Disk Read/Write Fault
-http://treat.net/onto.owl#alm_82014	CDR Receipt Stops
-http://treat.net/onto.owl#alm_82015	Number of Resources will Exceed License Limit
-http://treat.net/onto.owl#alm_82016	Number of Resources Reached License Limit
-http://treat.net/onto.owl#alm_82017	Business Unit Activation Failure
-http://treat.net/onto.owl#alm_82018	CDR Processing Overloaded
-http://treat.net/onto.owl#alm_82019	Abnormal CDR Received
-http://treat.net/onto.owl#alm_82020	Abnormal CDRfile Detected
-http://treat.net/onto.owl#alm_82021	vCG Has Not Received CDRs for a Long Time
-http://treat.net/onto.owl#alm_82022	CDR Distribution Fails
-http://treat.net/onto.owl#alm_82023	Distribution Link Is Abnormal
-http://treat.net/onto.owl#alm_82024	Bi Interface SingleIP Central Point Disk Space Is Insufficient
-http://treat.net/onto.owl#alm_82025	Bi Interface SingleIP Backpressure Start
-http://treat.net/onto.owl#alm_82026	CDR Rate Increase
-http://treat.net/onto.owl#alm_82027	Low Bi Interface SingleIP Reliability
-http://treat.net/onto.owl#alm_82028	Security Risk Alarm
-http://treat.net/onto.owl#alm_82411	CSLB Service Unavailable
-http://treat.net/onto.owl#alm_82412	Plugin Fault
-http://treat.net/onto.owl#alm_82413	Tunnel Group Fault
-http://treat.net/onto.owl#alm_82414	Tunnel Fault
-http://treat.net/onto.owl#alm_82415	CSLB and VNRS Control Plane Goes Subhealthy
-http://treat.net/onto.owl#alm_82420	Usage of CSLB Load Balance Resource Exceeds the Threshold
-http://treat.net/onto.owl#alm_82600	Service Abnormal
-http://treat.net/onto.owl#alm_82601	Storage Node Resource Overload
-http://treat.net/onto.owl#alm_82602	CPU Overload
-http://treat.net/onto.owl#alm_82603	Storage Node Flow Control
-http://treat.net/onto.owl#alm_82605	Geographical Redundancy Data Backup Channel Is Faulty
-http://treat.net/onto.owl#alm_82607	Unbalanced Data Distribution Alarm
-http://treat.net/onto.owl#alm_82608	Data Distribution Reliability Alarm
-http://treat.net/onto.owl#alm_82609	Storage Node Persist Fault
-http://treat.net/onto.owl#alm_82610	CSDB RU Distribution Unreliability Alarm
-http://treat.net/onto.owl#alm_82611	Migrate Unfinished Alarm
-http://treat.net/onto.owl#alm_82615	Inconsistent Data Between Disaster Recovery Instances
-http://treat.net/onto.owl#alm_82801	Fail_Of_VNF_Instantiation
-http://treat.net/onto.owl#alm_82802	RU CPUOverload
-http://treat.net/onto.owl#alm_82808	Poor system resource
-http://treat.net/onto.owl#alm_82809	Customized service file loading failure
-http://treat.net/onto.owl#alm_82810	Failure of Disk Partition ScaleUp
-http://treat.net/onto.owl#alm_82813	VNFD Template Update Process Alarm
-http://treat.net/onto.owl#alm_85000	Abnormal USN Redundancy Relationship
-http://treat.net/onto.owl#alm_85001	Sdup Link Fault
-http://treat.net/onto.owl#alm_85002	Redundancy USN Not Reachable
-http://treat.net/onto.owl#alm_85200	Node Failure
-http://treat.net/onto.owl#alm_85201	Abnormal communication in a control channel between redundancy instances
-http://treat.net/onto.owl#alm_85202	Abnormal negotiation between redundancy instances
-http://treat.net/onto.owl#alm_85203	Redundancy instance switching to the active state
-http://treat.net/onto.owl#alm_85204	Failure to switch to the active redundancy instance
-http://treat.net/onto.owl#alm_85205	Abnormal neighbor status in a monitored VPN
-http://treat.net/onto.owl#alm_100001	Process Fault
-http://treat.net/onto.owl#alm_100004	Flow Control
-http://treat.net/onto.owl#alm_100022	Port Fault
-http://treat.net/onto.owl#alm_100033	Abnormal Cluster Election Node
-http://treat.net/onto.owl#alm_100034	Low Reliability of Cluster Election System
-http://treat.net/onto.owl#alm_100046	Number of Resources Will Exceed License Limit
-http://treat.net/onto.owl#alm_100047	Traffic Peak Value Exceeding License Limit
-http://treat.net/onto.owl#alm_100048	Services About to Be Restricted Due to License Limit
-http://treat.net/onto.owl#alm_100049	Number of Resources Reached License Limit
-http://treat.net/onto.owl#alm_100050	PFCP Peer Node Unreachable
-http://treat.net/onto.owl#alm_100056	PFCP Link Down
-http://treat.net/onto.owl#alm_100057	NG-RAN ID Repetition
-http://treat.net/onto.owl#alm_100058	NG-RAN Link Fault
-http://treat.net/onto.owl#alm_100059	NG-RAN Node Unreachable
-http://treat.net/onto.owl#alm_100060	NF HeartBeat Abnormal
-http://treat.net/onto.owl#alm_100065	Service Resource Overload
-http://treat.net/onto.owl#alm_100066	Service Resource Congestion
-http://treat.net/onto.owl#alm_100072	Destination NF Service Unreachable
-http://treat.net/onto.owl#alm_100108	Fixed-Rate Flow Control Starts on the N2 Interface
-http://treat.net/onto.owl#alm_100112	imported segment verify alarm
-http://treat.net/onto.owl#alm_100116	HTTP process fault
-http://treat.net/onto.owl#alm_100117	HTTP Resource Overload
-http://treat.net/onto.owl#alm_100118	HTTP Resource Congestion
-http://treat.net/onto.owl#alm_100126	Process D Status
-http://treat.net/onto.owl#alm_100135	UPC Link Down
-http://treat.net/onto.owl#alm_100139	Fabric OAM Detected Fabric Plane Down
-http://treat.net/onto.owl#alm_100140	Fabric link goes subhealthy
-http://treat.net/onto.owl#alm_100141	The communication of the fabric port was subhealthy
-http://treat.net/onto.owl#alm_100145	VNF Instantiation Partial Failed
-http://treat.net/onto.owl#alm_100155	HTTP Link Fault
-http://treat.net/onto.owl#alm_100156	Hierarchical Forwarding Loop
-http://treat.net/onto.owl#alm_100157	UDM Congestion
-http://treat.net/onto.owl#alm_100171	Insufficient system reliability
-http://treat.net/onto.owl#alm_100185	Base Plane Goes Subhealthy
-http://treat.net/onto.owl#alm_100187	Appling the service failed
-http://treat.net/onto.owl#alm_100192	HTTP Fix Flow Ctrl
-http://treat.net/onto.owl#alm_100197	No response from the RADIUS authentication server
-http://treat.net/onto.owl#alm_100201	UCF Link Fault
-http://treat.net/onto.owl#alm_100202	Unreachable Report Server
-http://treat.net/onto.owl#alm_100203	UCF File Cache Prewarning
-http://treat.net/onto.owl#alm_100209	MigrateAlarm
-http://treat.net/onto.owl#alm_100221	vHA ETCD Cluster Node Fault
-http://treat.net/onto.owl#alm_100222	Insufficient vHA ETCD Cluster Reliability
-http://treat.net/onto.owl#alm_100225	NF_Registration_Failed
-http://treat.net/onto.owl#alm_100232	Service Access Fails for Active-Active NRF Redundancy
-http://treat.net/onto.owl#alm_100235	AMF Configuration Updage Request Failure
-http://treat.net/onto.owl#alm_100248	Software Package Version for 5G Does Not Match Local Configuration
-http://treat.net/onto.owl#alm_100249	no seq nf alarm
-http://treat.net/onto.owl#alm_100251	Inter-AMF Flow Control Starts
-http://treat.net/onto.owl#alm_100256	vHA ETCD DB oversize
-http://treat.net/onto.owl#alm_100282	Internal Resource Usage Exceeding Threshold
-http://treat.net/onto.owl#alm_100288	Message Type-based Fixed-Rate Flow Control over the N2 Interface
-http://treat.net/onto.owl#alm_126000	Faulty GaussDB Component
-http://treat.net/onto.owl#alm_126002	Insufficient GaussDB Data Space
-http://treat.net/onto.owl#alm_126003	Severely Insufficient GaussDB Data Space
-http://treat.net/onto.owl#alm_126004	GaussDB Service Is Stopped
-http://treat.net/onto.owl#alm_126006	Abnormal Data Synchronization Between Active and Standby GaussDB Nodes
-http://treat.net/onto.owl#alm_126007	Number of GaussDB Connections Reaches the Upper Limit
-http://treat.net/onto.owl#alm_126008	Long Transactions in GaussDB
-http://treat.net/onto.owl#alm_126020	Faulty OMCache Component
-http://treat.net/onto.owl#alm_126021	Faulty Synchronization Link Between the Active and Standby OMCache Nodes
-http://treat.net/onto.owl#alm_126080	Faulty Kafka Component
-http://treat.net/onto.owl#alm_126081	Kafka Consumes Messages Too Slowly
-http://treat.net/onto.owl#alm_126082	Blocked Kafka Consumer Thread
-http://treat.net/onto.owl#alm_126083	Excessive Kafka File Description
-http://treat.net/onto.owl#alm_126100	Faulty Zookeeper Component
-http://treat.net/onto.owl#alm_135001	OS Intrusion Detection
-http://treat.net/onto.owl#alm_135200	License File Expiring Precaution
-http://treat.net/onto.owl#alm_135201	License File Expired
-http://treat.net/onto.owl#alm_135202	License File Restrict Service
-http://treat.net/onto.owl#alm_135203	No License File Loaded
-http://treat.net/onto.owl#alm_135301	Communication between PaaSBroker and FusionStage failed
-http://treat.net/onto.owl#alm_135630	Node Communication Failure
-http://treat.net/onto.owl#alm_135631	Faulty NRS Component
-http://treat.net/onto.owl#alm_135634	Network Port Is Abnormal
-http://treat.net/onto.owl#alm_135635	Network Port IP Address or Route Is Abnormal
-http://treat.net/onto.owl#alm_135636	Key File Lost
-http://treat.net/onto.owl#alm_135637	Partition Overload
-http://treat.net/onto.owl#alm_135638	OS Process Usage Monitoring Alarm
-http://treat.net/onto.owl#alm_135639	Inode Monitoring Alarm
-http://treat.net/onto.owl#alm_135640	Container Storage Usage Monitoring Alarm
-http://treat.net/onto.owl#alm_135641	Network Subhealth
-http://treat.net/onto.owl#alm_135642	Inter-Board Link Communication Failure
-http://treat.net/onto.owl#alm_135643	Node Enables Bypass Function
-http://treat.net/onto.owl#alm_135644	Subhealthy Node Storage
-http://treat.net/onto.owl#alm_135645	Faulty Node Storage
-http://treat.net/onto.owl#alm_135646	Node Storage Bypass Mode Is Abnormal
-http://treat.net/onto.owl#alm_135800	IP Addresses in the DHCP PXE Address Pool Are Insufficient
-http://treat.net/onto.owl#alm_135810	OS Patch Version Not Updated to the Target Version
-http://treat.net/onto.owl#alm_135901	Abnormal NTP Connection Status
-http://treat.net/onto.owl#alm_135902	ntpd Process Start Exception
-http://treat.net/onto.owl#alm_135903	Communication Authentication Is Not Configured for the NTP Server
-http://treat.net/onto.owl#alm_136001	OM Network Resource Fault
-http://treat.net/onto.owl#alm_136053	Service communication certificate is about to expire
-http://treat.net/onto.owl#alm_136074	Authentication failure
-http://treat.net/onto.owl#alm_136075	High risk operation
-http://treat.net/onto.owl#alm_136076	Application Account Password Expired or Expiring Soon
-http://treat.net/onto.owl#alm_136100	Failed to Load the Adapter Package
-http://treat.net/onto.owl#alm_136750	A Weak Algorithm in SNMP Is Used
-http://treat.net/onto.owl#alm_137502	Total Size of Backup Packages Exceeds the Threshold
-http://treat.net/onto.owl#alm_137550	Abnormal Hot Patch Status of a Process
-http://treat.net/onto.owl#alm_15794253	IPv6 Status on All Interfaces Bound to a VPN Instance Being Down
-http://treat.net/onto.owl#alm_15794344	VNFC Connection Lost
-http://treat.net/onto.owl#alm_135602186	Database Restoration Failure
-http://treat.net/onto.owl#alm_135602210	Inconsistency Between Application Configuration Data and OMU Configuration Data
-http://treat.net/onto.owl#alm_136585218	SSH Frequent Login Failures
-http://treat.net/onto.owl#alm_136781828	Frequent Login Failures
-http://treat.net/onto.owl#alm_136781867	User Password Not Changed for a Long Time
-http://treat.net/onto.owl#alm_136781876	Security Risk Alarm
-http://treat.net/onto.owl#alm_136978434	Remote Config Failure
-http://treat.net/onto.owl#alm_136978435	Remote Synchronization Fail
-http://treat.net/onto.owl#alm_137953285	IPv6 Route Prefix Count Exceeding Limit
-http://treat.net/onto.owl#alm_137953287	IPv6 Route Prefix Count Exceeding Threshold
-http://treat.net/onto.owl#alm_137961482	IPv4 Route Prefix Count Exceeding Threshold
-http://treat.net/onto.owl#alm_139591683	Interface Down
-http://treat.net/onto.owl#alm_139591684	IPv6 Interface State Change
-http://treat.net/onto.owl#alm_140058635	ARP Table Threshold Exceed
-http://treat.net/onto.owl#alm_140058640	Interface IP Address Conflict
-http://treat.net/onto.owl#alm_140058645	ARP Exceeded the Rate Limit
-http://treat.net/onto.owl#alm_140058654	ARP Table Replace Rate Exceeding Threshold
-http://treat.net/onto.owl#alm_141623296	RU Forwarding Resource Overload
-http://treat.net/onto.owl#alm_142155858	BGP Connection Interruption
-http://treat.net/onto.owl#alm_142155859	BGP Peer Route Limit-crossing
-http://treat.net/onto.owl#alm_142155860	BGP Peer Route Threshold-crossing
-http://treat.net/onto.owl#alm_143654917	OSPFv2 Neighbor State Change
-http://treat.net/onto.owl#alm_143663184	Configuration Conflict Between the OSPF Neighbor and Local Device
-http://treat.net/onto.owl#alm_143851523	OSPFv3 Neighbor State Change
-http://treat.net/onto.owl#alm_143859767	Configuration Conflict Between the OSPFv3 Neighbor and Local Device
-http://treat.net/onto.owl#alm_151126016	LDP Session Down
-http://treat.net/onto.owl#alm_151134214	LSP Total Count Exceed
-http://treat.net/onto.owl#alm_151134216	LSP Count Threshold Exceed
-http://treat.net/onto.owl#alm_151134221	MPLS LDP Multi-Link Configuration Inconsistent
-http://treat.net/onto.owl#alm_152051716	BFD Session Down
-http://treat.net/onto.owl#alm_152109056	All VPN Interfaces Down
-http://treat.net/onto.owl#alm_152109057	VPN Route Prefix Count Exceeding Upper Limit
-http://treat.net/onto.owl#alm_152109058	VPN Route Prefix Count Exceeding Middle Limit
-http://treat.net/onto.owl#alm_152117270	IPv6 VPN Route Prefix Count Exceeding Upper Threshold
-http://treat.net/onto.owl#alm_152117277	IPv6 VPN Route Prefix Count Exceeding Alarm Threshold
-http://treat.net/onto.owl#alm_154935297	IPv4 Wireless Route Prefix Count Exceeding the Maximum Value
-http://treat.net/onto.owl#alm_154935299	IPv6 Wireless Route Prefix Count Exceeding the Maximum Value
-http://treat.net/onto.owl#alm_154935300	IPv6 Wireless Route Prefix Count Exceeding the Upper Alarm Threshold
-http://treat.net/onto.owl#alm_154935301	IPv4 Wireless Route Prefix Count Exceeding the Upper Alarm Threshold
-http://treat.net/onto.owl#alm_156770308	Interface IPv6 Address Conflict
-http://treat.net/onto.owl#alm_158539776	MPLS Resource Total Count Exceed
-http://treat.net/onto.owl#alm_158539777	MPLS Resource Count Threshold Exceed
-http://treat.net/onto.owl#alm_161292297	SSL Certificate Expired Early Warning
-http://treat.net/onto.owl#alm_161292298	SSL Certificate Expired
-http://treat.net/onto.owl#alm_174006272	Failed To Apply IP Address For The DHCP Client
-http://treat.net/onto.owl#alm_202702856	TCPIP Defend Drop Packet Exceeding Threshold
-http://treat.net/onto.owl#alm_202702859	Application Apperceive Drop Packet Exceeding Threshold
-http://treat.net/onto.owl#alm_202711059	URPF Drop Packet Exceeding Threshold
-http://treat.net/onto.owl#alm_219545604	Patch Installation Failed
-http://treat.net/onto.owl#alm_219553797	Patch Package Error
-http://treat.net/onto.owl#alm_219553798	RU Patch Installation Failed
-http://treat.net/onto.owl#alm_219553804	Patch Installation Failed
-http://treat.net/onto.owl#alm_221257739	System Configuration Error
-http://treat.net/onto.owl#alm_221257751	Process Fault
-http://treat.net/onto.owl#alm_221257752	Resource Process Fault
-http://treat.net/onto.owl#alm_221257761	RU Disk Partition Usage Exceeding Threshold
-http://treat.net/onto.owl#alm_221257768	RU Fault Alarm
-http://treat.net/onto.owl#alm_221257796	Disk Partition Unavailable
-http://treat.net/onto.owl#alm_221257807	Master and Slave OMU Synchronization Failure
-http://treat.net/onto.owl#alm_221257855	Resource Software Fault
-http://treat.net/onto.owl#alm_221257861	RU Group Abnormal
-http://treat.net/onto.owl#alm_221257862	Detected RU Base Plane Goes Subhealthy
-http://treat.net/onto.owl#alm_221257870	Detected Base Plane Goes Subhealthy
-http://treat.net/onto.owl#alm_221257877	Detected Base Plane Link Goes Subhealthy
-http://treat.net/onto.owl#alm_221257878	Detected RU Link of Base Plane Goes Subhealthy
-http://treat.net/onto.owl#alm_231612421	System Forwarding Resource Exceeded
-http://treat.net/onto.owl#alm_231612424	Interface Forwarding Resource Exceeded
-http://treat.net/onto.owl#alm_232398849	Automatic Interface Configuration Failure
-http://treat.net/onto.owl#alm_232398850	Auto Scaling IP Address Pool Exhaustion
-http://treat.net/onto.owl#alm_238493698	CPU Usage Overloaded
-http://treat.net/onto.owl#alm_238493699	Memory Usage Overloaded
-http://treat.net/onto.owl#alm_238493700	Disk Partition Usage Exceeding Threshold
-http://treat.net/onto.owl#alm_238493706	Master Key Expired
-http://treat.net/onto.owl#alm_238690306	Master Key Abnormal
-http://treat.net/onto.owl#alm_238690308	Master Key Expired Early
+http://treat.net/onto.owl#nf_0	nf 0, Access and Mobility Management Function
+http://treat.net/onto.owl#nf_1	nf 1, Binding Support Function
+http://treat.net/onto.owl#nf_2	nf 2, E-UTRAN NodeB
+http://treat.net/onto.owl#nf_3	nf 3, Gateway GPRS Support Node
+http://treat.net/onto.owl#nf_4	nf 4, Next Generation NodeB
+http://treat.net/onto.owl#nf_5	nf 5, Home Subscriber Server
+http://treat.net/onto.owl#nf_6	nf 6, Mobility Management Entity
+http://treat.net/onto.owl#nf_7	nf 7, Mobile Switching Center
+http://treat.net/onto.owl#nf_8	nf 8, Network Repository Function
+http://treat.net/onto.owl#nf_9	nf 9, Network Slice Selection Function
+http://treat.net/onto.owl#nf_10	nf 10, Policy Control Function
+http://treat.net/onto.owl#nf_11	nf 11, Policy and Charging rules Function
+http://treat.net/onto.owl#nf_12	nf 12, PDN Gateway for Control Plane
+http://treat.net/onto.owl#nf_13	nf 13, PDN Gateway for User Plane
+http://treat.net/onto.owl#nf_14	nf 14, Serving GPRS Support Node
+http://treat.net/onto.owl#nf_15	nf 15, Serving Gateway for Control Plane
+http://treat.net/onto.owl#nf_16	nf 16, Serving Gateway for User Plane
+http://treat.net/onto.owl#nf_17	nf 17, Session Management Function
+http://treat.net/onto.owl#nf_18	nf 18, Short Message Service Function
+http://treat.net/onto.owl#nf_19	nf 19, Unified Data Management
+http://treat.net/onto.owl#nf_20	nf 20, User Plane Function
+http://treat.net/onto.owl#nf_21	nf 21, Data Network
+http://treat.net/onto.owl#vm_0	vm 0, Operation and Maintenance Unit
+http://treat.net/onto.owl#vm_1	vm 1, Operation and Maintenance Unit F
+http://treat.net/onto.owl#vm_2	vm 2, Operation and Maintenance Unit G1
+http://treat.net/onto.owl#vm_3	vm 3, Public Business Unit for Interface
+http://treat.net/onto.owl#vm_4	vm 4, Public Business Unit for Interface G1
+http://treat.net/onto.owl#vm_5	vm 5, Public Business Unit for Computation A
+http://treat.net/onto.owl#vm_6	vm 6, Public Business Unit for Computation A1
+http://treat.net/onto.owl#vm_7	vm 7, Public Business Unit for Computation A2
+http://treat.net/onto.owl#vm_8	vm 8, Public Business Unit for Computation S
+http://treat.net/onto.owl#vm_9	vm 9, Public Business Unit for Computation S1
+http://treat.net/onto.owl#vm_10	vm 10, Public Business Unit for Memory
+http://treat.net/onto.owl#vm_11	vm 11, Public Business Unit for Memory G1
+http://treat.net/onto.owl#vm_12	vm 12, Public Business Unit for Memory G10
+http://treat.net/onto.owl#vm_13	vm 13, Platform Public Business Unit for UDR
+http://treat.net/onto.owl#vm_14	vm 14, Public Business Unit for Computation G1
+http://treat.net/onto.owl#vm_15	vm 15, Public Business Unit for Computation N
+http://treat.net/onto.owl#vm_16	vm 16, Public Business Unit for Computation N1
+http://treat.net/onto.owl#microservice_0	microservice 0, Access and Mobility Management
+http://treat.net/onto.owl#microservice_1	microservice 1, APP Control
+http://treat.net/onto.owl#microservice_2	microservice 2, Charging Management
+http://treat.net/onto.owl#microservice_3	microservice 3, Cloud Session Database
+http://treat.net/onto.owl#microservice_4	microservice 4, Cloud Service Load Balancer
+http://treat.net/onto.owl#microservice_5	microservice 5, Gb Interface Management
+http://treat.net/onto.owl#microservice_6	microservice 6, GPRS Tunneling Protocol for Controlling
+http://treat.net/onto.owl#microservice_7	microservice 7, Virtualized Network Routing Service
+http://treat.net/onto.owl#microservice_8	microservice 8, LINK
+http://treat.net/onto.owl#microservice_9	microservice 9, MME Chain Redundancy
+http://treat.net/onto.owl#microservice_10	microservice 10, Network Repository Function
+http://treat.net/onto.owl#microservice_11	microservice 11, Non Service-based Interface Management
+http://treat.net/onto.owl#microservice_12	microservice 12, Network Slice Selection Function
+http://treat.net/onto.owl#microservice_13	microservice 13, Service-based Interface Management
+http://treat.net/onto.owl#microservice_14	microservice 14, Session Management
+http://treat.net/onto.owl#microservice_15	microservice 15, Short Message Service
+http://treat.net/onto.owl#microservice_17	microservice 17, APP Operation and Maintenance Platform
+http://treat.net/onto.owl#microservice_18	microservice 18, Unified Service Node
+http://treat.net/onto.owl#alm_3451	alm 3451, License Emergency Protection
+http://treat.net/onto.owl#alm_5117	alm 5117, Communication Failure Between VNFMAdaptor and VNFM
+http://treat.net/onto.owl#alm_5213	alm 5213, License Control Item Is About to Expire
+http://treat.net/onto.owl#alm_5215	alm 5215, License Control Item Expired
+http://treat.net/onto.owl#alm_5217	alm 5217, License Control Item Restrict Service
+http://treat.net/onto.owl#alm_5221	alm 5221, License File Invalid
+http://treat.net/onto.owl#alm_5521	alm 5521, Service Center and Service Communication Failure
+http://treat.net/onto.owl#alm_5522	alm 5522, Service Isolation Fault
+http://treat.net/onto.owl#alm_5523	alm 5523, CSE Service Exception
+http://treat.net/onto.owl#alm_5541	alm 5541, CertMgr certificate expired
+http://treat.net/onto.owl#alm_5557	alm 5557, Downloading Plug-in Failed
+http://treat.net/onto.owl#alm_5558	alm 5558, Failed to Import a Plug-in Package to the Database
+http://treat.net/onto.owl#alm_5559	alm 5559, Failed to Deliver a Plug-in Task
+http://treat.net/onto.owl#alm_5560	alm 5560, Downloading or Loading Plug-in Failed
+http://treat.net/onto.owl#alm_6060	alm 6060, Faulty OMLB Component
+http://treat.net/onto.owl#alm_6806	alm 6806, Threshold-Controlled Conditions Met(Critical)
+http://treat.net/onto.owl#alm_6807	alm 6807, Threshold-Controlled Conditions Met(Major)
+http://treat.net/onto.owl#alm_6808	alm 6808, Threshold-Controlled Conditions Met(Minor)
+http://treat.net/onto.owl#alm_6809	alm 6809, Threshold-Controlled Conditions Met(Warning)
+http://treat.net/onto.owl#alm_7501	alm 7501, System Backup Failed
+http://treat.net/onto.owl#alm_10336	alm 10336, M3UA Route Unavailable
+http://treat.net/onto.owl#alm_10337	alm 10337, M3UA Destination Entity Inaccessible
+http://treat.net/onto.owl#alm_10341	alm 10341, SCCP DPC Prohibited
+http://treat.net/onto.owl#alm_10342	alm 10342, SCCP Subsystem Prohibited
+http://treat.net/onto.owl#alm_10343	alm 10343, Peer SCCP Fault
+http://treat.net/onto.owl#alm_10373	alm 10373, IP NS-VC Dynamic Negotiation Fault
+http://treat.net/onto.owl#alm_10407	alm 10407, RNC ID inconsistent with peer
+http://treat.net/onto.owl#alm_10701	alm 10701, User Congestion
+http://treat.net/onto.owl#alm_10750	alm 10750, Gr Interface Traffic Overload
+http://treat.net/onto.owl#alm_10752	alm 10752, E-SMLC Inaccessible
+http://treat.net/onto.owl#alm_10753	alm 10753, Fixed-Rate Flow Control Starts on the S6a/S6d Interface
+http://treat.net/onto.owl#alm_10754	alm 10754, Unified HTR Flow Control Started
+http://treat.net/onto.owl#alm_10770	alm 10770, SCTP Flow Control on the S1 Interface
+http://treat.net/onto.owl#alm_10810	alm 10810, CG Not Configured
+http://treat.net/onto.owl#alm_11452	alm 11452, MVNO Resource Congestion
+http://treat.net/onto.owl#alm_11947	alm 11947, Configuration Does Not Take Effect
+http://treat.net/onto.owl#alm_11962	alm 11962, Process Traffic Decrease
+http://treat.net/onto.owl#alm_12001	alm 12001, Number of Measurement Objects Reaches or Exceeds Maximum Specification
+http://treat.net/onto.owl#alm_12605	alm 12605, GGSN Path Down Manual Resume
+http://treat.net/onto.owl#alm_14003	alm 14003, eNodeB ID Repetition
+http://treat.net/onto.owl#alm_14004	alm 14004, Configuration Inconsistency in TAIs on the MME and eNodeB
+http://treat.net/onto.owl#alm_14005	alm 14005, Batched S1ap Link Faults
+http://treat.net/onto.owl#alm_14006	alm 14006, SCTP Packet Error Rate Too High
+http://treat.net/onto.owl#alm_14010	alm 14010, S1 Interface Payload Protocol ID Error
+http://treat.net/onto.owl#alm_14025	alm 14025, Frequent Intermittence of Links in Batches
+http://treat.net/onto.owl#alm_14033	alm 14033, SGsAP Peer Down
+http://treat.net/onto.owl#alm_14050	alm 14050, MVNO Resource Exceeds Limit
+http://treat.net/onto.owl#alm_80589	alm 80589, S1ap Link Down
+http://treat.net/onto.owl#alm_80590	alm 80590, MME Configuration Update Fault
+http://treat.net/onto.owl#alm_80591	alm 80591, Diameter Link Down
+http://treat.net/onto.owl#alm_80592	alm 80592, Diameter Route Invalid
+http://treat.net/onto.owl#alm_80593	alm 80593, Diameter Peer Down
+http://treat.net/onto.owl#alm_80597	alm 80597, SGsAP Link Down
+http://treat.net/onto.owl#alm_80610	alm 80610, GTPC Tunnel Path Broken
+http://treat.net/onto.owl#alm_80619	alm 80619, DNS Link Down
+http://treat.net/onto.owl#alm_80629	alm 80629, System Service Resource Congestion
+http://treat.net/onto.owl#alm_80630	alm 80630, System Service Resource Overload
+http://treat.net/onto.owl#alm_80631	alm 80631, Single Process Service Resource Congestion
+http://treat.net/onto.owl#alm_80632	alm 80632, Single Process Service Resource Overload
+http://treat.net/onto.owl#alm_80633	alm 80633, M3UA Signaling Link Failed
+http://treat.net/onto.owl#alm_80634	alm 80634, M3UA Signaling Link Congestion
+http://treat.net/onto.owl#alm_80635	alm 80635, M3UA Destination IP Address Inaccessible
+http://treat.net/onto.owl#alm_80636	alm 80636, GBP PDP Resource Congestion
+http://treat.net/onto.owl#alm_80637	alm 80637, GBP Cell Congestion
+http://treat.net/onto.owl#alm_80638	alm 80638, No Available NS-VC in NSE
+http://treat.net/onto.owl#alm_80639	alm 80639, Gb Ciphering Channel Fault
+http://treat.net/onto.owl#alm_80640	alm 80640, IP NS-VC Link Fault
+http://treat.net/onto.owl#alm_80641	alm 80641, Hard disk Operation Failed
+http://treat.net/onto.owl#alm_80642	alm 80642, Insufficient Disk Space
+http://treat.net/onto.owl#alm_80643	alm 80643, CDRs Cached on The Hard Disk
+http://treat.net/onto.owl#alm_80644	alm 80644, Abnormal NSE Configurations
+http://treat.net/onto.owl#alm_80645	alm 80645, Number of Empty CDR Files Created on the Disk Reaches the Threshold
+http://treat.net/onto.owl#alm_80647	alm 80647, Diameter Destination IP Address Inaccessible
+http://treat.net/onto.owl#alm_80648	alm 80648, SGsAP Destination IP Address Inaccessible
+http://treat.net/onto.owl#alm_80649	alm 80649, Flow Control on S1 Mode Paging
+http://treat.net/onto.owl#alm_80650	alm 80650, GTPC Path Number Congestion
+http://treat.net/onto.owl#alm_80651	alm 80651, GTPC Path Number Overload
+http://treat.net/onto.owl#alm_80652	alm 80652, One DNS Server No Response
+http://treat.net/onto.owl#alm_80653	alm 80653, All DNS Servers No Response
+http://treat.net/onto.owl#alm_80654	alm 80654, System Be Attacked by GTP-C Messages
+http://treat.net/onto.owl#alm_80655	alm 80655, Gp GTPU Tunnel Path Broken
+http://treat.net/onto.owl#alm_80656	alm 80656, Gp GTPC Tunnel Path Broken
+http://treat.net/onto.owl#alm_80658	alm 80658, User Resource Overload
+http://treat.net/onto.owl#alm_80659	alm 80659, User Resource Congest
+http://treat.net/onto.owl#alm_80661	alm 80661, GTPU Tunnel Path Broken
+http://treat.net/onto.owl#alm_80663	alm 80663, Communications Between CG and SGSN Interrupted
+http://treat.net/onto.owl#alm_80664	alm 80664, Internal CDRs Send Fail
+http://treat.net/onto.owl#alm_80666	alm 80666, Software Package Version Not Matching Local Configuration
+http://treat.net/onto.owl#alm_80667	alm 80667, System Flowctrl Startup
+http://treat.net/onto.owl#alm_80668	alm 80668, Inconsistent RAT-Type associated with the same TAI
+http://treat.net/onto.owl#alm_80669	alm 80669, APN-based Low-Priority Service Flow Control
+http://treat.net/onto.owl#alm_80670	alm 80670, Low-Priority Service Access Flow Control
+http://treat.net/onto.owl#alm_80671	alm 80671, Inter-MME Access Flow Control
+http://treat.net/onto.owl#alm_80672	alm 80672, H-SFN Reference Time Later Than the System Time
+http://treat.net/onto.owl#alm_80673	alm 80673, Notification of the Change in the Leap Second Difference Between the GPS Time and UTC
+http://treat.net/onto.owl#alm_80674	alm 80674, SBcAP Link Fault
+http://treat.net/onto.owl#alm_80675	alm 80675, SBcAP Destination IP Address Inaccessible
+http://treat.net/onto.owl#alm_80676	alm 80676, LCSAP Link Down
+http://treat.net/onto.owl#alm_80677	alm 80677, LCSAP Destination IP Address Inaccessible
+http://treat.net/onto.owl#alm_80678	alm 80678, DDN Throttling Instruction to the S-GW
+http://treat.net/onto.owl#alm_80679	alm 80679, Shaping Starts for Signaling Storms on the S11 Interface
+http://treat.net/onto.owl#alm_80680	alm 80680, Invalid Non-Broadcast TAI Configuration
+http://treat.net/onto.owl#alm_80681	alm 80681, Flow Control on Signaling Message Collection
+http://treat.net/onto.owl#alm_80682	alm 80682, Faulty Service Channel for Redundancy
+http://treat.net/onto.owl#alm_80683	alm 80683, Service VNFC Not Reachable
+http://treat.net/onto.owl#alm_80684	alm 80684, NB-IoT Signaling Flow Control
+http://treat.net/onto.owl#alm_80685	alm 80685, Process CPU Overload
+http://treat.net/onto.owl#alm_80700	alm 80700, Massive SCTP Message Flow Control
+http://treat.net/onto.owl#alm_80703	alm 80703, Number of eNodeBs Will Exceed Upper Limit
+http://treat.net/onto.owl#alm_81005	alm 81005, CDR pool Usage Exceed
+http://treat.net/onto.owl#alm_81006	alm 81006, service Node Insufficient
+http://treat.net/onto.owl#alm_81017	alm 81017, SignallingPathDisconnected
+http://treat.net/onto.owl#alm_81020	alm 81020, No response from the RADIUS accounting server
+http://treat.net/onto.owl#alm_81021	alm 81021, CG No Response
+http://treat.net/onto.owl#alm_81022	alm 81022, GTP Version Not Supported
+http://treat.net/onto.owl#alm_81023	alm 81023, OCS No Response
+http://treat.net/onto.owl#alm_81024	alm 81024, No response from the PCRF
+http://treat.net/onto.owl#alm_81025	alm 81025, CDRsInHardDisk
+http://treat.net/onto.owl#alm_81026	alm 81026, Interface IE Inconsistent
+http://treat.net/onto.owl#alm_81027	alm 81027, Internal Resources Usage Exceed
+http://treat.net/onto.owl#alm_81028	alm 81028, pathsUsageExceeded
+http://treat.net/onto.owl#alm_81033	alm 81033, Configuration and service conflicts
+http://treat.net/onto.owl#alm_81052	alm 81052, SCTP Link Congestion
+http://treat.net/onto.owl#alm_81054	alm 81054, DRA not reachable
+http://treat.net/onto.owl#alm_81055	alm 81055, Realm not reachable
+http://treat.net/onto.owl#alm_81056	alm 81056, No response from the 3GPP AAA server
+http://treat.net/onto.owl#alm_81057	alm 81057, Interface congestion
+http://treat.net/onto.owl#alm_81058	alm 81058, CDR Generation Rate Overload
+http://treat.net/onto.owl#alm_81059	alm 81059, Cached CDRs Expired
+http://treat.net/onto.owl#alm_81064	alm 81064, Network Overload Control
+http://treat.net/onto.owl#alm_81065	alm 81065, ApnTrafficFault
+http://treat.net/onto.owl#alm_81066	alm 81066, TrafficControlAlarm
+http://treat.net/onto.owl#alm_81081	alm 81081, SecChkFail
+http://treat.net/onto.owl#alm_81082	alm 81082, DiamDictLoadFail
+http://treat.net/onto.owl#alm_81083	alm 81083, Cfg Change NotApply
+http://treat.net/onto.owl#alm_82000	alm 82000, The Billing System Has Not Fetched CDRs in a Specified Period
+http://treat.net/onto.owl#alm_82001	alm 82001, Writing a File Fails
+http://treat.net/onto.owl#alm_82004	alm 82004, CDR Backup Fails
+http://treat.net/onto.owl#alm_82005	alm 82005, Backup Link Is Abnormal
+http://treat.net/onto.owl#alm_82006	alm 82006, CDR Distribution Fails
+http://treat.net/onto.owl#alm_82007	alm 82007, Distribution Link Is Abnormal
+http://treat.net/onto.owl#alm_82008	alm 82008, The GSN Does not Respond to the vCG
+http://treat.net/onto.owl#alm_82010	alm 82010, Disk Space Is Insufficient
+http://treat.net/onto.owl#alm_82012	alm 82012, Format Engine Package Is Abnormal
+http://treat.net/onto.owl#alm_82013	alm 82013, Hard Disk Read/Write Fault
+http://treat.net/onto.owl#alm_82014	alm 82014, CDR Receipt Stops
+http://treat.net/onto.owl#alm_82015	alm 82015, Number of Resources will Exceed License Limit
+http://treat.net/onto.owl#alm_82016	alm 82016, Number of Resources Reached License Limit
+http://treat.net/onto.owl#alm_82017	alm 82017, Business Unit Activation Failure
+http://treat.net/onto.owl#alm_82018	alm 82018, CDR Processing Overloaded
+http://treat.net/onto.owl#alm_82019	alm 82019, Abnormal CDR Received
+http://treat.net/onto.owl#alm_82020	alm 82020, Abnormal CDRfile Detected
+http://treat.net/onto.owl#alm_82021	alm 82021, vCG Has Not Received CDRs for a Long Time
+http://treat.net/onto.owl#alm_82022	alm 82022, CDR Distribution Fails
+http://treat.net/onto.owl#alm_82023	alm 82023, Distribution Link Is Abnormal
+http://treat.net/onto.owl#alm_82024	alm 82024, Bi Interface SingleIP Central Point Disk Space Is Insufficient
+http://treat.net/onto.owl#alm_82025	alm 82025, Bi Interface SingleIP Backpressure Start
+http://treat.net/onto.owl#alm_82026	alm 82026, CDR Rate Increase
+http://treat.net/onto.owl#alm_82027	alm 82027, Low Bi Interface SingleIP Reliability
+http://treat.net/onto.owl#alm_82028	alm 82028, Security Risk Alarm
+http://treat.net/onto.owl#alm_82411	alm 82411, CSLB Service Unavailable
+http://treat.net/onto.owl#alm_82412	alm 82412, Plugin Fault
+http://treat.net/onto.owl#alm_82413	alm 82413, Tunnel Group Fault
+http://treat.net/onto.owl#alm_82414	alm 82414, Tunnel Fault
+http://treat.net/onto.owl#alm_82415	alm 82415, CSLB and VNRS Control Plane Goes Subhealthy
+http://treat.net/onto.owl#alm_82420	alm 82420, Usage of CSLB Load Balance Resource Exceeds the Threshold
+http://treat.net/onto.owl#alm_82600	alm 82600, Service Abnormal
+http://treat.net/onto.owl#alm_82601	alm 82601, Storage Node Resource Overload
+http://treat.net/onto.owl#alm_82602	alm 82602, CPU Overload
+http://treat.net/onto.owl#alm_82603	alm 82603, Storage Node Flow Control
+http://treat.net/onto.owl#alm_82605	alm 82605, Geographical Redundancy Data Backup Channel Is Faulty
+http://treat.net/onto.owl#alm_82607	alm 82607, Unbalanced Data Distribution Alarm
+http://treat.net/onto.owl#alm_82608	alm 82608, Data Distribution Reliability Alarm
+http://treat.net/onto.owl#alm_82609	alm 82609, Storage Node Persist Fault
+http://treat.net/onto.owl#alm_82610	alm 82610, CSDB RU Distribution Unreliability Alarm
+http://treat.net/onto.owl#alm_82611	alm 82611, Migrate Unfinished Alarm
+http://treat.net/onto.owl#alm_82615	alm 82615, Inconsistent Data Between Disaster Recovery Instances
+http://treat.net/onto.owl#alm_82801	alm 82801, Fail_Of_VNF_Instantiation
+http://treat.net/onto.owl#alm_82802	alm 82802, RU CPUOverload
+http://treat.net/onto.owl#alm_82808	alm 82808, Poor system resource
+http://treat.net/onto.owl#alm_82809	alm 82809, Customized service file loading failure
+http://treat.net/onto.owl#alm_82810	alm 82810, Failure of Disk Partition ScaleUp
+http://treat.net/onto.owl#alm_82813	alm 82813, VNFD Template Update Process Alarm
+http://treat.net/onto.owl#alm_85000	alm 85000, Abnormal USN Redundancy Relationship
+http://treat.net/onto.owl#alm_85001	alm 85001, Sdup Link Fault
+http://treat.net/onto.owl#alm_85002	alm 85002, Redundancy USN Not Reachable
+http://treat.net/onto.owl#alm_85200	alm 85200, Node Failure
+http://treat.net/onto.owl#alm_85201	alm 85201, Abnormal communication in a control channel between redundancy instances
+http://treat.net/onto.owl#alm_85202	alm 85202, Abnormal negotiation between redundancy instances
+http://treat.net/onto.owl#alm_85203	alm 85203, Redundancy instance switching to the active state
+http://treat.net/onto.owl#alm_85204	alm 85204, Failure to switch to the active redundancy instance
+http://treat.net/onto.owl#alm_85205	alm 85205, Abnormal neighbor status in a monitored VPN
+http://treat.net/onto.owl#alm_100001	alm 100001, Process Fault
+http://treat.net/onto.owl#alm_100004	alm 100004, Flow Control
+http://treat.net/onto.owl#alm_100022	alm 100022, Port Fault
+http://treat.net/onto.owl#alm_100033	alm 100033, Abnormal Cluster Election Node
+http://treat.net/onto.owl#alm_100034	alm 100034, Low Reliability of Cluster Election System
+http://treat.net/onto.owl#alm_100046	alm 100046, Number of Resources Will Exceed License Limit
+http://treat.net/onto.owl#alm_100047	alm 100047, Traffic Peak Value Exceeding License Limit
+http://treat.net/onto.owl#alm_100048	alm 100048, Services About to Be Restricted Due to License Limit
+http://treat.net/onto.owl#alm_100049	alm 100049, Number of Resources Reached License Limit
+http://treat.net/onto.owl#alm_100050	alm 100050, PFCP Peer Node Unreachable
+http://treat.net/onto.owl#alm_100056	alm 100056, PFCP Link Down
+http://treat.net/onto.owl#alm_100057	alm 100057, NG-RAN ID Repetition
+http://treat.net/onto.owl#alm_100058	alm 100058, NG-RAN Link Fault
+http://treat.net/onto.owl#alm_100059	alm 100059, NG-RAN Node Unreachable
+http://treat.net/onto.owl#alm_100060	alm 100060, NF HeartBeat Abnormal
+http://treat.net/onto.owl#alm_100065	alm 100065, Service Resource Overload
+http://treat.net/onto.owl#alm_100066	alm 100066, Service Resource Congestion
+http://treat.net/onto.owl#alm_100072	alm 100072, Destination NF Service Unreachable
+http://treat.net/onto.owl#alm_100108	alm 100108, Fixed-Rate Flow Control Starts on the N2 Interface
+http://treat.net/onto.owl#alm_100112	alm 100112, imported segment verify alarm
+http://treat.net/onto.owl#alm_100116	alm 100116, HTTP process fault
+http://treat.net/onto.owl#alm_100117	alm 100117, HTTP Resource Overload
+http://treat.net/onto.owl#alm_100118	alm 100118, HTTP Resource Congestion
+http://treat.net/onto.owl#alm_100126	alm 100126, Process D Status
+http://treat.net/onto.owl#alm_100135	alm 100135, UPC Link Down
+http://treat.net/onto.owl#alm_100139	alm 100139, Fabric OAM Detected Fabric Plane Down
+http://treat.net/onto.owl#alm_100140	alm 100140, Fabric link goes subhealthy
+http://treat.net/onto.owl#alm_100141	alm 100141, The communication of the fabric port was subhealthy
+http://treat.net/onto.owl#alm_100145	alm 100145, VNF Instantiation Partial Failed
+http://treat.net/onto.owl#alm_100155	alm 100155, HTTP Link Fault
+http://treat.net/onto.owl#alm_100156	alm 100156, Hierarchical Forwarding Loop
+http://treat.net/onto.owl#alm_100157	alm 100157, UDM Congestion
+http://treat.net/onto.owl#alm_100171	alm 100171, Insufficient system reliability
+http://treat.net/onto.owl#alm_100185	alm 100185, Base Plane Goes Subhealthy
+http://treat.net/onto.owl#alm_100187	alm 100187, Appling the service failed
+http://treat.net/onto.owl#alm_100192	alm 100192, HTTP Fix Flow Ctrl
+http://treat.net/onto.owl#alm_100197	alm 100197, No response from the RADIUS authentication server
+http://treat.net/onto.owl#alm_100201	alm 100201, UCF Link Fault
+http://treat.net/onto.owl#alm_100202	alm 100202, Unreachable Report Server
+http://treat.net/onto.owl#alm_100203	alm 100203, UCF File Cache Prewarning
+http://treat.net/onto.owl#alm_100209	alm 100209, MigrateAlarm
+http://treat.net/onto.owl#alm_100221	alm 100221, vHA ETCD Cluster Node Fault
+http://treat.net/onto.owl#alm_100222	alm 100222, Insufficient vHA ETCD Cluster Reliability
+http://treat.net/onto.owl#alm_100225	alm 100225, NF_Registration_Failed
+http://treat.net/onto.owl#alm_100232	alm 100232, Service Access Fails for Active-Active NRF Redundancy
+http://treat.net/onto.owl#alm_100235	alm 100235, AMF Configuration Updage Request Failure
+http://treat.net/onto.owl#alm_100248	alm 100248, Software Package Version for 5G Does Not Match Local Configuration
+http://treat.net/onto.owl#alm_100249	alm 100249, no seq nf alarm
+http://treat.net/onto.owl#alm_100251	alm 100251, Inter-AMF Flow Control Starts
+http://treat.net/onto.owl#alm_100256	alm 100256, vHA ETCD DB oversize
+http://treat.net/onto.owl#alm_100282	alm 100282, Internal Resource Usage Exceeding Threshold
+http://treat.net/onto.owl#alm_100288	alm 100288, Message Type-based Fixed-Rate Flow Control over the N2 Interface
+http://treat.net/onto.owl#alm_126000	alm 126000, Faulty GaussDB Component
+http://treat.net/onto.owl#alm_126002	alm 126002, Insufficient GaussDB Data Space
+http://treat.net/onto.owl#alm_126003	alm 126003, Severely Insufficient GaussDB Data Space
+http://treat.net/onto.owl#alm_126004	alm 126004, GaussDB Service Is Stopped
+http://treat.net/onto.owl#alm_126006	alm 126006, Abnormal Data Synchronization Between Active and Standby GaussDB Nodes
+http://treat.net/onto.owl#alm_126007	alm 126007, Number of GaussDB Connections Reaches the Upper Limit
+http://treat.net/onto.owl#alm_126008	alm 126008, Long Transactions in GaussDB
+http://treat.net/onto.owl#alm_126020	alm 126020, Faulty OMCache Component
+http://treat.net/onto.owl#alm_126021	alm 126021, Faulty Synchronization Link Between the Active and Standby OMCache Nodes
+http://treat.net/onto.owl#alm_126080	alm 126080, Faulty Kafka Component
+http://treat.net/onto.owl#alm_126081	alm 126081, Kafka Consumes Messages Too Slowly
+http://treat.net/onto.owl#alm_126082	alm 126082, Blocked Kafka Consumer Thread
+http://treat.net/onto.owl#alm_126083	alm 126083, Excessive Kafka File Description
+http://treat.net/onto.owl#alm_126100	alm 126100, Faulty Zookeeper Component
+http://treat.net/onto.owl#alm_135001	alm 135001, OS Intrusion Detection
+http://treat.net/onto.owl#alm_135200	alm 135200, License File Expiring Precaution
+http://treat.net/onto.owl#alm_135201	alm 135201, License File Expired
+http://treat.net/onto.owl#alm_135202	alm 135202, License File Restrict Service
+http://treat.net/onto.owl#alm_135203	alm 135203, No License File Loaded
+http://treat.net/onto.owl#alm_135301	alm 135301, Communication between PaaSBroker and FusionStage failed
+http://treat.net/onto.owl#alm_135630	alm 135630, Node Communication Failure
+http://treat.net/onto.owl#alm_135631	alm 135631, Faulty NRS Component
+http://treat.net/onto.owl#alm_135634	alm 135634, Network Port Is Abnormal
+http://treat.net/onto.owl#alm_135635	alm 135635, Network Port IP Address or Route Is Abnormal
+http://treat.net/onto.owl#alm_135636	alm 135636, Key File Lost
+http://treat.net/onto.owl#alm_135637	alm 135637, Partition Overload
+http://treat.net/onto.owl#alm_135638	alm 135638, OS Process Usage Monitoring Alarm
+http://treat.net/onto.owl#alm_135639	alm 135639, Inode Monitoring Alarm
+http://treat.net/onto.owl#alm_135640	alm 135640, Container Storage Usage Monitoring Alarm
+http://treat.net/onto.owl#alm_135641	alm 135641, Network Subhealth
+http://treat.net/onto.owl#alm_135642	alm 135642, Inter-Board Link Communication Failure
+http://treat.net/onto.owl#alm_135643	alm 135643, Node Enables Bypass Function
+http://treat.net/onto.owl#alm_135644	alm 135644, Subhealthy Node Storage
+http://treat.net/onto.owl#alm_135645	alm 135645, Faulty Node Storage
+http://treat.net/onto.owl#alm_135646	alm 135646, Node Storage Bypass Mode Is Abnormal
+http://treat.net/onto.owl#alm_135800	alm 135800, IP Addresses in the DHCP PXE Address Pool Are Insufficient
+http://treat.net/onto.owl#alm_135810	alm 135810, OS Patch Version Not Updated to the Target Version
+http://treat.net/onto.owl#alm_135901	alm 135901, Abnormal NTP Connection Status
+http://treat.net/onto.owl#alm_135902	alm 135902, ntpd Process Start Exception
+http://treat.net/onto.owl#alm_135903	alm 135903, Communication Authentication Is Not Configured for the NTP Server
+http://treat.net/onto.owl#alm_136001	alm 136001, OM Network Resource Fault
+http://treat.net/onto.owl#alm_136053	alm 136053, Service communication certificate is about to expire
+http://treat.net/onto.owl#alm_136074	alm 136074, Authentication failure
+http://treat.net/onto.owl#alm_136075	alm 136075, High risk operation
+http://treat.net/onto.owl#alm_136076	alm 136076, Application Account Password Expired or Expiring Soon
+http://treat.net/onto.owl#alm_136100	alm 136100, Failed to Load the Adapter Package
+http://treat.net/onto.owl#alm_136750	alm 136750, A Weak Algorithm in SNMP Is Used
+http://treat.net/onto.owl#alm_137502	alm 137502, Total Size of Backup Packages Exceeds the Threshold
+http://treat.net/onto.owl#alm_137550	alm 137550, Abnormal Hot Patch Status of a Process
+http://treat.net/onto.owl#alm_15794253	alm 15794253, IPv6 Status on All Interfaces Bound to a VPN Instance Being Down
+http://treat.net/onto.owl#alm_15794344	alm 15794344, VNFC Connection Lost
+http://treat.net/onto.owl#alm_135602186	alm 135602186, Database Restoration Failure
+http://treat.net/onto.owl#alm_135602210	alm 135602210, Inconsistency Between Application Configuration Data and OMU Configuration Data
+http://treat.net/onto.owl#alm_136585218	alm 136585218, SSH Frequent Login Failures
+http://treat.net/onto.owl#alm_136781828	alm 136781828, Frequent Login Failures
+http://treat.net/onto.owl#alm_136781867	alm 136781867, User Password Not Changed for a Long Time
+http://treat.net/onto.owl#alm_136781876	alm 136781876, Security Risk Alarm
+http://treat.net/onto.owl#alm_136978434	alm 136978434, Remote Config Failure
+http://treat.net/onto.owl#alm_136978435	alm 136978435, Remote Synchronization Fail
+http://treat.net/onto.owl#alm_137953285	alm 137953285, IPv6 Route Prefix Count Exceeding Limit
+http://treat.net/onto.owl#alm_137953287	alm 137953287, IPv6 Route Prefix Count Exceeding Threshold
+http://treat.net/onto.owl#alm_137961482	alm 137961482, IPv4 Route Prefix Count Exceeding Threshold
+http://treat.net/onto.owl#alm_139591683	alm 139591683, Interface Down
+http://treat.net/onto.owl#alm_139591684	alm 139591684, IPv6 Interface State Change
+http://treat.net/onto.owl#alm_140058635	alm 140058635, ARP Table Threshold Exceed
+http://treat.net/onto.owl#alm_140058640	alm 140058640, Interface IP Address Conflict
+http://treat.net/onto.owl#alm_140058645	alm 140058645, ARP Exceeded the Rate Limit
+http://treat.net/onto.owl#alm_140058654	alm 140058654, ARP Table Replace Rate Exceeding Threshold
+http://treat.net/onto.owl#alm_141623296	alm 141623296, RU Forwarding Resource Overload
+http://treat.net/onto.owl#alm_142155858	alm 142155858, BGP Connection Interruption
+http://treat.net/onto.owl#alm_142155859	alm 142155859, BGP Peer Route Limit-crossing
+http://treat.net/onto.owl#alm_142155860	alm 142155860, BGP Peer Route Threshold-crossing
+http://treat.net/onto.owl#alm_143654917	alm 143654917, OSPFv2 Neighbor State Change
+http://treat.net/onto.owl#alm_143663184	alm 143663184, Configuration Conflict Between the OSPF Neighbor and Local Device
+http://treat.net/onto.owl#alm_143851523	alm 143851523, OSPFv3 Neighbor State Change
+http://treat.net/onto.owl#alm_143859767	alm 143859767, Configuration Conflict Between the OSPFv3 Neighbor and Local Device
+http://treat.net/onto.owl#alm_151126016	alm 151126016, LDP Session Down
+http://treat.net/onto.owl#alm_151134214	alm 151134214, LSP Total Count Exceed
+http://treat.net/onto.owl#alm_151134216	alm 151134216, LSP Count Threshold Exceed
+http://treat.net/onto.owl#alm_151134221	alm 151134221, MPLS LDP Multi-Link Configuration Inconsistent
+http://treat.net/onto.owl#alm_152051716	alm 152051716, BFD Session Down
+http://treat.net/onto.owl#alm_152109056	alm 152109056, All VPN Interfaces Down
+http://treat.net/onto.owl#alm_152109057	alm 152109057, VPN Route Prefix Count Exceeding Upper Limit
+http://treat.net/onto.owl#alm_152109058	alm 152109058, VPN Route Prefix Count Exceeding Middle Limit
+http://treat.net/onto.owl#alm_152117270	alm 152117270, IPv6 VPN Route Prefix Count Exceeding Upper Threshold
+http://treat.net/onto.owl#alm_152117277	alm 152117277, IPv6 VPN Route Prefix Count Exceeding Alarm Threshold
+http://treat.net/onto.owl#alm_154935297	alm 154935297, IPv4 Wireless Route Prefix Count Exceeding the Maximum Value
+http://treat.net/onto.owl#alm_154935299	alm 154935299, IPv6 Wireless Route Prefix Count Exceeding the Maximum Value
+http://treat.net/onto.owl#alm_154935300	alm 154935300, IPv6 Wireless Route Prefix Count Exceeding the Upper Alarm Threshold
+http://treat.net/onto.owl#alm_154935301	alm 154935301, IPv4 Wireless Route Prefix Count Exceeding the Upper Alarm Threshold
+http://treat.net/onto.owl#alm_156770308	alm 156770308, Interface IPv6 Address Conflict
+http://treat.net/onto.owl#alm_158539776	alm 158539776, MPLS Resource Total Count Exceed
+http://treat.net/onto.owl#alm_158539777	alm 158539777, MPLS Resource Count Threshold Exceed
+http://treat.net/onto.owl#alm_161292297	alm 161292297, SSL Certificate Expired Early Warning
+http://treat.net/onto.owl#alm_161292298	alm 161292298, SSL Certificate Expired
+http://treat.net/onto.owl#alm_174006272	alm 174006272, Failed To Apply IP Address For The DHCP Client
+http://treat.net/onto.owl#alm_202702856	alm 202702856, TCPIP Defend Drop Packet Exceeding Threshold
+http://treat.net/onto.owl#alm_202702859	alm 202702859, Application Apperceive Drop Packet Exceeding Threshold
+http://treat.net/onto.owl#alm_202711059	alm 202711059, URPF Drop Packet Exceeding Threshold
+http://treat.net/onto.owl#alm_219545604	alm 219545604, Patch Installation Failed
+http://treat.net/onto.owl#alm_219553797	alm 219553797, Patch Package Error
+http://treat.net/onto.owl#alm_219553798	alm 219553798, RU Patch Installation Failed
+http://treat.net/onto.owl#alm_219553804	alm 219553804, Patch Installation Failed
+http://treat.net/onto.owl#alm_221257739	alm 221257739, System Configuration Error
+http://treat.net/onto.owl#alm_221257751	alm 221257751, Process Fault
+http://treat.net/onto.owl#alm_221257752	alm 221257752, Resource Process Fault
+http://treat.net/onto.owl#alm_221257761	alm 221257761, RU Disk Partition Usage Exceeding Threshold
+http://treat.net/onto.owl#alm_221257768	alm 221257768, RU Fault Alarm
+http://treat.net/onto.owl#alm_221257796	alm 221257796, Disk Partition Unavailable
+http://treat.net/onto.owl#alm_221257807	alm 221257807, Master and Slave OMU Synchronization Failure
+http://treat.net/onto.owl#alm_221257855	alm 221257855, Resource Software Fault
+http://treat.net/onto.owl#alm_221257861	alm 221257861, RU Group Abnormal
+http://treat.net/onto.owl#alm_221257862	alm 221257862, Detected RU Base Plane Goes Subhealthy
+http://treat.net/onto.owl#alm_221257870	alm 221257870, Detected Base Plane Goes Subhealthy
+http://treat.net/onto.owl#alm_221257877	alm 221257877, Detected Base Plane Link Goes Subhealthy
+http://treat.net/onto.owl#alm_221257878	alm 221257878, Detected RU Link of Base Plane Goes Subhealthy
+http://treat.net/onto.owl#alm_231612421	alm 231612421, System Forwarding Resource Exceeded
+http://treat.net/onto.owl#alm_231612424	alm 231612424, Interface Forwarding Resource Exceeded
+http://treat.net/onto.owl#alm_232398849	alm 232398849, Automatic Interface Configuration Failure
+http://treat.net/onto.owl#alm_232398850	alm 232398850, Auto Scaling IP Address Pool Exhaustion
+http://treat.net/onto.owl#alm_238493698	alm 238493698, CPU Usage Overloaded
+http://treat.net/onto.owl#alm_238493699	alm 238493699, Memory Usage Overloaded
+http://treat.net/onto.owl#alm_238493700	alm 238493700, Disk Partition Usage Exceeding Threshold
+http://treat.net/onto.owl#alm_238493706	alm 238493706, Master Key Expired
+http://treat.net/onto.owl#alm_238690306	alm 238690306, Master Key Abnormal
+http://treat.net/onto.owl#alm_238690308	alm 238690308, Master Key Expired Early

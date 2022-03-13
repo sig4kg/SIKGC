@@ -18,3 +18,4 @@ protobuf
 pandas
 owlready2
 transformers
+gensim >= 4.0.1

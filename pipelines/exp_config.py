@@ -81,7 +81,7 @@ class BLPConfig:
         elif dataset == "DBpedia":
             tmp_conf.update({'max_epochs': 40})
         elif dataset == "TREAT" and inductive:
-            tmp_conf.update({'model': 'fasttext', 'lr': 1e-3, 'max_epochs': 30, 'batch_size': 1024})
+            tmp_conf.update({'model': 'fasttext', 'lr': 1e-3, 'regularizer': 1e-2, 'max_epochs': 50, 'batch_size': 64})
         return tmp_conf
 
 

@@ -14,7 +14,7 @@ class BLPConfig:
         'batch_size': 64,
         'emb_batch_size': 64,
         'eval_batch_size': 32,
-        'max_epochs': 20,
+        'max_epochs': 60,
         'checkpoint': None,
         'use_cached_text': False
         }
@@ -35,7 +35,7 @@ class BLPConfig:
             'batch_size': 64,
             'emb_batch_size': 512,
             'eval_batch_size': 64,
-            'max_epochs': 20,
+            'max_epochs': 60,
             'checkpoint': None,
             'use_cached_text': False
         }
@@ -56,7 +56,7 @@ class BLPConfig:
             'batch_size': 64,
             'emb_batch_size': 512,
             'eval_batch_size': 64,
-            'max_epochs': 20,
+            'max_epochs': 60,
             'checkpoint': None,
             'use_cached_text': False
         }
@@ -77,9 +77,9 @@ class BLPConfig:
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
 
         if dataset == "DBpedia" and inductive:
-            tmp_conf.update({'max_epochs': 60, 'lr': 1e-5})
+            tmp_conf.update({'max_epochs': 80, 'lr': 1e-5, 'batch_size': 512})
         elif dataset == "DBpedia":
-            tmp_conf.update({'max_epochs': 40})
+            tmp_conf.update({'max_epochs': 80, 'batch_size': 512})
         elif dataset == "TREAT" and inductive:
             tmp_conf.update({'model': 'fasttext', 'lr': 1e-3, 'regularizer': 1e-2, 'max_epochs': 50, 'batch_size': 64})
         return tmp_conf

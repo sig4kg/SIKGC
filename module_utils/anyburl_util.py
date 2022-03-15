@@ -27,21 +27,26 @@ def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, context_resource: Cont
             tmp_preds.extend([[ph[0], r, t] for ph in pred_hs if ph[0] != ''])
             tmp_preds.extend([[h, r, pt[0]] for pt in pred_ts if pt[0] != ''])
 
-            tmp_preds = [[context_resource.ent2id[i[0]],
-                          context_resource.rel2id[i[1]],
-                          context_resource.ent2id[i[2]]] for i in tmp_preds]
+            # tmp_preds = [[context_resource.ent2id[i[0]],
+            #               context_resource.rel2id[i[1]],
+            #               context_resource.ent2id[i[2]]] for i in tmp_preds]
             all_preds.extend(tmp_preds)
     df = pd.DataFrame(data=all_preds, columns=['head', 'rel', 'tail'])
     df = df.drop_duplicates(keep='first')
+    df = df.astype(int)
     return df
 
 
 # h r t
+# def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
+#     df = context_resource.hrt_int_df.copy(deep=True)
+#     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to ent
+#     df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2rel[x])  # to rel
+#     df[['head', 'rel', 'tail']].to_csv(anyburl_dir + "all_triples.txt", index=False, header=False, sep='\t')
+#     wait_until_file_is_saved(anyburl_dir + "all_triples.txt")
 def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
-    df = context_resource.hrt_int_df.copy(deep=True)
-    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to ent
-    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2rel[x])  # to rel
-    df[['head', 'rel', 'tail']].to_csv(anyburl_dir + "all_triples.txt", index=False, header=False, sep='\t')
+    df = context_resource.hrt_int_df
+    df.to_csv(anyburl_dir + "all_triples.txt", index=False, header=False, sep='\t')
     wait_until_file_is_saved(anyburl_dir + "all_triples.txt")
 
 

@@ -29,11 +29,17 @@ def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1, schema_in_
 
 if __name__ == "__main__":
     print("CM pipeline")
+    # c_m(work_dir="../outputs/cm/",
+    #     input_dir="../resources/NELL/",
+    #     schema_file='../resources/TEST/NELL.ontology.ttl',
+    #     tbox_patterns_dir='../resources/NELL-patterns/',
+    #     schema_in_nt='../resources/NELL/tbox_dllite.nt')
+
     c_m(work_dir="../outputs/cm/",
-        input_dir="../resources/NELL/",
-        schema_file='../resources/TEST/NELL.ontology.ttl',
-        tbox_patterns_dir='../resources/NELL-patterns/',
-        schema_in_nt='../resources/NELL/tbox_dllite.nt')
+        input_dir="../resources/TREAT/",
+        schema_file='../resources/TREAT/tbox.nt',
+        tbox_patterns_dir='../resources/TREAT/tbox_patterns/',
+        schema_in_nt='../resources/TREAT/tbox.nt')
 
 
 

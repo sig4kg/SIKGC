@@ -1,3 +1,4 @@
+import DLLiteConvertor.DLLite;
 import TBoxScanner.TBoxPatternGenerator;
 
 import java.io.File;
@@ -68,7 +69,8 @@ public class Main {
                 TBoxConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
                 break;
             case "DL-lite":
-                DLLite.owl2dllite(ontologyFullPath, outputFullPath + "/tbox_dllite.ttl");
+                DLLite dlliteCvt= new DLLite("../Konclude-v0.7.0-1135-OSX-x64-Clang-Static-Qt5.12.10/Binaries/Konclude", "output/");
+                dlliteCvt.owl2dllite(ontologyFullPath);
                 break;
             case "Consistency":
                 Materialize2.checkConsistency(ontologyFullPath, aboxFullPath, outputFullPath + "/tbox_and_abox.nt");

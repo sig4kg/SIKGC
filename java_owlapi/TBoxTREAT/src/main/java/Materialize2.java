@@ -118,7 +118,7 @@ public class Materialize2 {
         );
         List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
 //        generators.add(new InferredSubClassAxiomGenerator());
-//        generators.add(new InferredClassAssertionAxiomGenerator());
+        generators.add(new InferredClassAssertionAxiomGenerator());
 //        generators.add(new InferredDisjointClassesAxiomGenerator());
 //        generators.add(new InferredEquivalentClassAxiomGenerator());
 //        generators.add(new InferredEquivalentObjectPropertyAxiomGenerator());

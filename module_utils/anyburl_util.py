@@ -51,7 +51,8 @@ def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
 
 
 def split_all_triples_anyburl(context_resource, anyburl_dir, exclude_rels=[]):
-    df = read_hrt_2_df(anyburl_dir + "all_triples.txt")
+    # df = read_hrt_2_df(anyburl_dir + "all_triples.txt")
+    df = context_resource.hrt_int_df.copy(deep=True)
     rels = df['rel'].drop_duplicates(keep='first')
     total =len(df.index)
     rate = len(rels.index) * 100 / total

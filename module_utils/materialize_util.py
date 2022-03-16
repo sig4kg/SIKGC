@@ -15,7 +15,7 @@ def learn_type_assertions(work_dir):
     cmd = ['java',
            '-Dtask=Materialize',
            '-Dschema=tbox_abox.nt',
-           f'-Doutput_dir={work_dir}',
+           f'-Doutput_dir=./',
            '-jar',
            f'{work_dir}TBoxTREAT-1.0.jar']
     p = subprocess.run(cmd)
@@ -28,7 +28,7 @@ def materialize(work_dir, context_resource: ContextResources, abox_scanner: Abox
     # learn type assertions
     new_ent2types = {}
     p = learn_type_assertions(work_dir)
-    if p:
+    if p == 0:
         new_ent2types = type_nt_2_entity2type(work_dir + "materialized_tbox_abox.nt", context_resource)
     # learn property assertions
     new_property_assertions = abox_scanner.scan_generator_patterns()
@@ -55,12 +55,12 @@ def type_nt_2_entity2type(in_file, context_resource: ContextResources):
     df = pd.read_csv(
         in_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ").drop_duplicates(
         keep='first').reset_index(drop=True)
-    df = df[['head', 'rel', 'tail']].apply(lambda x: x.str[1:-1])
     df = df.query("rel==@RDFTYPE1")
-    df['head'] = df['head'].applymap(
+    df = df[['head', 'tail']].apply(lambda x: x.str[1:-1])
+    df['head'] = df[['head']].applymap(
         lambda x: context_resource.ent2id[x] if x in context_resource.ent2id else np.nan)  # to int
-    df['tail'] = df['head'].applymap(
-        lambda x: context_resource.class2id[x] if x in context_resource.ent2id else np.nan)  # to int
+    df['tail'] = df[['tail']].applymap(
+        lambda x: context_resource.class2id[x] if x in context_resource.class2id else np.nan)  # to int
     df = df.dropna(how='any').astype('int64')
     groups = df.groupby('head')
     new_ent2types = dict()

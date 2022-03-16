@@ -12,7 +12,6 @@ from module_utils.anyburl_util import *
 
 def aggregate_scores():
     init_kgs, target_kgs, nc, vc, cc, n = [], [], [], [], [], [0]
-
     def add_new(init_kgc, extend_kgc, new_count, new_valid_count, new_correct_count):
         n[0] = n[0] + 1
         nc.append(new_count)
@@ -87,16 +86,6 @@ def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", cons
         abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13])
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
     return context_resource, abox_scanner_scheduler
-
-
-def prepare_M(work_dir, schema_file):
-    # Convert schema to DL-lite
-    if not os.path.exists(work_dir + "tbox_dllite.ttl"):
-        print("Converting schema to DL-Lite")
-        scripts.run_scripts.to_dllite(schema_file, work_dir)
-        wait_until_file_is_saved(work_dir + "tbox_dllite.ttl")
-    else:
-        print("Schema in DL-Lite exists: " + work_dir + "tbox_dllite.ttl")
 
 
 def EC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir, epoch=50,
@@ -199,14 +188,14 @@ def Rumis_C_block(context_resource: ContextResources, abox_scanner_scheduler: Ab
     return train_count, extend_count, new_count, new_valid_count, new_correct_count
 
 
-def M_block(context_resource: ContextResources, work_dir, schema_in_nt=''):
+def M_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir, schema_in_nt=''):
     # context int to materialization ntriples,
     train_count = len(context_resource.hrt_int_df.index)
     context_resource.to_ntriples(work_dir, schema_in_nt=schema_in_nt)
     wait_until_file_is_saved(work_dir + "tbox_abox.nt", 120)
     # the result is materialized_abox.nt
     print("running materialization...")
-    new_ent2types, new_property_assertions = materialize(work_dir)
+    new_ent2types, new_property_assertions = materialize(work_dir,context_resource, abox_scanner_scheduler)
     # merge new types to ent2classes
     new_type_count = update_ent2class(context_resource, new_ent2types)
     # merge new type assertions

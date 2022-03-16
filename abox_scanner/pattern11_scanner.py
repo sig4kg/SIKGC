@@ -34,8 +34,11 @@ class Pattern11(PatternScanner):
             pattern_dict = dict()
             lines = f.readlines()
             for l in lines:
-                items = l.split('\t')
-                r1 = self._context_resources.op2id[items[0][1:-1]]
+                items = l.strip().split('\t')
+                r1_uri = items[0][1:-1]
+                if r1_uri not in self._context_resources.op2id:
+                    continue
+                r1 = self._context_resources.op2id[r1_uri]
                 r2_l = items[1].split('@@')
                 r2 = [self._context_resources.op2id[rr2[1:-1]] for rr2 in r2_l if rr2[1:-1] in self._context_resources.op2id]
                 pattern_dict.update({r1: r2})

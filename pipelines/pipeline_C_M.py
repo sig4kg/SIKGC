@@ -1,11 +1,4 @@
-import datetime
-
-from abox_scanner import abox_utils
-from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
-from abox_scanner.abox_utils import wait_until_file_is_saved, ContextResources
-from scripts import run_scripts
 from tqdm.auto import trange
-from module_utils.materialize_util import *
 from pipeline_util import *
 
 
@@ -17,7 +10,10 @@ def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1, schema_in_
     scores = []
     for ep in trange(loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
         start_time = datetime.datetime.now()
-        init_c1, extend_c1, new_count, new_valid_count, new_correct_count = M_block(context_resource, work_dir, schema_in_nt=schema_in_nt)
+        init_c1, extend_c1, new_count, new_valid_count, new_correct_count = M_block(context_resource,
+                                                                                    abox_scanner_scheduler,
+                                                                                    work_dir,
+                                                                                    schema_in_nt=schema_in_nt)
         duration = datetime.datetime.now() - start_time
         print(f"Materialisation duration: {str(duration)}")
         scores.append(get_scores(init_c1, extend_c1, new_count, new_valid_count, new_correct_count))

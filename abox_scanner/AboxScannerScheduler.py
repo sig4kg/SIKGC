@@ -1,7 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
 import os
-
 from abox_scanner.pattern12_scanner import Pattern12
 from abox_scanner.pattern13_scanner import Pattern13
 from abox_scanner.pattern1_scanner import Pattern1
@@ -15,10 +14,10 @@ from abox_scanner.pattern_pos_domain import PatternPosDomain
 from abox_scanner.pattern_pos_range import PatternPosRange
 from abox_scanner.pattern_gen_inverse import *
 from abox_scanner.pattern_gen_subproperty import *
-from abox_scanner.pattern_gen_reflexive import *
+# from abox_scanner.pattern_gen_reflexive import *
 from abox_scanner.pattern_gen_symetric import *
 from abox_scanner.pattern_gen_transitive import *
-from abox_scanner.abox_utils import ContextResources
+from abox_scanner.ContextResources import ContextResources
 import pandas as pd
 import numpy as np
 import datetime
@@ -54,8 +53,8 @@ class AboxScannerScheduler:
                              'inverse': PatternGenInverse,
                              'symetric': PatternGenSymetric,
                              'subproperty': PatternGenSubproperty,
-                             'transitive': PatternGenTransitive,
-                             'reflexive': PatternGenReflexive
+                             # 'reflexive': PatternGenReflexive,
+                             'transitive': PatternGenTransitive
                              }
 
     def set_triples_to_scan_int_df(self, hrt_int_df) -> AboxScannerScheduler:
@@ -190,7 +189,7 @@ class AboxScannerScheduler:
             print("Scanning generator pattern: " + str(type(scanner)))
             tmp_df = scanner.scan_pattern_df_rel(df)
             count_new = len(tmp_df.index)
-            new_df = pd.concat(new_df, tmp_df).drop_duplicates(keep='first')
+            new_df = pd.concat([new_df, tmp_df]).drop_duplicates(keep='first').reset_index(dr)
             print(f"{str(type(scanner))} inferred new triples count: {str(count_new)}")
         print(f"The reasoning duration is {datetime.datetime.now() - start_time}")
         return new_df

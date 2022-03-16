@@ -70,7 +70,7 @@ class Pattern13(PatternScanner):
         with open(entry) as f:
             lines = f.readlines()
             for l in lines:
-                items = l.split('\t')
+                items = l.strip().split('\t')
                 r1 = items[0].strip()[1:-1]
                 if r1 in self._context_resources.op2id:
                     op = self._context_resources.op2id[r1]

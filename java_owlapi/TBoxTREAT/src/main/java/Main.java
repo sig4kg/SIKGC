@@ -6,19 +6,19 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "DL-lite");
+        String task = System.getProperty("task", "Materialize");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/tbox.nt");
-        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
+//        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
-//        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
+        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
 //        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/tbox_patterns");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/tbox_patterns");
-        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
-//        String output_dir = System.getProperty("output_dir", "output/");
+//        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
+        String output_dir = System.getProperty("output_dir", "output/");
         String abox_file = System.getProperty("abox", "");
 //        String abox_file = System.getProperty("abox", "../../resources/NELL/abox_consistent.nt");
         String type_file = System.getProperty("types", "output/types.txt");
@@ -64,17 +64,17 @@ public class Main {
                 tboxScanner.getAllClasses();
                 break;
             case "Materialize":
-                Materialize2.materialize(ontologyFullPath, aboxFullPath, outputFullPath + "/materialized_tbox_abox.nt");
+                Materialize2.materialize(ontologyFullPath, outputFullPath + "/materialized_tbox_abox.nt");
                 break;
             case "toNT":
                 TBoxConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
                 break;
             case "DL-lite":
-                DLLite dlliteCvt= new DLLite("../Konclude-v0.7.0-1135-OSX-x64-Clang-Static-Qt5.12.10/Binaries/Konclude", "output/");
+                DLLite dlliteCvt= new DLLite("../Konclude-v0.7.0-1135-OSX-x64-Clang-Static-Qt5.12.10/Binaries/Konclude", outputFullPath + "/");
                 dlliteCvt.owl2dllite(ontologyFullPath);
                 break;
             case "Consistency":
-                Materialize2.checkConsistency(ontologyFullPath, aboxFullPath, outputFullPath + "/tbox_and_abox.nt");
+                Materialize2.checkConsistency(ontologyFullPath,outputFullPath + "/tbox_and_abox.nt");
                 break;
             case "SubsetTBox":
                 TBoxConverter.getTBoxSubset(ontologyFullPath, outputFullPath + "/less_tbox.nt", type_file, rel_file);

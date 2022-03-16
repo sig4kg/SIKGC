@@ -42,10 +42,10 @@ class Pattern2(PatternScanner):
             pattern_dict = dict()
             lines = f.readlines()
             for l in lines:
-                items = l.split('\t')
+                items = l.strip().split('\t')
                 op = self._context_resources.op2id[items[0][1:-1]]
                 ont2 = self._context_resources.class2id[items[1][1:-1]]
-                disjoint = [self._context_resources.class2id[ii[1:-1]] for ii in items[2][:-2].split('\"') if
+                disjoint = [self._context_resources.class2id[ii[1:-1]] for ii in items[2][:-1].split('\"') if
                             ii not in ['owl:Nothing']]
                 pattern_dict.update({op: {'valid': ont2, 'invalid': disjoint}})
             self._pattern_dict = pattern_dict

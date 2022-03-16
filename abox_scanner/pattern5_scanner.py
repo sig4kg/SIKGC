@@ -32,8 +32,7 @@ class Pattern5(PatternScanner):
             pattern_set = set()
             lines = f.readlines()
             for l in lines:
-                items = l.split('\t')
-                r = items[0].strip()[1:-1]
+                r = l.strip()[1:-1]
                 if r in self._context_resources.op2id:
                     op = self._context_resources.op2id[r]
                     pattern_set.add(op)

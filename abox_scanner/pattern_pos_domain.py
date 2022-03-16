@@ -34,8 +34,11 @@ class PatternPosDomain(PatternScanner):
             pattern_dict = dict()
             lines = f.readlines()
             for l in lines:
-                items = l.split('\t')
-                op = self._context_resources.op2id[items[0][1:-1]]
-                domain = [self._context_resources.class2id[ii[1:-1]] for ii in items[1][:-2].split('\"') if ii not in ['owl:Nothing']]
+                items = l.strip().split('\t')
+                r1_uri = items[0][1:-1]
+                if r1_uri not in self._context_resources.op2id:
+                    continue
+                op = self._context_resources.op2id[r1_uri]
+                domain = [self._context_resources.class2id[ii[1:-1]] for ii in items[1][:-1].split('\"') if ii not in ['owl:Nothing']]
                 pattern_dict.update({op: domain})
             self._pattern_dict = pattern_dict

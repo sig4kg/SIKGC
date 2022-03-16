@@ -17,10 +17,13 @@ class PatternGenSymetric(PatternScanner):
             rel = g[0]
             r_triples_df = g[1]
             if rel in self._pattern_set:
-                tmp_df = r_triples_df[['tail', 'rel', 'head']]
+                tmp_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+                tmp_df['head'] = r_triples_df['tail']
+                tmp_df['rel'] = r_triples_df['rel']
+                tmp_df['tail'] = r_triples_df['head']
                 new_df = pd.concat([new_df, tmp_df]).drop_duplicates(keep='first')
         new_df = new_df.drop_duplicates(keep='first')
-        new_df = pd.concat([new_df, triples, triples]).drop_duplicates(keep=False).reset_index()
+        new_df = pd.concat([new_df, triples, triples]).drop_duplicates(keep=False).reset_index(drop=True)
         return new_df
 
 
@@ -29,8 +32,7 @@ class PatternGenSymetric(PatternScanner):
             pattern_set = set()
             lines = f.readlines()
             for l in lines:
-                items = l.split('\t')
-                r = items[0].strip()[1:-1]
+                r = l.strip()[1:-1]
                 if r in self._context_resources.op2id:
                     op = self._context_resources.op2id[r]
                     pattern_set.add(op)

@@ -10,7 +10,7 @@ public class PatternGenTransitive extends BasePattern implements IPattern {
     // Symmetric(r)
     public void generatePattern() {
         try {
-            this.GetPrintWriter("gen_trans");
+            this.GetPrintWriter("gen_transitive");
             for (OWLTransitiveObjectPropertyAxiom r : ont.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY)) {
                 pw.println(r.getProperty().toString());
             }

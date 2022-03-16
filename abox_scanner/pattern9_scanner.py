@@ -1,4 +1,4 @@
-from abox_scanner.abox_utils import PatternScanner, ContextResources
+from abox_scanner.ContextResources import PatternScanner, ContextResources
 import pandas as pd
 from tqdm import tqdm
 # domain
@@ -35,7 +35,10 @@ class Pattern9(PatternScanner):
             for l in lines:
                 items = l.split('\t')
                 r1 = self._context_resources.op2id[items[0][1:-1]]
+                if r1 not in self._context_resources.op2id:
+                    continue
                 r2_l = items[1].split('@@')
                 r2 = [self._context_resources.op2id[rr2[1:-1]] for rr2 in r2_l if rr2[1:-1] in self._context_resources.op2id]
-                pattern_dict.update({r1: r2})
+                if len(r2) > 0:
+                    pattern_dict.update({r1: r2})
             self._pattern_dict = pattern_dict

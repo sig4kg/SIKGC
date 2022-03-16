@@ -63,12 +63,6 @@ def clean_materialization(work_dir):
     os.system('../scripts/clean_materialization.sh ' + work_dir)
 
 
-def run_materialization(work_dir):
-    if work_dir[-1] == '/':
-        work_dir = work_dir[:-1]
-    os.system('../scripts/run_materialize.sh ' + work_dir)
-    wait_until_file_is_saved(f"{work_dir}/materialized_tbox_abox.nt")
-
 def to_dllite(schema_file, work_dir):
     if work_dir[-1] == '/':
         work_dir = work_dir[:-1]

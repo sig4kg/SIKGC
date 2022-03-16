@@ -1,6 +1,6 @@
 from __future__ import annotations
 import pandas as pd
-from abox_scanner.abox_utils import ContextResources
+from abox_scanner.ContextResources import ContextResources
 
 
 def read_hrt_rumis_2_hrt_int_df(hrt_rumis_file, context_resource: ContextResources):

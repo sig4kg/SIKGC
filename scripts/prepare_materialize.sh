@@ -23,6 +23,3 @@ if [ ! -f "$WORK_DIR/TBoxTREAT-1.0.jar" ];then
   fi
   cp ../java_owlapi/TBoxTREAT/target/TBoxTREAT-1.0.jar $WORK_DIR/
 fi
-echo "Materializing abox and tbox..."
-java -Xmx15G -Dtask=Materialize -Dschema=tbox_abox.nt -Doutput_dir=./ -jar $WORK_DIR/TBoxTREAT-1.0.jar
-echo "Done with Materialization."

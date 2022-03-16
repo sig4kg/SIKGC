@@ -24,11 +24,11 @@ def e_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1, use_gp
     run_scripts.clean_tranE(work_dir)
     # check all triples
     context_resource.hrt_int_df = None
-    abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(work_dir=work_dir)
+    valids, _ = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(work_dir=work_dir)
     wait_until_file_is_saved(work_dir + "valid_hrt.txt")
 
     # 4. get valid new triples
-    new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
+    new_hrt_df = valids
 
     # 5. add new valid hrt to train data
     extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_hrt_df], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
@@ -36,7 +36,7 @@ def e_c(work_dir, input_dir, schema_file, tbox_patterns_dir, max_epoch=1, use_gp
     rate = new_count / train_count
     print("update context data")
     context_resource.hrt_int_df = extend_hrt_df
-    hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
+    context_resource.to_ntriples(work_dir)
 
 
 if __name__ == "__main__":

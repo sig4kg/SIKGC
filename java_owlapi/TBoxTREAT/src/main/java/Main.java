@@ -6,18 +6,19 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String task = System.getProperty("task", "TBoxScanner");
+        String task = System.getProperty("task", "DL-lite");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/tbox.nt");
-//        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
-        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
+        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
+//        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
 //        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/tbox_patterns");
-//        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
-//        String output_dir = System.getProperty("output_dir", "../../resources/treat/");
-        String output_dir = System.getProperty("output_dir", "output/");
+//        String output_dir = System.getProperty("output_dir", "../../resources/NELL/tbox_patterns");
+        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
+//        String output_dir = System.getProperty("output_dir", "output/");
         String abox_file = System.getProperty("abox", "");
 //        String abox_file = System.getProperty("abox", "../../resources/NELL/abox_consistent.nt");
         String type_file = System.getProperty("types", "output/types.txt");

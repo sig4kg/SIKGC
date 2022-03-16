@@ -1,4 +1,4 @@
-from abox_scanner.abox_utils import PatternScanner, ContextResources
+from abox_scanner.ContextResources import PatternScanner, ContextResources
 import pandas as pd
 from tqdm import tqdm
 

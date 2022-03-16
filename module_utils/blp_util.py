@@ -1,6 +1,6 @@
 from __future__ import annotations
 import pandas as pd
-from abox_scanner.abox_utils import ContextResources, read_hrt_2_df
+from abox_scanner.ContextResources import ContextResources
 from blp.blp_data_utils import drop_entities
 from abox_scanner.abox_utils import wait_until_file_is_saved
 import os
@@ -38,7 +38,8 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
 
 
 def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=[]):
-    df = read_hrt_2_df(work_dir + "all_triples.tsv")
+    # df = read_hrt_2_df(work_dir + "all_triples.tsv")
+    df = context_resource.hrt_int_df.copy(deep=True)
     rels = df['rel'].drop_duplicates(keep='first')
     total =len(df.index)
     rate = len(rels.index) * 100 / total

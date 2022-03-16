@@ -14,7 +14,7 @@ public class PatternGenSubProperty extends BasePattern implements IPattern {
     //r1 subpropertyof r2
     public void generatePattern() {
         try {
-            pw = this.GetPrintWriter("gen_subp");
+            pw = this.GetPrintWriter("gen_subproperty");
             for (OWLObjectProperty r2 : ont.getObjectPropertiesInSignature()) {
                 NodeSet<OWLObjectPropertyExpression> rsubs = reasoner.getSubObjectProperties(r2, false);
                 if (rsubs.getNodes().size() <= 1) {

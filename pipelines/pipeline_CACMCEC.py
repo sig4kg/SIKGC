@@ -24,7 +24,7 @@ def cacmcec(work_dir, input_dir, schema_file, tbox_patterns_dir,
                                                       exclude_rels=exclude_rels)
         s = get_scores(init_c3, extend_c1, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3)
         scores.append(s)
-    hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
+    context_resource.to_ntriples(work_dir)
     return scores
 
 

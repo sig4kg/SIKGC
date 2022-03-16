@@ -20,7 +20,7 @@ def cecmcrc(work_dir, input_dir, schema_file, tbox_patterns_dir, epoch=2, loops=
         init_c2, extend_c2, nc2, nv2, ncc2 = M_block(context_resource, work_dir)
         init_c3, extend_c3, nc3, nv3, ncc3 = Rumis_C_block(context_resource, abox_scanner_scheduler, work_dir + "R/")
         scores.append(get_scores(init_c1, extend_c3, nc1 + nc2 + nc3, nv1 + nv2 + nv3, ncc1 + ncc2 + ncc3))
-    hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
+    context_resource.to_ntriples(work_dir)
     return scores
 
 

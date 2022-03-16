@@ -11,7 +11,7 @@ public class PatternGenReflexive extends BasePattern implements IPattern {
     public void generatePattern() {
         // reflexive(r)
         try {
-            this.GetPrintWriter("gen_rfx");
+            this.GetPrintWriter("gen_reflexive");
             for (OWLReflexiveObjectPropertyAxiom irl : ont.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY)) {
                 pw.println(irl.getProperty().toString());
             }

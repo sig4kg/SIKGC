@@ -18,5 +18,5 @@ def c_l_c(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1,
 
         scores_dict = get_scores(init_c1, extend_c1, new_count, new_valid_count, new_correct_count)
         scores.append(scores_dict)
-    hrt_int_df_2_hrt_ntriples(context_resource, work_dir)
+    context_resource.to_ntriples(work_dir)
     return scores

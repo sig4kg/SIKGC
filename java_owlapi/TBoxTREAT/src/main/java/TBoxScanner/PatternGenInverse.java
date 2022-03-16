@@ -14,7 +14,7 @@ public class PatternGenInverse extends BasePattern implements IPattern {
     public void generatePattern() {
         //Inverseof(r1, r2)
         try {
-            this.GetPrintWriter("gen_invs");
+            this.GetPrintWriter("gen_inverse");
             Map<String, List<String>> map = new HashMap<String, List<String>>();
             for (OWLInverseObjectPropertiesAxiom objInvers : ont.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES)) {
                 String r1 = objInvers.getFirstProperty().toString();

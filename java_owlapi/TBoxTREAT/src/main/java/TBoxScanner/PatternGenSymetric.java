@@ -12,7 +12,7 @@ public class PatternGenSymetric extends BasePattern implements IPattern {
     // Symmetric(r)
     public void generatePattern() {
         try {
-            this.GetPrintWriter("gen_sym");
+            this.GetPrintWriter("gen_symetric");
             for (OWLSymmetricObjectPropertyAxiom r : ont.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY)) {
                 pw.println(r.getProperty().toString());
             }

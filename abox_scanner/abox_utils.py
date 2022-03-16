@@ -1,5 +1,4 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
 from pathlib import Path
 import pandas as pd
 import os
@@ -21,17 +20,6 @@ def read_original_hrt_triples_to_list(in_path):
                 hrt_triples.append([head, rel, tail])
     # hrt_triples.sort(key=lambda x: x[1])
     return hrt_triples
-
-
-def read_hrt_2_df(hrt_triples_file):
-    df = pd.read_csv(
-        hrt_triples_file, header=None, names=['head', 'rel', 'tail'], sep="\t")
-    return df
-
-
-def read_scanned_2_context_df(work_dir, context_resources: ContextResources):
-    df = read_hrt_2_df(work_dir + "valid_hrt.txt")
-    context_resources.hrt_int_df = df
 
 
 def hrt_original2int(hrt_triples, out_dir, create_id_file=False):
@@ -153,68 +141,6 @@ def init_workdir(work_dir):
     if not out_path.exists():
         out_path.mkdir(exist_ok=False)
 
-class PatternScanner(ABC):
-
-    @abstractmethod
-    def pattern_to_int(self, file_entry):
-        pass
-
-    @abstractmethod
-    def scan_pattern_df_rel(self, triples: pd.DataFrame):
-        pass
-
-
-class ContextResources:
-    def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir, create_id_file=False):
-        init_workdir(work_dir)
-         # h, r, t
-        all_triples = read_original_hrt_triples_to_list(original_hrt_triple_file_path)
-        self.original_train_count = len(all_triples)
-        self.ent2id, self.rel2id, self.hrt_to_scan_df = hrt_original2int(all_triples,
-                                                                     f"{work_dir}train/",
-                                                                     create_id_file=create_id_file)
-        self.hrt_int_df = None
-        self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
-        self.classid2class = {self.class2id[key]: key for key in self.class2id}
-        self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
-        self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
-        self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
-        self.id2rel = {self.rel2id[key]: key for key in self.rel2id}
-
-
-def test():
-    with open("../resources/NELL-995/entity2id.txt") as f:
-        lines = f.readlines()[1:]
-        all_d = []
-        for l in lines:
-            i = l.split('\t')
-            all_d.append([i[0], int(i[1].strip())])
-        all_d.sort(key=lambda x: x[1])
-        print(len(all_d))
-
-
-
 
 if __name__ == "__main__":
-    # test()
-    # read_hrt_original_2_hrt_rumis("../resources/NELL-995/NELLKG0.txt", "../outputs/rumis/ideal.data.txt")
-    # read_hrt_rumis_2_hrt_int_df("../outputs/rumis/DLV/extension.opm.kg.pos.10.needcheck")
-    # ot = read_original_hrt_triples("../resources/NELL-995/NELLKG0.txt")
-    # hrt_original2int(ot, "../outputs/train/")
-    # hrtdf = read_hrt_2_df("../outputs/valid_hrt.txt")
-    # hrtdf2 = read_hrts_2_hrt_df("../outputs/transE_hrts.txt")
-    # hrt_df2htr_transE(hrtdf, "../outputs/test1.txt")
-    # hrtdf3 = read_htr_transE_2_hrt_df("../outputs/test1.txt")
-    # read_hrt2htr_transE("../outputs/valid_hrt.txt", "../outputs/test3.txt")
-    # all_triples1 = read_original_hrt_triples_to_list("../outputs/clc/ind-train.tsv")
-    # rel1, ent1, _ = hrt_original2int(all_triples1, out_dir="../outputs/test/")
-    # all_triples2 = read_original_hrt_triples_to_list("../outputs/clc/ind-dev.tsv")
-    # rel2, ent2, _ = hrt_original2int(all_triples2, out_dir="../outputs/test/")
-    # all_triples3 = read_original_hrt_triples_to_list("../outputs/clc/all_triples.tsv")
-    # rel3, ent3, _ = hrt_original2int(all_triples3, out_dir="../outputs/test/")
-    df1 = pd.read_csv("../outputs/clc/valid_hrt.txt", names=['head', 'rel', 'tail'], sep="\t")
-    df2 = pd.read_csv("../outputs/clc/invalid_hrt.txt", names=['head', 'rel', 'tail'], sep="\t")
-    rel1 = df1[['rel']].drop_duplicates(keep='first')
-    rel2 = df2[['rel']].drop_duplicates(keep='first')
-    df2notindf1 = pd.concat([rel2, rel1, rel1]).drop_duplicates(keep=False)
     print("test done")

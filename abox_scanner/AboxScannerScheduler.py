@@ -13,6 +13,11 @@ from abox_scanner.pattern10_scanner import Pattern10
 from abox_scanner.pattern11_scanner import Pattern11
 from abox_scanner.pattern_pos_domain import PatternPosDomain
 from abox_scanner.pattern_pos_range import PatternPosRange
+from abox_scanner.pattern_gen_inverse import *
+from abox_scanner.pattern_gen_subproperty import *
+from abox_scanner.pattern_gen_reflexive import *
+from abox_scanner.pattern_gen_symetric import *
+from abox_scanner.pattern_gen_transitive import *
 from abox_scanner.abox_utils import ContextResources
 import pandas as pd
 import numpy as np
@@ -34,6 +39,7 @@ class AboxScannerScheduler:
         self._context_resources = context_resources
         self._IJP_strategies = []
         self._schema_correct_strategies = []
+        self._schema_gen_strategies = []
         self._id2strategy = {1: Pattern1,
                              2: Pattern2,
                              5: Pattern5,
@@ -44,11 +50,16 @@ class AboxScannerScheduler:
                              12: Pattern12,
                              13: Pattern13,
                              'pos_domain': PatternPosDomain,
-                             'pos_range': PatternPosRange}
+                             'pos_range': PatternPosRange,
+                             'inverse': PatternGenInverse,
+                             'symetric': PatternGenSymetric,
+                             'subproperty': PatternGenSubproperty,
+                             'transitive': PatternGenTransitive,
+                             'reflexive': PatternGenReflexive
+                             }
 
     def set_triples_to_scan_int_df(self, hrt_int_df) -> AboxScannerScheduler:
         self._context_resources.hrt_to_scan_df = hrt_int_df
-
         return self
 
     def register_patterns_all(self) -> AboxScannerScheduler:
@@ -74,6 +85,21 @@ class AboxScannerScheduler:
         regp(pos_pattern_ids, self._schema_correct_strategies)
         return self
 
+    def register_gen_pattern(self) -> AboxScannerScheduler:
+        files = os.listdir(self._tbox_pattern_dir)
+        for id in ['inverse', 'symetric', 'subproperty', 'transitive', 'reflexive']:
+            pattern_file = f"TBoxPattern_gen_{id}.txt"
+            if pattern_file not in files:
+                print(f"the pattern gen file for patter id={id} does not exist in {self._tbox_pattern_dir}")
+                continue
+            entry = os.path.join(self._tbox_pattern_dir, pattern_file)
+            if id in self._id2strategy:
+                ps_class = self._id2strategy[id]
+                ps = ps_class(context_resources=self._context_resources)
+                ps.pattern_to_int(entry)
+                self._schema_gen_strategies.append(ps)
+        return self
+
     def scan_IJ_patterns(self, work_dir):
         """
         The Context delegates some work to the Strategy object instead of
@@ -82,9 +108,7 @@ class AboxScannerScheduler:
         # aggregate triples by relation
         start_time = datetime.datetime.now()
         old_df = self._context_resources.hrt_int_df
-        # df = self._context_resources.hrt_to_scan_df[['head', 'rel', 'tail']]
         df = self._context_resources.hrt_to_scan_df
-        new_items = pd.concat([df, old_df, old_df]).drop_duplicates(keep=False)
         df['is_valid'] = True
         if old_df is not None:
             df['is_new'] = False
@@ -115,7 +139,6 @@ class AboxScannerScheduler:
             invalids = invalids.astype(int)
         invalids.to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         valids = df.query("is_valid == True")[['head', 'rel', 'tail']]
-        # valids = valids.drop_duplicates(keep='first')
         if len(valids) > 0:
             valids = valids.astype(int)
         valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
@@ -126,11 +149,6 @@ class AboxScannerScheduler:
         return valids, invalids
 
     def scan_schema_correct_patterns(self, work_dir):
-        """
-        The Context delegates some work to the Strategy object instead of
-        implementing multiple versions of the algorithm on its own.
-        """
-        # aggregate triples by relation
         start_time = datetime.datetime.now()
         df = self._context_resources.hrt_to_scan_df
         df['correct'] = True
@@ -160,6 +178,22 @@ class AboxScannerScheduler:
         inco_valid[['rel']] = inco_valid[['rel']].applymap(lambda x: self._context_resources.id2rel[x])
         inco_valid.to_csv(f"{work_dir}incorrect_valid_uri.txt", header=None, index=None, sep='\t', mode='a')
         return correct
+
+    # the generator patterns are used to generate new triples base on schema
+    def scan_generator_patterns(self) -> pd.DataFrame:
+        if len(self._schema_gen_strategies) == 0:
+            self.register_gen_pattern()
+        start_time = datetime.datetime.now()
+        df = self._context_resources.hrt_int_df
+        new_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+        for scanner in self._schema_gen_strategies:
+            print("Scanning generator pattern: " + str(type(scanner)))
+            tmp_df = scanner.scan_pattern_df_rel(df)
+            count_new = len(tmp_df.index)
+            new_df = pd.concat(new_df, tmp_df).drop_duplicates(keep='first')
+            print(f"{str(type(scanner))} inferred new triples count: {str(count_new)}")
+        print(f"The reasoning duration is {datetime.datetime.now() - start_time}")
+        return new_df
 
 
 

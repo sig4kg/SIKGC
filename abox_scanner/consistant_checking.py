@@ -1,7 +1,4 @@
 import pandas as pd
-
-from abox_scanner import AboxScannerScheduler
-from abox_scanner.abox_utils import ContextResources
 from pipelines.pipeline_util import *
 
 if __name__ == "__main__":
@@ -23,7 +20,7 @@ if __name__ == "__main__":
     valids, invalids = abox_scanner_scheduler.scan_IJ_patterns(work_dir='../outputs/test/')
     abox_scanner_scheduler.scan_schema_correct_patterns(work_dir='../outputs/test/')
     # context_res.hrt_int_df = valids
-    # hrt_int_df_2_hrt_ntriples(context_res, wdir)
+    # to_ntriples(context_res, wdir)
 
 
 

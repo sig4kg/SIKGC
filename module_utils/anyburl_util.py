@@ -1,5 +1,5 @@
 from __future__ import annotations
-from abox_scanner.abox_utils import ContextResources, read_hrt_2_df
+from abox_scanner.ContextResources import ContextResources
 from abox_scanner.abox_utils import wait_until_file_is_saved, save_file
 import os
 import os.path as osp

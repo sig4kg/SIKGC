@@ -1,94 +1,93 @@
 import numpy as np
 from owlready2 import *
 import pandas as pd
-from abox_scanner.abox_utils import read_scanned_2_context_df, wait_until_file_is_saved, ContextResources
+from abox_scanner.abox_utils import wait_until_file_is_saved
 import scripts.run_scripts
-from abox_scanner.abox_utils import ContextResources, read_hrt_2_df
+from abox_scanner.ContextResources import ContextResources
+import subprocess
+from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
+
+RDFTYPE1 = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
+RDFTYPE2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
 
-def preparing_tbox_to_dllite(tbox_file, work_dir):
-    # if dataset == 'dbpedia':
-    #     tbox_2_nt_dbpedia(tbox_file, work_dir + "tbox.nt")
-    # else:
-    #     clean_annotations_nt(tbox_file, work_dir + "tbox.nt")
-    if not os.path.exists(work_dir + "tbox_dllite.nt"):
-        scripts.run_scripts.to_dllite(tbox_file, work_dir)
-        wait_until_file_is_saved(work_dir + "tbox_dllite.nt")
-
-
-# def merge_TBox_2_ABox(abox_file, tbox_file, work_dir):
-#     df_a = pd.read_csv(abox_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")
-#     df_t = pd.read_csv(tbox_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")
-#     df = pd.concat([df_t, df_a])
-#     df = df.drop_duplicates(keep='first')
-#     df.to_csv(work_dir + "tbox_abox.nt", index=False, header=False, sep=' ')
-
-
-def hrt_int_df_2_hrt_ntriples(context_resource: ContextResources, work_dir, schema_in_nt=''):
-    df = context_resource.hrt_int_df.copy(deep=True)
-    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + context_resource.id2ent[x] + '>')
-    df[['rel']] = df[['rel']].applymap(lambda x: '<' + context_resource.id2rel[x] + '>')  # to int
-    df['dot'] = '.'
-    # get entity types
-    rdf_type = []
-    r = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
-    individual  = "<http://www.w3.org/2002/07/owl#NamedIndividual>"
-    for entid in context_resource.entid2classids:
-        h = context_resource.id2ent[entid]
-        rdf_type.append([f"<{h}>", r, individual])
-        r = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
-        typeOfs = context_resource.entid2classids[entid]
-        for t in typeOfs:
-            if t in context_resource.classid2class:
-                rdf_type.append([f"<{h}>", r, f"<{context_resource.classid2class[t]}>"])
-    df_types = pd.DataFrame(data=rdf_type, columns=['head', 'rel', 'tail'])
-    df_types['dot'] = '.'
-    # create individual declaration
-    expanded_df = pd.concat([df_types, df])
-    print(f"Saving to {work_dir}abox.nt")
-    expanded_df.to_csv(work_dir + "abox.nt",  header=False, index=False, sep=' ')
-    wait_until_file_is_saved(work_dir + "abox.nt", 180)
-    if schema_in_nt != "":
-        os.system(f"cat {schema_in_nt} {work_dir}abox.nt > {work_dir}tbox_abox.nt")
-
-
-def materialize(work_dir):
-    # merge_TBox_2_ABox(work_dir + "abox.nt", work_dir + "tbox.nt", work_dir)
-    scripts.run_scripts.run_materialization(work_dir)
-    # clean_annotations_nt(work_dir + "materialized_tbox_abox.nt", work_dir + "cleaned_tbox_abox.nt")
+def learn_type_assertions(work_dir):
+    cmd = ['java',
+           '-Dtask=Materialize',
+           '-Dschema=tbox_abox.nt',
+           f'-Doutput_dir={work_dir}',
+           '-jar',
+           f'{work_dir}TBoxTREAT-1.0.jar']
+    p = subprocess.run(cmd)
     wait_until_file_is_saved(work_dir + "materialized_tbox_abox.nt")
+    return p.returncode
 
 
-# we only keep entities in original abox. If node absent from original abox, we delete them.
-def nt_2_hrt_int_df(in_file, context_resource: ContextResources):
+def materialize(work_dir, context_resource: ContextResources, abox_scanner: AboxScannerScheduler):
+    os.system('../scripts/prepare_materialize.sh ' + work_dir[:-1])
+    # learn type assertions
+    new_ent2types = {}
+    p = learn_type_assertions(work_dir)
+    if p:
+        new_ent2types = type_nt_2_entity2type(work_dir + "materialized_tbox_abox.nt", context_resource)
+    # learn property assertions
+    new_property_assertions = abox_scanner.scan_generator_patterns()
+    return new_ent2types, new_property_assertions
+
+
+# return new count
+def update_ent2class(context_resource: ContextResources, new_ent2types) -> int:
+    old_ent2types = context_resource.entid2classids
+    new_count = 0
+    for ent in new_ent2types:
+        if ent in old_ent2types:
+            old_types = set(old_ent2types[ent])
+            new_types = set(new_ent2types[ent])
+            diff = new_types.difference(old_types)
+            if len(diff) > 0:
+                new_count = new_count + len(diff)
+                old_ent2types[ent].extend(list(diff))
+    return new_count
+
+
+# we only keep type assertions
+def type_nt_2_entity2type(in_file, context_resource: ContextResources):
     df = pd.read_csv(
-        in_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ")
+        in_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ").drop_duplicates(
+        keep='first').reset_index(drop=True)
     df = df[['head', 'rel', 'tail']].apply(lambda x: x.str[1:-1])
-    df[['head', 'tail']] = df[['head', 'tail']].applymap(
+    df = df.query("rel==@RDFTYPE1")
+    df['head'] = df['head'].applymap(
         lambda x: context_resource.ent2id[x] if x in context_resource.ent2id else np.nan)  # to int
-    df[['rel']] = df[['rel']].applymap(
-        lambda x: context_resource.rel2id[x] if x in context_resource.rel2id else np.nan)  # to int
+    df['tail'] = df['head'].applymap(
+        lambda x: context_resource.class2id[x] if x in context_resource.ent2id else np.nan)  # to int
     df = df.dropna(how='any').astype('int64')
-    return df
+    groups = df.groupby('head')
+    new_ent2types = dict()
+    for g in groups:
+        ent = g[0]
+        types = g[1]['tail'].tolist()
+        new_ent2types.update({ent: types})
+    return new_ent2types
 
 
-def tbox_2_nt_dbpedia(in_file: str, out_file):
-    ont = get_ontology(in_file).load()
-    # remove all annotation properties, cannot identify AnnotationProperty as TBOX is not complete.
-    default_world.sparql('''DELETE {?s ?p ?o . } 
-                            WHERE {?s ?p ?o .
-                            Filter (?p in (<http://www.w3.org/2000/01/rdf-schema#label>, 
-                            <http://www.w3.org/2002/07/owl#versionInfo>,
-                            <http://purl.org/dc/terms/issued>,
-                            <http://purl.org/dc/terms/description>,
-                            <http://purl.org/dc/terms/modified>,
-                            <http://purl.org/dc/terms/title>,
-                            <http://purl.org/vocab/vann/preferredNamespaceUri>,   
-                            <http://purl.org/vocab/vann/preferredNamespacePrefix>,
-                            <http://purl.org/dc/terms/publisher>,
-                            <http://www.w3.org/2000/01/rdf-schema#comment>))}''')
-    # out_file_name = in_file[in_file.rindex('/')+1:in_file.rindex('.')]
-    ont.save(out_file, "ntriples")
+# def tbox_2_nt_dbpedia(in_file: str, out_file):
+#     ont = get_ontology(in_file).load()
+#     # remove all annotation properties, cannot identify AnnotationProperty as TBOX is not complete.
+#     default_world.sparql('''DELETE {?s ?p ?o . }
+#                             WHERE {?s ?p ?o .
+#                             Filter (?p in (<http://www.w3.org/2000/01/rdf-schema#label>,
+#                             <http://www.w3.org/2002/07/owl#versionInfo>,
+#                             <http://purl.org/dc/terms/issued>,
+#                             <http://purl.org/dc/terms/description>,
+#                             <http://purl.org/dc/terms/modified>,
+#                             <http://purl.org/dc/terms/title>,
+#                             <http://purl.org/vocab/vann/preferredNamespaceUri>,
+#                             <http://purl.org/vocab/vann/preferredNamespacePrefix>,
+#                             <http://purl.org/dc/terms/publisher>,
+#                             <http://www.w3.org/2000/01/rdf-schema#comment>))}''')
+#     # out_file_name = in_file[in_file.rindex('/')+1:in_file.rindex('.')]
+#     ont.save(out_file, "ntriples")
 
 
 ANNOTATION_REL = ['<http://www.w3.org/2000/01/rdf-schema#label>',
@@ -106,44 +105,5 @@ ANNOTATION_REL = ['<http://www.w3.org/2000/01/rdf-schema#label>',
                   '^^<http://www.w3.org/2001/XMLSchema#boolean>']
 
 
-# def clean_annotations_nt(in_nt_file: str, out_file):
-#     with open(in_nt_file) as f:
-#         with open(out_file, encoding='utf-8', mode='w') as out_f:
-#             lines = f.readlines()
-#             for l in lines:
-#                 if not l.startswith('<'):
-#                     continue
-#                 if any([x in l for x in ANNOTATION_REL]):
-#                     continue
-#                 out_f.write(l)
-#         out_f.close()
-#     f.close()
-
-
-# do not work on NELL.ontology.ttl
-# def owl_2_nt(in_file, work_dir):
-#     ont = get_ontology(in_file).load()
-#     out_file_name = in_file[in_file.rindex('/') + 1:in_file.rindex('.')]
-#     # owlready2 save do not parse well for large files. it use _:num instead of individual uri.
-#     # ont.save(work_dir+out_file_name+".nt", "ntriples")
-#     triples = ont.get_triples()
-#     extended_triple_tuples = [(ont._unabbreviate(x[0]),
-#                                ont._unabbreviate(x[1]),
-#                                ont._unabbreviate(x[2]))
-#                               for x in ont.get_triples() if isinstance(x[2], int)
-#                               and x[0] >= 0
-#                               and x[1] >= 0
-#                               and x[2] >= 0]
-#     df = pd.DataFrame(data=extended_triple_tuples)
-#     df = df.apply(lambda x: '<' + x + '>')
-#     df['dot'] = '.'
-#     df.to_csv(work_dir + out_file_name + ".nt", header=None, index=None, sep=' ')
-
-
-if __name__ == "__main__":
-    # hrt_2_nt("../resources/DBpedia-politics/PoliticalTriplesWD.txt", "../outputs/m/")
-    # remove_TBox_from_ABox("../outputs/cm/")
-    # owl_2_nt("../outputs/cm/materialized_tbox_abox.owl", "../outputs/cm/")
-    # materialize("../outputs/cm/")
-    # clean_annotations_nt("../resources/NELL/NELL.ontology.nt", "../resources/NELL/NELL-ontology-clean.nt")
-    tbox_2_nt_dbpedia("../resources/DBpediaP/dbpedia_2016-10.owl", "../resources/DBpedia-politics/less_dbpedia_tbox.nt")
+# if __name__ == "__main__":
+#     tbox_2_nt_dbpedia("../resources/DBpediaP/dbpedia_2016-10.owl", "../resources/DBpedia-politics/less_dbpedia_tbox.nt")

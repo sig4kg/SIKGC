@@ -2,7 +2,6 @@ from abox_scanner.abox_utils import init_workdir
 from module_utils.rumis_util import *
 from module_utils.transE_util import *
 from openKE import train_transe
-from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from scripts import run_scripts
 from module_utils.materialize_util import *
 from module_utils.blp_util import *
@@ -79,11 +78,11 @@ def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", cons
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
     if consistency_check:
-        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13],
+        valids, invalids = abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13],
                                                 ['pos_domain', 'pos_range']).scan_IJ_patterns(work_dir=work_dir)
         abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
         wait_until_file_is_saved(work_dir + "valid_hrt.txt")
-        read_scanned_2_context_df(work_dir, context_resource)
+        context_resource.hrt_int_df = valids
     else:
         abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13])
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
@@ -203,25 +202,21 @@ def Rumis_C_block(context_resource: ContextResources, abox_scanner_scheduler: Ab
 def M_block(context_resource: ContextResources, work_dir, schema_in_nt=''):
     # context int to materialization ntriples,
     train_count = len(context_resource.hrt_int_df.index)
-    hrt_int_df_2_hrt_ntriples(context_resource, work_dir, schema_in_nt=schema_in_nt)
+    context_resource.to_ntriples(work_dir, schema_in_nt=schema_in_nt)
     wait_until_file_is_saved(work_dir + "tbox_abox.nt", 120)
-
     # the result is materialized_abox.nt
     print("running materialization...")
-    materialize(work_dir)
-
-    # read new data to context
-    # we only keep entities in original abox. If node absent from original abox, we delete them.
-    materialized_hrt_int_df = nt_2_hrt_int_df(work_dir + "materialized_tbox_abox.nt", context_resource).drop_duplicates(
+    new_ent2types, new_property_assertions = materialize(work_dir)
+    # merge new types to ent2classes
+    new_type_count = update_ent2class(context_resource, new_ent2types)
+    # merge new type assertions
+    extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_property_assertions]).drop_duplicates(
         keep='first').reset_index(drop=True)
-    print("update context data")
-    extend_hrt_df = pd.concat([context_resource.hrt_int_df, materialized_hrt_int_df]).drop_duplicates(
-        keep='first').reset_index(drop=True)
-    extend_count = len(extend_hrt_df.index)
+    extend_count = len(extend_hrt_df.index) + new_type_count
     context_resource.hrt_int_df = extend_hrt_df
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)
-    new_count = len(context_resource.hrt_int_df.index) - train_count
+    new_count = new_type_count + len(new_property_assertions.index)
     return train_count, extend_count, new_count, new_count, new_count
 
 
@@ -263,8 +258,6 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
         keep=False)
     new_correct_count = len(new_corrects.index)
     del new_corrects
-    # wait_until_file_is_saved(work_dir + "valid_hrt.txt")
-    # new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
     train_count = len(context_resource.hrt_int_df.index)
 
     # 5. add new valid hrt to train data
@@ -320,10 +313,6 @@ def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: 
     del new_corrects
     train_count = len(context_resource.hrt_int_df.index)
 
-    # if wait_until_file_is_saved(work_dir + "valid_hrt.txt", 120):
-
-    # new_hrt_df = read_hrt_2_df(work_dir + "valid_hrt.txt")
-    # new_hrt_df = pd.concat([new_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(keep=False)
     # add new valid hrt to train set
     extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first')
     extend_count = len(extend_hrt_df.index)

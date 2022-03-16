@@ -201,14 +201,15 @@ def M_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScan
     # merge new type assertions
     to_scan_df = pd.concat([context_resource.hrt_int_df, new_property_assertions]).drop_duplicates(
         keep='first').reset_index(drop=True)
-    valids, _ = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns()
+    valids, _ = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir)
     new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
         keep=False).reset_index(drop=True)
-    extend_count = len(new_valids.index) + new_type_count
+    extend_count = len(valids.index)
+    new_count = len(new_valids.index) + new_type_count
+    context_resource.new_type_count += new_type_count
     context_resource.hrt_int_df = valids.reset_index(drop=True)
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)
-    new_count = new_type_count + len(new_property_assertions.index)
     return train_count, extend_count, new_count, new_count, new_count
 
 

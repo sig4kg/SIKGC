@@ -28,6 +28,7 @@ class ContextResources:
         self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
         self.id2op = {self.op2id[key]: key for key in self.op2id}
+        self.new_type_count = 0
 
     def type2nt(self) -> pd.DataFrame:
         # get entity types

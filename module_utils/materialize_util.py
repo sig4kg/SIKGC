@@ -2,7 +2,7 @@ import numpy as np
 from owlready2 import *
 import pandas as pd
 from abox_scanner.abox_utils import wait_until_file_is_saved
-import scripts.run_scripts
+from subprocess import Popen, PIPE, STDOUT
 from abox_scanner.ContextResources import ContextResources
 import subprocess
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
@@ -11,14 +11,21 @@ RDFTYPE1 = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
 RDFTYPE2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
 
-def learn_type_assertions(work_dir):
+def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Binaries/Konclude"):
     cmd = ['java',
+           f'-DkoncludeBinary={koncludeBinary}'
            '-Dtask=Materialize',
            '-Dschema=tbox_abox.nt',
            f'-Doutput_dir=./',
            '-jar',
            f'{work_dir}TBoxTREAT-1.0.jar']
-    p = subprocess.run(cmd)
+    # p = subprocess.run(cmd, stdout=subprocess.PIPE)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=1)
+    for line in iter(p.stdout.readline, b''):
+        print(line)
+        if subprocess.Popen.poll(p) is not None and line == b'':
+            break
+    p.stdout.close()
     wait_until_file_is_saved(work_dir + "materialized_tbox_abox.nt")
     return p.returncode
 

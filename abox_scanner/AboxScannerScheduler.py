@@ -86,7 +86,7 @@ class AboxScannerScheduler:
 
     def register_gen_pattern(self) -> AboxScannerScheduler:
         files = os.listdir(self._tbox_pattern_dir)
-        for id in ['inverse', 'symetric', 'subproperty', 'transitive', 'reflexive']:
+        for id in ['inverse', 'symetric', 'subproperty', 'transitive']:
             pattern_file = f"TBoxPattern_gen_{id}.txt"
             if pattern_file not in files:
                 print(f"the pattern gen file for patter id={id} does not exist in {self._tbox_pattern_dir}")

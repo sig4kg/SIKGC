@@ -6,12 +6,12 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude-v0.7.0-1135-OSX-x64-Clang-Static-Qt5.12.10/Binaries/Konclude");
+        String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
         String task = System.getProperty("task", "DL-lite");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/tbox.nt");
-//        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
+        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
-        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "pizza.owl");

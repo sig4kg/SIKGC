@@ -5,15 +5,13 @@ import java.io.File;
 
 
 public class Main {
-
-
     public static void main(String[] args) throws Exception {
-        String os = System.getProperty("os", "mac");
+        String os = System.getProperty("os", "linux");
         String koncludeBinary= "";
         if (os.equals("mac")) {
             koncludeBinary ="../Konclude-v0.7.0-1135-OSX-x64-Clang-Static-Qt5.12.10/Binaries/Konclude";
         } else {
-            koncludeBinary ="../Konclude-v0.7.0-1135-OSX-x64-Clang-Static-Qt5.12.10/Binaries/Konclude";
+            koncludeBinary ="../Konclude-v0.7.0-1135-Linux-x64-GCC-Static-Qt5.12.10/Binaries/Konclude";
         }
         String task = System.getProperty("task", "DL-lite");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/tbox.nt");

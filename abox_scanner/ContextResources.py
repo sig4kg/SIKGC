@@ -27,7 +27,7 @@ class ContextResources:
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
         self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
-        self.id2rel = {self.rel2id[key]: key for key in self.rel2id}
+        self.id2op = {self.op2id[key]: key for key in self.op2id}
 
     def type2nt(self) -> pd.DataFrame:
         # get entity types
@@ -48,7 +48,7 @@ class ContextResources:
     def to_ntriples(self, work_dir, schema_in_nt=''):
         df = self.hrt_int_df.copy(deep=True)
         df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + self.id2ent[x] + '>')
-        df[['rel']] = df[['rel']].applymap(lambda x: '<' + self.id2rel[x] + '>')  # to int
+        df[['rel']] = df[['rel']].applymap(lambda x: '<' + self.id2op[x] + '>')  # to int
         df['dot'] = '.'
         df_types = self.type2nt()
         # create individual declaration

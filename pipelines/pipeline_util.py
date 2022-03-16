@@ -199,10 +199,13 @@ def M_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScan
     # merge new types to ent2classes
     new_type_count = update_ent2class(context_resource, new_ent2types)
     # merge new type assertions
-    extend_hrt_df = pd.concat([context_resource.hrt_int_df, new_property_assertions]).drop_duplicates(
+    to_scan_df = pd.concat([context_resource.hrt_int_df, new_property_assertions]).drop_duplicates(
         keep='first').reset_index(drop=True)
-    extend_count = len(extend_hrt_df.index) + new_type_count
-    context_resource.hrt_int_df = extend_hrt_df
+    valids, _ = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns()
+    new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
+        keep=False).reset_index(drop=True)
+    extend_count = len(new_valids.index) + new_type_count
+    context_resource.hrt_int_df = valids.reset_index(drop=True)
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)
     new_count = new_type_count + len(new_property_assertions.index)
@@ -250,7 +253,7 @@ def LC_block(context_resource: ContextResources, abox_scanner_scheduler: AboxSca
     train_count = len(context_resource.hrt_int_df.index)
 
     # 5. add new valid hrt to train data
-    extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first')
+    extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
     extend_count = len(extend_hrt_df.index)
     context_resource.hrt_int_df = extend_hrt_df
     return train_count, extend_count, new_count, new_valid_count, new_correct_count
@@ -303,7 +306,7 @@ def anyBURL_C_block(context_resource: ContextResources, abox_scanner_scheduler: 
     train_count = len(context_resource.hrt_int_df.index)
 
     # add new valid hrt to train set
-    extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first')
+    extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
     extend_count = len(extend_hrt_df.index)
     # overwrite train data in context
     context_resource.hrt_int_df = extend_hrt_df

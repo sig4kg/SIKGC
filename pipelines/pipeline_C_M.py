@@ -21,7 +21,6 @@ def c_m(work_dir, input_dir, schema_file, tbox_patterns_dir, loops=1, schema_in_
     return scores
 
 
-
 if __name__ == "__main__":
     print("CM pipeline")
     c_m(work_dir="../outputs/cm/",

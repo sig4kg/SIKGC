@@ -15,14 +15,14 @@ def read_hrts_blp_2_hrt_int_df(hrts_blp_file, context_resource: ContextResources
     df = pd.read_csv(
         hrts_blp_file, header=None, names=['head', 'rel', 'tail', 'score'], sep="\t")
     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.ent2id[x])  # to int
-    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.rel2id[x])  # t
+    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.op2id[x])  # t
     return df[['head', 'rel', 'tail']]
 
 
 def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triples_only=False):
     df = context_resource.hrt_int_df.copy(deep=True)
     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to int
-    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2rel[x])  # to int
+    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2op[x])  # to int
     df[['head', 'rel', 'tail']].to_csv(hrt_blp_dir + "all_triples.tsv", index=False, header=False, sep='\t')
     if not triples_only:
         all_valid_entities = pd.concat([df['head'], df['tail']]).drop_duplicates(keep='first')

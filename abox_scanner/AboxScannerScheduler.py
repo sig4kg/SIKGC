@@ -174,7 +174,7 @@ class AboxScannerScheduler:
         print(f"saving {work_dir}schema_correct_hrt.txt")
         inco_valid = df.query("correct == False and is_valid==True")[['head', 'rel', 'tail']]
         inco_valid[['head', 'tail']] = inco_valid[['head', 'tail']].applymap(lambda x: self._context_resources.id2ent[x])  # to int
-        inco_valid[['rel']] = inco_valid[['rel']].applymap(lambda x: self._context_resources.id2rel[x])
+        inco_valid[['rel']] = inco_valid[['rel']].applymap(lambda x: self._context_resources.id2op[x])
         inco_valid.to_csv(f"{work_dir}incorrect_valid_uri.txt", header=None, index=None, sep='\t', mode='a')
         return correct
 
@@ -189,7 +189,9 @@ class AboxScannerScheduler:
             print("Scanning generator pattern: " + str(type(scanner)))
             tmp_df = scanner.scan_pattern_df_rel(df)
             count_new = len(tmp_df.index)
-            new_df = pd.concat([new_df, tmp_df]).drop_duplicates(keep='first').reset_index(dr)
+            if count_new == 0:
+                continue
+            new_df = pd.concat([new_df, tmp_df]).drop_duplicates(keep='first').reset_index(drop=True)
             print(f"{str(type(scanner))} inferred new triples count: {str(count_new)}")
         print(f"The reasoning duration is {datetime.datetime.now() - start_time}")
         return new_df

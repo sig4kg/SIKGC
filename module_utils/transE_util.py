@@ -27,7 +27,7 @@ def context_2_hrt_transE(work_dir, context_resources: ContextResources, exclude_
     df2_train[['head', 'tail', 'rel']].to_csv(work_dir + "train/train2id.txt", header=False, index=False, sep='\t')
     wait_until_file_is_saved(work_dir + "train/train2id.txt", 60)
     if len(exclude_rels) > 0:
-        excludes = [context_resources.rel2id[i] for i in exclude_rels if i in context_resources.rel2id]
+        excludes = [context_resources.op2id[i] for i in exclude_rels if i in context_resources.op2id]
         df_test = context_resources.hrt_int_df.query("not rel in @excludes")
         count_line = pd.DataFrame(data=[[len(df_test.index), '', '']], columns=['head', 'rel', 'tail'])
         df_test = pd.concat([count_line, df_test], 0)

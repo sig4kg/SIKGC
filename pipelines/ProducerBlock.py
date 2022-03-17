@@ -16,15 +16,15 @@ class ProducerBlock(ABC):
 class PipelineConfig:
     work_dir = "../outputs/test/"
     blp_config = {}
-    inductive=False
+    inductive = False
     loops = 1
-    use_gpu  = False
+    use_gpu = False
     input_dir = "../resources/TEST/"
     schema_file = '../resources/NELL/tbox.nt'
     tbox_patterns_dir = "../resources/NELL-patterns/"
     e_max_epoch = 2
     exclude_rels = []
-    schema_in_nt ='../resources/TEST/tbox_dllite.nt'
+    schema_in_nt = '../resources/TEST/tbox_dllite.nt'
     dataset = ""
 
     def set_config(self, blp_config: {}, data_config: DatasetConfig, dataset, loops, work_dir, use_gpu):
@@ -41,5 +41,5 @@ class PipelineConfig:
         self.use_gpu = use_gpu
         self.inductive = blp_config['inductive']
 
-    def to_json(self):
-        pass
+    def __iter__(self):
+        return self.__dict__.items().__iter__()

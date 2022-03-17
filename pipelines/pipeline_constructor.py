@@ -22,14 +22,15 @@ def add_counts():
     return add_new
 
 
-def log_score(json_data, loop, log_file):
-    with open(log_file, encoding='utf-8', mode='w') as out_f:
-        for idx, s in enumerate(json_data):
+def log_score(dict_data, log_file, loop=-1):
+    with open(log_file, encoding='utf-8', mode='a') as out_f:
+        if loop >= 0:
             out_f.write(f"loop {loop}:\n")
-            for k in s:
-                out_f.write(f"{k}: {s[k]} \n")
-            out_f.write("-------------\n")
+        for k in dict_data:
+            out_f.write(f"{k}: {dict_data[k]} \n")
+        out_f.write("-------------\n")
     out_f.close()
+
 
 def create_pipeline(pipeline_config:PipelineConfig, blocks= []):
     letter2block = {
@@ -48,9 +49,11 @@ def create_pipeline(pipeline_config:PipelineConfig, blocks= []):
 
 
 def run_pipeline(pipeline_config:PipelineConfig, blocks=[]):
+    log_name = pipeline_config.work_dir + f"{''.join(blocks)}_{pipeline_config.dataset}.log"
+    log_score(dict(pipeline_config), log_file=log_name)
     producer_blocks = create_pipeline(pipeline_config, blocks)
     get_scores = aggregate_scores()
-    log_name = pipeline_config.work_dir + f"{''.join(blocks)}_{pipeline_config.dataset}.log"
+
     idx = 1
     for ep in trange(pipeline_config.loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
         iter_count = add_counts()
@@ -59,7 +62,7 @@ def run_pipeline(pipeline_config:PipelineConfig, blocks=[]):
             a,b,c,d,e = pdc.produce()
             init_c, extend_c, nc, nv, ncc = iter_count(a,b,c,d,e)
         s = get_scores(init_c, extend_c, nc, nv, ncc)
-        log_score(s, idx, log_name)
+        log_score(s, log_name, loop=idx)
         idx += 1
 
 

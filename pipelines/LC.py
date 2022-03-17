@@ -66,6 +66,6 @@ class LC(ProducerBlock):
 
         # 5. add new valid hrt to train data
         extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
-        extend_count = len(extend_hrt_df.index)
+        extend_count = len(extend_hrt_df.index) + self.context_resource.new_type_count
         context_resource.hrt_int_df = extend_hrt_df
         return train_count, extend_count, new_count, new_valid_count, new_correct_count

@@ -7,7 +7,7 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
         String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
-        String task = System.getProperty("task", "DL-lite");
+        String task = System.getProperty("task", "Materialize");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/tbox.nt");
         String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");

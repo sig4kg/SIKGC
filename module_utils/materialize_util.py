@@ -12,23 +12,24 @@ RDFTYPE2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
 
 def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Binaries/Konclude"):
-    cmd = ['java',
-           f'-DkoncludeBinary={koncludeBinary}'
-           '-Dtask=Materialize',
-           '-Dschema=tbox_abox.nt',
-           f'-Doutput_dir=./',
-           '-jar',
-           f'{work_dir}TBoxTREAT-1.0.jar']
-    # cmd = f"java -DkoncludeBinary={koncludeBinary} -Dtask=Materialize -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
+    # cmd = ['java',
+    #        f'-DkoncludeBinary={koncludeBinary}'
+    #        '-Dtask=Materialize',
+    #        '-Dschema=tbox_abox.nt',
+    #        '-Doutput_dir=./',
+    #        '-jar',
+    #        f'{work_dir}TBoxTREAT-1.0.jar']
+    cmd = f"java -DkoncludeBinary={koncludeBinary} -Dtask=Materialize -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
+    returncode = os.system(cmd)
     # p = subprocess.run(cmd, stdout=subprocess.PIPE)
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=1)
-    for line in iter(p.stdout.readline, b''):
-        print(line)
-        if subprocess.Popen.poll(p) is not None and line == b'':
-            break
-    p.stdout.close()
+    # p = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=1)
+    # for line in iter(p.stdout.readline, b''):
+    #     print(line)
+    #     if subprocess.Popen.poll(p) is not None and line == b'':
+    #         break
+    # p.stdout.close()
     wait_until_file_is_saved(work_dir + "materialized_tbox_abox.nt")
-    return p.returncode
+    return returncode
 
 
 def materialize(work_dir, context_resource: ContextResources, abox_scanner: AboxScannerScheduler):

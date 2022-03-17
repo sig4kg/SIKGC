@@ -104,7 +104,7 @@ class DatasetConfig:
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 2
         self.exclude_rels = []
-        self.schema_in_nt ='../resources/NELL/tbox_dllite.nt'
+        self.schema_in_nt ='../resources/TEST/tbox_dllite.nt'
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"

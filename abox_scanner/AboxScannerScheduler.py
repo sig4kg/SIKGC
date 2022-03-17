@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 from abox_scanner.pattern12_scanner import Pattern12
 from abox_scanner.pattern13_scanner import Pattern13
+from abox_scanner.pattern15_scanner import Pattern15
 from abox_scanner.pattern1_scanner import Pattern1
 from abox_scanner.pattern2_scanner import Pattern2
 from abox_scanner.pattern5_scanner import Pattern5
@@ -48,6 +49,7 @@ class AboxScannerScheduler:
                              11: Pattern11,
                              12: Pattern12,
                              13: Pattern13,
+                             15: Pattern15,
                              'pos_domain': PatternPosDomain,
                              'pos_range': PatternPosRange,
                              'inverse': PatternGenInverse,
@@ -62,7 +64,7 @@ class AboxScannerScheduler:
         return self
 
     def register_patterns_all(self) -> AboxScannerScheduler:
-        return self.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13], ['pos_domain', 'pos_range'])
+        return self.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 15], ['pos_domain', 'pos_range'])
 
     def register_pattern(self, neg_pattern_ids, pos_pattern_ids) -> AboxScannerScheduler:
         def regp(ids, stratege_l):

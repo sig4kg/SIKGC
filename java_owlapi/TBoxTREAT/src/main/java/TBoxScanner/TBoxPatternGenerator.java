@@ -79,18 +79,18 @@ public class TBoxPatternGenerator {
             ArrayList<Supplier<BasePattern>> patternConsumersIJPs = RegesterIJPatterns();
             ArrayList<Supplier<BasePattern>> patternConsumersSchemaCorrect = RegesterSchemaCorrectPatterns();
             ArrayList<Supplier<BasePattern>> patternGen = RegesterAxiomGeneratorPatterns();
-//            for (Supplier<BasePattern> p : patternConsumersIJPs) {
-//                System.out.println("Generating pattern: " + p.get().toString());
-//                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
-//            }
+            for (Supplier<BasePattern> p : patternConsumersIJPs) {
+                System.out.println("Generating pattern: " + p.get().toString());
+                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
+            }
 //            for (Supplier<BasePattern> p : patternConsumersSchemaCorrect) {
 //                System.out.println("Generating pattern: " + p.get().toString());
 //                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
 //            }
-            for (Supplier<BasePattern> p : patternGen) {
-                System.out.println("Generating pattern: " + p.get().toString());
-                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
-            }
+//            for (Supplier<BasePattern> p : patternGen) {
+//                System.out.println("Generating pattern: " + p.get().toString());
+//                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
+//            }
         } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -98,19 +98,22 @@ public class TBoxPatternGenerator {
 
     private ArrayList<Supplier<BasePattern>> RegesterIJPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-        patternConsumers.add(Pattern1::new);
-        patternConsumers.add(Pattern2::new);
-        patternConsumers.add(Pattern3::new);
-        patternConsumers.add(Pattern4::new);
-        patternConsumers.add(Pattern5::new);
-        patternConsumers.add(Pattern6::new);
-        patternConsumers.add(Pattern7::new);
-        patternConsumers.add(Pattern8::new);
-        patternConsumers.add(Pattern9::new);
-        patternConsumers.add(Pattern10::new);
-        patternConsumers.add(Pattern11::new);
-        patternConsumers.add(Pattern12::new);
-        patternConsumers.add(Pattern13::new);
+//        patternConsumers.add(Pattern1::new);
+//        patternConsumers.add(Pattern2::new);
+//        patternConsumers.add(Pattern3::new);
+//        patternConsumers.add(Pattern4::new);
+//        patternConsumers.add(Pattern5::new);
+//        patternConsumers.add(Pattern6::new);
+//        patternConsumers.add(Pattern7::new);
+//        patternConsumers.add(Pattern8::new);
+//        patternConsumers.add(Pattern9::new);
+//        patternConsumers.add(Pattern10::new);
+//        patternConsumers.add(Pattern11::new);
+//        patternConsumers.add(Pattern12::new);
+//        patternConsumers.add(Pattern13::new);
+        patternConsumers.add(Pattern14::new);
+        patternConsumers.add(Pattern15::new);
+        patternConsumers.add(Pattern16::new);
         return patternConsumers;
     }
 

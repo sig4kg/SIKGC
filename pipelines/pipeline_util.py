@@ -77,13 +77,13 @@ def prepare_context(work_dir, input_dir, schema_file, tbox_patterns_dir="", cons
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
     if consistency_check:
-        valids, invalids = abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13],
+        valids, invalids = abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 15],
                                                 ['pos_domain', 'pos_range']).scan_IJ_patterns(work_dir=work_dir)
         abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
         wait_until_file_is_saved(work_dir + "valid_hrt.txt")
         context_resource.hrt_int_df = valids
     else:
-        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13])
+        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 15])
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
     return context_resource, abox_scanner_scheduler
 

@@ -22,14 +22,14 @@ def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Bina
     #        f'{work_dir}TBoxTREAT-1.0.jar']
     koncludeBinary = osp.join(os.getcwd(), "../java_owlapi/Konclude/Binaries/Konclude")
     cmd = f"java -DkoncludeBinary={koncludeBinary} -Dtask=Materialize -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
-    returncode = os.system(cmd)
+    os.system(cmd)
     # p = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=1)
     # for line in iter(p.stdout.readline, b''):
     #     print(line)
     #     if subprocess.Popen.poll(p) is not None and line == b'':
     #         break
     # p.stdout.close()
-    wait_until_file_is_saved(work_dir + "materialized_tbox_abox.nt")
+    returncode = wait_until_file_is_saved(work_dir + "materialized_tbox_abox.nt")
     return returncode
 
 
@@ -37,8 +37,8 @@ def materialize(work_dir, context_resource: ContextResources, abox_scanner: Abox
     os.system('../scripts/prepare_materialize.sh ' + work_dir[:-1])
     # learn type assertions
     new_ent2types = {}
-    p = learn_type_assertions(work_dir)
-    if p == 0:
+    has_output = learn_type_assertions(work_dir)
+    if has_output:
         new_ent2types = type_nt_2_entity2type(work_dir + "materialized_tbox_abox.nt", context_resource)
     # learn property assertions
     new_property_assertions = abox_scanner.scan_generator_patterns()

@@ -101,9 +101,9 @@ def prepare_blp(source_dir, work_dir):
 
 def wait_until_blp_data_ready(work_dir, inductive=False):
     if inductive:
-        wait_until_file_is_saved(work_dir + "dev-ents.txt")
-        wait_until_file_is_saved(work_dir + "test-ents.txt")
-        wait_until_file_is_saved(work_dir + "train-ents.txt")
+        # wait_until_file_is_saved(work_dir + "dev-ents.txt")
+        # wait_until_file_is_saved(work_dir + "test-ents.txt")
+        # wait_until_file_is_saved(work_dir + "train-ents.txt")
         wait_until_file_is_saved(work_dir + "ind-dev.tsv")
         wait_until_file_is_saved(work_dir + "ind-test.tsv")
         wait_until_file_is_saved(work_dir + "ind-train.tsv")

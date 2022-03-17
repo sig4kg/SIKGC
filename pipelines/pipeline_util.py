@@ -206,7 +206,6 @@ def M_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScan
         keep=False).reset_index(drop=True)
     extend_count = len(valids.index)
     new_count = len(new_valids.index) + new_type_count
-    context_resource.new_type_count += new_type_count
     context_resource.hrt_int_df = valids.reset_index(drop=True)
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)

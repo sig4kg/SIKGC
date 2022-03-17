@@ -1,6 +1,7 @@
 import numpy as np
 from owlready2 import *
 import pandas as pd
+import os.path as osp
 from abox_scanner.abox_utils import wait_until_file_is_saved
 from subprocess import Popen, PIPE, STDOUT
 from abox_scanner.ContextResources import ContextResources
@@ -19,6 +20,7 @@ def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Bina
     #        '-Doutput_dir=./',
     #        '-jar',
     #        f'{work_dir}TBoxTREAT-1.0.jar']
+    koncludeBinary = osp.join(os.getcwd(), "../java_owlapi/Konclude/Binaries/Konclude")
     cmd = f"java -DkoncludeBinary={koncludeBinary} -Dtask=Materialize -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
     returncode = os.system(cmd)
     # p = subprocess.run(cmd, stdout=subprocess.PIPE)

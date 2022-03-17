@@ -24,6 +24,7 @@ public class Main {
         String rel_file = System.getProperty("rels", "output/properties.txt");
 //        String abox_file = System.getProperty("abox", "../../resources/treat/");
         System.out.println(task + "\t" + schema_file + "\t" + output_dir);
+        System.out.println("koncludeBinary: " + koncludeBinary);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
                 .getLocation();
 

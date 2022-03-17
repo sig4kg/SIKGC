@@ -53,6 +53,10 @@ public class KoncludeUtil {
             System.out.println(e.getMessage());
         }
         // wait until file is saved
+        ProcessBuilder pb1 = new ProcessBuilder("ls", this.Konclude_bin);
+        pb1.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        Process p1 = pb1.start();
+        int status1 = p1.waitFor();
         ProcessBuilder pb = new ProcessBuilder(this.Konclude_bin, "classification", "-i", tmp_infile, "-o", tmp_outfile);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         Process p = pb.start();
@@ -82,6 +86,11 @@ public class KoncludeUtil {
             System.out.println(e.getMessage());
         }
         // wait until file is saved
+        ProcessBuilder pb1 = new ProcessBuilder("ls", this.Konclude_bin);
+        pb1.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        Process p1 = pb1.start();
+        int status1 = p1.waitFor();
+        System.out.println("Exited with status: " + status1);
         ProcessBuilder pb = new ProcessBuilder(this.Konclude_bin, "realisation", "-i", tmp_infile, "-o", tmp_outfile);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         Process p = pb.start();

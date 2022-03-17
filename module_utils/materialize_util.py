@@ -23,7 +23,6 @@ def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Bina
     koncludeBinary = osp.join(os.getcwd(), "../java_owlapi/Konclude/Binaries/Konclude")
     cmd = f"java -DkoncludeBinary={koncludeBinary} -Dtask=Materialize -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
     returncode = os.system(cmd)
-    # p = subprocess.run(cmd, stdout=subprocess.PIPE)
     # p = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=1)
     # for line in iter(p.stdout.readline, b''):
     #     print(line)

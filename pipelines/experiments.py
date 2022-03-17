@@ -79,7 +79,8 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                          tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
                          exclude_rels=data_conf.exclude_rels,
-                         blp_config=blp_conf)
+                         blp_config=blp_conf,
+                         schema_in_nt=data_conf.schema_in_nt)
     elif pipeline == "cacmcec":
         print("cacmcec pipeline")
         scores = cacmcec(work_dir=work_dir + f"{pipeline}_{dataset}/",
@@ -89,7 +90,8 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                          loops=loops,
                          epoch=data_conf.e_max_epoch,
                          exclude_rels=data_conf.exclude_rels,
-                         use_gpu=use_gpu)
+                         use_gpu=use_gpu,
+                         schema_in_nt=data_conf.schema_in_nt)
     elif pipeline == "cecmcac":
         print("cecmcac pipeline")
         scores = cecmcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
@@ -99,7 +101,8 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                          loops=loops,
                          epoch=data_conf.e_max_epoch,
                          exclude_rels=data_conf.exclude_rels,
-                         use_gpu=use_gpu)
+                         use_gpu=use_gpu,
+                         schema_in_nt=data_conf.schema_in_nt)
     elif pipeline == "cecmcrc":
         print("cecmcrc pipeline")
         scores = cecmcrc(work_dir=work_dir + f"{pipeline}_{dataset}/",
@@ -109,7 +112,8 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                          loops=loops,
                          epoch=data_conf.e_max_epoch,
                          exclude_rels=data_conf.exclude_rels,
-                         use_gpu=use_gpu)
+                         use_gpu=use_gpu,
+                         schema_in_nt=data_conf.schema_in_nt)
     else:
         print("Unsupported pipeline, please use any of these: cac, cec, crc, cm, cecmcrc, clcmcac.")
         pass
@@ -125,9 +129,9 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     # dataset="TEST", work_dir="outputs/test/", pipeline="cec", use_gpu=False, loops=2
-    parser.add_argument('--dataset', type=str, default="TREAT")
+    parser.add_argument('--dataset', type=str, default="TEST")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="cm")
+    parser.add_argument('--pipeline', type=str, default="clcmcac")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=2)
     parser.add_argument("--rel_model", type=str, default="transe")

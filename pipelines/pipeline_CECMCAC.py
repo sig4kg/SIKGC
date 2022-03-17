@@ -3,7 +3,7 @@ from pipeline_util import *
 
 
 def cecmcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
-            loops=1, epoch=2, use_gpu=False, exclude_rels=[]):
+            loops=1, epoch=2, use_gpu=False, exclude_rels=[], schema_in_nt=""):
     get_scores = aggregate_scores()
     run_scripts.delete_dir(work_dir)
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,

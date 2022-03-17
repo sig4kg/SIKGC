@@ -2,7 +2,7 @@ from tqdm.auto import trange
 from pipeline_util import *
 
 
-def cecmcrc(work_dir, input_dir, schema_file, tbox_patterns_dir, epoch=2, loops=1, use_gpu=False, exclude_rels=[]):
+def cecmcrc(work_dir, input_dir, schema_file, tbox_patterns_dir, epoch=2, loops=1, use_gpu=False, exclude_rels=[], schema_in_nt=""):
     get_scores = aggregate_scores()
     run_scripts.delete_dir(work_dir)
     context_resource, abox_scanner_scheduler = prepare_context(work_dir, input_dir, schema_file,

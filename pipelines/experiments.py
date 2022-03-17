@@ -100,6 +100,7 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                          schema_file=data_conf.schema_file,
                          tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
+                         blp_config=blp_conf,
                          exclude_rels=data_conf.exclude_rels,
                          schema_in_nt=data_conf.schema_in_nt)
     elif pipeline == "clcacm":
@@ -109,6 +110,7 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                          schema_file=data_conf.schema_file,
                          tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
+                         blp_config=blp_conf,
                          exclude_rels=data_conf.exclude_rels,
                          schema_in_nt=data_conf.schema_in_nt)
     else:

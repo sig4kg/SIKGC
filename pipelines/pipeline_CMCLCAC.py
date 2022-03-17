@@ -19,7 +19,8 @@ def cmclcac(work_dir, input_dir, schema_file, tbox_patterns_dir,
         init_c1, extend_c1, nc1, nv1, ncc1 = LC_block(context_resource,
                                                       abox_scanner_scheduler,
                                                       work_dir + "L/",
-                                                      exclude_rels=exclude_rels, blp_config=blp_config)
+                                                      exclude_rels=exclude_rels,
+                                                      blp_config=blp_config)
         init_c3, extend_c3, nc3, nv3, ncc3 = anyBURL_C_block(context_resource,
                                                              abox_scanner_scheduler,
                                                              work_dir + "A/",

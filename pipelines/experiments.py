@@ -3,11 +3,11 @@ from pipeline_C_anyBURL_C import c_anyburl_c
 from pipeline_C_E_C import c_e_c
 from pipeline_C_Rumis_C import c_rumis_c
 from pipeline_C_M import c_m
-from pipeline_CECMCRC import cecmcrc
+from pipeline_CLCACM import clcacm
 from pipeline_CLCMCAC import clcmcac
 from pipeline_CACMCLC import cacmclc
 from pipeline_CACMCEC import cacmcec
-from pipeline_CECMCAC import cecmcac
+from pipeline_CMCLCAC import cmclcac
 from scripts import run_scripts
 import argparse
 from exp_config import *
@@ -92,27 +92,23 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                          exclude_rels=data_conf.exclude_rels,
                          use_gpu=use_gpu,
                          schema_in_nt=data_conf.schema_in_nt)
-    elif pipeline == "cecmcac":
-        print("cecmcac pipeline")
-        scores = cecmcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
+    elif pipeline == "cmclcac":
+        print("cmclcac pipeline")
+        scores = cmclcac(work_dir=work_dir + f"{pipeline}_{dataset}/",
                          input_dir=data_conf.input_dir,
                          schema_file=data_conf.schema_file,
                          tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
-                         epoch=data_conf.e_max_epoch,
                          exclude_rels=data_conf.exclude_rels,
-                         use_gpu=use_gpu,
                          schema_in_nt=data_conf.schema_in_nt)
-    elif pipeline == "cecmcrc":
-        print("cecmcrc pipeline")
-        scores = cecmcrc(work_dir=work_dir + f"{pipeline}_{dataset}/",
+    elif pipeline == "clcacm":
+        print("clcacm pipeline")
+        scores = clcacm(work_dir=work_dir + f"{pipeline}_{dataset}/",
                          input_dir=data_conf.input_dir,
                          schema_file=data_conf.schema_file,
                          tbox_patterns_dir=data_conf.tbox_patterns_dir,
                          loops=loops,
-                         epoch=data_conf.e_max_epoch,
                          exclude_rels=data_conf.exclude_rels,
-                         use_gpu=use_gpu,
                          schema_in_nt=data_conf.schema_in_nt)
     else:
         print("Unsupported pipeline, please use any of these: cac, cec, crc, cm, cecmcrc, clcmcac.")

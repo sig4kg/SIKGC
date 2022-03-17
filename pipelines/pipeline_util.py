@@ -209,6 +209,8 @@ def M_block(context_resource: ContextResources, abox_scanner_scheduler: AboxScan
     context_resource.hrt_int_df = valids.reset_index(drop=True)
     #  backup and clean last round data
     run_scripts.clean_materialization(work_dir=work_dir)
+    print("new type assertions: " + str(new_type_count))
+    print("new property assertions: " + str(len(new_valids.index)))
     return train_count, extend_count, new_count, new_count, new_count
 
 

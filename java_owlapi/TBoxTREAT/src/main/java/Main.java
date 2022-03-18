@@ -66,6 +66,10 @@ public class Main {
                 Materialize materialize = new Materialize(koncludeBinary, outputFullPath + "/");
                 materialize.materialize_konclude(ontologyFullPath);
                 break;
+            case "Hermit":
+                Materialize materialize2 = new Materialize(koncludeBinary, outputFullPath + "/");
+                materialize2.materialize_hermit(ontologyFullPath);
+                break;
             case "toNT":
                 TBoxConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
                 break;

@@ -13,10 +13,8 @@ class AC(ProducerBlock):
         self.pipeline_config = pipeline_config
         self.work_dir = self.pipeline_config.work_dir
 
-    def produce(self, tmp_work_dir=''):
-        if tmp_work_dir != '':
-            self.work_dir = tmp_work_dir
-        work_dir = self.work_dir
+    def produce(self,):
+        work_dir = self.work_dir + "A/"
         context_resource = self.context_resource
         run_scripts.mk_dir(work_dir)
         hrt_int_df_2_hrt_anyburl(context_resource, work_dir)

@@ -23,7 +23,7 @@ def add_counts():
 
 
 def log_score(dict_data, log_file, loop=-1):
-    with open(log_file, encoding='utf-8', mode='a') as out_f:
+    with open(log_file, encoding='utf-8', mode='a+') as out_f:
         if loop >= 0:
             out_f.write(f"loop {loop}:\n")
         for k in dict_data:
@@ -49,11 +49,12 @@ def create_pipeline(pipeline_config:PipelineConfig, blocks= []):
 
 
 def run_pipeline(pipeline_config:PipelineConfig, blocks=[]):
+    run_scripts.delete_dir(pipeline_config.work_dir)
+    init_workdir(pipeline_config.work_dir)
     log_name = pipeline_config.work_dir + f"{''.join(blocks)}_{pipeline_config.dataset}.log"
     log_score(dict(pipeline_config), log_file=log_name)
     producer_blocks = create_pipeline(pipeline_config, blocks)
     get_scores = aggregate_scores()
-
     idx = 1
     for ep in trange(pipeline_config.loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
         iter_count = add_counts()

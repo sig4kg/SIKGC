@@ -25,5 +25,6 @@ fi
 [ -f "$WORK_DIR/materialized_tbox_abox.owl" ] && mv $WORK_DIR/materialized_tbox_abox.owl $LAST_ROUND
 [ -f "$WORK_DIR/materialized_tbox_abox.nt" ] && mv $WORK_DIR/materialized_tbox_abox.nt $LAST_ROUND
 [ -f "$WORK_DIR/materialized_abox.nt" ] && mv $WORK_DIR/materialized_abox.nt $LAST_ROUND
+[ -f "$WORK_DIR/tmp_*.xml" ] && rm $WORK_DIR/tmp_*.xml
 
 

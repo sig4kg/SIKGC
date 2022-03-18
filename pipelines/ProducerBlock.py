@@ -5,7 +5,7 @@ from pipelines.exp_config import *
 
 class ProducerBlock(ABC):
     @abstractmethod
-    def produce(self):
+    def produce(self, *args):
         pass
 
     @abstractmethod
@@ -40,6 +40,7 @@ class PipelineConfig:
         self.schema_in_nt = data_config.schema_in_nt
         self.use_gpu = use_gpu
         self.inductive = blp_config['inductive']
+        return self
 
     def __iter__(self):
         return self.__dict__.items().__iter__()

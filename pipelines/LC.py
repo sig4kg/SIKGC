@@ -16,9 +16,7 @@ class LC(ProducerBlock):
         self.work_dir = self.pipeline_config.work_dir
 
     def produce(self, tmp_work_dir=''):
-        if tmp_work_dir != '':
-            self.work_dir = tmp_work_dir
-        work_dir = self.work_dir
+        work_dir = self.work_dir + "L/"
         context_resource = self.context_resource
         config = self.pipeline_config
         hrt_int_df_2_hrt_blp(context_resource, work_dir,

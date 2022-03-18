@@ -56,7 +56,6 @@ def aggregate_scores():
 def prepare_context(pipeline_config: PipelineConfig, consistency_check=True,
                     create_id_file=False, abox_file_hrt=""):
     work_dir = pipeline_config.work_dir
-    init_workdir(work_dir)
     # prepare tbox patterns
     if pipeline_config.tbox_patterns_dir == "" or not os.path.exists(pipeline_config.tbox_patterns_dir):
         run_scripts.run_tbox_scanner(pipeline_config.schema_file, work_dir)

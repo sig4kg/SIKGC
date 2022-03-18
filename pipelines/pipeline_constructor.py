@@ -13,7 +13,8 @@ from pathlib import Path
 def add_counts():
     init_kg, target_kg, nc, vc, cc = [0], [0], [0], [0], [0]
     def add_new(init_kgc, extend_kgc, new_count, new_valid_count, new_correct_count):
-        init_kg[0] = init_kgc
+        if init_kg[0] == 0:
+            init_kg[0] = init_kgc
         target_kg[0] = extend_kgc
         nc[0] += new_count
         vc[0] += new_valid_count

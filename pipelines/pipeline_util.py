@@ -57,9 +57,9 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True,
                     create_id_file=False, abox_file_hrt=""):
     work_dir = pipeline_config.work_dir
     # prepare tbox patterns
-    if pipeline_config.tbox_patterns_dir == "" or not os.path.exists(pipeline_config.tbox_patterns_dir):
-        run_scripts.run_tbox_scanner(pipeline_config.schema_file, work_dir)
-        tbox_patterns_dir = work_dir + "tbox_patterns/"
+    # if pipeline_config.tbox_patterns_dir == "" or not os.path.exists(pipeline_config.tbox_patterns_dir):
+    #     run_scripts.run_tbox_scanner(pipeline_config.schema_file, work_dir)
+    #     tbox_patterns_dir = work_dir + "tbox_patterns/"
     # mv data to work_dir
     os.system(f"cp {pipeline_config.input_dir}* {work_dir}")
     # initialize context resource and check consistency

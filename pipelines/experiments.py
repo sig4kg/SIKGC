@@ -7,7 +7,7 @@ from pipelines.pipeline_constructor import *
 # by Sylvia Wang
 
 def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_gpu=False, loops=1, rel_model="transe",
-              inductive=False):
+              inductive=False, schema_in_nt=''):
     data_conf = DatasetConfig().get_config(dataset)
     blp_conf = BLPConfig().get_blp_config(rel_model=rel_model, inductive=inductive, dataset=dataset)
     p_config = PipelineConfig().set_config(blp_config=blp_conf,
@@ -16,6 +16,8 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
                                            loops=loops,
                                            work_dir=work_dir,
                                            use_gpu=use_gpu)
+    if schema_in_nt != '':
+        p_config.schema_in_nt = schema_in_nt
     if pipeline == "cac":
         run_pipeline(p_config, blocks=['AC'])
     elif pipeline == "cec":
@@ -50,6 +52,7 @@ if __name__ == "__main__":
     parser.add_argument('--loops', type=int, default=2)
     parser.add_argument("--rel_model", type=str, default="transe")
     parser.add_argument("--inductive", type=bool, default=False)
+    parser.add_argument("--schema_in_nt", type=str, default='')
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,
@@ -57,4 +60,5 @@ if __name__ == "__main__":
               use_gpu=args.use_gpu,
               inductive=args.inductive,
               rel_model=args.rel_model,
-              loops=args.loops)
+              loops=args.loops,
+              schema_in_nt=args.schema_in_nt)

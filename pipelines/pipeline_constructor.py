@@ -10,7 +10,7 @@ from tqdm.auto import trange
 from pathlib import Path
 
 
-def add_counts():
+def add_counts_one_round():
     init_kg, target_kg, nc, vc, cc = [0], [0], [0], [0], [0]
     def add_new(init_kgc, extend_kgc, new_count, new_valid_count, new_correct_count):
         if init_kg[0] == 0:
@@ -18,7 +18,7 @@ def add_counts():
         target_kg[0] = extend_kgc
         nc[0] += new_count
         vc[0] += new_valid_count
-        cc[0] +=  new_correct_count
+        cc[0] += new_correct_count
         return init_kg[0],target_kg[0], nc[0], vc[0], cc[0]
     return add_new
 
@@ -58,7 +58,7 @@ def run_pipeline(pipeline_config:PipelineConfig, blocks=[]):
     get_scores = aggregate_scores()
     idx = 1
     for ep in trange(pipeline_config.loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
-        iter_count = add_counts()
+        iter_count = add_counts_one_round()
         init_c, extend_c, nc, nv, ncc = 0, 0, 0, 0, 0
         for pdc in producer_blocks:
             a,b,c,d,e = pdc.produce()

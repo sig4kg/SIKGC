@@ -80,7 +80,10 @@ public class Materialize {
         }
         System.out.println("Materialising type assertions, may take time......");
         reasoner.precomputeInferences(
-                InferenceType.CLASS_ASSERTIONS
+                InferenceType.CLASS_ASSERTIONS,
+                InferenceType.CLASS_HIERARCHY,
+                InferenceType.OBJECT_PROPERTY_ASSERTIONS,
+                InferenceType.OBJECT_PROPERTY_HIERARCHY
         );
         List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
         generators.add(new InferredClassAssertionAxiomGenerator());

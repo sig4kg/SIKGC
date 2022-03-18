@@ -37,8 +37,10 @@ def materialize(work_dir, context_resource: ContextResources, abox_scanner: Abox
     os.system('../scripts/prepare_materialize.sh ' + work_dir[:-1])
     # learn type assertions
     new_ent2types = {}
+    start_time = datetime.datetime.now()
     has_output = learn_type_assertions(work_dir)
     if has_output:
+        print(f"The type assertion reasoning duration is {datetime.datetime.now() - start_time}")
         new_ent2types = type_nt_2_entity2type(work_dir + "materialized_tbox_abox.nt", context_resource)
     # learn property assertions
     new_property_assertions = abox_scanner.scan_generator_patterns()

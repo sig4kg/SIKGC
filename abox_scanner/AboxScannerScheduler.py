@@ -195,7 +195,7 @@ class AboxScannerScheduler:
                 continue
             new_df = pd.concat([new_df, tmp_df]).drop_duplicates(keep='first').reset_index(drop=True)
             print(f"{str(type(scanner))} inferred new triples count: {str(count_new)}")
-        print(f"The reasoning duration is {datetime.datetime.now() - start_time}")
+        print(f"The abox gen reasoning duration is {datetime.datetime.now() - start_time}")
         return new_df
 
 

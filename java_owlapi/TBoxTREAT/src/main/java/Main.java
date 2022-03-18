@@ -82,8 +82,8 @@ public class Main {
                 dllite.owl2reduce(ontologyFullPath);
                 break;
             case "Consistency":
-                Materialize materialize2 = new Materialize(koncludeBinary, outputFullPath + "/");
-                materialize2.checkConsistency(ontologyFullPath,outputFullPath + "/tbox_and_abox.nt");
+                Materialize materialize3 = new Materialize(koncludeBinary, outputFullPath + "/");
+                materialize3.checkConsistency(ontologyFullPath,outputFullPath + "/tbox_and_abox.nt");
                 break;
             case "SubsetTBox":
                 TBoxConverter.getTBoxSubset(ontologyFullPath, outputFullPath + "/less_tbox.nt", type_file, rel_file);

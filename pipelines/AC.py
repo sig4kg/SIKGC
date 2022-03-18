@@ -15,8 +15,8 @@ class AC(ProducerBlock):
 
     def produce(self,):
         work_dir = self.work_dir + "A/"
-        context_resource = self.context_resource
         run_scripts.mk_dir(work_dir)
+        context_resource = self.context_resource
         hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
         split_all_triples_anyburl(context_resource, work_dir, exclude_rels=self.pipeline_config.exclude_rels)
         prepare_anyburl_configs(work_dir, pred_with='hr')

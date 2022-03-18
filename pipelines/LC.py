@@ -17,6 +17,7 @@ class LC(ProducerBlock):
 
     def produce(self, tmp_work_dir=''):
         work_dir = self.work_dir + "L/"
+        mk_dir(work_dir)
         context_resource = self.context_resource
         config = self.pipeline_config
         hrt_int_df_2_hrt_blp(context_resource, work_dir,

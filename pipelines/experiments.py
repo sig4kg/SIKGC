@@ -6,17 +6,16 @@ from pipelines.pipeline_constructor import *
 
 # by Sylvia Wang
 
-def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_gpu=False, loops=3, rel_model="transe",
+def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_gpu=False, loops=1, rel_model="transe",
               inductive=False):
-    run_scripts.mk_dir(work_dir)
     data_conf = DatasetConfig().get_config(dataset)
     blp_conf = BLPConfig().get_blp_config(rel_model=rel_model, inductive=inductive, dataset=dataset)
     p_config = PipelineConfig().set_config(blp_config=blp_conf,
                                            data_config=data_conf,
-                                           dataset='TEST',
-                                           loops=2,
-                                           work_dir='../outputs/test/',
-                                           use_gpu=False)
+                                           dataset=dataset,
+                                           loops=loops,
+                                           work_dir=work_dir,
+                                           use_gpu=use_gpu)
     if pipeline == "cac":
         run_pipeline(p_config, blocks=['AC'])
     elif pipeline == "cec":

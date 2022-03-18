@@ -63,7 +63,7 @@ def update_ent2class(context_resource: ContextResources, new_ent2types) -> int:
 # we only keep type assertions
 def type_nt_2_entity2type(in_file, context_resource: ContextResources):
     df = pd.read_csv(
-        in_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ").drop_duplicates(
+        in_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ", usecols=range(4)).drop_duplicates(
         keep='first').reset_index(drop=True)
     df = df.query("rel==@RDFTYPE1")
     df = df[['head', 'tail']].apply(lambda x: x.str[1:-1])
@@ -81,25 +81,6 @@ def type_nt_2_entity2type(in_file, context_resource: ContextResources):
     return new_ent2types
 
 
-# def tbox_2_nt_dbpedia(in_file: str, out_file):
-#     ont = get_ontology(in_file).load()
-#     # remove all annotation properties, cannot identify AnnotationProperty as TBOX is not complete.
-#     default_world.sparql('''DELETE {?s ?p ?o . }
-#                             WHERE {?s ?p ?o .
-#                             Filter (?p in (<http://www.w3.org/2000/01/rdf-schema#label>,
-#                             <http://www.w3.org/2002/07/owl#versionInfo>,
-#                             <http://purl.org/dc/terms/issued>,
-#                             <http://purl.org/dc/terms/description>,
-#                             <http://purl.org/dc/terms/modified>,
-#                             <http://purl.org/dc/terms/title>,
-#                             <http://purl.org/vocab/vann/preferredNamespaceUri>,
-#                             <http://purl.org/vocab/vann/preferredNamespacePrefix>,
-#                             <http://purl.org/dc/terms/publisher>,
-#                             <http://www.w3.org/2000/01/rdf-schema#comment>))}''')
-#     # out_file_name = in_file[in_file.rindex('/')+1:in_file.rindex('.')]
-#     ont.save(out_file, "ntriples")
-
-
 ANNOTATION_REL = ['<http://www.w3.org/2000/01/rdf-schema#label>',
                   '<http://www.w3.org/2002/07/owl#versionInfo>',
                   '<http://purl.org/dc/terms/issued>',
@@ -115,5 +96,8 @@ ANNOTATION_REL = ['<http://www.w3.org/2000/01/rdf-schema#label>',
                   '^^<http://www.w3.org/2001/XMLSchema#boolean>']
 
 
-# if __name__ == "__main__":
-#     tbox_2_nt_dbpedia("../resources/DBpediaP/dbpedia_2016-10.owl", "../resources/DBpedia-politics/less_dbpedia_tbox.nt")
+if __name__ == "__main__":
+    dft = pd.read_csv("../resources/materialized_tbox_abox.nt", header=None,
+                      names=['head', 'rel', 'tail', 'dot'], sep=" ").drop_duplicates(
+        keep='first').reset_index(drop=True)
+    dft = dft.query("rel==@RDFTYPE1")

@@ -43,13 +43,13 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
-    parser.add_argument('--dataset', type=str, default="TREAT")
+    parser.add_argument('--dataset', type=str, default="TEST")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
     parser.add_argument('--pipeline', type=str, default="clcacm")
     parser.add_argument('--use_gpu', type=bool, default=False)
-    parser.add_argument('--loops', type=int, default=1)
-    parser.add_argument("--rel_model", type=str, default="simple")
-    parser.add_argument("--inductive", type=bool, default=True)
+    parser.add_argument('--loops', type=int, default=2)
+    parser.add_argument("--rel_model", type=str, default="transe")
+    parser.add_argument("--inductive", type=bool, default=False)
     args = parser.parse_args()
     producers(dataset=args.dataset,
               work_dir=args.work_dir,

@@ -442,4 +442,54 @@ public class DLLite {
             System.out.println(e.getMessage());
         }
     }
+
+    public void owl2reduce(String in_file) throws Exception {
+        System.out.println("To reduce: " + in_file);
+        // load ontology from file
+        File initialFile = new File(in_file);
+        InputStream inputStream = new FileInputStream(initialFile);
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + in_file);
+        }
+        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(inputStream);
+        // remove annotations
+        List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
+        toRemoveAxiom.addAll(ont.getAxioms(AxiomType.ANNOTATION_ASSERTION));
+        for (OWLAxiom ax : toRemoveAxiom) {
+            RemoveAxiom removeAxiom = new RemoveAxiom(ont, ax);
+            man.applyChange(removeAxiom);
+        }
+
+        // remove unwanted axioms like asymmetric etc.
+        System.out.println("Removing additional properties ...");
+        List<OWLAxiom> toRemoveAxiom3 = new ArrayList<OWLAxiom>();
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.DISJOINT_CLASSES));
+        toRemoveAxiom3.addAll(ont.getAxioms(AxiomType.EQUIVALENT_CLASSES));
+        for (OWLAxiom ax : toRemoveAxiom3) {
+            RemoveAxiom removeAxiom = new RemoveAxiom(ont, ax);
+            man.applyChange(removeAxiom);
+        }
+
+        String out_file_name = this.output_dir + "tbox_reduce.nt";
+        System.out.println("Saving new ontology " + out_file_name);
+        // Now we create a stream since the ontology manager can then write to that stream.
+        try (OutputStream outputStream = new FileOutputStream(out_file_name)) {
+            // We use the nt format as for the input ontology.
+            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+//            TurtleDocumentFormat format = new TurtleDocumentFormat();
+            man.saveOntology(ont, format, outputStream);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

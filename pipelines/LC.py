@@ -17,6 +17,7 @@ class LC(ProducerBlock):
 
     def produce(self, tmp_work_dir=''):
         work_dir = self.work_dir + "L/"
+        prepare_blp(self.work_dir, work_dir)
         mk_dir(work_dir)
         context_resource = self.context_resource
         config = self.pipeline_config

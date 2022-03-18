@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from functools import reduce
+
 import pandas as pd
 from abox_scanner.abox_utils import *
 
@@ -29,6 +31,7 @@ class ContextResources:
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
         self.id2op = {self.op2id[key]: key for key in self.op2id}
         self.new_type_count = 0
+        self.type_count = reduce(lambda x,y: x + y, [len(v) for v in self.entid2classids.values()])
 
     def type2nt(self) -> pd.DataFrame:
         # get entity types

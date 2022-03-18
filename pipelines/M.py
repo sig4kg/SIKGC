@@ -21,17 +21,17 @@ class M(ProducerBlock):
         return self.collect_result(new_ent2types, new_property_assertions)
 
     def collect_result(self, new_ent2types, new_property_assertions):
-        train_count = len(self.context_resource.hrt_int_df.index)
+        train_count = len(self.context_resource.hrt_int_df.index) + self.context_resource.type_count
         # merge new types to ent2classes
         new_type_count = update_ent2class(self.context_resource, new_ent2types)
-        self.context_resource.new_type_count += new_type_count
+        self.context_resource.type_count += new_type_count
         # merge new type assertions
         extended_df = pd.concat([self.context_resource.hrt_int_df, new_property_assertions]).drop_duplicates(
             keep='first').reset_index(drop=True)
         # valids, _ = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(self.pipeline_config.work_dir)
         new_valids = pd.concat([extended_df, self.context_resource.hrt_int_df, self.context_resource.hrt_int_df]).drop_duplicates(
             keep=False).reset_index(drop=True)
-        extend_count = len(extended_df.index) + self.context_resource.new_type_count
+        extend_count = len(extended_df.index) + self.context_resource.type_count
         new_count = len(new_valids.index) + new_type_count
         self.context_resource.hrt_int_df = extended_df
         #  backup and clean last round data

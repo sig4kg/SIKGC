@@ -63,11 +63,11 @@ class AC(ProducerBlock):
             keep=False)
         new_correct_count = len(new_corrects.index)
         del new_corrects
-        train_count = len(context_resource.hrt_int_df.index)
+        train_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
 
         # add new valid hrt to train set
         extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
-        extend_count = len(extend_hrt_df.index) + self.context_resource.new_type_count
+        extend_count = len(extend_hrt_df.index) + self.context_resource.type_count
         # overwrite train data in context
         context_resource.hrt_int_df = extend_hrt_df
         # check rate

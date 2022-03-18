@@ -3,7 +3,7 @@ import pandas as pd
 from abox_scanner.ContextResources import PatternScanner, ContextResources
 from tqdm import tqdm
 
-
+#  r1 subpropertyof r2  -> r1 r2@@r22@@r222
 class PatternGenSubproperty(PatternScanner):
     def __init__(self, context_resources: ContextResources) -> None:
         self._pattern_dict = None
@@ -17,8 +17,8 @@ class PatternGenSubproperty(PatternScanner):
             rel = g[0]
             r_triples_df = g[1]
             if rel in self._pattern_dict:
-                inverse_of_r = self._pattern_dict[rel]
-                for r_inv in inverse_of_r:
+                sub_ps = self._pattern_dict[rel]
+                for r_inv in sub_ps:
                     tmp_df = r_triples_df[['head', 'rel', 'tail']]
                     tmp_df['rel'] = r_inv
                 new_df = pd.concat([new_df, tmp_df]).drop_duplicates(keep='first')

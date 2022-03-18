@@ -11,32 +11,32 @@ import java.util.List;
 import java.util.Set;
 
 public class PatternGenSubProperty extends BasePattern implements IPattern {
-    //r1 subpropertyof r2
+    //r1 subpropertyof r2  -> r1 r2@@r22@@r222
     public void generatePattern() {
         try {
             pw = this.GetPrintWriter("gen_subproperty");
-            for (OWLObjectProperty r2 : ont.getObjectPropertiesInSignature()) {
-                NodeSet<OWLObjectPropertyExpression> rsubs = reasoner.getSubObjectProperties(r2, false);
-                if (rsubs.getNodes().size() <= 1) {
+            for (OWLObjectProperty r1 : ont.getObjectPropertiesInSignature()) {
+                NodeSet<OWLObjectPropertyExpression> rsups = reasoner.getSuperObjectProperties(r1, false);
+                if (rsups.getNodes().size() <= 1) {
                     continue;
                 }
-                //R1
-                List<String> r1_names = new ArrayList<>();
-                for (Node<OWLObjectPropertyExpression> r1_subProExpression : rsubs.getNodes()) {
-                    if (r1_subProExpression.isBottomNode()) {
+                //R2s
+                List<String> r2_names = new ArrayList<>();
+                for (Node<OWLObjectPropertyExpression> r2_supProExpression : rsups.getNodes()) {
+                    if (r2_supProExpression.isBottomNode()) {
                         continue;
                     }
-                    OWLObjectPropertyExpression r1_subPro = r1_subProExpression.getRepresentativeElement();
-                    if (!r1_subPro.isOWLObjectProperty()) {
+                    OWLObjectPropertyExpression r2_supPro = r2_supProExpression.getRepresentativeElement();
+                    if (!r2_supPro.isOWLObjectProperty()) {
                         continue;
                     }
-                    String r1 = r1_subPro.getNamedProperty().toString();
-                    r1_names.add(r1);
+                    String r2 = r2_supPro.getNamedProperty().toString();
+                    r2_names.add(r2);
                 }
-                if (r1_names.size() == 0) {
+                if (r2_names.size() == 0) {
                     continue;
                 } else {
-                    String line = r2 + "\t" + String.join("@@", r1_names);
+                    String line = r1 + "\t" + String.join("@@", r2_names);
                     pw.println(line);
                 }
             }

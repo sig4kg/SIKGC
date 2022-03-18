@@ -28,16 +28,16 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
         run_pipeline(p_config, blocks=['RC'])
     elif pipeline == "cm":
         run_pipeline(p_config, blocks=['M'])
-    elif pipeline == "clcmcac":
+    elif pipeline == "clcmac":
         run_pipeline(p_config, blocks=['LC', 'M', 'AC'])
-    elif pipeline == "cacmclc":
+    elif pipeline == "cacmlc":
         run_pipeline(p_config, blocks=['AC', 'M', 'LC'])
-    elif pipeline == "cacmcec":
+    elif pipeline == "cacmec":
         run_pipeline(p_config, blocks=['AC', 'M', 'EC'])
-    elif pipeline == "cmclcac":
-        run_pipeline(p_config, blocks=['M', 'LC', 'AC'])
-    elif pipeline == "clcacm":
-        run_pipeline(p_config, blocks=['LC', 'AC', 'M'])
+    elif pipeline == "cmaclc":
+        run_pipeline(p_config, blocks=['M', 'AC', 'LC'])
+    elif pipeline == "caclcm":
+        run_pipeline(p_config, blocks=['AC', 'LC', 'M'])
     else:
         print("Unsupported pipeline, please use any of these: cac, cec, crc, cm, cecmcrc, clcmcac.")
         pass
@@ -45,9 +45,9 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="cec", use_g
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
-    parser.add_argument('--dataset', type=str, default="TEST")
+    parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="clcacm")
+    parser.add_argument('--pipeline', type=str, default="cm")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=2)
     parser.add_argument("--rel_model", type=str, default="transe")

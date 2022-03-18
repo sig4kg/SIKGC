@@ -29,7 +29,12 @@ public class TBoxConverter {
         }
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(inputStream);
-
+        List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
+        toRemoveAxiom.addAll(ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION));
+        for (OWLAxiom ax: toRemoveAxiom) {
+            RemoveAxiom removeAxiom = new RemoveAxiom(ontology, ax);
+            manager.applyChange(removeAxiom);
+        }
         NTriplesDocumentFormat nTriplesFormat = new NTriplesDocumentFormat();
         File inferredOntologyFile = new File(out_file);
         // Now we create a stream since the ontology manager can then write to that stream.

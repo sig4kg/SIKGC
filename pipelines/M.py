@@ -37,7 +37,8 @@ class M(ProducerBlock):
             with open(tmp_typefile_name, encoding='utf-8', mode='w') as out_f:
                 for s in ent2type_strs:
                     out_f.write(s)
-            out_f.close()
+                out_f.close()
+            del ent2type_strs
             return
 
         train_count = len(self.context_resource.hrt_int_df.index) + self.context_resource.type_count

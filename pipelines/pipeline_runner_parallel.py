@@ -11,38 +11,38 @@ import multiprocessing
 
 
 class PipelineRunnerParallel(PipelineRunnerBase):
-    # block2context = dict()
-    # block2scanner = dict()
     block2producer = dict()
-    blocks = []
+    block_names = []
     context_resource = None
     abox_scanner_scheduler = None
     pipeline_config = None
-    def create_pipeline(self, pipeline_config:PipelineConfig, blocks= []):
-        self.pipeline_config = pipeline_config
-        context_resource, abox_scanner_scheduler = prepare_context(pipeline_config, consistency_check=True,
+
+    def create_pipeline(self):
+        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True,
                         create_id_file=False)
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
-        for blc in blocks:
+        for blc in self.block_names:
             # the subprocess do not share memory with parent process, it might be Ok to pass to shared context object
-            block_obj = self.letter2block[blc](self.context_resource, self.abox_scanner_scheduler, pipeline_config)
+            block_obj = self.letter2block[blc](self.context_resource, self.abox_scanner_scheduler, self.pipeline_config)
             self.block2producer.update({blc: block_obj})
-            self.blocks = blocks
 
-    def run_pipeline(self, pipeline_config:PipelineConfig, blocks=[]):
+
+    def run_pipeline(self, pipeline_config:PipelineConfig, block_names=[]):
+        self.pipeline_config = pipeline_config
+        self.block_names = block_names
         run_scripts.delete_dir(pipeline_config.work_dir)
         init_workdir(pipeline_config.work_dir)
-        log_name = pipeline_config.work_dir + f"{''.join(blocks)}_{pipeline_config.dataset}.log"
+        log_name = pipeline_config.work_dir + f"{''.join(block_names)}_{pipeline_config.dataset}.log"
         log_score(dict(pipeline_config), log_file=log_name)
-        self.create_pipeline(pipeline_config, blocks)
+        self.create_pipeline()
         get_scores = aggregate_scores()
         idx = 1
         run_scripts.mk_dir(self.pipeline_config.work_dir + "last_round")
         run_scripts.mk_dir(self.pipeline_config.work_dir + "subprocess")
         for ep in trange(pipeline_config.loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
             processes = []
-            for block in self.blocks:
+            for block in self.block_names:
                 producer = self.block2producer[block]
                 # do not apply ACC
                 p = multiprocessing.Process(target=producer.produce, args=(False,))
@@ -84,8 +84,6 @@ class PipelineRunnerParallel(PipelineRunnerBase):
             keep=False)
         new_correct_count = len(new_corrects.index) + new_type_count
         # del new_corrects
-
-
         # add new valid hrt to train set
         extend_hrt_df = pd.concat([self.context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
         extend_count = len(extend_hrt_df.index) + self.context_resource.type_count

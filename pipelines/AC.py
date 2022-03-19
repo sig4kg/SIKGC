@@ -55,6 +55,7 @@ class AC(ProducerBlock):
             tmp_file_name = self.pipeline_config.work_dir + f'subprocess/hrt_a_{os.getpid()}.txt'
             new_hrt_df.to_csv(tmp_file_name, header=False, index=False, sep='\t')
             wait_until_file_is_saved(tmp_file_name)
+            del new_hrt_df
             return
 
         new_count = len(new_hrt_df.index)

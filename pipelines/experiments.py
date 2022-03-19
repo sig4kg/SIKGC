@@ -3,7 +3,7 @@ import argparse
 from exp_config import *
 from pipelines.pipeline_runner import *
 from pipelines.pipeline_runner_parallel import *
-
+import torch
 
 # by Sylvia Wang
 
@@ -47,15 +47,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="TEST")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="m_l")
+    parser.add_argument('--pipeline', type=str, default="m")
     parser.add_argument('--use_gpu', type=bool, default=False)
-    parser.add_argument('--loops', type=int, default=2)
+    parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
     parser.add_argument("--inductive", type=bool, default=False)
     parser.add_argument("--schema_in_nt", type=str, default='')
-    parser.add_argument("--parallel", type=bool, default=True)
-
+    parser.add_argument("--parallel", type=bool, default=False)
     args = parser.parse_args()
+    if args.parallel:
+        torch.multiprocessing.set_start_method('spawn')
     producers(dataset=args.dataset,
               work_dir=args.work_dir,
               pipeline=args.pipeline,

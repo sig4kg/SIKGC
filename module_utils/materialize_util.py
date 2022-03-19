@@ -59,6 +59,7 @@ def update_ent2class(context_resource: ContextResources, new_ent2types) -> int:
             if len(diff) > 0:
                 new_count = new_count + len(diff)
                 old_ent2types[ent].extend(list(diff))
+    context_resource.type_count += new_count
     return new_count
 
 

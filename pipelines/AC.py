@@ -12,8 +12,10 @@ class AC(ProducerBlock):
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
         self.work_dir = self.pipeline_config.work_dir
+        self.acc = True
 
-    def produce(self,):
+    def produce(self, acc=True):
+        self.acc = acc
         work_dir = self.work_dir + "A/"
         run_scripts.mk_dir(work_dir)
         context_resource = self.context_resource
@@ -46,8 +48,15 @@ class AC(ProducerBlock):
 
     def collect_result(self, pred_hrt_df):
         context_resource = self.context_resource
+        # acc and collect score
         new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
+        if not self.acc:
+            tmp_file_name = self.pipeline_config.work_dir + f'subprocess/hrt_a_{os.getpid()}.txt'
+            new_hrt_df.to_csv(tmp_file_name, header=False, index=False, sep='\t')
+            wait_until_file_is_saved(tmp_file_name)
+            return
+
         new_count = len(new_hrt_df.index)
         #  backup and clean last round data
         run_scripts.clean_anyburl(work_dir=self.pipeline_config.work_dir)

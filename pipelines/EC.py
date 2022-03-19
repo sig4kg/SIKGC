@@ -14,10 +14,12 @@ class EC(ProducerBlock):
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
+        self.acc = True
 
-    def produce(self):
+    def produce(self, acc=True):
         context_resource = self.context_resource
         config = self.pipeline_config
+        self.acc = acc
         context_2_hrt_transE(config.work_dir, context_resource, exclude_rels=config.exclude_rels)
         wait_until_train_pred_data_ready(config.work_dir)
         # 1.train transE
@@ -35,11 +37,18 @@ class EC(ProducerBlock):
 
     def collect_result(self, pred_hrt_df):
         context_resource = self.context_resource
+        # acc and collect score
         abox_scanner_scheduler = self.abox_scanner_scheduler
         config = self.pipeline_config
         # diff
         new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
+        if not self.acc:
+            tmp_file_name = self.pipeline_config.work_dir + f'subprocess/hrt_e_{os.getpid()}.txt'
+            new_hrt_df.to_csv(tmp_file_name, header=False, index=False, sep='\t')
+            wait_until_file_is_saved(tmp_file_name)
+            return
+
         new_count = len(new_hrt_df.index)
         # scan
         to_scann_hrt_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df], axis=0).drop_duplicates(

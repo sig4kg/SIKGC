@@ -2,6 +2,7 @@ from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
 from module_utils.materialize_util import *
 import pandas as pd
 from scripts import run_scripts
+from pathlib import Path
 
 class M(ProducerBlock):
     def __init__(self, context_resource: ContextResources,
@@ -10,8 +11,10 @@ class M(ProducerBlock):
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
+        self.acc = True
 
-    def produce(self):
+    def produce(self, acc=True):
+        self.acc = acc
         self.context_resource.to_ntriples(self.pipeline_config.work_dir, schema_in_nt=self.pipeline_config.schema_in_nt)
         wait_until_file_is_saved(self.pipeline_config.work_dir + "tbox_abox.nt", 120)
         print("running materialization...")
@@ -21,10 +24,25 @@ class M(ProducerBlock):
         return self.collect_result(new_ent2types, new_property_assertions)
 
     def collect_result(self, new_ent2types, new_property_assertions):
+        if not self.acc:
+            tmp_file_name = self.pipeline_config.work_dir + f'subprocess/hrt_m_{os.getpid()}.txt'
+            new_property_assertions.to_csv(tmp_file_name, header=False, index=False, sep='\t')
+            wait_until_file_is_saved(tmp_file_name)
+            # ent2type to file
+            ent2type_strs = []
+            for ent in new_ent2types:
+                types = [str(i) for i in new_ent2types[ent]]
+                ent2type_strs.append(f"{str(ent)}\t{'@'.join(types)}\n")
+            tmp_typefile_name = self.pipeline_config.work_dir + f'subprocess/type_{os.getpid()}.txt'
+            with open(tmp_typefile_name, encoding='utf-8', mode='w') as out_f:
+                for s in ent2type_strs:
+                    out_f.write(s)
+            out_f.close()
+            return
+
         train_count = len(self.context_resource.hrt_int_df.index) + self.context_resource.type_count
         # merge new types to ent2classes
         new_type_count = update_ent2class(self.context_resource, new_ent2types)
-        self.context_resource.type_count += new_type_count
         # merge new type assertions
         extended_df = pd.concat([self.context_resource.hrt_int_df, new_property_assertions]).drop_duplicates(
             keep='first').reset_index(drop=True)

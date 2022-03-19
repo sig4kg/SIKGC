@@ -4,6 +4,7 @@ import pandas as pd
 from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from blp.producer import ex
+import os
 
 
 class LC(ProducerBlock):
@@ -14,8 +15,10 @@ class LC(ProducerBlock):
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
         self.work_dir = self.pipeline_config.work_dir
+        self.acc = True
 
-    def produce(self, tmp_work_dir=''):
+    def produce(self, acc=True):
+        self.acc = acc
         work_dir = self.work_dir + "L/"
         prepare_blp(self.work_dir, work_dir)
         mk_dir(work_dir)
@@ -45,6 +48,12 @@ class LC(ProducerBlock):
         # diff
         new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df,
                                 context_resource.hrt_int_df]).drop_duplicates(keep=False)
+        if not self.acc:
+            tmp_file_name = self.pipeline_config.work_dir + f'subprocess/hrt_l_{os.getpid()}.txt'
+            new_hrt_df.to_csv(tmp_file_name, header=False, index=False, sep='\t')
+            wait_until_file_is_saved(tmp_file_name)
+            return
+
         new_count = len(new_hrt_df.index)
         print("all old triples: " + str(len(context_resource.hrt_int_df.index)))
         print("all new triples: " + str(new_count))

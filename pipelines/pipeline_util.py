@@ -75,7 +75,7 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True,
     if consistency_check:
         valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_IJ_patterns(work_dir=work_dir)
         abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
-        wait_until_file_is_saved(work_dir + "valid_hrt.txt")
+        # wait_until_file_is_saved(work_dir + "valid_hrt.txt")
         context_resource.hrt_int_df = valids
     else:
         abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 15])

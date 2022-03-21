@@ -99,7 +99,7 @@ class BLPConfig:
         if not inductive and rel_model != 'rotate':
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
         elif not inductive and rel_model == 'rotate':
-            tmp_conf.update({'model': 'rotate'})
+            tmp_conf.update({'model': 'rotate', 'regularizer': 1e-2, 'lr': 1e-3})
         elif inductive and rel_model == 'rotate':
             tmp_conf.update({'model': 'blp_rotate'})
 

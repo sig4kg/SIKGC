@@ -20,6 +20,27 @@ class BLPConfig:
         }
         return conf
 
+    def getRotate(self):
+        conf = {
+            'dim': 256,
+            'model': 'rotate',
+            'rel_model': 'rotate',
+            'loss_fn': 'sigmoid',
+            'encoder_name': 'bert-base-cased',
+            'regularizer': 1e-3,
+            'max_len': 32,
+            'num_negatives': 64,
+            'lr': 2e-5,
+            'use_scheduler': True,
+            'batch_size': 64,
+            'emb_batch_size': 64,
+            'eval_batch_size': 32,
+            'max_epochs': 2,
+            'checkpoint': None,
+            'use_cached_text': False
+        }
+        return conf
+
     def getSimple(self):
         conf = {
             'dim': 128,
@@ -69,12 +90,18 @@ class BLPConfig:
             tmp_conf = self.getComplex()
         elif rel_model == "simple":
             tmp_conf = self.getSimple()
+        elif rel_model == "rotate":
+            tmp_conf = self.getRotate()
         else:
             print(f"{rel_model} is not supported., please use transe, complex or simple")
             return {}
         tmp_conf.update({'inductive': inductive})
-        if not inductive:
+        if not inductive and rel_model != 'rotate':
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
+        elif not inductive and rel_model == 'rotate':
+            tmp_conf.update({'model': 'rotate'})
+        elif inductive and rel_model == 'rotate':
+            tmp_conf.update({'model': 'blp_rotate'})
 
         if dataset == "DBpedia":
             tmp_conf.update({'max_epochs': 60, 'batch_size': 1024})

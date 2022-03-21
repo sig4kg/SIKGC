@@ -27,6 +27,12 @@ def get_model(model, dim, rel_model, loss_fn, num_entities, num_relations,
                                                  regularizer)
     elif model == 'fasttext':
         return extend_models.FastTextEmbeddingLP(dim, rel_model, loss_fn, num_relations, regularizer)
+    elif model == 'rotate':
+        return extend_models.RotateLinkPrediction(dim, rel_model, loss_fn,
+                                                  num_entities, num_relations,
+                                                  regularizer)
+    elif model == 'blp_rotate':
+        return extend_models.RotateBertEmbeddingsLP(dim, rel_model, loss_fn, num_relations, regularizer)
     else:
         raise ValueError(f'Unkown model {model}')
 

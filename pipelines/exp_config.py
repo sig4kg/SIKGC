@@ -23,7 +23,7 @@ class BLPConfig:
     def getRotate(self):
         conf = {
             'dim': 256,
-            'model': 'rotate',
+            'model': 'blp',
             'rel_model': 'rotate',
             'loss_fn': 'sigmoid',
             'encoder_name': 'bert-base-cased',
@@ -96,12 +96,12 @@ class BLPConfig:
             print(f"{rel_model} is not supported., please use transe, complex or simple")
             return {}
         tmp_conf.update({'inductive': inductive})
+
         if not inductive and rel_model != 'rotate':
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
         elif not inductive and rel_model == 'rotate':
-            tmp_conf.update({'model': 'rotate', 'regularizer': 1e-2, 'lr': 1e-3})
-        elif inductive and rel_model == 'rotate':
-            tmp_conf.update({'model': 'blp_rotate'})
+            tmp_conf.update({'regularizer': 1e-2, 'lr': 1e-3})
+
 
         if dataset == "DBpedia":
             tmp_conf.update({'max_epochs': 60, 'batch_size': 1024})

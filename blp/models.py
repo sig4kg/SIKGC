@@ -14,10 +14,14 @@ class LinkPrediction(nn.Module):
         self.dim = dim
         self.normalize_embs = False
         self.regularizer = regularizer
+        # this is used by rotate, modified by sylvia
         if rel_model == 'rotate':
             self.rel_dim = int(self.dim / 2)
         else:
             self.rel_dim = self.dim
+        self.rel_emb = nn.Embedding(num_relations, self.rel_dim)
+        self.embedding_range = calculate_rel_embedding_range(self.rel_emb.weight.data)
+        nn.init.xavier_uniform_(self.rel_emb.weight.data)
 
         if rel_model == 'transe':
             self.score_fn = transe_score
@@ -32,11 +36,6 @@ class LinkPrediction(nn.Module):
             self.score_fn = lambda heads, tails, rels: rotate_score(heads, tails, rels, self.embedding_range)
         else:
             raise ValueError(f'Unknown relational model {rel_model}.')
-
-        # this is used by rotate, modified by sylvia
-        self.rel_emb = nn.Embedding(num_relations, self.rel_dim)
-        self.embedding_range = calculate_rel_embedding_range(self.rel_emb.weight.data)
-        nn.init.xavier_uniform_(self.rel_emb.weight.data)
 
         if loss_fn == 'margin':
             self.loss_fn = margin_loss

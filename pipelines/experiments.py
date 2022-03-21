@@ -51,7 +51,7 @@ if __name__ == "__main__":
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="rotate")
-    parser.add_argument("--inductive", type=bool, default=True)
+    parser.add_argument("--inductive", type=bool, default=False)
     parser.add_argument("--schema_in_nt", type=str, default='')
     parser.add_argument("--parallel", type=bool, default=False)
     args = parser.parse_args()

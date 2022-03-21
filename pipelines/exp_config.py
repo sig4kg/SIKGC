@@ -97,11 +97,8 @@ class BLPConfig:
             return {}
         tmp_conf.update({'inductive': inductive})
 
-        if not inductive and rel_model != 'rotate':
+        if not inductive:
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
-        elif not inductive and rel_model == 'rotate':
-            tmp_conf.update({'regularizer': 1e-2, 'lr': 1e-3})
-
 
         if dataset == "DBpedia":
             tmp_conf.update({'max_epochs': 60, 'batch_size': 1024})

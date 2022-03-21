@@ -44,7 +44,7 @@ def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=
     df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2op[x])  # to int
     rels = df['rel'].drop_duplicates(keep='first')
     total =len(df.index)
-    rate = len(rels.index) * 100 / total
+    rate = len(rels.index) * 1000 / total
     rate = rate if rate < 0.1 else 0.1
     # if inductive:
     #     drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,

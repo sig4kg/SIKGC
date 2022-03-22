@@ -75,48 +75,6 @@ def test_fasttext():
     print(t3)
 
 
-
-# class RotateLinkPrediction(LinkPrediction):
-#     def __init__(self, dim, rel_model, loss_fn, num_entities, num_relations,
-#                  regularizer):
-#         super().__init__(dim, rel_model, loss_fn, num_relations, regularizer)
-#         self.ent_emb = nn.Embedding(num_entities, dim)
-#         nn.init.xavier_uniform_(self.ent_emb.weight.data)
-#
-#     def _encode_entity(self, entities):
-#         return self.ent_emb(entities)
-#
-#     def forward(self, pos_pairs, rels, neg_idx):
-#         embs = self.encode(pos_pairs)
-#         return self.compute_loss(embs, rels, neg_idx)
-
-
-# class RotateBertEmbeddingsLP(InductiveLinkPrediction):
-#     """Rotate BERT for Link Prediction (BLP)."""
-#     def __init__(self, dim, rel_model, loss_fn, num_relations, encoder_name,
-#                  regularizer):
-#         super().__init__(dim, rel_model, loss_fn, num_relations, regularizer)
-#
-#         bert_path = "../saved_models/bert-base-cased"
-#         local_models = Path(bert_path)
-#         if local_models.exists():
-#             self.encoder = BertModel.from_pretrained(bert_path,
-#                                                      output_attentions=False,
-#                                                      output_hidden_states=False)
-#         else:
-#             self.encoder = BertModel.from_pretrained(encoder_name,
-#                                                      output_attentions=False,
-#                                                      output_hidden_states=False)
-#         hidden_size = self.encoder.config.hidden_size
-#         self.enc_linear = nn.Linear(hidden_size, self.dim * 2, bias=False)
-#
-#     def _encode_entity(self, text_tok, text_mask):
-#         # Extract BERT representation of [CLS] token
-#         embs = self.encoder(text_tok, text_mask)[0][:, 0]
-#         embs = self.enc_linear(embs)
-#         return embs
-
-
 if __name__ == '__main__':
     test_fasttext()
 

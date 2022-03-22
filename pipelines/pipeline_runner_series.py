@@ -15,6 +15,12 @@ class PipelineRunnerSeries(PipelineRunnerBase):
     pipeline_config = None
 
     def create_pipeline(self):
+        letter2block = {
+            'M': pipelines.M.M,
+            'LC': pipelines.LC.LC,
+            'AC': pipelines.AC.AC,
+            'EC': pipelines.EC.EC
+        }
         context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True,
                         create_id_file=False)
         producer_blocks = []

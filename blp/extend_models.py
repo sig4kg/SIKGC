@@ -3,6 +3,8 @@ import numpy as np
 from models import *
 from gensim.models.fasttext import FastText
 import re
+import torch
+import torch.nn as nn
 
 
 # Sylvia  Wang for TREAT test

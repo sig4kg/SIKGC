@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -14,6 +14,14 @@ class LinkPrediction(nn.Module):
         self.dim = dim
         self.normalize_embs = False
         self.regularizer = regularizer
+        # this is used by rotate, modified by sylvia
+        if rel_model == 'rotate':
+            self.rel_dim = int(self.dim / 2)
+        else:
+            self.rel_dim = self.dim
+        self.rel_emb = nn.Embedding(num_relations, self.rel_dim)
+        self.embedding_range = calculate_rel_embedding_range(self.rel_emb.weight.data)
+        nn.init.xavier_uniform_(self.rel_emb.weight.data)
 
         if rel_model == 'transe':
             self.score_fn = transe_score
@@ -24,16 +32,17 @@ class LinkPrediction(nn.Module):
             self.score_fn = complex_score
         elif rel_model == 'simple':
             self.score_fn = simple_score
+        elif rel_model == 'rotate':
+            self.score_fn = lambda heads, tails, rels: rotate_score(heads, tails, rels, self.embedding_range)
         else:
             raise ValueError(f'Unknown relational model {rel_model}.')
-
-        self.rel_emb = nn.Embedding(num_relations, self.dim)
-        nn.init.xavier_uniform_(self.rel_emb.weight.data)
 
         if loss_fn == 'margin':
             self.loss_fn = margin_loss
         elif loss_fn == 'nll':
             self.loss_fn = nll_loss
+        elif loss_fn == 'sigmoid':
+            self.loss_fn = sigmoid_loss
         else:
             raise ValueError(f'Unkown loss function {loss_fn}')
 
@@ -70,9 +79,30 @@ class LinkPrediction(nn.Module):
         neg_embs = ent_embs.view(batch_size * 2, -1)[neg_idx]
         heads, tails = torch.chunk(neg_embs, chunks=2, dim=2)
         neg_scores = self.score_fn(heads.squeeze(), tails.squeeze(), rels)
-
         model_loss = self.loss_fn(pos_scores, neg_scores)
         return model_loss + reg_loss
+
+
+# modified by Sylvia Wang
+def calculate_rel_embedding_range(tensor):
+    dimensions = tensor.dim()
+    if dimensions < 2:
+        raise ValueError("Fan in and fan out can not be computed for tensor with fewer than 2 dimensions")
+
+    num_input_fmaps = tensor.size(1)
+    num_output_fmaps = tensor.size(0)
+    receptive_field_size = 1
+    if tensor.dim() > 2:
+        receptive_field_size = tensor[0][0].numel()
+    fan_in = num_input_fmaps * receptive_field_size
+    fan_out = num_output_fmaps * receptive_field_size
+    std = math.sqrt(2.0 / float(fan_in + fan_out))
+    a = math.sqrt(3.0) * std
+    embedding_range = nn.Parameter(
+        torch.Tensor([a]),
+        requires_grad=False
+    )
+    return embedding_range
 
 
 class InductiveLinkPrediction(LinkPrediction):
@@ -265,6 +295,24 @@ def simple_score(heads, tails, rels):
                      tails_h * rel_b * heads_t, dim=-1) / 2
 
 
+def rotate_score(heads, tails, rels, embedding_range):
+    pi = 3.14159265358979323846
+    re_head, im_head = torch.chunk(heads, chunks=2, dim=-1)
+    re_tail, im_tail = torch.chunk(tails, chunks=2, dim=-1)
+    phase_relation = rels / (embedding_range / pi)
+    re_relation = torch.cos(phase_relation)
+    im_relation = torch.sin(phase_relation)
+    re_score = re_head * re_relation - im_head * im_relation
+    im_score = re_head * im_relation + im_head * re_relation
+    re_score = re_score - re_tail
+    im_score = im_score - im_tail
+    score = torch.stack([re_score, im_score], dim=0)
+    score = score.norm(dim=0)
+    score = -score.sum(dim=-1)
+    return score
+
+
+
 def margin_loss(pos_scores, neg_scores):
     loss = 1 - pos_scores + neg_scores
     loss[loss < 0] = 0
@@ -273,6 +321,15 @@ def margin_loss(pos_scores, neg_scores):
 
 def nll_loss(pos_scores, neg_scores):
     return (F.softplus(-pos_scores).mean() + F.softplus(neg_scores).mean()) / 2
+
+
+def sigmoid_loss(pos_scores, neg_scores):
+    negative_score = F.logsigmoid(-neg_scores).mean(dim = 1)
+    positive_score = F.logsigmoid(pos_scores).squeeze(dim = 1)
+    positive_sample_loss = - positive_score.mean()
+    negative_sample_loss = - negative_score.mean()
+    loss = (positive_sample_loss + negative_sample_loss)/2
+    return loss
 
 
 def l2_regularization(heads, tails, rels):

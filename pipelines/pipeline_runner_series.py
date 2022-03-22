@@ -48,7 +48,8 @@ class PipelineRunnerSeries(PipelineRunnerBase):
             s = get_scores(init_c, extend_c, nc, nv, ncc)
             log_score(s, log_name, loop=idx)
             idx += 1
-            pipeline_config.blp_config['lr'] = pipeline_config.blp_config['lr'] / 2
+            if not pipeline_config.inductive:
+                pipeline_config.blp_config['lr'] = pipeline_config.blp_config['lr'] / 2
 
 
 def add_counts_one_round():

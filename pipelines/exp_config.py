@@ -88,6 +88,8 @@ class BLPConfig:
             tmp_conf.update({'max_epochs': 20})
             if inductive:
                 tmp_conf.update({'lr': 1e-4, 'batch_size': 1024})
+            if rel_model == "transe":
+                tmp_conf.update({"max_epochs": 40})
         return tmp_conf
 
 

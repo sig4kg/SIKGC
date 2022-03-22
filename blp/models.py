@@ -299,8 +299,7 @@ def rotate_score(heads, tails, rels, embedding_range):
     pi = 3.14159265358979323846
     re_head, im_head = torch.chunk(heads, chunks=2, dim=-1)
     re_tail, im_tail = torch.chunk(tails, chunks=2, dim=-1)
-    # re_relation, im_relation = torch.chunk(rels, chunks=2, dim=-1)
-    phase_relation = rels / (embedding_range / pi)
+    phase_relation = rels * pi
     re_relation = torch.cos(phase_relation)
     im_relation = torch.sin(phase_relation)
     re_score = re_head * re_relation - im_head * im_relation

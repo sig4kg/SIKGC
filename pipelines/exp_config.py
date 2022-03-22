@@ -22,7 +22,7 @@ class BLPConfig:
 
     def getRotate(self):
         conf = {
-            'dim': 256,
+            'dim': 1024,
             'model': 'blp',
             'rel_model': 'rotate',
             'loss_fn': 'sigmoid',
@@ -111,9 +111,9 @@ class BLPConfig:
         elif dataset == "NELL":
             tmp_conf.update({'batch_size': 1024, 'max_epochs': 20})
             if inductive:
-                tmp_conf.update({'lr': 1e-4})
+                tmp_conf.update({'lr': 2e-5})
             if "rel_model" == 'rotate':
-                tmp_conf.update({'lr': 1e-4, 'regularizer': 1e-3})
+                tmp_conf.update({'batch_size': 64, 'regularizer': 1e-3})
         return tmp_conf
 
 

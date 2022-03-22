@@ -114,6 +114,8 @@ class BLPConfig:
                 tmp_conf.update({'lr': 1e-4, 'batch_size': 1024})
             if rel_model == "transe":
                 tmp_conf.update({"max_epochs": 40})
+            if rel_model == 'rotate':
+                tmp_conf.update({'batch_size': 32, 'regularizer': 1e-3})
         return tmp_conf
 
 

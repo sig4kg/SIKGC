@@ -97,7 +97,7 @@ class BLPConfig:
             return {}
         tmp_conf.update({'inductive': inductive})
 
-        if not inductive:
+        if not inductive and not rel_model == 'rotate':
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
 
         if dataset == "DBpedia":

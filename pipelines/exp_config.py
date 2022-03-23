@@ -114,6 +114,8 @@ class BLPConfig:
                 tmp_conf.update({'lr': 1e-4, 'batch_size': 1024})
             if rel_model == "transe" and inductive:
                 tmp_conf.update({"max_epochs": 50 })
+            if rel_model == "complex" and inductive:
+                tmp_conf.update({'lr': 1e-3})
             if rel_model == 'rotate':
                 tmp_conf.update({'batch_size': 32, 'regularizer': 1e-3, 'lr': 2e-5, 'max_epochs': 50})
         return tmp_conf

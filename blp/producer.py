@@ -501,12 +501,12 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         num_devices = 1
         _log.info('Training on CPU')
 
-    if model == 'transductive' or model == 'rotate':
+    if model == 'transductive':
         train_data = GraphDataset(triples_file, num_negatives,
                                   write_maps_file=True,
                                   num_devices=num_devices)
     else:
-        if model.startswith('bert') or model == 'blp' or model == 'blp_rotate':
+        if model.startswith('bert') or model == 'blp':
             bert_path = "../saved_models/bert-base-cased"
             local_models = Path(bert_path)
             if local_models.exists():
@@ -551,16 +551,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
     train_val_test_ent = set(test_data_hr.entities.tolist()).union(train_val_ent)
     train_val_test_ent = set(test_data_rt.entities.tolist()).union(train_val_test_ent)
-    # val_new_ents = train_val_ent.difference(train_ent)
-    # test_new_ents = train_val_test_ent.difference(train_val_ent)
-    # else:
-        # graph = None
-        # train_ent = set(train_data.entities.tolist())
-        # train_val_ent = set(valid_data.entities.tolist())
-        # train_val_test_ent = set(test_data.entities.tolist())
-        # val_new_ents = test_new_ents = None
-
-    # _run.log_scalar('num_train_entities', len(train_ent))
 
     # train_ent = torch.tensor(list(train_ent))
     train_val_ent = torch.tensor(list(train_val_ent))
@@ -585,6 +575,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                     num_warmup_steps=warmup,
                                                     num_training_steps=total_steps)
     best_valid_mrr = 0.0
+    last_valid_mrr = 0.0
+    early_stop_sign = 0
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
         for step, data in enumerate(train_loader):
@@ -604,12 +596,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
         _run.log_scalar('train_loss', train_loss / len(train_loader), epoch)
 
-        # if dataset != 'Wikidata5M':
-        #     _log.info('Evaluating on sample of training set')
-        #     eval_link_prediction(model, train_eval_loader, train_data, train_ent,
-        #                          epoch, emb_batch_size, prefix='train',
-        #                          max_num_batches=len(valid_loader))
-
         _log.info('Evaluating on validation set')
         val_mrr, _ = eval_link_prediction(model, valid_loader, train_data,
                                           train_val_ent, epoch,
@@ -620,24 +606,17 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if val_mrr > best_valid_mrr:
             best_valid_mrr = val_mrr
             torch.save(model.state_dict(), checkpoint_file)
+        if val_mrr < last_valid_mrr:
+            early_stop_sign += 1
+        else:
+            early_stop_sign = 0
+        if early_stop_sign >= 5:
+            break
+        last_valid_mrr = val_mrr
 
     # Evaluate with best performing checkpoint
     if max_epochs > 0:
         model.load_state_dict(torch.load(checkpoint_file))
-
-    # if dataset == 'Wikidata5M':
-    #     graph = nx.MultiDiGraph()
-    #     graph.add_weighted_edges_from(valid_data.triples.tolist())
-
-    # _log.info('Evaluating on validation set (with filtering)')
-    # eval_link_prediction(model, valid_loader, train_data, train_val_ent,
-    #                      max_epochs + 1, emb_batch_size, prefix='valid',
-    #                      filtering_graph=graph,
-    #                      new_entities=val_new_ents)
-
-    # if dataset == 'Wikidata5M':
-    #     graph = nx.MultiDiGraph()
-    #     graph.add_weighted_edges_from(test_data.triples.tolist())
 
     if do_downstream_sample:
         _log.info('get sample and score for Ricky...')

@@ -87,7 +87,6 @@ def save_file(text, out_filename):
         out_path.parent.mkdir(exist_ok=False)
     with open(out_path, encoding='utf-8', mode='w') as out_f:
         out_f.write(text)
-    out_f.close()   # wait until file is saved
 
 
 def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:

@@ -111,7 +111,7 @@ class BLPConfig:
         elif dataset == "NELL":
             tmp_conf.update({'max_epochs': 40})
             if inductive:
-                tmp_conf.update({'lr': 5e-5, 'batch_size': 1024, "max_epochs": 50})
+                tmp_conf.update({'lr': 5e-5, 'batch_size': 1024, "max_epochs": 60})
             if rel_model == 'rotate':
                 tmp_conf.update({'batch_size': 32, 'regularizer': 1e-3, 'lr': 2e-5, 'max_epochs': 50})
         return tmp_conf

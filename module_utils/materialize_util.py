@@ -12,7 +12,7 @@ RDFTYPE1 = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
 RDFTYPE2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
 
-def learn_type_assertions_konclude(work_dir):
+def materialisation_konclude(work_dir):
     # cmd = ['java',
     #        f'-DkoncludeBinary={koncludeBinary}'
     #        '-Dtask=Materialize',
@@ -33,6 +33,11 @@ def learn_type_assertions_konclude(work_dir):
     return returncode
 
 
+def materialisaton_abox_scanner(abox_scanner: AboxScannerScheduler):
+    new_property_assertions = abox_scanner.scan_generator_patterns()
+    return new_property_assertions
+
+
 def materialisation_trowl(work_dir):
     cmd = f"java -Dtask=TrOWL -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
     os.system(cmd)
@@ -40,7 +45,7 @@ def materialisation_trowl(work_dir):
     return returncode
 
 
-def materialize(work_dir, context_resource: ContextResources, abox_scanner: AboxScannerScheduler):
+def materialize(work_dir, context_resource: ContextResources):
     os.system('../scripts/prepare_materialize.sh ' + work_dir[:-1])
     # learn type assertions
     new_ent2types = {}
@@ -50,8 +55,6 @@ def materialize(work_dir, context_resource: ContextResources, abox_scanner: Abox
     if has_output:
         print(f"The type assertion reasoning duration is {datetime.datetime.now() - start_time}")
         new_ent2types, new_property_assertions = split_materialisation_result(work_dir + "materialized_tbox_abox.nt", context_resource)
-    # learn property assertions
-    # new_property_assertions = abox_scanner.scan_generator_patterns()
     return new_ent2types, new_property_assertions
 
 

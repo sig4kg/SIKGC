@@ -30,7 +30,7 @@ public class DLLite {
         this.output_dir = output_dir;
     }
 
-    public void owl2dlliteOrginal(String in_file, String out_file) throws Exception {
+    public void owl2dlliteOrginal(String in_file) throws Exception {
         System.out.println("To DL-lite: " + in_file);
         // load ontology from file
         File initialFile = new File(in_file);
@@ -99,50 +99,20 @@ public class DLLite {
             man.addAxiom(ont, negDef);
             map.put(negCls.getIRI().toString(), expCompl);
         }
-        //save middle to owlxml
-        System.out.println("Saving middle ontology " + out_file + ".xml");
-        File inferredOntologyFile0 = new File(out_file + ".xml");
-        // Now we create a stream since the ontology manager can then write to that stream.
-        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile0)) {
-            // We use the nt format as for the input ontology.
-            OWLXMLDocumentFormat format = new OWLXMLDocumentFormat();
-//            TurtleDocumentFormat format = new TurtleDocumentFormat();
-            man.saveOntology(ont, format, outputStream);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
         // Schema + Delta, then inference
-        Configuration configuration = new Configuration();
-        configuration.ignoreUnsupportedDatatypes = true;
-        ReasonerFactory rf = new ReasonerFactory();
-        OWLReasoner reasoner = rf.createReasoner(ont, configuration); // It takes time to create Hermit reasoner
-        System.out.println("Infer Schema + Delta...");
-        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
-        List<InferredAxiomGenerator<? extends OWLAxiom>> gens = new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
-        gens.add(new InferredSubClassAxiomGenerator());
-        OWLOntology infOnt1 = man.createOntology();
-        InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, gens);
-        iog.fillOntology(man.getOWLDataFactory(), infOnt1);
+        OWLOntology infOnt1 = this.koncludeUtil.koncludeClassifier(ont, man);
+
         // merge ont and infOnt1
         System.out.println("merging infOnt1 to ont...");
         OWLOntologyMerger merger = new OWLOntologyMerger(man);
         IRI mergedOntologyIRI1 = IRI.create("http://www.semanticweb.com/merged1");
-        OWLOntology merged = merger.createMergedOntology(man, mergedOntologyIRI1);
+        OWLOntology merged1 = merger.createMergedOntology(man, mergedOntologyIRI1);
         System.out.println("Removing ont and infOnt1...");
         man.removeOntology(ont);
         man.removeOntology(infOnt1);
-
-//        // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
-//        SubClassOfRedundant redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
-//        List<OWLSubClassOfAxiom> toRemove = redtUtil.findRedundants();
-//        for (OWLAxiom ax: toRemove) {
-//            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
-//            man.applyChange(removeAxiom);
-//        }
         // replace D, N with expressions
         System.out.println("Replace D and N with expressions...");
-        Set<OWLSubClassOfAxiom> subclassof = merged.getAxioms(AxiomType.SUBCLASS_OF);
+        Set<OWLSubClassOfAxiom> subclassof = merged1.getAxioms(AxiomType.SUBCLASS_OF);
         for (OWLSubClassOfAxiom s : subclassof) {
             OWLClassExpression sub = s.getSubClass();
             OWLClassExpression sup = s.getSuperClass();
@@ -159,14 +129,14 @@ public class DLLite {
                 OWLClassExpression recoverSup = map.getOrDefault(supIRI, sup);
                 OWLSubClassOfAxiom recoverAX = factory.getOWLSubClassOfAxiom(recoverSub, recoverSup);
                 // Add the axiom to our ontology
-                AddAxiom tmpaddAx = new AddAxiom(merged, recoverAX);
+                AddAxiom tmpaddAx = new AddAxiom(merged1, recoverAX);
                 man.applyChange(tmpaddAx);
             }
         }
         // remove additional classes
         System.out.println("Removing D and N...");
-        OWLEntityRemover remover = new OWLEntityRemover(merged);
-        for (OWLClass namedClass : merged.getClassesInSignature()) {
+        OWLEntityRemover remover = new OWLEntityRemover(merged1);
+        for (OWLClass namedClass : merged1.getClassesInSignature()) {
             if (map.containsKey(namedClass.getIRI().toString())) {
                 namedClass.accept(remover);
             }
@@ -174,37 +144,34 @@ public class DLLite {
         man.applyChanges(remover.getChanges());
         // new schema = Schema.classification ( recover D and N)
         System.out.println("Infer recovered schema + delta ...");
-        OWLReasoner reasoner2 = rf.createReasoner(merged, configuration);
-        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
-        List<InferredAxiomGenerator<? extends OWLAxiom>> gens2 =
-                new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
-        gens2.add(new InferredSubClassAxiomGenerator()); //B1 \in B2 or B1 \in \negB2
-        OWLOntology infOnt2 = man.createOntology();
+
+        //B1 \in B2 or B1 \in \negB2
+        OWLOntology infOnt2 = this.koncludeUtil.koncludeClassifier(merged1, man);
         // Now get the inferred ontology generator to generate some inferred
         // axioms for us (into our fresh ontology). We specify the reasoner that
         // we want to use and the inferred axiom generators that we want to use.
-        InferredOntologyGenerator iog2 = new InferredOntologyGenerator(reasoner2, gens2);
-        iog2.fillOntology(man.getOWLDataFactory(), infOnt2);
         // merge new inferred atoms
         System.out.println("Merging infOnt2 with last round merged...");
         IRI mergedOntologyIRI2 = IRI.create("http://www.semanticweb.com/merged2");
-        merged = merger.createMergedOntology(man, mergedOntologyIRI2);
+        OWLOntologyMerger merger2 = new OWLOntologyMerger(man);
+        OWLOntology merged2 = merger2.createMergedOntology(man, mergedOntologyIRI2);
+
         // remove unwanted axioms like asymmetric etc.
         System.out.println("Removing additional properties ...");
         toRemoveAxiom = new ArrayList<OWLAxiom>();
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.DISJOINT_CLASSES));
-        toRemoveAxiom.addAll(merged.getAxioms(AxiomType.EQUIVALENT_CLASSES));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.DISJOINT_CLASSES));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
 
         for (OWLAxiom ax : toRemoveAxiom) {
-            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
+            RemoveAxiom removeAxiom = new RemoveAxiom(merged2, ax);
             man.applyChange(removeAxiom);
         }
         // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
@@ -213,14 +180,14 @@ public class DLLite {
 //            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
 //            man.applyChange(removeAxiom);
 //        }
-        System.out.println("Saving new ontology " + out_file);
-        File inferredOntologyFile = new File(out_file);
+        System.out.println("Saving new ontology " +  this.output_dir + "tbox_dllite.nt");
+        File inferredOntologyFile = new File(this.output_dir + "tbox_dllite.nt");
         // Now we create a stream since the ontology manager can then write to that stream.
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
             // We use the nt format as for the input ontology.
 //             NTriplesDocumentFormat format = new NTriplesDocumentFormat();
             TurtleDocumentFormat format = new TurtleDocumentFormat();
-            man.saveOntology(merged, format, outputStream);
+            man.saveOntology(merged2, format, outputStream);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -417,7 +384,7 @@ public class DLLite {
         toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
         toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
         toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
         toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.EQUIVALENT_CLASSES));
         for (OWLAxiom ax : toRemoveAxiom3) {

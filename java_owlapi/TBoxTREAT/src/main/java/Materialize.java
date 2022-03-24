@@ -14,13 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import eu.trowl.owlapi3.rel.reasoner.dl.RELReasoner;
+import eu.trowl.owlapi3.rel.reasoner.dl.RELReasonerFactory;
 
 public class Materialize {
     String output_dir;
     private KoncludeUtil koncludeUtil;
 
-    public Materialize(String Konclude_bin, String output_dir) {
-        this.koncludeUtil = new KoncludeUtil(Konclude_bin, output_dir);
+    public Materialize(String output_dir) {
+//        this.koncludeUtil = new KoncludeUtil(Konclude_bin, output_dir);
         this.output_dir = output_dir;
     }
 
@@ -58,6 +60,58 @@ public class Materialize {
             e.printStackTrace();
         }
     }
+
+    public void materialize_trOWL(String in_file) throws Exception {
+        System.out.println("Materializing: " + in_file);
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+        File initialFileB = new File(in_file);
+        InputStream inputStreamB = new FileInputStream(initialFileB);
+        // the stream holding the file content
+        if (inputStreamB == null) {
+            throw new IllegalArgumentException("file not found! " + in_file);
+        }
+        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(inputStreamB);
+        // create Hermit reasoner
+        OWLDataFactory df = manager.getOWLDataFactory();
+        Configuration configuration = new Configuration();
+        configuration.ignoreUnsupportedDatatypes = true;
+        RELReasonerFactory factory = new RELReasonerFactory();
+        RELReasoner reasoner = factory.createReasoner(ontology);
+        boolean consistencyCheck = reasoner.isConsistent();
+        if (!consistencyCheck) {
+            System.out.println("Inconsistent input Ontology, Please check the OWL File");
+        }
+        System.out.println("Materialising type assertions and property assertions, may take time......");
+        reasoner.precomputeInferences(
+                InferenceType.CLASS_ASSERTIONS,
+                InferenceType.CLASS_HIERARCHY,
+                InferenceType.OBJECT_PROPERTY_ASSERTIONS,
+                InferenceType.OBJECT_PROPERTY_HIERARCHY
+        );
+        List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
+        generators.add(new InferredClassAssertionAxiomGenerator());
+        generators.add(new InferredPropertyAssertionGenerator());
+        List<InferredIndividualAxiomGenerator<? extends OWLIndividualAxiom>> individualAxioms =
+                new ArrayList<>();
+        generators.addAll(individualAxioms);
+
+        InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
+        OWLOntology inferredAxiomsOntology = manager.createOntology();
+        iog.fillOntology(df, inferredAxiomsOntology);
+        // Now we create a stream since the ontology manager can then write to that stream.
+        String out_file = this.output_dir + "/materialized_tbox_abox.nt";
+        try (OutputStream outputStream = new FileOutputStream(out_file)) {
+            // We use the nt format as for the input ontology.
+            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+            manager.saveOntology(inferredAxiomsOntology, format, outputStream);
+            System.out.println("Output saved: " + out_file);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println("Done with materialization");
+    }
+
     public void materialize_hermit(String in_file) throws Exception {
         System.out.println("Materializing: " + in_file);
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -78,7 +132,7 @@ public class Materialize {
         if (!consistencyCheck) {
             System.out.println("Inconsistent input Ontology, Please check the OWL File");
         }
-        System.out.println("Materialising type assertions, may take time......");
+        System.out.println("Materialising type assertions and property assertions, may take time......");
         reasoner.precomputeInferences(
                 InferenceType.CLASS_ASSERTIONS,
                 InferenceType.CLASS_HIERARCHY,
@@ -87,6 +141,12 @@ public class Materialize {
         );
         List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
         generators.add(new InferredClassAssertionAxiomGenerator());
+        // NOTE: InferredPropertyAssertionGenerator significantly slows down
+        // inference computation
+        generators.add(new org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator());
+        List<InferredIndividualAxiomGenerator<? extends OWLIndividualAxiom>> individualAxioms =
+                new ArrayList<>();
+        generators.addAll(individualAxioms);
         InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
         OWLOntology inferredAxiomsOntology = manager.createOntology();
         iog.fillOntology(df, inferredAxiomsOntology);
@@ -104,8 +164,9 @@ public class Materialize {
         System.out.println("Done with materialization");
     }
 
-    public void materialize_konclude(String in_file) throws Exception {
+    public void materialize_konclude(KoncludeUtil koncludeUtil, String in_file) throws Exception {
         System.out.println("Materializing: " + in_file);
+        this.koncludeUtil = koncludeUtil;
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         File initialFileB = new File(in_file);
         InputStream inputStreamB = new FileInputStream(initialFileB);

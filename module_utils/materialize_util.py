@@ -12,7 +12,7 @@ RDFTYPE1 = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
 RDFTYPE2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
 
-def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Binaries/Konclude"):
+def learn_type_assertions_konclude(work_dir):
     # cmd = ['java',
     #        f'-DkoncludeBinary={koncludeBinary}'
     #        '-Dtask=Materialize',
@@ -21,7 +21,7 @@ def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Bina
     #        '-jar',
     #        f'{work_dir}TBoxTREAT-1.0.jar']
     koncludeBinary = osp.join(os.getcwd(), "../java_owlapi/Konclude/Binaries/Konclude")
-    cmd = f"java -DkoncludeBinary={koncludeBinary} -Dtask=Materialize -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
+    cmd = f"java -DkoncludeBinary={koncludeBinary} -Dtask=Konclude -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
     os.system(cmd)
     # p = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=1)
     # for line in iter(p.stdout.readline, b''):
@@ -33,17 +33,25 @@ def learn_type_assertions(work_dir, koncludeBinary="../java_owlapi/Konclude/Bina
     return returncode
 
 
+def materialisation_trowl(work_dir):
+    cmd = f"java -Dtask=TrOWL -Dschema=tbox_abox.nt -Doutput_dir=./ -jar {work_dir}TBoxTREAT-1.0.jar"
+    os.system(cmd)
+    returncode = wait_until_file_is_saved(work_dir + "materialized_tbox_abox.nt")
+    return returncode
+
+
 def materialize(work_dir, context_resource: ContextResources, abox_scanner: AboxScannerScheduler):
     os.system('../scripts/prepare_materialize.sh ' + work_dir[:-1])
     # learn type assertions
     new_ent2types = {}
+    new_property_assertions = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
     start_time = datetime.datetime.now()
-    has_output = learn_type_assertions(work_dir)
+    has_output = materialisation_trowl(work_dir)
     if has_output:
         print(f"The type assertion reasoning duration is {datetime.datetime.now() - start_time}")
-        new_ent2types = type_nt_2_entity2type(work_dir + "materialized_tbox_abox.nt", context_resource)
+        new_ent2types, new_property_assertions = split_materialisation_result(work_dir + "materialized_tbox_abox.nt", context_resource)
     # learn property assertions
-    new_property_assertions = abox_scanner.scan_generator_patterns()
+    # new_property_assertions = abox_scanner.scan_generator_patterns()
     return new_ent2types, new_property_assertions
 
 
@@ -64,24 +72,34 @@ def update_ent2class(context_resource: ContextResources, new_ent2types) -> int:
 
 
 # we only keep type assertions
-def type_nt_2_entity2type(in_file, context_resource: ContextResources):
+def split_materialisation_result(in_file, context_resource: ContextResources):
     df = pd.read_csv(
-        in_file, header=None, names=['head', 'rel', 'tail', 'dot'], sep=" ", usecols=range(4)).drop_duplicates(
+        in_file, header=None, names=['head', 'rel', 'tail'], sep=" ", usecols=range(3)).drop_duplicates(
         keep='first').reset_index(drop=True)
-    df = df.query("rel==@RDFTYPE1")
-    df = df[['head', 'tail']].apply(lambda x: x.str[1:-1])
-    df['head'] = df[['head']].applymap(
+    df_types = df.query("rel==@RDFTYPE1")
+    df_properties = pd.concat([df, df_types]).drop_duplicates(
+        keep=False)
+    # get type dict
+    df_types = df_types[['head', 'tail']].apply(lambda x: x.str[1:-1])
+    df_types['head'] = df_types[['head']].applymap(
         lambda x: context_resource.ent2id[x] if x in context_resource.ent2id else np.nan)  # to int
-    df['tail'] = df[['tail']].applymap(
+    df_types['tail'] = df_types[['tail']].applymap(
         lambda x: context_resource.class2id[x] if x in context_resource.class2id else np.nan)  # to int
-    df = df.dropna(how='any').astype('int64')
-    groups = df.groupby('head')
+    df_types = df_types.dropna(how='any').astype('int64')
+    groups = df_types.groupby('head')
     new_ent2types = dict()
     for g in groups:
         ent = g[0]
         types = g[1]['tail'].tolist()
         new_ent2types.update({ent: types})
-    return new_ent2types
+    # get property assertions in hrt_int_df
+    df_properties = df_properties.apply(lambda x: x.str[1:-1])
+    df_properties[['head', 'tail']] = df_properties[['head', 'tail']].applymap(
+        lambda x: context_resource.ent2id[x] if x in context_resource.ent2id else np.nan)  # to int
+    df_properties['rel'] = df_properties['rel'].apply(
+        lambda x: context_resource.op2id[x] if x in context_resource.op2id else np.nan)  # to int
+    df_properties = df_properties.dropna(how='any').astype('int64')
+    return new_ent2types, df_properties
 
 
 ANNOTATION_REL = ['<http://www.w3.org/2000/01/rdf-schema#label>',

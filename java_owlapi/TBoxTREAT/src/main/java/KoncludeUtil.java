@@ -9,11 +9,13 @@ import java.util.Random;
 
 public class KoncludeUtil {
     String Konclude_bin;
+    String Konclude_config;
     String output_dir;
     Random r = new Random();
     public KoncludeUtil(String Konclude_bin, String output_dir) {
         this.Konclude_bin = Konclude_bin;
         this.output_dir = output_dir;
+        this.Konclude_config = Konclude_bin.substring(0, Konclude_bin.lastIndexOf("/") + 1) + "/../Configs/default-config.xml";
     }
 
     private String getTmpName(String filePrefix) {
@@ -91,7 +93,8 @@ public class KoncludeUtil {
         Process p1 = pb1.start();
         int status1 = p1.waitFor();
         System.out.println("Exited with status: " + status1);
-        ProcessBuilder pb = new ProcessBuilder(this.Konclude_bin, "realisation", "-i", tmp_infile, "-o", tmp_outfile);
+        System.out.println("Konclude config: " + this.Konclude_config);
+        ProcessBuilder pb = new ProcessBuilder(this.Konclude_bin, "realisation", "-c", this.Konclude_config, "-i", tmp_infile, "-o", tmp_outfile);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         Process p = pb.start();
         int status = p.waitFor();

@@ -19,7 +19,7 @@ def get_block_names(name_in_short: str):
 
 
 def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="clc", use_gpu=False, loops=1, rel_model="transe",
-              inductive=False, schema_in_nt='', parallel=False):
+              inductive=False, schema_in_nt='', reasoner='', parallel=False):
     data_conf = DatasetConfig().get_config(dataset)
     blp_conf = BLPConfig().get_blp_config(rel_model=rel_model, inductive=inductive, dataset=dataset)
     p_config = PipelineConfig().set_config(blp_config=blp_conf,
@@ -30,6 +30,8 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="clc", use_g
                                            use_gpu=use_gpu)
     if schema_in_nt != '':
         p_config.schema_in_nt = schema_in_nt
+    if reasoner != '':
+        p_config.reasoner = reasoner
     if parallel:
         pipeline_runner = PipelineRunnerParallel()
     else:
@@ -54,6 +56,7 @@ if __name__ == "__main__":
     parser.add_argument("--inductive", type=bool, default=False)
     parser.add_argument("--schema_in_nt", type=str, default='../outputs/test/tbox.nt')
     parser.add_argument("--parallel", type=bool, default=False)
+    parser.add_argument("--reasoner", type=str, default='Konclude')
     args = parser.parse_args()
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')
@@ -65,4 +68,5 @@ if __name__ == "__main__":
               rel_model=args.rel_model,
               loops=args.loops,
               schema_in_nt=args.schema_in_nt,
+              reasoner=args.reasoner,
               parallel=args.parallel)

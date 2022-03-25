@@ -7,25 +7,24 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
         String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
-        String task = System.getProperty("task", "DL-lite");
+        String task = System.getProperty("task", "toNT");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
-//        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
+        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
-        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
+//        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "output/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
 //        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/");
-//        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
+        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/tbox_patterns");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
-        String output_dir = System.getProperty("output_dir", "output/");
+//        String output_dir = System.getProperty("output_dir", "output/");
         String type_file = System.getProperty("types", "output/types.txt");
         String rel_file = System.getProperty("rels", "output/properties.txt");
 //        String abox_file = System.getProperty("abox", "../../resources/treat/");
         System.out.println(task + "\t" + schema_file + "\t" + output_dir);
-        System.out.println("koncludeBinary: " + koncludeBinary);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
                 .getLocation();
 
@@ -63,6 +62,7 @@ public class Main {
                 tboxScanner.getAllClasses();
                 break;
             case "Konclude":
+                System.out.println("koncludeBinary: " + koncludeBinary);
                 Materialize materialize = new Materialize(outputFullPath + "/");
                 KoncludeUtil koncludeUtil = new KoncludeUtil(koncludeBinary, outputFullPath + "/");
                 materialize.materialize_konclude(koncludeUtil, ontologyFullPath);

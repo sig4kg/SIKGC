@@ -15,7 +15,7 @@ public class KoncludeUtil {
     public KoncludeUtil(String Konclude_bin, String output_dir) {
         this.Konclude_bin = Konclude_bin;
         this.output_dir = output_dir;
-        this.Konclude_config = Konclude_bin.substring(0, Konclude_bin.lastIndexOf("/") + 1) + "/../Configs/default-config.xml";
+        this.Konclude_config = Konclude_bin.substring(0, Konclude_bin.lastIndexOf("/") + 1) + "../Configs/default-config.xml";
     }
 
     private String getTmpName(String filePrefix) {
@@ -88,23 +88,27 @@ public class KoncludeUtil {
             System.out.println(e.getMessage());
         }
         // wait until file is saved
-        ProcessBuilder pb1 = new ProcessBuilder("ls", this.Konclude_bin);
+        System.out.println("Konclude config: " + this.Konclude_config);
+        ProcessBuilder pb1 = new ProcessBuilder(this.Konclude_bin, "realisation", "-c", this.Konclude_config, "-i", tmp_infile, "-o", tmp_outfile);
         pb1.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         Process p1 = pb1.start();
         int status1 = p1.waitFor();
-        System.out.println("Exited with status: " + status1);
-        System.out.println("Konclude config: " + this.Konclude_config);
-        ProcessBuilder pb = new ProcessBuilder(this.Konclude_bin, "realisation", "-c", this.Konclude_config, "-i", tmp_infile, "-o", tmp_outfile);
-        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-        Process p = pb.start();
-        int status = p.waitFor();
-        System.out.println("Exited with status: " + status);
+        System.out.println("Konclude realisation exited with status: " + status1);
         OWLOntology tmp_onto = null;
-        if (status == 0) {
+        if (status1 == 0) {
             // load inferenced ontology
             waitUntilFileSaved(tmp_outfile, 10);
             tmp_onto = man.loadOntologyFromOntologyDocument(new File(tmp_outfile));
         }
+        // run role queries to get relation assertions
+        //./Konclude sparqlfile -i tmp_r_7.xml -s role-instance-queries.sparql -o test.xml
+        String sparql_file = this.output_dir + "role_queries.sparql";
+        String rel_out_file = this.output_dir + "materialized_role_instance.xml";
+        ProcessBuilder pb2 = new ProcessBuilder(this.Konclude_bin, "sparqlfile", "-c", this.Konclude_config, "-i", tmp_infile, "-s", sparql_file, "-o", rel_out_file);
+        pb2.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        Process p2 = pb2.start();
+        int status2 = p2.waitFor();
+        System.out.println("Konclude sparql query exited with status: " + status2);
         return tmp_onto;
     }
 }

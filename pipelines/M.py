@@ -19,7 +19,9 @@ class M(ProducerBlock):
         wait_until_file_is_saved(self.pipeline_config.work_dir + "tbox_abox.nt", 120)
         print("running materialization...")
         new_ent2types, new_property_assertions = materialize(self.pipeline_config.work_dir,
-                                                             self.context_resource)
+                                                             self.context_resource,
+                                                             self.pipeline_config.reasoner,
+                                                             exclude_rels=self.pipeline_config.exclude_rels)
         return self.collect_result(new_ent2types, new_property_assertions)
 
     def collect_result(self, new_ent2types, new_property_assertions):

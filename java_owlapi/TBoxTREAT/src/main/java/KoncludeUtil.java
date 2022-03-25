@@ -74,8 +74,8 @@ public class KoncludeUtil {
     }
 
     public OWLOntology koncludeRelization(OWLOntology ontology, OWLOntologyManager man) throws Exception {
-        String tmp_infile = getTmpName("tmp_r_");
-        String tmp_outfile = getTmpName("tmp_r_");
+        String tmp_infile = getTmpName("tmp_rin_");
+        String tmp_outfile = getTmpName("tmp_rout_");
         //save middle onto to owlxml, this used as input of Konclude binary
         System.out.println("Saving middle ontology " + tmp_infile);
         // Now we create a stream since the ontology manager can then write to that stream.

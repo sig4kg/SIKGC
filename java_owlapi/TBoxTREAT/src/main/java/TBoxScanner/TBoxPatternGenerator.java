@@ -128,9 +128,10 @@ public class TBoxPatternGenerator {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
 //        patternConsumers.add(PatternGenInverse::new);
 //        patternConsumers.add(PatternGenSymetric::new);
-        patternConsumers.add(PatternGenSubProperty::new);
+//        patternConsumers.add(PatternGenSubProperty::new);
 //        patternConsumers.add(PatternGenReflexive::new);
 //        patternConsumers.add(PatternGenTransitive::new);
+        patternConsumers.add(PatternTypeDisjointness::new);
         return patternConsumers;
     }
 

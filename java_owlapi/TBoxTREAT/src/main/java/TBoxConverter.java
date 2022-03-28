@@ -149,6 +149,16 @@ public class TBoxConverter {
                 moreOps.add(sup.toString());
             }
         }
+
+        //get reverse properties
+        //get all parent properties
+        for (String pro_uri : toKeepProperties) {
+            OWLObjectProperty op = dataFactory.getOWLObjectProperty(pro_uri);
+            OWLObjectPropertyExpression inv = reasoner.getInverseObjectProperties(op).getRepresentativeElement();
+            if (inv.isNamed()) {
+                moreOps.add(inv.toString());
+            }
+        }
         moreOps.forEach((String uri) -> {
             if (!toKeepProperties.contains(uri) &&
                     !uri.contains("http://www.ontologydesignpatterns.org/")

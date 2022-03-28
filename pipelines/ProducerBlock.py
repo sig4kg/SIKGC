@@ -26,7 +26,7 @@ class PipelineConfig:
     exclude_rels = []
     schema_in_nt = '../resources/TEST/tbox_dllite.nt'
     dataset = ""
-    reasoner = "TrOWL"
+    reasoner = "Konclude"
 
     def set_config(self, blp_config: {}, data_config: DatasetConfig, dataset, loops, work_dir, use_gpu):
         self.blp_config = blp_config

@@ -62,3 +62,12 @@ class ContextResources:
         if schema_in_nt != "":
             os.system(f"cat {schema_in_nt} {work_dir}abox.nt > {work_dir}tbox_abox.nt")
 
+    def type_ntriples(self, work_dir, schema_in_nt=''):
+        df_types = self.type2nt()
+        # create individual declaration
+        print(f"Saving to {work_dir}type.nt")
+        df_types.to_csv(work_dir + "type.nt",  header=False, index=False, sep=' ')
+        wait_until_file_is_saved(work_dir + "type.nt", 180)
+        if schema_in_nt != "":
+            os.system(f"cat {schema_in_nt} {work_dir}type.nt > {work_dir}tbox_type.ttl")
+

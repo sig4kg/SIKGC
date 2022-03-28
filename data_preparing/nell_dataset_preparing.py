@@ -199,8 +199,27 @@ def format_NELL_entity2text(in_file, out_file):
     e_t.to_csv(out_file, header=False, index=False, sep='\t', mode='w')
 
 
+def get_class2text(class_file, out_file):
+    df = pd.read_csv(class_file, header=None, names=['class'], error_bad_lines=False, engine="python")
+    df['text'] = df['class'].apply(lambda x: x.split('/')[-1])
+    df.to_csv(out_file, header=False, index=False, sep='\t', mode='w')
+
+
+def get_entity2text(abox_file, class2text_file, out_file):
+    class2text = read_file_to_dict(class2text_file)
+    df = pd.read_csv(abox_file, header=None, names=['head', 'rel', 'tail'], sep="\t", error_bad_lines=False, engine="python")
+    all_entities = pd.merge(df[['head']].rename(columns={'head': 'entity'}),
+                            df[['tail']].rename(columns={'tail': 'entity'}), how='outer').drop_duplicates(
+        keep='first')
+    ent_text_df = all_entities[['entity']]
+    ent_text_df['text'] = ent_text_df.apply(lambda row: class2text[NELLONTO + row.entity.split('_', 1)[0]] + ", " + row.entity.split('_', 1)[-1].replace('_', ' '), axis=1)
+    ent_text_df['entity'] = ent_text_df['entity'].apply(lambda x: f"{NELLRES}{x}")
+    ent_text_df.to_csv(out_file, header=None, index=None, sep='\t', mode='w')
+
+
 if __name__ == "__main__":
-    pass
+    get_entity2text("../resources/NELL/abox_hrt.txt", "../resources/NELL-995_2/class2text.txt", "../outputs/entity2text.txt")
+
     # format_NELL("../resources/NELL/abox_hrt.txt", "../resources/NELL/abox_hrt_uri.txt")
     # format_NELL_entity2text("../resources/NELL-995_2/entity2text.txt", "../resources/NELL/entity2text.txt")
     # format_NELL_entity2type("../resources/NELL/NELLKG0.txt", "../resources/NELL-patterns/entity2type.txt")

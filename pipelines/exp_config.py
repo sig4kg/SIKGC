@@ -109,7 +109,7 @@ class BLPConfig:
             if inductive:
                 tmp_conf.update({'model': 'fasttext'})
         elif dataset == "NELL":
-            tmp_conf.update({'max_epochs': 40})
+            tmp_conf.update({'max_epochs': 100})
             if inductive:
                 tmp_conf.update({'lr': 2e-5, 'batch_size': 1024, "max_epochs": 60})
             if rel_model == 'rotate':

@@ -56,7 +56,7 @@ if __name__ == "__main__":
     parser.add_argument("--inductive", type=bool, default=False)
     parser.add_argument("--schema_in_nt", type=str, default='../outputs/test/tbox.nt')
     parser.add_argument("--parallel", type=bool, default=False)
-    parser.add_argument("--schema_aware", type=bool, default=True)
+    parser.add_argument("--schema_aware", type=bool, default=False)
     parser.add_argument("--reasoner", type=str, default='Konclude')
     args = parser.parse_args()
     if args.parallel:

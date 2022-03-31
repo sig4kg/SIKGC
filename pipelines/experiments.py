@@ -19,9 +19,9 @@ def get_block_names(name_in_short: str):
 
 
 def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="clc", use_gpu=False, loops=1, rel_model="transe",
-              inductive=False, schema_in_nt='', reasoner='', parallel=False):
+              inductive=False, schema_in_nt='', reasoner='', schema_aware=False, parallel=False):
     data_conf = DatasetConfig().get_config(dataset)
-    blp_conf = BLPConfig().get_blp_config(rel_model=rel_model, inductive=inductive, dataset=dataset)
+    blp_conf = BLPConfig().get_blp_config(rel_model=rel_model, inductive=inductive, dataset=dataset, schema_aware=schema_aware)
     p_config = PipelineConfig().set_config(blp_config=blp_conf,
                                            data_config=data_conf,
                                            dataset=dataset,
@@ -47,15 +47,16 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="clc", use_g
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
-    parser.add_argument('--dataset', type=str, default="TREAT")
+    parser.add_argument('--dataset', type=str, default="TEST")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="m")
+    parser.add_argument('--pipeline', type=str, default="l")
     parser.add_argument('--use_gpu', type=bool, default=False)
-    parser.add_argument('--loops', type=int, default=1)
-    parser.add_argument("--rel_model", type=str, default="rotate")
-    parser.add_argument("--inductive", type=bool, default=False)
+    parser.add_argument('--loops', type=int, default=2)
+    parser.add_argument("--rel_model", type=str, default="transe")
+    parser.add_argument("--inductive", type=bool, default=True)
     parser.add_argument("--schema_in_nt", type=str, default='../outputs/test/tbox.nt')
     parser.add_argument("--parallel", type=bool, default=False)
+    parser.add_argument("--schema_aware", type=bool, default=True)
     parser.add_argument("--reasoner", type=str, default='Konclude')
     args = parser.parse_args()
     if args.parallel:
@@ -69,4 +70,5 @@ if __name__ == "__main__":
               loops=args.loops,
               schema_in_nt=args.schema_in_nt,
               reasoner=args.reasoner,
+              schema_aware=args.schema_aware,
               parallel=args.parallel)

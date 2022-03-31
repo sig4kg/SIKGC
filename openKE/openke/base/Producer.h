@@ -6,7 +6,7 @@
 //#include "test.h"
 #include <iostream>
 /*=====================================================================================
-link prediction
+link prediction, modified by Sylvia Wang for SICKLE paper
 ======================================================================================*/
 
 extern "C"

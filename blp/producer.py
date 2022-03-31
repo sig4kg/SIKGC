@@ -18,6 +18,7 @@ from sklearn.metrics import accuracy_score, balanced_accuracy_score
 
 from data import CATEGORY_IDS
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
+from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset
 import models
 import utils
 import pandas as pd
@@ -40,8 +41,8 @@ def config():
     dataset = 'umls'
     inductive = False
     dim = 128
-    # model = 'transductive'
-    model = 'blp'
+    model = 'transductive'
+    # model = 'blp'
     rel_model = 'transe'
     loss_fn = 'margin'
     encoder_name = 'bert-base-cased'
@@ -58,6 +59,7 @@ def config():
     use_cached_text = False
     do_downstream_sample = False
     do_produce = True
+    schema_aware = False
 
 
 @ex.capture
@@ -484,7 +486,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     encoder_name, regularizer, max_len, num_negatives, lr,
                     use_scheduler, batch_size, emb_batch_size, eval_batch_size,
                     max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce,
-                    _run: Run, _log: Logger):
+                    _run: Run, _log: Logger,
+                    schema_aware):
     drop_stopwords = model in {'bert-bow', 'bert-dkrl',
                                'glove-bow', 'glove-dkrl'}
 
@@ -501,10 +504,17 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         num_devices = 1
         _log.info('Training on CPU')
 
+    inconsistent_triples_file = f'{work_dir}invalid_hrt.txt'
     if model == 'transductive':
-        train_data = GraphDataset(triples_file, num_negatives,
-                                  write_maps_file=True,
-                                  num_devices=num_devices)
+        # train_data = GraphDataset(triples_file, num_negatives,
+        #                           write_maps_file=True,
+        #                           num_devices=num_devices)
+        train_data = SchemaAwareGraphDataset(triples_file,
+                                             inconsistent_triples_file,
+                                             num_negatives,
+                                             write_maps_file=True,
+                                             num_devices=num_devices,
+                                             schema_aware=schema_aware)
     else:
         if model.startswith('bert') or model == 'blp':
             bert_path = "../saved_models/bert-base-cased"
@@ -517,19 +527,17 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
             tokenizer = FastTextTokenizer()
         else:
             tokenizer = GloVeTokenizer('data/glove/glove.6B.300d-maps.pt')
-
-        train_data = TextGraphDataset(triples_file, num_negatives,
-                                      max_len, tokenizer, drop_stopwords,
-                                      write_maps_file=True,
-                                      use_cached_text=use_cached_text,
-                                      num_devices=num_devices)
+        train_data = SchemaAwareTextGraphDataset(triples_file,
+                                                 inconsistent_triples_file,
+                                                 num_negatives,
+                                                 max_len, tokenizer, drop_stopwords,
+                                                 write_maps_file=True,
+                                                 use_cached_text=use_cached_text,
+                                                 num_devices=num_devices, schema_aware=schema_aware)
 
     train_loader = DataLoader(train_data, batch_size, shuffle=True,
                               collate_fn=train_data.collate_fn,
                               num_workers=0, drop_last=True)
-
-    train_eval_loader = DataLoader(train_data, eval_batch_size)
-
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
     valid_loader = DataLoader(valid_data, eval_batch_size)
 
@@ -538,8 +546,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     test_data_rt = GraphDataset(f'{work_dir}test_rt.tsv')
     test_loader_rt = DataLoader(test_data_rt, eval_batch_size)
 
-    # Build graph with all triples to compute filtered metrics
-    # if dataset != 'Wikidata5M':
     graph = nx.MultiDiGraph()
     all_triples = torch.cat((train_data.triples,
                              valid_data.triples,
@@ -559,10 +565,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     model = utils.get_model(model, dim, rel_model, loss_fn,
                             len(train_val_test_ent), train_data.num_rels,
                             encoder_name, regularizer)
-
-    # checkpoint_path = Path(checkpoint_file)
-    # if checkpoint_path.exists():
-    #     model.load_state_dict(torch.load(checkpoint_file, map_location='cpu'))
 
     if device != torch.device('cpu'):
         model = torch.nn.DataParallel(model).to(device)

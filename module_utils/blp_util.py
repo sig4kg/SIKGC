@@ -97,6 +97,7 @@ def prepare_blp(source_dir, work_dir):
     os.system(f"[ -f {source_dir}relation2text.txt ] && cp {source_dir}relation2text.txt {work_dir}relation2text.txt")
     os.system(f"[ -f {source_dir}entity2type.txt ] && cp {source_dir}entity2type.txt {work_dir}entity2type.txt")
     os.system(f"[ -f {source_dir}entity2textlong.txt ] && cp {source_dir}entity2textlong.txt {work_dir}entity2textlong.txt")
+    os.system(f"[ -f {source_dir}invalid_hrt.txt ] && cp {source_dir}invalid_hrt.txt {work_dir}invalid_hrt.txt")
 
 
 def wait_until_blp_data_ready(work_dir, inductive=False):

@@ -18,7 +18,7 @@ from abox_scanner.pattern_gen_subproperty import *
 # from abox_scanner.pattern_gen_reflexive import *
 from abox_scanner.pattern_gen_symetric import *
 from abox_scanner.pattern_gen_transitive import *
-from abox_scanner.ContextResources import ContextResources
+from abox_scanner.ContextResources import ContextResources, wait_until_file_is_saved
 import pandas as pd
 import numpy as np
 import datetime
@@ -101,7 +101,7 @@ class AboxScannerScheduler:
                 self._schema_gen_strategies.append(ps)
         return self
 
-    def scan_IJ_patterns(self, work_dir):
+    def scan_IJ_patterns(self, work_dir, save_result=True):
         """
         The Context delegates some work to the Strategy object instead of
         implementing multiple versions of the algorithm on its own.
@@ -132,21 +132,31 @@ class AboxScannerScheduler:
             total_invalid = len(df.query("is_valid == False"))
             print(f"{str(type(scanner))} identified invalid triples count: {str(total_invalid - init_invalid)}")
             init_invalid = total_invalid
-        out_path = Path(work_dir)
-        if not out_path.parent.exists():
-            out_path.parent.mkdir(exist_ok=False)
+        # split result
         invalids = df.query("is_valid == False")[['head', 'rel', 'tail']]
         if len(invalids) > 0:
             invalids = invalids.astype(int)
-        invalids.to_csv(f"{work_dir}invalid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         valids = df.query("is_valid == True")[['head', 'rel', 'tail']]
         if len(valids) > 0:
             valids = valids.astype(int)
-        valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='a')
         print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids.index))}; valids count {str(len(valids.index))}")
         print(f"consistency ratio: {str(len(valids.index) / len(df.index))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
-        print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
+        # save invalids for negative sampling, we convert hrt_int to original uri,
+        # because the blp text files use the original uri as keys.
+        if save_result:
+            out_path = Path(work_dir)
+            if not out_path.parent.exists():
+                out_path.parent.mkdir(exist_ok=False)
+            invalid_uris = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+            invalid_uris[['head', 'tail']] = invalids[['head', 'tail']].applymap(
+                lambda x: self._context_resources.id2ent[x])  # to int
+            invalid_uris['rel'] = invalids['rel'].apply(
+                lambda x: self._context_resources.id2op[x])  # to int
+            invalid_uris.to_csv(f"{work_dir}invalid_hrt.txt", header=False, index=False, sep='\t', mode='a')
+            valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='w')
+            print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
+            wait_until_file_is_saved(f"{work_dir}invalid_hrt.txt")
         return valids, invalids
 
     def scan_schema_correct_patterns(self, work_dir):

@@ -92,6 +92,7 @@ class GraphDataset(Dataset):
             entities and relations to IDs are saved to disk (for reuse with
             other datasets).
     """
+
     def __init__(self, triples_file, neg_samples=None, write_maps_file=False,
                  num_devices=1):
         directory = osp.dirname(triples_file)
@@ -114,21 +115,20 @@ class GraphDataset(Dataset):
         relations = set()
 
         # Read triples and store as ints in tensor
-        file = open(triples_file)
-        triples = []
-        for i, line in enumerate(file):
-            values = line.split()
-            # FB13 and WN11 have duplicate triples for classification,
-            # here we keep the correct triple
-            if len(values) > 3 and values[3] == '-1':
-                continue
-            head, rel, tail = line.split()[:3]
-            entities.update([head, tail])
-            relations.add(rel)
-            triples.append([ent_ids[head], ent_ids[tail], rel_ids[rel]])
+        with open(triples_file) as file:
+            triples = []
+            for i, line in enumerate(file):
+                values = line.split()
+                # FB13 and WN11 have duplicate triples for classification,
+                # here we keep the correct triple
+                if len(values) > 3 and values[3] == '-1':
+                    continue
+                head, rel, tail = line.split()[:3]
+                entities.update([head, tail])
+                relations.add(rel)
+                triples.append([ent_ids[head], ent_ids[tail], rel_ids[rel]])
 
         self.triples = torch.tensor(triples, dtype=torch.long)
-
         self.rel_categories = torch.zeros(len(rel_ids), dtype=torch.long)
         rel_categories_file = osp.join(directory, 'relations-cat.txt')
         self.has_rel_categories = False
@@ -168,6 +168,63 @@ class GraphDataset(Dataset):
         pos_pairs, rels = torch.stack(data_list).split(2, dim=1)
         neg_idx = get_negative_sampling_indices(batch_size, self.neg_samples)
         return pos_pairs, rels, neg_idx
+
+
+def read_entity_text(ent_ids, max_len, text_directory, drop_stopwords, tokenizer):
+    text_data = torch.zeros((len(ent_ids), max_len + 1),
+                            dtype=torch.long)
+    read_entities = set()
+    progress = tqdm(desc='Reading entity descriptions',
+                    total=len(ent_ids), mininterval=5)
+    for text_file in ('entity2textlong.txt', 'entity2text.txt'):
+        file_path = osp.join(text_directory, text_file)
+        if not osp.exists(file_path):
+            continue
+
+        with open(file_path) as f:
+            for line in f:
+                values = line.strip().split('\t')
+                entity = values[0]
+                text = ' '.join(values[1:])
+
+                if entity not in ent_ids:
+                    continue
+                if entity in read_entities:
+                    continue
+
+                read_entities.add(entity)
+                ent_id = ent_ids[entity]
+
+                if drop_stopwords:
+                    tokens = nltk.word_tokenize(text)
+                    text = ' '.join([t for t in tokens if
+                                     t.lower() not in DROPPED])
+
+                text_tokens = tokenizer.encode(text,
+                                               max_length=max_len,
+                                               return_tensors='pt')
+
+                text_len = text_tokens.shape[1]
+
+                # Starting slice of row contains token IDs
+                text_data[ent_id, :text_len] = text_tokens
+                # Last cell contains sequence length
+                text_data[ent_id, -1] = text_len
+
+                progress.update()
+                if len(read_entities) == len(ent_ids):
+                    break
+    progress.close()
+    if len(read_entities) != len(ent_ids):
+        raise ValueError(f'Read {len(read_entities):,} descriptions,'
+                         f' but {len(ent_ids):,} were expected.')
+
+    if text_data[:, -1].min().item() < 1:
+        raise ValueError(f'Some entries in text_data contain'
+                         f' length-0 descriptions.')
+    torch.save(text_data,
+               osp.join(text_directory, 'text_data.pt'))
+    return text_data
 
 
 class TextGraphDataset(GraphDataset):
@@ -215,60 +272,10 @@ class TextGraphDataset(GraphDataset):
         else:
             self.text_data = torch.zeros((len(ent_ids), max_len + 1),
                                          dtype=torch.long)
-            read_entities = set()
-            progress = tqdm(desc='Reading entity descriptions',
-                            total=len(ent_ids), mininterval=5)
-            for text_file in ('entity2textlong.txt', 'entity2text.txt'):
-                file_path = osp.join(self.directory, text_file)
-                if not osp.exists(file_path):
-                    continue
-
-                with open(file_path) as f:
-                    for line in f:
-                        values = line.strip().split('\t')
-                        entity = values[0]
-                        text = ' '.join(values[1:])
-
-                        if entity not in ent_ids:
-                            continue
-                        if entity in read_entities:
-                            continue
-
-                        read_entities.add(entity)
-                        ent_id = ent_ids[entity]
-
-                        if drop_stopwords:
-                            tokens = nltk.word_tokenize(text)
-                            text = ' '.join([t for t in tokens if
-                                             t.lower() not in DROPPED])
-
-                        text_tokens = tokenizer.encode(text,
-                                                       max_length=max_len,
-                                                       return_tensors='pt')
-
-                        text_len = text_tokens.shape[1]
-
-                        # Starting slice of row contains token IDs
-                        self.text_data[ent_id, :text_len] = text_tokens
-                        # Last cell contains sequence length
-                        self.text_data[ent_id, -1] = text_len
-
-                        progress.update()
-                        if len(read_entities) == len(ent_ids):
-                            break
-
-            progress.close()
-
-            if len(read_entities) != len(ent_ids):
-                raise ValueError(f'Read {len(read_entities):,} descriptions,'
-                                 f' but {len(ent_ids):,} were expected.')
-
-            if self.text_data[:, -1].min().item() < 1:
-                raise ValueError(f'Some entries in text_data contain'
-                                 f' length-0 descriptions.')
-
-            torch.save(self.text_data,
-                       osp.join(self.directory, 'text_data.pt'))
+        self.text_data = read_entity_text(ent_ids, max_len,
+                                          text_directory=self.directory,
+                                          drop_stopwords=drop_stopwords,
+                                          tokenizer=tokenizer)
 
     def get_entity_description(self, ent_ids):
         """Get entity descriptions for a tensor of entity IDs."""

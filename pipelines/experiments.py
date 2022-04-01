@@ -53,7 +53,7 @@ if __name__ == "__main__":
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=2)
     parser.add_argument("--rel_model", type=str, default="transe")
-    parser.add_argument("--inductive", type=bool, default=False)
+    parser.add_argument("--inductive", type=bool, default=True)
     parser.add_argument("--schema_in_nt", type=str, default='../outputs/test/tbox.nt')
     parser.add_argument("--parallel", type=bool, default=False)
     parser.add_argument("--schema_aware", type=bool, default=False)

@@ -153,6 +153,8 @@ class SchemaAwareGraphDataset(GraphDataset):
         super().__init__(triples_file, neg_samples, write_maps_file, num_devices)
         # Read triples and store as ints in tensor
         self.rh2tid, self.rt2hid = list_to_dict(self.triples.tolist())
+        self.i_rh2tid = {}
+        self.i_rt2hid = {}
         self.schema_aware = schema_aware
         if schema_aware:
             with open(inconsistent_triples_file) as neg_file:

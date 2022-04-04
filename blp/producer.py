@@ -15,7 +15,7 @@ from collections import defaultdict
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
-
+from module_utils.file_util import *
 from data import CATEGORY_IDS
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
 from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset
@@ -238,9 +238,9 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
             _log.info(log_str)
 
     if return_embeddings:
-        out = (mrr, ent_emb)
+        out = (mrr, hits_at_k, ent_emb)
     else:
-        out = (mrr, None)
+        out = (mrr, hits_at_k, None)
 
     return out
 
@@ -578,7 +578,9 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                     num_training_steps=total_steps)
     best_valid_mrr = 0.0
     last_valid_mrr = 0.0
+    best_hit_at_k = {}
     early_stop_sign = 0
+    checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
         for step, data in enumerate(train_loader):
@@ -599,14 +601,14 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         _run.log_scalar('train_loss', train_loss / len(train_loader), epoch)
 
         _log.info('Evaluating on validation set')
-        val_mrr, _ = eval_link_prediction(model, valid_loader, train_data,
+        val_mrr, hit_at_k, _ = eval_link_prediction(model, valid_loader, train_data,
                                           train_val_ent, epoch,
                                           emb_batch_size, prefix='valid')
 
         # Keep checkpoint of best performing model (based on raw MRR)
-        checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
         if val_mrr > best_valid_mrr:
             best_valid_mrr = val_mrr
+            best_hit_at_k = hit_at_k
             torch.save(model.state_dict(), checkpoint_file)
         if val_mrr < last_valid_mrr:
             early_stop_sign += 1
@@ -615,7 +617,13 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if early_stop_sign >= 5:
             break
         last_valid_mrr = val_mrr
-
+    #save scores to log file
+    log_str = ""
+    log_file_name = work_dir + "blp_eval.log"
+    save_to_file("-------blp eval---------\n", log_file_name, mode='a')
+    for k, value in best_hit_at_k.items():
+        log_str += f'hits@{k}: {value:.4f}\n'
+    save_to_file(log_str, log_file_name, mode='a')
     # Evaluate with best performing checkpoint
     if max_epochs > 0:
         model.load_state_dict(torch.load(checkpoint_file))

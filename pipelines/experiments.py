@@ -43,8 +43,6 @@ def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="clc", use_g
         pipeline_runner.run_pipeline(p_config, block_names)
 
 
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="TEST")

@@ -1,10 +1,8 @@
 from __future__ import annotations
 from pathlib import Path
 import pandas as pd
-import os
-import time
 from tqdm import tqdm
-
+from module_utils.file_util import *
 
 # NELL h, r, t
 def read_original_hrt_triples_to_list(in_path):
@@ -43,13 +41,13 @@ def hrt_original2int(hrt_triples, out_dir, create_id_file=False):
     if create_id_file:
         # htr_new_lines = ''.join([f"{tri[0]} {tri[2]} {tri[1]}\n" for tri in hrt_int])
         # htr_new_lines = f"{len(hrt_int)}\n" + htr_new_lines
-        # save_file(htr_new_lines, out_dir + "/train2id.txt")
+        # save_to_file(htr_new_lines, out_dir + "/train2id.txt")
         ent2id_lines = ''.join([f"{ent}\t{id}\n" for ent, id in ent2id.items()])
         ent2id_lines = f"{len(ent2id)}\n" + ent2id_lines
-        save_file(ent2id_lines, out_dir + "/entity2id.txt")
+        save_to_file(ent2id_lines, out_dir + "/entity2id.txt")
         rel2id_lines = ''.join([f"{rel}\t{id}\n" for rel, id in rel2id.items()])
         rel2id_lines = f"{len(rel2id)}\n" + rel2id_lines
-        save_file(rel2id_lines, out_dir + "/relation2id.txt")
+        save_to_file(rel2id_lines, out_dir + "/relation2id.txt")
     return ent2id, rel2id, hrt_int_df
 
 
@@ -81,33 +79,6 @@ def op2id(op_file, rel2id):
     return op2id
 
 
-def save_file(text, out_filename):
-    out_path = Path(out_filename)
-    if not out_path.parent.exists():
-        out_path.parent.mkdir(exist_ok=False)
-    with open(out_path, encoding='utf-8', mode='w') as out_f:
-        out_f.write(text)
-
-
-def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
-    time_counter = 0
-    interval = int(timeout_sec / 10) if timeout_sec > 10 else 1
-    print(f"waiting for saving {file_path} ...")
-    while not os.path.exists(file_path):
-        time.sleep(interval)
-        time_counter += interval
-        # print(f"waiting {time_counter} sec.")
-        if time_counter > timeout_sec:
-            # print(f"saving {file_path} timeout")
-            break
-    is_saved = os.path.exists(file_path)
-    if is_saved:
-        print(f"{file_path} has been saved.")
-    else:
-        print(f"saving {file_path} timeout")
-    return is_saved
-
-
 def entid2classid(ent2id, class2id, ent2type_file):
     ent2classes = dict()
     with open(ent2type_file) as f:
@@ -133,12 +104,6 @@ def entid2classid(ent2id, class2id, ent2type_file):
         else:
             entid2classids.update({ent2id[ent]: [-1]})
     return entid2classids
-
-
-def init_workdir(work_dir):
-    out_path = Path(work_dir)
-    if not out_path.exists():
-        out_path.mkdir(exist_ok=False)
 
 
 if __name__ == "__main__":

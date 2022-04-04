@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abox_scanner.ContextResources import ContextResources
-from abox_scanner.abox_utils import wait_until_file_is_saved, save_file
+from abox_scanner.abox_utils import wait_until_file_is_saved, save_to_file
 import os
 import os.path as osp
 from itertools import zip_longest
@@ -112,9 +112,9 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
                    f"PATH_OUTPUT    = {anyburl_dir}rules/alpha\n" \
                    f"SNAPSHOTS_AT = 100\n" \
                    f"WORKER_THREADS = 4\n"
-    save_file(config_apply, anyburl_dir + "config-apply.properties")
-    save_file(config_eval, anyburl_dir + "config-eval.properties")
-    save_file(config_learn, anyburl_dir + "config-learn.properties")
+    save_to_file(config_apply, anyburl_dir + "config-apply.properties")
+    save_to_file(config_eval, anyburl_dir + "config-eval.properties")
+    save_to_file(config_learn, anyburl_dir + "config-learn.properties")
 
 
 def clean_anyburl_tmp_files(anyburl_dir):

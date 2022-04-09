@@ -4,6 +4,7 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import sun.jvm.hotspot.ui.tree.FloatTreeNodeAdapter;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplPlain;
 
@@ -18,28 +19,41 @@ import java.util.function.Supplier;
 public class TBoxPatternGenerator {
     String ontology_file;
     String out_dir;
+    OWLOntology ont;
+    OWLReasonerFactory rf;
+    OWLReasoner reasoner;
+    OWLDataFactory factory;
 
     public TBoxPatternGenerator(String ontoloty_file, String output_dir) {
         this.ontology_file = ontoloty_file;
         this.out_dir = output_dir;
     }
 
-    public void getAllClasses() {
+    private void loadOnto() {
         try {
             OWLOntologyManager man = OWLManager.createOWLOntologyManager();
             InputStream is = this.readFileAsStream(ontology_file);
-            OWLOntology ont = man.loadOntologyFromOntologyDocument(is);
-//            Set<OWLAnnotationProperty> aps = ont.getAnnotationPropertiesInSignature();
+            ont = man.loadOntologyFromOntologyDocument(is);
+            rf = new JFactFactory();
+            reasoner = rf.createReasoner(ont);
+            factory = man.getOWLDataFactory();
+        } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getAllClasses() {
+        try {
+            loadOnto();
             Set<OWLAnnotationAssertionAxiom> all_axioms = ont.getAxioms(AxiomType.ANNOTATION_ASSERTION);
             File rel2text_txt = new File(out_dir + "/rel2text.txt");
             FileWriter rel2text_f = new FileWriter(rel2text_txt);
             PrintWriter rel2text_w = new PrintWriter(rel2text_f);
-            for(OWLAnnotationAssertionAxiom axi: all_axioms) {
-                if(axi.getProperty().isComment() && ((OWLLiteralImplPlain)(axi.getValue())).getLang().equals("en")) {
-//                    String subj = ((IRI)(axi.getSubject())).getShortForm();
-                    String subj = ((IRI)(axi.getSubject())).toString();
-                    String comment = ((OWLLiteralImplPlain)(axi.getValue())).getLiteral();
-                    if(comment != "none") {
+            for (OWLAnnotationAssertionAxiom axi : all_axioms) {
+                if (axi.getProperty().isComment() && ((OWLLiteralImplPlain) (axi.getValue())).getLang().equals("en")) {
+                    String subj = ((IRI) (axi.getSubject())).toString();
+                    String comment = ((OWLLiteralImplPlain) (axi.getValue())).getLiteral();
+                    if (comment != "none") {
                         rel2text_w.print(subj + "\t" + comment + "\n");
                     }
                 }
@@ -50,7 +64,6 @@ public class TBoxPatternGenerator {
             FileWriter FW_classes = new FileWriter(all_classes);
             PrintWriter pw_class = new PrintWriter(FW_classes);
             ont.classesInSignature().forEach(element -> {
-//                pw_class.print(element.getIRI().toString() + '\n');
                 pw_class.print(element.getIRI().toString() + '\n');
             });
             pw_class.close();
@@ -58,40 +71,44 @@ public class TBoxPatternGenerator {
             FileWriter fw_op = new FileWriter(all_op);
             PrintWriter pw_op = new PrintWriter(fw_op);
             ont.objectPropertiesInSignature().forEach(element -> {
-//                        pw_op.print(element.getIRI().getShortForm() + '\n');
                 pw_op.print(element.getIRI().toString() + '\n');
             });
             pw_op.close();
-        } catch (IOException | OWLOntologyCreationException | IllegalArgumentException e) {
+        } catch (IOException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void GeneratePatternsDllite() {
+        try {
+            loadOnto();
+            PatternDLLite pattern = new PatternDLLite();
+            pattern.SetOWLAPIContext(ont, reasoner, factory, out_dir);
+            pattern.generatePattern();
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
 
     public void GeneratePatterns() {
         try {
-//            long startTime = System.nanoTime();
-            OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-            InputStream is = this.readFileAsStream(ontology_file);
-            OWLOntology ont = man.loadOntologyFromOntologyDocument(is);
-            OWLReasonerFactory rf = new JFactFactory();
-            OWLReasoner reasoner = rf.createReasoner(ont);
-            OWLDataFactory factory = man.getOWLDataFactory();
+            loadOnto();
             ArrayList<Supplier<BasePattern>> patternConsumersIJPs = RegesterIJPatterns();
             ArrayList<Supplier<BasePattern>> patternConsumersSchemaCorrect = RegesterSchemaCorrectPatterns();
             ArrayList<Supplier<BasePattern>> patternGen = RegesterAxiomGeneratorPatterns();
-//            for (Supplier<BasePattern> p : patternConsumersIJPs) {
-//                System.out.println("Generating pattern: " + p.get().toString());
-//                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
-//            }
-//            for (Supplier<BasePattern> p : patternConsumersSchemaCorrect) {
-//                System.out.println("Generating pattern: " + p.get().toString());
-//                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
-//            }
+            for (Supplier<BasePattern> p : patternConsumersIJPs) {
+                System.out.println("Generating pattern: " + p.get().toString());
+                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
+            }
+            for (Supplier<BasePattern> p : patternConsumersSchemaCorrect) {
+                System.out.println("Generating pattern: " + p.get().toString());
+                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
+            }
             for (Supplier<BasePattern> p : patternGen) {
                 System.out.println("Generating pattern: " + p.get().toString());
                 p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
             }
-        } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
@@ -126,11 +143,11 @@ public class TBoxPatternGenerator {
 
     private ArrayList<Supplier<BasePattern>> RegesterAxiomGeneratorPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-//        patternConsumers.add(PatternGenInverse::new);
-//        patternConsumers.add(PatternGenSymetric::new);
-//        patternConsumers.add(PatternGenSubProperty::new);
-//        patternConsumers.add(PatternGenReflexive::new);
-//        patternConsumers.add(PatternGenTransitive::new);
+        patternConsumers.add(PatternGenInverse::new);
+        patternConsumers.add(PatternGenSymetric::new);
+        patternConsumers.add(PatternGenSubProperty::new);
+        patternConsumers.add(PatternGenReflexive::new);
+        patternConsumers.add(PatternGenTransitive::new);
         patternConsumers.add(PatternTypeDisjointness::new);
         return patternConsumers;
     }

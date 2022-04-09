@@ -7,8 +7,8 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
         String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
-        String task = System.getProperty("task", "Reduce");
-        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox.nt");
+        String task = System.getProperty("task", "TBoxScanner");
+        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox_dllite.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
@@ -18,9 +18,9 @@ public class Main {
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
 //        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");
-        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
-//        String output_dir = System.getProperty("output_dir", "output/");
+//        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
+        String output_dir = System.getProperty("output_dir", "output/");
         String type_file = System.getProperty("types", "output/types.txt");
         String rel_file = System.getProperty("rels", "output/properties.txt");
 //        String abox_file = System.getProperty("abox", "../../resources/treat/");
@@ -55,7 +55,8 @@ public class Main {
         switch (task) {
             case "TBoxScanner":
                 tboxScanner = new TBoxPatternGenerator(ontologyFullPath, outputFullPath);
-                tboxScanner.GeneratePatterns();
+//                tboxScanner.GeneratePatterns();
+                tboxScanner.GeneratePatternsDllite();
                 break;
             case "AllClass":
                 tboxScanner = new TBoxPatternGenerator(ontologyFullPath, outputFullPath);

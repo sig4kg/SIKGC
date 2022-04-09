@@ -165,7 +165,6 @@ public class DLLite {
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.DISJOINT_CLASSES));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
@@ -174,12 +173,6 @@ public class DLLite {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged2, ax);
             man.applyChange(removeAxiom);
         }
-        // remove redundants: a /sub b, b /sub c, a /sub c ---> delete a /sub c
-//        redtUtil = new SubClassOfRedundant(merged.getAxioms(AxiomType.SUBCLASS_OF));
-//        for (OWLAxiom ax: redtUtil.findRedundants()) {
-//            RemoveAxiom removeAxiom = new RemoveAxiom(merged, ax);
-//            man.applyChange(removeAxiom);
-//        }
         System.out.println("Saving new ontology " +  this.output_dir + "tbox_dllite.nt");
         File inferredOntologyFile = new File(this.output_dir + "tbox_dllite.nt");
         // Now we create a stream since the ontology manager can then write to that stream.
@@ -193,7 +186,7 @@ public class DLLite {
         }
     }
 
-    public void owl2dllite(String in_file) throws Exception {
+    public void owl2dllite_less(String in_file) throws Exception {
         System.out.println("To DL-lite: " + in_file);
         // load ontology from file
         File initialFile = new File(in_file);

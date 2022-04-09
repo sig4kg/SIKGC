@@ -17,7 +17,6 @@ def get_block_names(name_in_short: str):
         return capital_names
 
 
-
 def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="clc", use_gpu=False, loops=1, rel_model="transe",
               inductive=False, schema_in_nt='', reasoner='', schema_aware=False, parallel=False):
     data_conf = DatasetConfig().get_config(dataset)

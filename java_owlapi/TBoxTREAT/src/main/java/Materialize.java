@@ -1,193 +1,78 @@
+import ReasonerUtils.IReasonerUtil;
+import ReasonerUtils.KoncludeUtil;
+import ReasonerUtils.TrOWLUtil;
 import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
-import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
-import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.util.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import eu.trowl.owlapi3.rel.reasoner.dl.RELReasoner;
-import eu.trowl.owlapi3.rel.reasoner.dl.RELReasonerFactory;
 
 public class Materialize {
     String output_dir;
-    private KoncludeUtil koncludeUtil;
+    protected OWLOntologyManager man;
+    protected OWLDataFactory factory;
+    protected OWLOntology ont;
 
     public Materialize(String output_dir) {
-//        this.koncludeUtil = new KoncludeUtil(Konclude_bin, output_dir);
         this.output_dir = output_dir;
     }
 
-    public void checkConsistency(String in_file, String out_file) throws Exception {
-        System.out.println("Materializing: " + in_file);
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File initialFileB = new File(in_file);
-        InputStream inputStreamB = new FileInputStream(initialFileB);
-        // the stream holding the file content
-        if (inputStreamB == null) {
-            throw new IllegalArgumentException("file not found! " + in_file);
+    private void loadOnto(String ontology_file) {
+        try {
+            man = OWLManager.createOWLOntologyManager();
+            File initialFile = new File(ontology_file);
+            InputStream inputStream = new FileInputStream(initialFile);
+            // the stream holding the file content
+            if (inputStream == null) {
+                throw new IllegalArgumentException("file not found! " + ontology_file);
+            } else {
+                ont = man.loadOntologyFromOntologyDocument(inputStream);
+                factory = man.getOWLDataFactory();
+            }
+        } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {
+            e.printStackTrace();
         }
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(inputStreamB);
+    }
+
+    private void saveOnto(OWLOntology toSaveOnto) {
+        String out_file = this.output_dir + "/materialized_tbox_abox.nt";
+        try (OutputStream outputStream = new FileOutputStream(out_file)) {
+            // We use the nt format as for the input ontology.
+            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+            man.saveOntology(toSaveOnto, format, outputStream);
+            System.out.println("Output saved: " + out_file);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public void checkConsistency(String in_file) throws Exception {
+        System.out.println("check consistency: " + in_file);
+        loadOnto(in_file);
         // create Hermit reasoner
-        OWLDataFactory df = manager.getOWLDataFactory();
+        OWLDataFactory df = man.getOWLDataFactory();
         Configuration configuration = new Configuration();
         configuration.ignoreUnsupportedDatatypes = true;
         ReasonerFactory rf = new ReasonerFactory();
-        OWLReasoner reasoner = rf.createReasoner(ontology, configuration);
+        OWLReasoner reasoner = rf.createReasoner(ont, configuration);
         boolean consistencyCheck = reasoner.isConsistent();
         if (consistencyCheck) {
             System.out.println("tbox and abox are consistent.");
         } else {
             System.out.println("tbox and abox are not consistent.");
         }
-        File ontologyFile = new File(out_file);
-        // Now we create a stream since the ontology manager can then write to that stream.
-        try (OutputStream outputStream = new FileOutputStream(ontologyFile)) {
-            // We use the nt format as for the input ontology.
-            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
-            manager.saveOntology(ontology, format, outputStream);
-            System.out.println("Output saved: " + out_file);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
     }
 
-    public void materialize_trOWL(String in_file) throws Exception {
+    public void materialize(IReasonerUtil reasonUtil, String in_file) throws Exception {
         System.out.println("Materializing: " + in_file);
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File initialFileB = new File(in_file);
-        InputStream inputStreamB = new FileInputStream(initialFileB);
-        // the stream holding the file content
-        if (inputStreamB == null) {
-            throw new IllegalArgumentException("file not found! " + in_file);
-        }
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(inputStreamB);
-        // create Hermit reasoner
-        OWLDataFactory df = manager.getOWLDataFactory();
-        Configuration configuration = new Configuration();
-        configuration.ignoreUnsupportedDatatypes = true;
-        RELReasonerFactory factory = new RELReasonerFactory();
-        RELReasoner reasoner = factory.createReasoner(ontology);
-        boolean consistencyCheck = reasoner.isConsistent();
-        if (!consistencyCheck) {
-            System.out.println("Inconsistent input Ontology, Please check the OWL File");
-        }
-        System.out.println("Materialising type assertions and property assertions, may take time......");
-        reasoner.precomputeInferences(
-                InferenceType.CLASS_ASSERTIONS,
-                InferenceType.CLASS_HIERARCHY,
-                InferenceType.OBJECT_PROPERTY_ASSERTIONS,
-                InferenceType.OBJECT_PROPERTY_HIERARCHY
-        );
-        List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
-        generators.add(new InferredClassAssertionAxiomGenerator());
-        generators.add(new InferredPropertyAssertionGenerator());
-        List<InferredIndividualAxiomGenerator<? extends OWLIndividualAxiom>> individualAxioms =
-                new ArrayList<>();
-        generators.addAll(individualAxioms);
-
-        InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
-        OWLOntology inferredAxiomsOntology = manager.createOntology();
-        iog.fillOntology(df, inferredAxiomsOntology);
-        // Now we create a stream since the ontology manager can then write to that stream.
-        String out_file = this.output_dir + "/materialized_tbox_abox.nt";
-        try (OutputStream outputStream = new FileOutputStream(out_file)) {
-            // We use the nt format as for the input ontology.
-            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
-            manager.saveOntology(inferredAxiomsOntology, format, outputStream);
-            System.out.println("Output saved: " + out_file);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        System.out.println("Done with materialization");
-    }
-
-    public void materialize_hermit(String in_file) throws Exception {
-        System.out.println("Materializing: " + in_file);
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File initialFileB = new File(in_file);
-        InputStream inputStreamB = new FileInputStream(initialFileB);
-        // the stream holding the file content
-        if (inputStreamB == null) {
-            throw new IllegalArgumentException("file not found! " + in_file);
-        }
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(inputStreamB);
-        // create Hermit reasoner
-        OWLDataFactory df = manager.getOWLDataFactory();
-        Configuration configuration = new Configuration();
-        configuration.ignoreUnsupportedDatatypes = true;
-        ReasonerFactory rf = new ReasonerFactory();
-        OWLReasoner reasoner = rf.createReasoner(ontology, configuration);
-        boolean consistencyCheck = reasoner.isConsistent();
-        if (!consistencyCheck) {
-            System.out.println("Inconsistent input Ontology, Please check the OWL File");
-        }
-        System.out.println("Materialising type assertions and property assertions, may take time......");
-        reasoner.precomputeInferences(
-                InferenceType.CLASS_ASSERTIONS,
-                InferenceType.CLASS_HIERARCHY,
-                InferenceType.OBJECT_PROPERTY_ASSERTIONS,
-                InferenceType.OBJECT_PROPERTY_HIERARCHY
-        );
-        List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
-        generators.add(new InferredClassAssertionAxiomGenerator());
-        // NOTE: InferredPropertyAssertionGenerator significantly slows down
-        // inference computation
-        generators.add(new org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator());
-        List<InferredIndividualAxiomGenerator<? extends OWLIndividualAxiom>> individualAxioms =
-                new ArrayList<>();
-        generators.addAll(individualAxioms);
-        InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
-        OWLOntology inferredAxiomsOntology = manager.createOntology();
-        iog.fillOntology(df, inferredAxiomsOntology);
-        // Now we create a stream since the ontology manager can then write to that stream.
-        String out_file = this.output_dir + "/materialized_tbox_abox.nt";
-        try (OutputStream outputStream = new FileOutputStream(out_file)) {
-            // We use the nt format as for the input ontology.
-            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
-            manager.saveOntology(inferredAxiomsOntology, format, outputStream);
-            System.out.println("Output saved: " + out_file);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        System.out.println("Done with materialization");
-    }
-
-    public void materialize_konclude(KoncludeUtil koncludeUtil, String in_file) throws Exception {
-        System.out.println("Materializing: " + in_file);
-        this.koncludeUtil = koncludeUtil;
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File initialFileB = new File(in_file);
-        InputStream inputStreamB = new FileInputStream(initialFileB);
-        // the stream holding the file content
-        if (inputStreamB == null) {
-            throw new IllegalArgumentException("file not found! " + in_file);
-        }
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(inputStreamB);
-        OWLOntology realization_onto = this.koncludeUtil.koncludeRelization(ontology, manager);
-
-        // Now we create a stream since the ontology manager can then write to that stream.
-        String outfile = this.output_dir + "/materialized_tbox_abox.nt";
-        try (OutputStream outputStream = new FileOutputStream(outfile)) {
-            // We use the nt format as for the input ontology.
-            NTriplesDocumentFormat format = new NTriplesDocumentFormat();
-            manager.saveOntology(realization_onto, format, outputStream);
-            System.out.println("Output saved: " + outfile);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
+        loadOnto(in_file);
+        OWLOntology inferredAxiomsOntology = reasonUtil.realize(ont, man);
+        saveOnto(inferredAxiomsOntology);
         System.out.println("Done with materialization");
     }
 }

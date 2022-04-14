@@ -84,7 +84,9 @@ public class TBoxPatternGenerator {
             loadOnto();
             PatternDLLite pattern = new PatternDLLite();
             pattern.SetOWLAPIContext(ont, reasoner, factory, out_dir);
-            pattern.generatePattern();
+            pattern.generateOPPattern();
+            pattern.generateFuncPattern();
+            pattern.generateTypePattern();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

@@ -1,3 +1,5 @@
+import ReasonerUtils.KoncludeUtil;
+import ReasonerUtils.TrOWLUtil;
 import TBoxScanner.TBoxPatternGenerator;
 
 import java.io.File;
@@ -7,8 +9,8 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
         String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
-        String task = System.getProperty("task", "TBoxScanner");
-        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox_dllite.nt");
+        String task = System.getProperty("task", "DL-lite");
+        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
@@ -66,31 +68,32 @@ public class Main {
                 System.out.println("koncludeBinary: " + koncludeBinary);
                 Materialize materialize = new Materialize(outputFullPath + "/");
                 KoncludeUtil koncludeUtil = new KoncludeUtil(koncludeBinary, outputFullPath + "/");
-                materialize.materialize_konclude(koncludeUtil, ontologyFullPath);
+                materialize.materialize(koncludeUtil, ontologyFullPath);
                 break;
-            case "Hermit":
-                Materialize materialize2 = new Materialize(outputFullPath + "/");
-                materialize2.materialize_hermit(ontologyFullPath);
-                break;
+//            case "Hermit":
+//                Materialize materialize2 = new Materialize(outputFullPath + "/");
+//                materialize2.materialize(ontologyFullPath);
+//                break;
             case "TrOWL":
                 Materialize materialize3 = new Materialize(outputFullPath + "/");
-                materialize3.materialize_trOWL(ontologyFullPath);
+                TrOWLUtil trOWLUtil = new TrOWLUtil(outputFullPath + "/");
+                materialize3.materialize(trOWLUtil, ontologyFullPath);
                 break;
             case "toNT":
                 TBoxConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
                 break;
             case "DL-lite":
-                DLLite dlliteCvt= new DLLite(koncludeBinary, outputFullPath + "/");
-                dlliteCvt.owl2dlliteOrginal(ontologyFullPath);
-//                dlliteCvt.owl2dllite(ontologyFullPath);
+                DLLite dlliteCvt= new DLLite(outputFullPath + "/");
+                TrOWLUtil trOWLUtil2 = new TrOWLUtil(outputFullPath + "/");
+                dlliteCvt.owl2dlliteOrginal(trOWLUtil2, ontologyFullPath);
                 break;
             case "Reduce":
-                DLLite dllite= new DLLite(koncludeBinary, outputFullPath + "/");
+                DLLite dllite= new DLLite(outputFullPath + "/");
                 dllite.owl2reduce(ontologyFullPath);
                 break;
             case "Consistency":
                 Materialize materialize4 = new Materialize( outputFullPath + "/");
-                materialize4.checkConsistency(ontologyFullPath,outputFullPath + "/tbox_and_abox.nt");
+                materialize4.checkConsistency(ontologyFullPath);
                 break;
             case "SubsetTBox":
                 TBoxConverter.getTBoxSubset(ontologyFullPath, outputFullPath + "/less_tbox.nt", type_file, rel_file);

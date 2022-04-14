@@ -1,54 +1,95 @@
-import java.awt.image.Kernel;
 import java.io.*;
 import java.util.*;
-//import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+
+import ReasonerUtils.IReasonerUtil;
+import ReasonerUtils.KoncludeUtil;
+import eu.trowl.owlapi3.rel.reasoner.dl.RELReasoner;
+import eu.trowl.owlapi3.rel.reasoner.dl.RELReasonerFactory;
+import eu.trowl.owlapi3.rel.util.InferredSubClassAxiomMultiGenerator;
 import org.semanticweb.HermiT.Configuration;
-import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
-import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
-import org.semanticweb.owlapi.io.StringDocumentTarget;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.InferenceType;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
-//import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
-//import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 import org.semanticweb.owlapi.util.*;
-
-import java.util.Random;
-
-import uk.ac.manchester.cs.owl.owlapi.OWLSubClassOfAxiomImpl;
 
 
 public class DLLite {
-    private KoncludeUtil koncludeUtil;
     private String output_dir;
+    protected OWLOntologyManager man;
+    protected OWLDataFactory factory;
+    protected OWLOntology ont;
+    private OWLClass owlThing;
 
-    public DLLite(String Konclude_bin, String output_dir) {
-        this.koncludeUtil = new KoncludeUtil(Konclude_bin, output_dir);
+    public DLLite(String output_dir) {
+//        this.koncludeUtil = new KoncludeUtil(Konclude_bin, output_dir);
         this.output_dir = output_dir;
     }
 
-    public void owl2dlliteOrginal(String in_file) throws Exception {
+    private void loadOnto(String ontology_file) {
+        try {
+            man = OWLManager.createOWLOntologyManager();
+            File initialFile = new File(ontology_file);
+            InputStream inputStream = new FileInputStream(initialFile);
+            // the stream holding the file content
+            if (inputStream == null) {
+                throw new IllegalArgumentException("file not found! " + ontology_file);
+            } else {
+                ont = man.loadOntologyFromOntologyDocument(inputStream);
+                factory = man.getOWLDataFactory();
+                owlThing = factory.getOWLThing();
+            }
+        } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveOnto(OWLOntology toSaveOnto) {
+        System.out.println("Saving new ontology " + this.output_dir + "tbox_dllite.nt");
+        File inferredOntologyFile = new File(this.output_dir + "tbox_dllite.nt");
+        // Now we create a stream since the ontology manager can then write to that stream.
+        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
+            // We use the nt format as for the input ontology.
+//             NTriplesDocumentFormat format = new NTriplesDocumentFormat();
+            TurtleDocumentFormat format = new TurtleDocumentFormat();
+            man.saveOntology(toSaveOnto, format, outputStream);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private OWLClassExpression getDomain(OWLObjectProperty p) {
+        for (OWLAxiom ax : this.ont.getAxioms(p)) {
+            if (ax.getAxiomType().equals(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
+                OWLClassExpression domain = ((OWLObjectPropertyDomainAxiom) ax).getDomain();
+                return domain;
+            }
+        }
+        return this.owlThing;
+    }
+
+    private OWLClassExpression getRange(OWLObjectProperty p) {
+        for (OWLAxiom ax : this.ont.getAxioms(p)) {
+            if (ax.getAxiomType().equals(AxiomType.OBJECT_PROPERTY_RANGE)) {
+                OWLClassExpression range = ((OWLObjectPropertyRangeAxiom) ax).getRange();
+                return range;
+            }
+        }
+        return this.owlThing;
+    }
+
+    public void owl2dlliteOrginal(IReasonerUtil reasonerUtil, String in_file) throws Exception {
         System.out.println("To DL-lite: " + in_file);
         // load ontology from file
-        File initialFile = new File(in_file);
-        InputStream inputStream = new FileInputStream(initialFile);
-        // the stream holding the file content
-        if (inputStream == null) {
-            throw new IllegalArgumentException("file not found! " + in_file);
-        }
-        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = man.loadOntologyFromOntologyDocument(inputStream);
+        loadOnto(in_file);
         String base = "http://org.semanticweb.restrictionexample";
-        OWLDataFactory factory = man.getOWLDataFactory();
         // remove annotations
         List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
         toRemoveAxiom.addAll(ont.getAxioms(AxiomType.ANNOTATION_ASSERTION));
         for (OWLAxiom ax : toRemoveAxiom) {
             RemoveAxiom removeAxiom = new RemoveAxiom(ont, ax);
-            man.applyChange(removeAxiom);
+            this.man.applyChange(removeAxiom);
         }
         // a map to keep additional class IRI to class expression
         Map<String, OWLClassExpression> map = new HashMap<String, OWLClassExpression>();
@@ -59,8 +100,12 @@ public class DLLite {
                 continue;
             }
             // expression for R and R-
-            OWLClassExpression expD1 = factory.getOWLObjectSomeValuesFrom(R, factory.getOWLThing());
-            OWLClassExpression expD2 = factory.getOWLObjectSomeValuesFrom(R.getInverseProperty(), factory.getOWLThing());
+            OWLClassExpression expD1 = factory.getOWLObjectSomeValuesFrom(R, this.owlThing);
+            OWLSubClassOfAxiom rpSub1 = factory.getOWLSubClassOfAxiom(expD1, getDomain(R));
+            OWLClassExpression expD2 = factory.getOWLObjectSomeValuesFrom(R.getInverseProperty(), this.owlThing);
+            OWLSubClassOfAxiom rpSub2 = factory.getOWLSubClassOfAxiom(expD2, getRange(R));
+            man.addAxiom(ont, rpSub1);
+            man.addAxiom(ont, rpSub2);
             // additianal class for (\some R) and (\some R-)
             String nameR = R.getNamedProperty().toStringID();
             if (nameR.contains("#")) {
@@ -100,7 +145,8 @@ public class DLLite {
             map.put(negCls.getIRI().toString(), expCompl);
         }
         // Schema + Delta, then inference
-        OWLOntology infOnt1 = this.koncludeUtil.koncludeClassifier(ont, man);
+//        OWLOntology infOnt11 = this.koncludeUtil.koncludeClassifier(ont, man);
+        OWLOntology infOnt1 = reasonerUtil.classify(ont, man);
 
         // merge ont and infOnt1
         System.out.println("merging infOnt1 to ont...");
@@ -146,7 +192,8 @@ public class DLLite {
         System.out.println("Infer recovered schema + delta ...");
 
         //B1 \in B2 or B1 \in \negB2
-        OWLOntology infOnt2 = this.koncludeUtil.koncludeClassifier(merged1, man);
+//        OWLOntology infOnt2 = this.koncludeUtil.koncludeClassifier(merged1, man);
+        OWLOntology infOnt2 = reasonerUtil.classify(merged1, man);
         // Now get the inferred ontology generator to generate some inferred
         // axioms for us (into our fresh ontology). We specify the reasoner that
         // we want to use and the inferred axiom generators that we want to use.
@@ -156,16 +203,17 @@ public class DLLite {
         OWLOntologyMerger merger2 = new OWLOntologyMerger(man);
         OWLOntology merged2 = merger2.createMergedOntology(man, mergedOntologyIRI2);
 
-        // remove unwanted axioms like asymmetric etc.
+        // if for materialization we remove unwanted axioms like asymmetric etc.
+        // if for inconsistency justification, we keep these axioms.
         System.out.println("Removing additional properties ...");
         toRemoveAxiom = new ArrayList<OWLAxiom>();
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
+//        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
+//        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
+//        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.DISJOINT_CLASSES));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
 
@@ -173,20 +221,10 @@ public class DLLite {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged2, ax);
             man.applyChange(removeAxiom);
         }
-        System.out.println("Saving new ontology " +  this.output_dir + "tbox_dllite.nt");
-        File inferredOntologyFile = new File(this.output_dir + "tbox_dllite.nt");
-        // Now we create a stream since the ontology manager can then write to that stream.
-        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
-            // We use the nt format as for the input ontology.
-//             NTriplesDocumentFormat format = new NTriplesDocumentFormat();
-            TurtleDocumentFormat format = new TurtleDocumentFormat();
-            man.saveOntology(merged2, format, outputStream);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        saveOnto(merged2);
     }
 
-    public void owl2dllite_less(String in_file) throws Exception {
+    public void owl2dllite_less(IReasonerUtil reasonerUtil, String in_file) throws Exception {
         System.out.println("To DL-lite: " + in_file);
         // load ontology from file
         File initialFile = new File(in_file);
@@ -227,7 +265,7 @@ public class DLLite {
             map.put(negCls.getIRI().toString(), expCompl);
         }
         System.out.println("Infer A and neg A");
-        OWLOntology infOnt1 = this.koncludeUtil.koncludeClassifier(ont, man);
+        OWLOntology infOnt1 = reasonerUtil.classify(ont, man);
         // merge ont and infOnt1
         System.out.println("merging infOnt1 to ont...");
         OWLOntologyMerger merger = new OWLOntologyMerger(man);
@@ -318,7 +356,7 @@ public class DLLite {
 
         // inference D and neg D
         System.out.println("Infer D and neg D...");
-        OWLOntology infOnt2 = this.koncludeUtil.koncludeClassifier(merged1, man);
+        OWLOntology infOnt2 = reasonerUtil.classify(merged1, man);
         // merged1 and infOnt2
         System.out.println("merging infOnt2 to merged1...");
         OWLOntologyMerger merger2 = new OWLOntologyMerger(man);
@@ -361,7 +399,7 @@ public class DLLite {
         man.applyChanges(remover.getChanges());
         // new schema = Schema.classification ( recover D and N)
         System.out.println("Infer recovered schema + delta ...");
-        OWLOntology infOnt3 = this.koncludeUtil.koncludeClassifier(merged2, man);
+        OWLOntology infOnt3 = reasonerUtil.classify(merged2, man);
         // merge new inferred atoms
         System.out.println("Merging infOnt3 and merged2 to merged3");
         IRI mergedOntologyIRI3 = IRI.create("http://www.semanticweb.com/merged3");

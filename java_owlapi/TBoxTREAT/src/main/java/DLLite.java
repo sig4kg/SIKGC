@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.*;
 
 import ReasonerUtils.IReasonerUtil;
+import eu.trowl.owlapi3.rel.reasoner.dl.RELReasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
 import org.semanticweb.owlapi.model.*;
@@ -14,6 +15,7 @@ public class DLLite {
     protected OWLDataFactory factory;
     protected OWLOntology ont;
     private OWLClass owlThing;
+    String base = "http://treat";
 
     public DLLite(String output_dir) {
 //        this.koncludeUtil = new KoncludeUtil(Konclude_bin, output_dir);
@@ -66,11 +68,70 @@ public class DLLite {
         return this.owlThing;
     }
 
+    private void addRandRivs(Map<String, OWLClassExpression> mapCache) {
+        System.out.println("Creating D...");
+        for (OWLObjectProperty R : ont.getObjectPropertiesInSignature()) {
+            if (!R.isNamed()) {
+                continue;
+            }
+            // expression for R and R-
+            OWLClassExpression expD1 = factory.getOWLObjectSomeValuesFrom(R, this.owlThing);
+            OWLSubClassOfAxiom rpSub1 = factory.getOWLSubClassOfAxiom(expD1, getDomain(R));
+            OWLClassExpression expD2 = factory.getOWLObjectSomeValuesFrom(R.getInverseProperty(), this.owlThing);
+            OWLSubClassOfAxiom rpSub2 = factory.getOWLSubClassOfAxiom(expD2, getRange(R));
+            man.addAxiom(ont, rpSub1);
+            man.addAxiom(ont, rpSub2);
+            // additianal class for (\some R) and (\some R-)
+            String nameR = R.getNamedProperty().getIRI().toString();
+            List<String> splits = splitIRI(nameR);
+            String classNameD1 = splits.get(0) + "#some_" + splits.get(1);
+            String classNameD2 = splits.get(0) + "#some_ivs_" + splits.get(1);
+            OWLClass D1 = factory.getOWLClass(IRI.create(classNameD1));
+            OWLClass D2 = factory.getOWLClass(IRI.create(classNameD2));
+            // map D1 to (\some R) and D2 to (\some R-)
+            OWLAxiom def1 = factory.getOWLEquivalentClassesAxiom(D1, expD1);
+            OWLAxiom def2 = factory.getOWLEquivalentClassesAxiom(D2, expD2);
+            man.addAxiom(ont, def1);
+            man.addAxiom(ont, def2);
+            mapCache.put(D1.getIRI().toString(), expD1);
+            mapCache.put(D2.getIRI().toString(), expD2);
+        }
+    }
+
+    private List<String> splitIRI(String iri) {
+        String clsIRIStr = iri;
+        int splitIndex = 0;
+        if (clsIRIStr.contains("#")) {
+            splitIndex = clsIRIStr.lastIndexOf('#');
+        } else {
+            splitIndex = clsIRIStr.lastIndexOf('/');
+        }
+        String prefix = clsIRIStr.substring(0, splitIndex);
+        String name = clsIRIStr.substring(splitIndex + 1);
+        return Arrays.asList(prefix, name);
+    }
+
+    private void addNegD(Map<String, OWLClassExpression> mapCache) {
+        System.out.println("Creating neg D...");
+        for (OWLClass cls : ont.getClassesInSignature()) {
+            if (!cls.isNamed()) {
+                continue;
+            }
+            String clsIRIStr = cls.getIRI().toString();
+            List<String> splits = splitIRI(clsIRIStr);
+            String negClsName = splits.get(0) + "#neg_" + splits.get(1);
+            OWLClass negCls = factory.getOWLClass(IRI.create(negClsName));
+            OWLClassExpression expCompl = cls.getObjectComplementOf();
+            OWLAxiom negDef = factory.getOWLEquivalentClassesAxiom(negCls, expCompl);
+            man.addAxiom(ont, negDef);
+            mapCache.put(negCls.getIRI().toString(), expCompl);
+        }
+    }
+
     public void owl2dlliteOrginal(IReasonerUtil reasonerUtil, String in_file) throws Exception {
         System.out.println("To DL-lite: " + in_file);
         // load ontology from file
         loadOnto(in_file);
-        String base = "http://org.semanticweb.restrictionexample";
         // remove annotations
         List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
         toRemoveAxiom.addAll(ont.getAxioms(AxiomType.ANNOTATION_ASSERTION));
@@ -81,58 +142,9 @@ public class DLLite {
         // a map to keep additional class IRI to class expression
         Map<String, OWLClassExpression> map = new HashMap<String, OWLClassExpression>();
         // Now create restrictions to describe the class of individual object properties
-        System.out.println("Creating D...");
-//        for (OWLObjectProperty R : ont.getObjectPropertiesInSignature()) {
-//            if (!R.isNamed()) {
-//                continue;
-//            }
-            // expression for R and R-
-//            OWLClassExpression expD1 = factory.getOWLObjectSomeValuesFrom(R, this.owlThing);
-//            OWLSubClassOfAxiom rpSub1 = factory.getOWLSubClassOfAxiom(expD1, getDomain(R));
-//            OWLClassExpression expD2 = factory.getOWLObjectSomeValuesFrom(R.getInverseProperty(), this.owlThing);
-//            OWLSubClassOfAxiom rpSub2 = factory.getOWLSubClassOfAxiom(expD2, getRange(R));
-//            man.addAxiom(ont, rpSub1);
-//            man.addAxiom(ont, rpSub2);
-//            // additianal class for (\some R) and (\some R-)
-//            String nameR = R.getNamedProperty().toStringID();
-//            if (nameR.contains("#")) {
-//                nameR = nameR.substring(nameR.lastIndexOf('#') + 1, nameR.length());
-//            } else {
-//                nameR = nameR.substring(nameR.lastIndexOf('/') + 1, nameR.length());
-//            }
-//            String classNameD1 = base + "#some_" + nameR;
-//            String classNameD2 = base + "#some_ivs_" + nameR;
-//            OWLClass D1 = factory.getOWLClass(IRI.create(classNameD1));
-//            OWLClass D2 = factory.getOWLClass(IRI.create(classNameD2));
-//            // map D1 to (\some R) and D2 to (\some R-)
-//            OWLAxiom def1 = factory.getOWLEquivalentClassesAxiom(D1, expD1);
-//            OWLAxiom def2 = factory.getOWLEquivalentClassesAxiom(D2, expD2);
-//            man.addAxiom(ont, def1);
-//            man.addAxiom(ont, def2);
-//            map.put(D1.getIRI().toString(), expD1);
-//            map.put(D2.getIRI().toString(), expD2);
-//        }
-        // now create restriction to describe the named classes
-        System.out.println("Creating N...");
-//        for (OWLClass cls : ont.getClassesInSignature()) {
-//            if (!cls.isNamed()) {
-//                continue;
-//            }
-//            String clsName = cls.toStringID();
-//            if (clsName.contains("#")) {
-//                clsName = clsName.substring(clsName.lastIndexOf('#') + 1, clsName.length());
-//            } else {
-//                clsName = clsName.substring(clsName.lastIndexOf('/') + 1, clsName.length());
-//            }
-//            String negClsName = base + "#neg_" + clsName;
-//            OWLClass negCls = factory.getOWLClass(IRI.create(negClsName));
-//            OWLClassExpression expCompl = cls.getObjectComplementOf();
-//            OWLAxiom negDef = factory.getOWLEquivalentClassesAxiom(negCls, expCompl);
-//            man.addAxiom(ont, negDef);
-//            map.put(negCls.getIRI().toString(), expCompl);
-//        }
+        addRandRivs(map);
+        addNegD(map);
         // Schema + Delta, then inference
-//        OWLOntology infOnt11 = this.koncludeUtil.koncludeClassifier(ont, man);
         OWLOntology infOnt1 = reasonerUtil.classify(ont, man);
 
         // merge ont and infOnt1
@@ -196,13 +208,13 @@ public class DLLite {
         toRemoveAxiom = new ArrayList<>();
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
 //        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
-        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
+//        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
 //        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
 //        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.DISJOINT_CLASSES));
-        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
+//        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
 
         for (OWLAxiom ax : toRemoveAxiom) {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged2, ax);

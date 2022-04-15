@@ -1,10 +1,7 @@
 import ReasonerUtils.KoncludeUtil;
 import ReasonerUtils.TrOWLUtil;
 import TBoxScanner.TBoxPatternGenerator;
-
 import java.io.File;
-
-
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -16,7 +13,7 @@ public class Main {
 //        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
-//        String schema_file = System.getProperty("schema", "output/tbox_abox.nt");
+//        String schema_file = System.getProperty("schema", "output/testDL.owl");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
 //        String output_dir = System.getProperty("output_dir", "../../resources/TREAT/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/NELL/");

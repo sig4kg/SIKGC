@@ -121,7 +121,7 @@ public class DLLite {
             List<String> splits = splitIRI(clsIRIStr);
             String negClsName = splits.get(0) + "#neg_" + splits.get(1);
             OWLClass negCls = factory.getOWLClass(IRI.create(negClsName));
-            OWLClassExpression expCompl = cls.getObjectComplementOf();
+            OWLClassExpression expCompl = mapCache.getOrDefault(clsIRIStr, cls).getObjectComplementOf();
             OWLAxiom negDef = factory.getOWLEquivalentClassesAxiom(negCls, expCompl);
             man.addAxiom(ont, negDef);
             mapCache.put(negCls.getIRI().toString(), expCompl);
@@ -214,7 +214,7 @@ public class DLLite {
 //        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
 //        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.DISJOINT_CLASSES));
-//        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
+        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
 
         for (OWLAxiom ax : toRemoveAxiom) {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged2, ax);

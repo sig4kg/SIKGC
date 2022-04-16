@@ -4,7 +4,7 @@ from tqdm import tqdm
 # domain
 
 # range of r1 is disjoint with domain of r2
-# D(r1)=C1, R(r2)=C2, C1 disjoint C2, <e1 r1 x> <x r2 e2>
+# D(r1)=C1, R(r2)=C2, C1 disjoint C2, <e1 r1 x> <y r2 e1>
 class Pattern15(PatternScanner):
     def __init__(self, context_resources: ContextResources) -> None:
         self._pattern_dict = None

@@ -1,26 +1,10 @@
 from __future__ import annotations
 from pathlib import Path
 import os
-from abox_scanner.pattern12_scanner import Pattern12
-from abox_scanner.pattern13_scanner import Pattern13
-from abox_scanner.pattern15_scanner import Pattern15
-from abox_scanner.pattern1_scanner import Pattern1
-from abox_scanner.pattern2_scanner import Pattern2
-from abox_scanner.pattern5_scanner import Pattern5
-from abox_scanner.pattern8_scanner import Pattern8
-from abox_scanner.pattern9_scanner import Pattern9
-from abox_scanner.pattern10_scanner import Pattern10
-from abox_scanner.pattern11_scanner import Pattern11
-from abox_scanner.pattern_pos_domain import PatternPosDomain
-from abox_scanner.pattern_pos_range import PatternPosRange
-from abox_scanner.pattern_gen_inverse import *
-from abox_scanner.pattern_gen_subproperty import *
-# from abox_scanner.pattern_gen_reflexive import *
-from abox_scanner.pattern_gen_symetric import *
-from abox_scanner.pattern_gen_transitive import *
+from abox_scanner.PatternPosDomain import PatternPosDomain
+from abox_scanner.PatternPosRange import PatternPosRange
 from abox_scanner.ContextResources import ContextResources, wait_until_file_is_saved
 import pandas as pd
-import numpy as np
 import datetime
 
 # Author Sylvia Fangrong Wang
@@ -40,7 +24,7 @@ class AboxScannerScheduler:
         self._IJP_strategies = []
         self._schema_correct_strategies = []
         self._schema_gen_strategies = []
-        self._id2strategy = {1: Pattern1,
+        self._id2strategy = {'negDomain': Pattern_e1r1e2_e1r2e3,
                              2: Pattern2,
                              5: Pattern5,
                              8: Pattern8,

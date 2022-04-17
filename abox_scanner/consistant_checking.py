@@ -1,6 +1,4 @@
-import pandas as pd
 from pipelines.pipeline_util import *
-from abox_scanner.pattern_type_scanner import PatternTypeDiscjointness
 
 if __name__ == "__main__":
     # triples_path = "../resources/DBpedia-politics/abox_hrt_uri.txt"  # h, t, r

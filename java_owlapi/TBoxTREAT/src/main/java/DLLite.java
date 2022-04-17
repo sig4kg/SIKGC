@@ -399,14 +399,14 @@ public class DLLite {
         // remove unwanted axioms like asymmetric etc.
         System.out.println("Removing additional properties ...");
         List<OWLAxiom> toRemoveAxiom3 = new ArrayList<OWLAxiom>();
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.EQUIVALENT_OBJECT_PROPERTIES));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.REFLEXIVE_OBJECT_PROPERTY));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
 //        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES));
-        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
+//        toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         toRemoveAxiom3.addAll(merged3.getAxioms(AxiomType.EQUIVALENT_CLASSES));
         for (OWLAxiom ax : toRemoveAxiom3) {
             RemoveAxiom removeAxiom = new RemoveAxiom(merged3, ax);

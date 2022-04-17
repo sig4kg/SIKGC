@@ -54,8 +54,7 @@ public class Main {
         switch (task) {
             case "TBoxScanner":
                 tboxScanner = new TBoxPatternGenerator(ontologyFullPath, outputFullPath);
-//                tboxScanner.GeneratePatterns();
-                tboxScanner.GeneratePatternsDllite();
+                tboxScanner.GeneratePatterns();
                 break;
             case "AllClass":
                 tboxScanner = new TBoxPatternGenerator(ontologyFullPath, outputFullPath);

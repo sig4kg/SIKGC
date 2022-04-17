@@ -9,6 +9,8 @@ class PatternPosRange(PatternScanner):
         self._context_resources = context_resources
 
     def scan_pattern_df_rel(self, triples: pd.DataFrame):
+        if len(self._pattern_dict) == 0:
+            return
         df = triples
         df.update(df.query("is_valid==False")['correct'].apply(lambda x: False))
         gp = df.query("correct == True").groupby('rel', group_keys=True, as_index=False)

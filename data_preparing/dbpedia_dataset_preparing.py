@@ -325,7 +325,7 @@ def fix_dbpedia_property_constraints():
     context_resources = ContextResources(triples_path, class_and_op_file_path= class_and_op_file_path, work_dir=work_dir, create_id_file=False)
     abox_scanner_scheduler = AboxScannerScheduler.AboxScannerScheduler(tbox_patterns_path, context_resources=context_resources)
     abox_scanner_scheduler.register_pattern([1, 2, 5,8,9,10,11,12,13], ['pos_domain', 'pos_range'] ) #, 5,8,9,10,11,12,13
-    valids, invalids = abox_scanner_scheduler.scan_IJ_patterns(work_dir='../outputs/test/')
+    valids, invalids = abox_scanner_scheduler.scan_rel_IJPs(work_dir='../outputs/test/')
     context_resources.hrt_int_df = valids
     exclude_type = "http://www.w3.org/2002/07/owl#Thing"
     p2domain = {}

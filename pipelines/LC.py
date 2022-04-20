@@ -63,7 +63,7 @@ class LC(ProducerBlock):
         run_scripts.clean_blp(self.work_dir)
         to_scan_df = pd.concat([context_resource.hrt_int_df, new_hrt_df]).drop_duplicates(keep="first").reset_index(
             drop=True)
-        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=self.work_dir)
+        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_rel_IJPs(work_dir=self.work_dir)
         new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
         new_valid_count = len(new_valids.index)

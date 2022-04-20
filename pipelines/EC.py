@@ -55,7 +55,7 @@ class EC(ProducerBlock):
             keep='first').reset_index(drop=True)
         # clean
         run_scripts.clean_tranE(config.work_dir)
-        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_IJ_patterns(
+        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scann_hrt_df).scan_rel_IJPs(
             work_dir=config.work_dir)
         new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)

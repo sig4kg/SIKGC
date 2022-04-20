@@ -27,8 +27,7 @@ class AC(ProducerBlock):
         run_scripts.learn_anyburl(work_dir)
         print("predicting with anyBURL...")
         run_scripts.predict_with_anyburl(work_dir)
-        tmp_pred_hrt1 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100",
-                                                           context_resource).drop_duplicates(
+        tmp_pred_hrt1 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100").drop_duplicates(
             keep='first').reset_index(drop=True)
         clean_anyburl_tmp_files(work_dir)
         prepare_anyburl_configs(work_dir, pred_with='rt')
@@ -36,8 +35,7 @@ class AC(ProducerBlock):
         print("predicting with anyBURL...")
         run_scripts.predict_with_anyburl(work_dir)
         wait_until_file_is_saved(work_dir + "predictions/alpha-100", 60)
-        tmp_pred_hrt2 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100",
-                                                           context_resource).drop_duplicates(
+        tmp_pred_hrt2 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100").drop_duplicates(
             keep='first').reset_index(drop=True)
         run_scripts.clean_anyburl(work_dir=work_dir)
         # consistency checking for new triples
@@ -63,7 +61,7 @@ class AC(ProducerBlock):
         run_scripts.clean_anyburl(work_dir=self.pipeline_config.work_dir)
         to_scan_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df]).drop_duplicates(keep="first").reset_index(
             drop=True)
-        valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=self.work_dir)
+        valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_rel_IJPs(work_dir=self.work_dir)
         corrects = self.abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=self.work_dir)
         new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)

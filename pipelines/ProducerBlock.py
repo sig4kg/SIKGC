@@ -40,7 +40,8 @@ class PipelineConfig:
         self.exclude_rels = data_config.exclude_rels
         self.schema_in_nt = data_config.schema_in_nt
         self.use_gpu = use_gpu
-        self.inductive = blp_config['inductive']
+        if 'inductive' in blp_config:
+            self.inductive = blp_config['inductive']
         return self
 
     def __iter__(self):

@@ -53,8 +53,7 @@ def aggregate_scores():
     return add_new
 
 
-def prepare_context(pipeline_config: PipelineConfig, consistency_check=True,
-                    create_id_file=False, abox_file_hrt=""):
+def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abox_file_hrt=""):
     work_dir = pipeline_config.work_dir
     # prepare tbox patterns
     # if pipeline_config.tbox_patterns_dir == "" or not os.path.exists(pipeline_config.tbox_patterns_dir):
@@ -68,16 +67,16 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True,
     else:
         abox_file_path = pipeline_config.input_dir + "abox_hrt_uri.txt"
     context_resource = ContextResources(abox_file_path, class_and_op_file_path=work_dir,
-                                        work_dir=work_dir, create_id_file=create_id_file)
+                                        work_dir=work_dir)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(pipeline_config.tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
     if consistency_check:
-        valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_IJ_patterns(work_dir=work_dir)
+        valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir)
         abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
         # wait_until_file_is_saved(work_dir + "valid_hrt.txt")
         context_resource.hrt_int_df = valids
     else:
-        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 15])
+        abox_scanner_scheduler.register_patterns_all()
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
     return context_resource, abox_scanner_scheduler

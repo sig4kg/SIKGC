@@ -15,22 +15,31 @@ class PatternScanner(ABC):
 
 
 class ContextResources:
-    def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir, create_id_file=False):
+    def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir):
         init_workdir(work_dir)
+        self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
+        self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt')
         # h, r, t
         all_triples = read_original_hrt_triples_to_list(original_hrt_triple_file_path)
-        self.original_train_count = len(all_triples)
-        self.ent2id, self.rel2id, self.hrt_to_scan_df = hrt_original2int(all_triples,
-                                                                         f"{work_dir}train/",
-                                                                         create_id_file=create_id_file)
+        self.original_hrt_count = len(all_triples)
+        self.ent2id, self.hrt_to_scan_df = hrt_original2int(all_triples, self.op2id, self.class2id)
         self.hrt_int_df = None
-        self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.classid2class = {self.class2id[key]: key for key in self.class2id}
-        self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt', self.rel2id)
         self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
         self.id2op = {self.op2id[key]: key for key in self.op2id}
         self.type_count = reduce(lambda x,y: x + y, [len(v) for v in self.entid2classids.values()])
+
+    def type2hrt_int_df(self) -> pd.DataFrame:
+        type_hrt = []
+        for entid in self.entid2classids:
+            h = entid
+            r = 0
+            typeOfe = self.entid2classids[entid]
+            ent_type_hrt = [[h, r, t] for t in typeOfe]
+            type_hrt.extend(ent_type_hrt)
+        type_df = pd.DataFrame(data=type_hrt, columns=['head', 'rel', 'tail'])
+        return type_df
 
     def type2nt(self) -> pd.DataFrame:
         # get entity types

@@ -8,7 +8,7 @@ import pandas as pd
 import random
 
 
-def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, context_resource: ContextResources) -> pd.DataFrame:
+def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, pred_tail_only=False) -> pd.DataFrame:
     with open(pred_anyburl_file) as f:
         lines = f.readlines()
         chunks = zip_longest(*[iter(lines)] * 3, fillvalue='')
@@ -16,20 +16,16 @@ def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, context_resource: Cont
         for chunk in chunks:
             tmp_preds = []
             original_triple = chunk[0].strip().split()
-            pred_h = chunk[1][7:].strip().split('\t')
-            pred_t = chunk[2][7:].strip().split('\t')
             h = original_triple[0]
             r = original_triple[1]
             t = original_triple[2]
-            # preds and scores
-            pred_hs = zip_longest(*[iter(pred_h)] * 2, fillvalue='')
-            pred_ts = zip_longest(*[iter(pred_t)] * 2, fillvalue='')
+            pred_t = chunk[2][7:].strip().split('\t')
+            pred_ts = zip_longest(*[iter(pred_t)] * 2, fillvalue='')  # preds and scores
             tmp_preds.extend([[ph[0], r, t] for ph in pred_hs if ph[0] != ''])
-            tmp_preds.extend([[h, r, pt[0]] for pt in pred_ts if pt[0] != ''])
-
-            # tmp_preds = [[context_resource.ent2id[i[0]],
-            #               context_resource.rel2id[i[1]],
-            #               context_resource.ent2id[i[2]]] for i in tmp_preds]
+            if not pred_tail_only:
+                pred_h = chunk[1][7:].strip().split('\t')
+                pred_hs = zip_longest(*[iter(pred_h)] * 2, fillvalue='')  # preds and scores
+                tmp_preds.extend([[h, r, pt[0]] for pt in pred_ts if pt[0] != ''])
             all_preds.extend(tmp_preds)
     df = pd.DataFrame(data=all_preds, columns=['head', 'rel', 'tail'])
     df = df.drop_duplicates(keep='first')
@@ -37,24 +33,17 @@ def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, context_resource: Cont
     return df
 
 
-# h r t
-# def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
-#     df = context_resource.hrt_int_df.copy(deep=True)
-#     df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to ent
-#     df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2rel[x])  # to rel
-#     df[['head', 'rel', 'tail']].to_csv(anyburl_dir + "all_triples.txt", index=False, header=False, sep='\t')
-#     wait_until_file_is_saved(anyburl_dir + "all_triples.txt")
 def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
     df = context_resource.hrt_int_df
     df.to_csv(anyburl_dir + "all_triples.txt", index=False, header=False, sep='\t')
     wait_until_file_is_saved(anyburl_dir + "all_triples.txt")
 
 
-def split_all_triples_anyburl(context_resource, anyburl_dir, exclude_rels=[]):
+def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[]):
     # df = read_hrt_2_df(anyburl_dir + "all_triples.txt")
     df = context_resource.hrt_int_df.copy(deep=True)
     rels = df['rel'].drop_duplicates(keep='first')
-    total =len(df.index)
+    total = len(df.index)
     rate = len(rels.index) * 100 / total
     rate = rate if rate < 0.1 else 0.1
     count_dev = int(total * rate)
@@ -132,4 +121,4 @@ def wait_until_anyburl_data_ready(anyburl_dir):
 
 
 if __name__ == "__main__":
-    read_hrt_pred_anyburl_2_hrt_int_df("../outputs/treat/anyburl/predictions/alpha-100", None)
+    read_hrt_pred_anyburl_2_hrt_int_df("../outputs/treat/anyburl/predictions/alpha-100")

@@ -13,6 +13,7 @@ class M(ProducerBlock):
         self.pipeline_config = pipeline_config
         self.acc = True
 
+    # if ACC=False, it means running in parallel, we do ACC until all producers complete.
     def produce(self, acc=True):
         self.acc = acc
         self.context_resource.to_ntriples(self.pipeline_config.work_dir, schema_in_nt=self.pipeline_config.schema_in_nt)
@@ -48,7 +49,7 @@ class M(ProducerBlock):
         # merge new type assertions
         extended_df = pd.concat([self.context_resource.hrt_int_df, new_property_assertions]).drop_duplicates(
             keep='first').reset_index(drop=True)
-        # valids, _ = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(self.pipeline_config.work_dir)
+        # valids, _ = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_rel_IJPs(self.pipeline_config.work_dir)
         new_valids = pd.concat([extended_df, self.context_resource.hrt_int_df, self.context_resource.hrt_int_df]).drop_duplicates(
             keep=False).reset_index(drop=True)
         extend_count = len(extended_df.index) + self.context_resource.type_count

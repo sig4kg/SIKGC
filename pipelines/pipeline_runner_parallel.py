@@ -73,7 +73,7 @@ class PipelineRunnerParallel(PipelineRunnerBase):
         to_scan_df = pd.concat([self.context_resource.hrt_int_df, pred_hrt_df], axis=0).drop_duplicates(
             keep='first').reset_index(drop=True)
         # ACC
-        valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=self.pipeline_config.work_dir)
+        valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_rel_IJPs(work_dir=self.pipeline_config.work_dir)
         corrects = self.abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=self.pipeline_config.work_dir)
         #  get scores
         new_valids = pd.concat([valids, self.context_resource.hrt_int_df, self.context_resource.hrt_int_df]).drop_duplicates(

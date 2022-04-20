@@ -51,7 +51,7 @@ class RC(ProducerBlock):
 
         #  backup and clean last round data
         run_scripts.clean_rumis(work_dir=config.work_dir)
-        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(pred_hrt_df).scan_IJ_patterns(
+        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(pred_hrt_df).scan_rel_IJPs(
             work_dir=config.work_dir)
         new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)

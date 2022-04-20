@@ -20,11 +20,10 @@ def read_original_hrt_triples_to_list(in_path):
     return hrt_triples
 
 
-def hrt_original2int(hrt_triples, out_dir, create_id_file=False):
+def hrt_original2int(hrt_triples, op2id: dict, class2id: dict):
     ent2id = dict()
-    rel2id = dict()
-    e_id = 0
-    r_id = 0
+    e_id = len(class2id) - 1
+    r_id = len(op2id)
     hrt_int = []
     for tri in tqdm(hrt_triples, desc="Converting triples to int ids..."):
         if tri[0] not in ent2id:
@@ -33,22 +32,12 @@ def hrt_original2int(hrt_triples, out_dir, create_id_file=False):
         if tri[2] not in ent2id:
             ent2id.update({tri[2]: e_id})
             e_id += 1
-        if tri[1] not in rel2id:
-            rel2id.update({tri[1]: r_id})
-            r_id +=1
-        hrt_int.append([ent2id[tri[0]], rel2id[tri[1]], ent2id[tri[2]]])
+        if tri[1] not in op2id:
+            op2id.update({tri[1]: r_id})
+            r_id += 1
+        hrt_int.append([ent2id[tri[0]], op2id[tri[1]], ent2id[tri[2]]])
     hrt_int_df = pd.DataFrame(data=hrt_int, columns=['head', 'rel', 'tail'])
-    if create_id_file:
-        # htr_new_lines = ''.join([f"{tri[0]} {tri[2]} {tri[1]}\n" for tri in hrt_int])
-        # htr_new_lines = f"{len(hrt_int)}\n" + htr_new_lines
-        # save_to_file(htr_new_lines, out_dir + "/train2id.txt")
-        ent2id_lines = ''.join([f"{ent}\t{id}\n" for ent, id in ent2id.items()])
-        ent2id_lines = f"{len(ent2id)}\n" + ent2id_lines
-        save_to_file(ent2id_lines, out_dir + "/entity2id.txt")
-        rel2id_lines = ''.join([f"{rel}\t{id}\n" for rel, id in rel2id.items()])
-        rel2id_lines = f"{len(rel2id)}\n" + rel2id_lines
-        save_to_file(rel2id_lines, out_dir + "/relation2id.txt")
-    return ent2id, rel2id, hrt_int_df
+    return ent2id, hrt_int_df
 
 
 def class2id(class_input):
@@ -64,18 +53,16 @@ def class2id(class_input):
     return class2id
 
 
-def op2id(op_file, rel2id):
+def op2id(op_file):
     op2id = dict()
     with open(op_file) as f:
         lines = f.readlines()
-        idx = len(rel2id)
+        idx = 1
         for l in lines:
             ls = l.strip()
-            if ls in rel2id:
-                op2id.update({ls: rel2id[ls]})
-            else:
-                op2id.update({ls: idx})
-                idx += 1
+            op2id.update({ls: idx})
+            idx += 1
+    op2id.update({"http://www.w3.org/1999/02/22-rdf-syntax-ns#type": 0})
     return op2id
 
 

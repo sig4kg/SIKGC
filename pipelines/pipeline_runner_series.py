@@ -15,17 +15,13 @@ class PipelineRunnerSeries(PipelineRunnerBase):
     pipeline_config = None
 
     def create_pipeline(self):
-        letter2block = {
-            'M': pipelines.M.M,
-            'LC': pipelines.LC.LC,
-            'AC': pipelines.AC.AC,
-            'EC': pipelines.EC.EC
-        }
-        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True,
-                        create_id_file=False)
+        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True)
         producer_blocks = []
+        kwargs = {'context_resource': context_resource,
+                  'abox_scanner_scheduler':  abox_scanner_scheduler,
+                  'pipeline_config': self.pipeline_config}
         for blc in self.blocks:
-            block_obj = self.letter2block[blc](context_resource, abox_scanner_scheduler, self.pipeline_config)
+            block_obj = self.get_block(blc, **kwargs)
             producer_blocks.append(block_obj)
         return producer_blocks
 

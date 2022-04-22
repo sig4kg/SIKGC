@@ -1,12 +1,7 @@
 from __future__ import annotations
 from abox_scanner.ContextResources import ContextResources
-from abox_scanner.abox_utils import wait_until_file_is_saved, save_to_file
-import os
-import os.path as osp
-from itertools import zip_longest
 import pandas as pd
 import random
-# train, dev, tests
 
 
 def split_relation_triples(context_resource: ContextResources, exclude_rels=[], produce=True):
@@ -37,41 +32,46 @@ def split_relation_triples(context_resource: ContextResources, exclude_rels=[], 
             miss_rel = pd.concat([rels, rels_train_left, rels_train_left]).drop_duplicates(keep=False)
             filtered_tris = tmp_dev_df[tmp_dev_df['rel'].isin(list(miss_rel))]
             sample_left = pd.concat([sample_left, filtered_tris])
+        tmp_dev_df = tmp_dev_df.reset_index(drop=True)
+        sample_left = sample_left.reset_index(drop=True)
         return tmp_dev_df, sample_left
 
     df_dev, df_train = split_portion(df)
     if produce:
         if len(exclude_rels) > 0:
             df_test = df.query("not rel in @exclude_rels")
+            df_test = pd.concat([df_test, df_dev, df_dev]).drop_duplicates(keep="first")
         else:
-            df_test = df
+            df_test = pd.concat([df, df_dev, df_dev]).drop_duplicates(keep="first")
     else:
         df_test, df_train = split_portion(df_train)
+    df_train = df_train.reset_index(drop=True)
+    df_dev = df_dev.reset_index(drop=True)
+    df_test = df_test.reset_index(drop=True)
     return df_train, df_dev, df_test
 
 
 def split_type_triples(context_resource: ContextResources, exclude_ents=[], produce=True):
-    type_hrt = context_resource.type2hrt_int_df()
     ent_num = len(context_resource.entid2classids)
     dev_rate = 0.1
     count_dev = int(ent_num * dev_rate)
 
-    def split_portion(to_split_hrt: pd.DataFrame):
-        ent_df = to_split_hrt[['head']].drop_duplicates(keep='first')
+    def split_portion(to_split_dict):
+        ent_df = pd.DataFrame(data=to_split_dict.keys(), columns=['ent'])
         sample_dev_ent = ent_df.sample(count_dev)
-        sample_dev_hrt = to_split_hrt.query("head in @sample_dev_ent")
-        sample_remain = pd.concat([to_split_hrt, sample_dev_hrt, sample_dev_hrt]).drop_duplicates(keep=False)
-        return sample_dev_hrt, sample_remain
+        sample_dev_dict = {ent: context_resource.entid2classids[ent] for ent in sample_dev_ent['ent']}
+        sample_remain = {ent: context_resource.entid2classids[ent] for ent in sample_dev}
+        return sample_dev_dict, sample_remain
 
-    df_dev, df_train = split_portion(type_hrt)
+    sample_dev, sample_train = split_portion(context_resource.entid2classids)
     if produce:
         if len(exclude_ents) > 0:
-            df_test = type_hrt.query("not rel in @exclude_ents")
+            sample_test = {ent: context_resource.entid2classids[ent] for ent in exclude_ents}
         else:
-            df_test = type_hrt
+            sample_test = context_resource.entid2classids
     else:
-        df_test, df_train = split_portion(df_train)
-    return df_train, df_dev, df_test
+        sample_test, sample_train = split_portion(sample_train)
+    return sample_train, sample_dev, sample_test
 
 
 

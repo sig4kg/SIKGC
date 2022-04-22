@@ -10,11 +10,15 @@ import pipelines.EC
 
 class PipelineRunnerBase(ABC):
     letter2block = {
-        'M': pipelines.M.M,
-        'L': pipelines.LC.LC,
-        'A': pipelines.AC.AC,
-        'E': pipelines.EC.EC
+        'M': lambda kwargs: pipelines.M.M(kwargs['context_resource'], kwargs['pipeline_config']),
+        'L': lambda kwargs: pipelines.LC.LC(kwargs['context_resource'], kwargs['abox_scanner_scheduler'], kwargs['pipeline_config']),
+        'A': lambda kwargs: pipelines.AC.AC(kwargs['context_resource'], kwargs['abox_scanner_scheduler'], kwargs['pipeline_config']),
+        'E': lambda kwargs: pipelines.EC.EC(kwargs['context_resource'], kwargs['abox_scanner_scheduler'], kwargs['pipeline_config'])
     }
+
+    def get_block(self, letter: str, **kwargs):
+        func = self.letter2block[letter]
+        return func(**kwargs)
 
     @abstractmethod
     def create_pipeline(self, *args):

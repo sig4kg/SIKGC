@@ -62,6 +62,10 @@ class AboxScannerScheduler:
         self._context_resources.hrt_to_scan_df = hrt_int_df
         return self
 
+    def set_triples_to_scan_type_df(self, type_int_df) -> AboxScannerScheduler:
+        self._context_resources.hrt_to_scan_type_df = type_int_df
+        return self
+
     def register_patterns_all(self) -> AboxScannerScheduler:
         self.register_patterns([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], self._rel_IJP_strategies)
         self.register_patterns([12, 13, 14], self._type_IJP_strategies)
@@ -86,7 +90,8 @@ class AboxScannerScheduler:
         # aggregate triples by relation
         start_time = datetime.datetime.now()
         old_df = self._context_resources.hrt_int_df
-        df = self._context_resources.hrt_to_scan_df.query("rel != 0")   # rel == 0 is rdf:type
+        # df = self._context_resources.hrt_to_scan_df.query("rel != 0")   # rel == 0 is rdf:type
+        df = self._context_resources.hrt_to_scan_df
         df['is_valid'] = True
         if old_df is not None:
             df['is_new'] = False
@@ -140,7 +145,7 @@ class AboxScannerScheduler:
 
     def scan_schema_correct_patterns(self, work_dir):
         start_time = datetime.datetime.now()
-        df = self._context_resources.hrt_to_scan_df.query("rel != 0")   # rel == 0 is rdf:type
+        df = self._context_resources.hrt_to_scan_df
         df['correct'] = True
         init_correct = len(df.query("correct == False"))
         for scanner in self._schema_correct_strategies:
@@ -174,7 +179,7 @@ class AboxScannerScheduler:
     def scan_type_IJPs(self, work_dir, save_result=True):
         # aggregate triples by relation
         start_time = datetime.datetime.now()
-        df = self._context_resources.hrt_to_scan_df.query("rel == 0")   # rel == 0 is rdf:type
+        df = self._context_resources.hrt_to_scan_type_df
         old_type_hrt_df = self._context_resources.type2hrt_int_df()
         df['is_valid'] = True
         df['is_new'] = False

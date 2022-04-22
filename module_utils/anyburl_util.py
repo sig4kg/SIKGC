@@ -6,6 +6,8 @@ import os.path as osp
 from itertools import zip_longest
 import pandas as pd
 import random
+from module_utils.schema_silver_sample import *
+from module_utils.sample_util import *
 
 
 def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, pred_tail_only=False) -> pd.DataFrame:
@@ -39,49 +41,47 @@ def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
     wait_until_file_is_saved(anyburl_dir + "all_triples.txt")
 
 
-def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[]):
-    # df = read_hrt_2_df(anyburl_dir + "all_triples.txt")
-    df = context_resource.hrt_int_df.copy(deep=True)
-    rels = df['rel'].drop_duplicates(keep='first')
-    total = len(df.index)
-    rate = len(rels.index) * 100 / total
-    rate = rate if rate < 0.1 else 0.1
-    count_dev = int(total * rate)
-    count_dev = len(rels) if count_dev < len(rels) else count_dev
-    groups = df.groupby('rel')
-    dev_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
-    for g in groups:
-        r_triples_df = g[1]
-        sample_num = int(len(r_triples_df.index) * rate)
-        sample_num = 1 if sample_num < 1 else sample_num
-        random_sample_count = random.randint(1, sample_num)
-        dev_r = r_triples_df.sample(random_sample_count)
-        dev_df = pd.concat([dev_df, dev_r])
-    if len(dev_df) < count_dev:
-        diff_df = pd.concat([df, dev_df, dev_df]).drop_duplicates(keep=False)
-        dev_df = pd.concat([dev_df, diff_df.sample(count_dev - len(dev_df))])
-    sample_train = pd.concat([df, dev_df, dev_df]).drop_duplicates(keep=False)
-    rels_train = sample_train['rel'].drop_duplicates(keep='first')
-    if len(rels_train) < len(rels):
-        miss_rel = pd.concat([rels, rels_train, rels_train]).drop_duplicates(keep=False)
-        filtered_tris = dev_df[dev_df['rel'].isin(list(miss_rel))]
-        sample_train = pd.concat([sample_train, filtered_tris])
-    sample_train.to_csv(osp.join(anyburl_dir, f'train.txt'), header=False, index=False, sep='\t')
-    dev_df.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
-    if len(exclude_rels) > 0:
-        df_test = df.query("not rel in @exclude_rels")
-    else:
-        df_test = df
-    df_hr = df_test.drop_duplicates(['head', 'rel'], keep='first')
-    df_rt = df_test.drop_duplicates(['rel', 'tail'], keep='first')
+def type2hrt_int_df(type_dict) -> pd.DataFrame:
+    type_hrt = []
+    for entid in type_dict:
+        h = entid
+        r = 0
+        typeOfe = type_dict[entid]
+        ent_type_hrt = [[h, r, t] for t in typeOfe]
+        type_hrt.extend(ent_type_hrt)
+    type_df = pd.DataFrame(data=type_hrt, columns=['head', 'rel', 'tail'])
+    return type_df
+
+
+def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[], exclude_ents=[]):
+    df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(context_resource=context_resource,
+                                                                   exclude_rels=exclude_rels,
+                                                                   produce=True)
+    dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
+                                                                  exclude_ents=exclude_ents,
+                                                                  produce=True)
+    df_type_train = type2hrt_int_df(dict_type_train)
+    df_type_dev = type2hrt_int_df(dict_type_dev)
+    df_train = pd.concat([df_rel_train, df_type_train]).reset_index(drop=True)
+    df_dev = pd.concat([df_rel_dev, df_type_dev]).reset_index(drop=True)
+    df_hr = df_rel_test.drop_duplicates(['head', 'rel'], keep='first')
+    df_rt = df_rel_test.drop_duplicates(['rel', 'tail'], keep='first')
     if len(df_hr.index) > len(df_rt.index):
         df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
     else:
         df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
+
+    df_train.to_csv(osp.join(anyburl_dir, f'train.txt'), header=False, index=False, sep='\t')
+    df_dev.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
+    df_test_type = type2hrt_int_df(dict_type_test).drop_duplicates(['head'], keep='first')
     df_hr.to_csv(osp.join(anyburl_dir, f'test_hr.txt'), header=False, index=False, sep='\t')
     df_rt.to_csv(osp.join(anyburl_dir, f'test_rt.txt'), header=False, index=False, sep='\t')
+    df_test_type.to_csv(osp.join(anyburl_dir, f'test_type.txt'), header=False, index=False, sep='\t')
+    wait_until_file_is_saved(anyburl_dir+'train.txt')
+    wait_until_file_is_saved(anyburl_dir+'valid.txt')
     wait_until_file_is_saved(anyburl_dir+'test_hr.txt')
     wait_until_file_is_saved(anyburl_dir+'test_rt.txt')
+    wait_until_file_is_saved(anyburl_dir+'test_type.txt')
 
 
 def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):

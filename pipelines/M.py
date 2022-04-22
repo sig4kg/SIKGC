@@ -6,10 +6,8 @@ from pathlib import Path
 
 class M(ProducerBlock):
     def __init__(self, context_resource: ContextResources,
-                 abox_scanner_scheduler: AboxScannerScheduler,
                  pipeline_config: PipelineConfig) -> None:
         self.context_resource = context_resource
-        self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
         self.acc = True
 

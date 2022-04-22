@@ -18,15 +18,16 @@ class PipelineRunnerParallel(PipelineRunnerBase):
     pipeline_config = None
 
     def create_pipeline(self):
-        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True,
-                        create_id_file=False)
+        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True)
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
-        for blc in self.block_names:
-            # the subprocess do not share memory with parent process, it might be Ok to pass to shared context object
-            block_obj = self.letter2block[blc](self.context_resource, self.abox_scanner_scheduler, self.pipeline_config)
-            self.block2producer.update({blc: block_obj})
 
+        kwargs = {'context_resource': context_resource,
+                  'abox_scanner_scheduler':  abox_scanner_scheduler,
+                  'pipeline_config': self.pipeline_config}
+        for blc in self.block_names:
+            block_obj = self.get_block(blc, **kwargs)
+            self.block2producer.update({blc: block_obj})
 
     def run_pipeline(self, pipeline_config:PipelineConfig, block_names=[]):
         self.pipeline_config = pipeline_config

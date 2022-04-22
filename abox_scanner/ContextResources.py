@@ -24,6 +24,7 @@ class ContextResources:
         self.original_hrt_count = len(all_triples)
         self.ent2id, self.hrt_to_scan_df = hrt_original2int(all_triples, self.op2id, self.class2id)
         self.hrt_int_df = None
+        self.hrt_to_scan_type_df = None
         self.classid2class = {self.class2id[key]: key for key in self.class2id}
         self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}

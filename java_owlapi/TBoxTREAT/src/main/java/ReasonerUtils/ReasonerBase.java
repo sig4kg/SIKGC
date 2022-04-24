@@ -1,12 +1,14 @@
 package ReasonerUtils;
 
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+
 import java.io.File;
 import java.util.Random;
 
 public abstract class ReasonerBase  implements IReasonerUtil {
     protected String output_dir;
     private Random r = new Random();
-
+    public OWLReasoner reasoner = null;
     protected String getTmpName(String filePrefix) {
         int i = r.nextInt(100);
         return this.output_dir + filePrefix + i + ".xml";

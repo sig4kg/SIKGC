@@ -17,7 +17,6 @@ public class PatternDLLite extends BasePattern implements IPattern {
     public final Map<OWLClassExpression, Set<OWLClassExpression>> _D2DisjointC = new HashMap<>();
     public final Map<OWLClassExpression, Set<OWLClassExpression>> _D2DisjointER = new HashMap<OWLClassExpression, Set<OWLClassExpression>>();
     public final Map<OWLClassExpression, Set<OWLClassExpression>> _D2DisjointEInversR = new HashMap<OWLClassExpression, Set<OWLClassExpression>>();
-    public final Map<OWLClassExpression, OWLClassExpression> _D2ComplementD = new HashMap<>();
 
     public void generatePattern() {
         generateOPPattern();

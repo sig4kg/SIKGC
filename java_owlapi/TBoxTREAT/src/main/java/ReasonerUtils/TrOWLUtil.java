@@ -21,10 +21,12 @@ public class TrOWLUtil extends ReasonerBase {
     }
 
     public OWLOntology classify (OWLOntology ontology, OWLOntologyManager man) {
-        Configuration configuration = new Configuration();
-        configuration.ignoreUnsupportedDatatypes = true;
-        RELReasonerFactory rf = new RELReasonerFactory();
-        RELReasoner reasoner = rf.createReasoner(ontology);
+        if (reasoner == null) {
+            Configuration configuration = new Configuration();
+            configuration.ignoreUnsupportedDatatypes = true;
+            RELReasonerFactory rf = new RELReasonerFactory();
+            reasoner = rf.createReasoner(ontology);
+        }
         boolean consistencyCheck = reasoner.isConsistent();
         OWLDataFactory df = man.getOWLDataFactory();
         if (!consistencyCheck) {
@@ -57,10 +59,12 @@ public class TrOWLUtil extends ReasonerBase {
     public OWLOntology realize(OWLOntology ontology, OWLOntologyManager man) {
         // create Hermit reasoner
         OWLDataFactory df = man.getOWLDataFactory();
-        Configuration configuration = new Configuration();
-        configuration.ignoreUnsupportedDatatypes = true;
-        RELReasonerFactory factory = new RELReasonerFactory();
-        RELReasoner reasoner = factory.createReasoner(ontology);
+        if (reasoner == null) {
+            Configuration configuration = new Configuration();
+            configuration.ignoreUnsupportedDatatypes = true;
+            RELReasonerFactory factory = new RELReasonerFactory();
+            reasoner = factory.createReasoner(ontology);
+        }
         boolean consistencyCheck = reasoner.isConsistent();
         if (!consistencyCheck) {
             System.out.println("Inconsistent input Ontology, Please check the OWL File");

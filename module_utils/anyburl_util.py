@@ -35,12 +35,6 @@ def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, pred_tail_only=False) 
     return df
 
 
-def hrt_int_df_2_hrt_anyburl(context_resource: ContextResources, anyburl_dir):
-    df = context_resource.hrt_int_df
-    df.to_csv(anyburl_dir + "all_triples.txt", index=False, header=False, sep='\t')
-    wait_until_file_is_saved(anyburl_dir + "all_triples.txt")
-
-
 def type2hrt_int_df(type_dict) -> pd.DataFrame:
     type_hrt = []
     for entid in type_dict:
@@ -109,6 +103,7 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
 def clean_anyburl_tmp_files(anyburl_dir):
     os.system(f"[ -d {anyburl_dir}predictions ] && rm {anyburl_dir}predictions/*")
     os.system(f"[ -f {anyburl_dir}config-apply.properties ] && rm {anyburl_dir}config-apply.properties")
+
 
 def wait_until_anyburl_data_ready(anyburl_dir):
     wait_until_file_is_saved(anyburl_dir + "test_hr.txt")

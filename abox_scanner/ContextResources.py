@@ -31,6 +31,10 @@ class ContextResources:
         self.id2op = {self.op2id[key]: key for key in self.op2id}
         self.type_count = reduce(lambda x,y: x + y, [len(v) for v in self.entid2classids.values()])
 
+    def get_type_count(self):
+        self.type_count = reduce(lambda x,y: x + y, [len(v) for v in self.entid2classids.values()])
+        return self.type_count
+
     def type2hrt_int_df(self) -> pd.DataFrame:
         type_hrt = []
         for entid in self.entid2classids:

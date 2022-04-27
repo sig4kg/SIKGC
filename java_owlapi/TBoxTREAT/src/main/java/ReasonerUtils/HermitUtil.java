@@ -1,5 +1,6 @@
 package ReasonerUtils;
 
+import eu.trowl.owlapi3.rel.reasoner.dl.RELReasonerFactory;
 import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.InferenceType;
@@ -17,11 +18,16 @@ public class HermitUtil extends ReasonerBase {
         this.output_dir = output_dir;
     }
 
-    public OWLOntology classify (OWLOntology ontology, OWLOntologyManager man) {
+    public OWLReasoner getReasoner(OWLOntology ontology) {
         Configuration configuration = new Configuration();
         configuration.ignoreUnsupportedDatatypes = true;
         ReasonerFactory rf = new ReasonerFactory();
-        reasoner = rf.createReasoner(ontology, configuration);
+        OWLReasoner reasoner = rf.createReasoner(ontology, configuration);
+        return reasoner;
+    }
+
+    public OWLOntology classify (OWLOntology ontology, OWLOntologyManager man) {
+        OWLReasoner reasoner = getReasoner(ontology);
         boolean consistencyCheck = reasoner.isConsistent();
         OWLDataFactory df = man.getOWLDataFactory();
         if (!consistencyCheck) {
@@ -53,11 +59,7 @@ public class HermitUtil extends ReasonerBase {
 
     public OWLOntology realize(OWLOntology ontology, OWLOntologyManager man) {
         // create Hermit reasoner
-        OWLDataFactory df = man.getOWLDataFactory();
-        Configuration configuration = new Configuration();
-        configuration.ignoreUnsupportedDatatypes = true;
-        ReasonerFactory rf = new ReasonerFactory();
-        reasoner = rf.createReasoner(ontology, configuration);
+        OWLReasoner reasoner = getReasoner(ontology);
         boolean consistencyCheck = reasoner.isConsistent();
         if (!consistencyCheck) {
             System.out.println("Inconsistent input Ontology, Please check the OWL File");
@@ -77,6 +79,7 @@ public class HermitUtil extends ReasonerBase {
         generators.addAll(individualAxioms);
 
         InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
+        OWLDataFactory df = man.getOWLDataFactory();
         try {
             OWLOntology inferredAxiomsOntology = man.createOntology();
             iog.fillOntology(df, inferredAxiomsOntology);

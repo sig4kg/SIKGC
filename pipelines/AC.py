@@ -1,4 +1,4 @@
-from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
+from pipelines.ProducerBlock import ProducerBlock
 from module_utils.anyburl_util import *
 import pandas as pd
 from scripts import run_scripts

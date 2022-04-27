@@ -18,7 +18,7 @@ class PipelineRunnerBase(ABC):
 
     def get_block(self, letter: str, **kwargs):
         func = self.letter2block[letter]
-        return func(**kwargs)
+        return func(kwargs)
 
     @abstractmethod
     def create_pipeline(self, *args):

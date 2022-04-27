@@ -7,6 +7,7 @@ import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.InferenceType;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.*;
 
 import java.io.File;
@@ -16,17 +17,22 @@ import java.util.*;
 
 public class TrOWLUtil extends ReasonerBase {
     String output_dir;
+
     public TrOWLUtil(String output_dir) {
         this.output_dir = output_dir;
     }
 
-    public OWLOntology classify (OWLOntology ontology, OWLOntologyManager man) {
-        if (reasoner == null) {
-            Configuration configuration = new Configuration();
-            configuration.ignoreUnsupportedDatatypes = true;
-            RELReasonerFactory rf = new RELReasonerFactory();
-            reasoner = rf.createReasoner(ontology);
-        }
+    public OWLReasoner getReasoner(OWLOntology ontology) {
+        Configuration configuration = new Configuration();
+        configuration.ignoreUnsupportedDatatypes = true;
+        RELReasonerFactory rf = new RELReasonerFactory();
+        OWLReasoner reasoner = rf.createReasoner(ontology);
+        return reasoner;
+    }
+
+    public OWLOntology classify(OWLOntology ontology, OWLOntologyManager man) {
+        OWLReasoner reasoner = getReasoner(ontology);
+
         boolean consistencyCheck = reasoner.isConsistent();
         OWLDataFactory df = man.getOWLDataFactory();
         if (!consistencyCheck) {
@@ -57,14 +63,10 @@ public class TrOWLUtil extends ReasonerBase {
     }
 
     public OWLOntology realize(OWLOntology ontology, OWLOntologyManager man) {
-        // create Hermit reasoner
+        // create reasoner
+        OWLReasoner reasoner = getReasoner(ontology);
         OWLDataFactory df = man.getOWLDataFactory();
-        if (reasoner == null) {
-            Configuration configuration = new Configuration();
-            configuration.ignoreUnsupportedDatatypes = true;
-            RELReasonerFactory factory = new RELReasonerFactory();
-            reasoner = factory.createReasoner(ontology);
-        }
+
         boolean consistencyCheck = reasoner.isConsistent();
         if (!consistencyCheck) {
             System.out.println("Inconsistent input Ontology, Please check the OWL File");

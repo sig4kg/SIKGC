@@ -141,16 +141,33 @@ public class DLLite {
             List<String> splits1 = splitIRI(nr1);
             String some_r1 = splits1.get(0) + "#some_" + splits1.get(1);
             String some_ivs_r1 = splits1.get(0) + "#some_ivs_" + splits1.get(1);
+            String neg_some_r1 = splits1.get(0) + "#neg_some_" + splits1.get(1);
+            String neg_some_ivs_r1 = splits1.get(0) + "#neg_some_ivs_" + splits1.get(1);
             String nr2 = r2.getNamedProperty().getIRI().toString();
             List<String> splits2 = splitIRI(nr2);
             String some_r2 = splits2.get(0) + "#some_" + splits2.get(1);
             String some_ivs_r2 = splits2.get(0) + "#some_ivs_" + splits2.get(1);
+            String neg_some_r2 = splits2.get(0) + "#neg_some_" + splits2.get(1);
+            String neg_some_ivs_r2 = splits2.get(0) + "#neg_some_ivs_" + splits2.get(1);
             OWLAxiom ax1 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_r2), dataFactory.getOWLClass(some_ivs_r1));
             OWLAxiom ax2 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_ivs_r2), dataFactory.getOWLClass(some_r1));
+            OWLAxiom ax3 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_r1), dataFactory.getOWLClass(some_ivs_r2));
+            OWLAxiom ax4 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_ivs_r1), dataFactory.getOWLClass(some_r2));
+            OWLAxiom ax5 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_ivs_r1), dataFactory.getOWLClass(neg_some_r2));
+            OWLAxiom ax6 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_r1), dataFactory.getOWLClass(neg_some_ivs_r2));
+            OWLAxiom ax7 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_ivs_r2), dataFactory.getOWLClass(neg_some_r1));
+            OWLAxiom ax8 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_r2), dataFactory.getOWLClass(neg_some_ivs_r1));
             man.addAxiom(ontology, ax1);
             man.addAxiom(ontology, ax2);
-            axIvs.asSubObjectPropertyOfAxioms().forEach((ax) -> {
-                man.addAxiom(ontology, ax);});
+            man.addAxiom(ontology, ax3);
+            man.addAxiom(ontology, ax4);
+            man.addAxiom(ontology, ax5);
+            man.addAxiom(ontology, ax6);
+            man.addAxiom(ontology, ax7);
+            man.addAxiom(ontology, ax8);
+//            for (OWLSubObjectPropertyOfAxiom ax : axIvs.asSubObjectPropertyOfAxioms()) {
+//                man.addAxiom(ontology, ax);
+//            }
         }
     }
 
@@ -172,8 +189,8 @@ public class DLLite {
         // Now create restrictions to describe the class of individual object properties
         addRandRivs(ont, mapCache);
         addNegD(ont, mapCache);
-        flattenSymetricP(ont);
-        flattenInversof(ont);
+//        flattenSymetricP(ont);
+//        flattenInversof(ont);
         // Schema + Delta, then inference
         OWLOntology infOnt1 = reasonerUtil.classify(ont, man);
         return infOnt1;

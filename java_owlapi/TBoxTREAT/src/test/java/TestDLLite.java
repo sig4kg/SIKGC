@@ -57,7 +57,7 @@ public class TestDLLite {
     }
 
     @Test
-    public void testInverseOf() throws OWLOntologyCreationException {
+    public void testInverseOfDomainRange() throws OWLOntologyCreationException {
         ontology = manager.createOntology(ontologyIRI);
         OWLClass clsB = factory.getOWLClass(IRI.create(ontologyIRI + "#Person"));
         OWLClass clsC = factory.getOWLClass(IRI.create(ontologyIRI + "#Work"));
@@ -71,9 +71,9 @@ public class TestDLLite {
         AddAxiom addAxiom2 = new AddAxiom(ontology, axiom2);
         manager.applyChange(addAxiom2);
         // inverseof
-        OWLObjectProperty hasMother = factory.getOWLObjectProperty(":hasMother", pm);
+        OWLObjectProperty hasParent = factory.getOWLObjectProperty(":hasParent", pm);
         OWLObjectProperty hasChild = factory.getOWLObjectProperty(":hasChild", pm);
-        OWLAxiom axiom3 = factory.getOWLInverseObjectPropertiesAxiom(hasChild, hasMother);
+        OWLAxiom axiom3 = factory.getOWLInverseObjectPropertiesAxiom(hasChild, hasParent);
         AddAxiom addAxiom3 = new AddAxiom(ontology, axiom3);
         manager.applyChange(addAxiom3);
         // domain and range
@@ -84,8 +84,8 @@ public class TestDLLite {
         AddAxiom addAxiom6 = new AddAxiom(ontology, axiom6);
         manager.applyChange(addAxiom5);
         manager.applyChange(addAxiom6);
-        OWLAxiom axiom7 = factory.getOWLObjectPropertyRangeAxiom(hasMother, clsB);
-        OWLAxiom axiom8 = factory.getOWLObjectPropertyDomainAxiom(hasMother, clsA);
+        OWLAxiom axiom7 = factory.getOWLObjectPropertyRangeAxiom(hasParent, clsB);
+        OWLAxiom axiom8 = factory.getOWLObjectPropertyDomainAxiom(hasParent, clsB);
         AddAxiom addAxiom7 = new AddAxiom(ontology, axiom7);
         AddAxiom addAxiom8 = new AddAxiom(ontology, axiom8);
         manager.applyChange(addAxiom7);
@@ -93,10 +93,33 @@ public class TestDLLite {
 
         Map<String, OWLObject> map = new HashMap<>();
 //        OWLOntology infOnt1 = dlliteCvt.inferAdditionalClass(trOWLUtil2, ontology, map);
-        OWLOntology infOnt2 = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
+        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
         PatternDLLite pattern = new PatternDLLite();
-        pattern.SetOWLAPIContext(infOnt2, trOWLUtil2.reasoner, factory, "./");
+        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "./");
         pattern.generateOPPattern();
+    }
+
+    @Test
+    public void testInverseOf() throws OWLOntologyCreationException {
+        ontology = manager.createOntology(ontologyIRI);
+        // inverseof
+        OWLObjectProperty hasMother = factory.getOWLObjectProperty(":hasParent", pm);
+        OWLObjectProperty hasChild = factory.getOWLObjectProperty(":hasChild", pm);
+        OWLAxiom axiom3 = factory.getOWLInverseObjectPropertiesAxiom(hasChild, hasMother);
+//        OWLAxiom axiom4 = factory.getOWLSubObjectPropertyOfAxiom(hasChild, factory.getOWLObjectInverseOf(hasMother));
+//        OWLAxiom axiom5 = factory.getOWLSubObjectPropertyOfAxiom(hasMother, factory.getOWLObjectInverseOf(hasChild));
+//        AddAxiom addAxiom3 = new AddAxiom(ontology, axiom3);
+//        AddAxiom addAxiom4 = new AddAxiom(ontology, axiom4);
+//        manager.applyChange(addAxiom3);
+//        manager.applyChange(addAxiom4);
+        for (OWLSubObjectPropertyOfAxiom ax : ((OWLInverseObjectPropertiesAxiom) axiom3).asSubObjectPropertyOfAxioms()) {
+            AddAxiom addAx = new AddAxiom(ontology, ax);
+            manager.applyChange(addAx);
+            break;
+        }
+        Map<String, OWLObject> map = new HashMap<>();
+        OWLOntology infOnt1 = dlliteCvt.inferAdditionalClass(trOWLUtil2, ontology, map);
+//        OWLOntology infOnt2 = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
     }
 
     @Test
@@ -144,7 +167,16 @@ public class TestDLLite {
         ontology = dlliteCvt.loadOnto("../../resources/NELL.ontology.ttl");
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
         PatternDLLite pattern = new PatternDLLite();
-        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.reasoner, factory, "output/");
+        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
+        pattern.generateOPPattern();
+    }
+
+    @Test
+    public void testDBpedia() throws Exception {
+        ontology = dlliteCvt.loadOnto("../../resources/DBpedia-politics/tbox.nt");
+        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
+        PatternDLLite pattern = new PatternDLLite();
+        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
         pattern.generateOPPattern();
     }
 }

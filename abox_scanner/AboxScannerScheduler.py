@@ -24,7 +24,6 @@ from abox_scanner.Pattern_e2r1e1_e3r2e1 import Pattern_e2r1e1_e3r2e1
 
 
 # Author Sylvia Fangrong Wang
-
 class AboxScannerScheduler:
     """
     The Context defines the interface of interest to clients.

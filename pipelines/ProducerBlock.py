@@ -74,6 +74,7 @@ class ProducerBlock(ABC):
                 new_ent2types.update({ent: list(old_types | new_types)})
         new_valid_count = len(valids.index)
         new_correct_count = len(corrects.index)
+        self.context_resource.type_count = self.context_resource.get_type_count()
         return new_count, new_valid_count, new_correct_count
 
     def _acc_and_collect_result(self, pred_hrt_df, pred_type_df):

@@ -25,3 +25,9 @@ invalid_hrt.txt: triples that consistent with schema.
 Triples: h, r and t, seperated by tab
 Ontology: ontology in OWL, n-triples or ttl format, containing disjoint class, domain/range 
 The L-method need literals, please refer to resources/TREAT for data formats.
+
+4. For custom datasets:
+You need to generate TBox inconsistency justification pattern before you run the pipeline:
+```
+scripts/tbox_Scanner.sh  schema_file work_dir
+```

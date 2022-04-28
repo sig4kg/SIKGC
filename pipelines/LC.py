@@ -5,6 +5,7 @@ from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from blp.producer import ex
 import os
+from module_utils.common_util import timethis
 
 
 class LC(ProducerBlock):
@@ -17,6 +18,7 @@ class LC(ProducerBlock):
         self.work_dir = self.pipeline_config.work_dir
         self.acc = True
 
+    @timethis
     def produce(self, acc=True):
         self.acc = acc
         work_dir = self.work_dir + "L/"

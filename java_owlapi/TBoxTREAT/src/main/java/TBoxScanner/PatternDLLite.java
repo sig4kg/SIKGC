@@ -315,7 +315,7 @@ public class PatternDLLite extends BasePattern implements IPattern {
             if (_D2DisjointEInversR.containsKey(cls)) {
                 Set<OWLClassExpression> disjointERInvs = _D2DisjointEInversR.get(cls);
                 for (OWLClassExpression D_ERInvs : disjointERInvs) {
-                    String D_R_str = ((OWLObjectSomeValuesFromImpl) D_ERInvs).getProperty().toString();
+                    String D_R_str = ((OWLObjectSomeValuesFromImpl) D_ERInvs).getProperty().getNamedProperty().toString();
                     add2map(cls_str, D_R_str, C2ERInvs);
                 }
             }

@@ -38,6 +38,6 @@ class PatternNegDomain(PatternScanner):
             for l in lines:
                 items = l.strip().split('\t')
                 op = self._context_resources.op2id[items[0][1:-1]]
-                disjoint = [self._context_resources.class2id[ii[1:-1]] for ii in items[1][:-1].split('@@') if ii not in ['owl:Nothing']]
+                disjoint = [self._context_resources.class2id[ii[1:-1]] for ii in items[1].split('@@') if ii not in ['owl:Nothing']]
                 pattern_dict.update({op: disjoint})
             self._pattern_dict = pattern_dict

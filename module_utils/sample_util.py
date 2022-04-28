@@ -60,7 +60,7 @@ def split_type_triples(context_resource: ContextResources, exclude_ents=[], prod
         ent_df = pd.DataFrame(data=to_split_dict.keys(), columns=['ent'])
         sample_dev_ent = ent_df.sample(count_dev)
         sample_dev_dict = {ent: context_resource.entid2classids[ent] for ent in sample_dev_ent['ent']}
-        sample_remain = {ent: context_resource.entid2classids[ent] for ent in sample_dev}
+        sample_remain = {ent: context_resource.entid2classids[ent] for ent in to_split_dict if ent not in sample_dev_ent}
         return sample_dev_dict, sample_remain
 
     sample_dev, sample_train = split_portion(context_resource.entid2classids)

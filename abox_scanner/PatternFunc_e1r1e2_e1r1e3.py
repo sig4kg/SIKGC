@@ -14,7 +14,7 @@ class PatternFunc_e1r1e2_e1r1e3(PatternScanner):
             return
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern 12"):
+        for g in tqdm(gp, desc="scanning pattern Func_e1r1e2_e1r1e3"):
             r = g[0]
             if r in self._pattern_set:
                 r_triples_df = g[1]

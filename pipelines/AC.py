@@ -1,9 +1,10 @@
+from pipelines.PipelineConfig import PipelineConfig
 from pipelines.ProducerBlock import ProducerBlock
 from module_utils.anyburl_util import *
 import pandas as pd
 from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
-
+from module_utils.common_util import timethis
 
 class AC(ProducerBlock):
     def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
@@ -13,6 +14,7 @@ class AC(ProducerBlock):
         self.acc = True
         self.pred_type = True
 
+    @timethis
     def produce(self, acc=True, pred_type=True):
         self.acc = acc
         self.pred_type = pred_type

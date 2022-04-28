@@ -2,7 +2,7 @@ from __future__ import annotations
 from pathlib import Path
 import os
 
-from abox_scanner.PatternAsymmetric import PatternAsymetric
+from abox_scanner.PatternAsymmetric import PatternAsymmetric
 from abox_scanner.PatternFunc_e1r1e2_e1r1e3 import PatternFunc_e1r1e2_e1r1e3
 from abox_scanner.PatternFunc_e1r1e2_e1r2e3_and_e1r2e2_e1r2e3 import PatternFunc_e1r1e2_e1r2e3_and_e1r2e2_e1r2e3
 from abox_scanner.PatternFunc_e1r1e2_e3r2e1_and_e2r2e1_e3r2e1 import PatternFunc_e1r1e2_e3r2e1_and_e2r2e1_e3r2e1
@@ -49,7 +49,7 @@ class AboxScannerScheduler:
                              8: PatternFunc_e1r1e2_e1r2e3_and_e1r2e2_e1r2e3,
                              9: PatternFunc_e1r1e2_e3r2e1_and_e2r2e1_e3r2e1,
                              10: PatternIrreflexive,
-                             11: PatternAsymetric,
+                             11: PatternAsymmetric,
                              12: PatternTypeDisjointC,
                              13: PatternTypeDisjointER,
                              14: PatternTypeDisjointERInvs,
@@ -74,7 +74,8 @@ class AboxScannerScheduler:
     def register_patterns(self, ids: [], stratege_l: []):
         files = os.listdir(self._tbox_pattern_dir)
         for id in ids:
-            pattern_file = f"{id}.txt"
+            name = self._id2strategy[id].__name__
+            pattern_file = f"{name}.txt"
             if pattern_file not in files:
                 print(f"the pattern file for patter id={id} does not exist in {self._tbox_pattern_dir}")
                 continue
@@ -202,7 +203,7 @@ class AboxScannerScheduler:
         if len(valids) > 0:
             valids = valids.astype(int)
         print(
-            f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids.index))}; valids count {str(len(valids.index))}")
+            f"total count: {len(df.index)}; invalids count: {str(len(invalids.index))}; valids count {str(len(valids.index))}")
         print(f"consistency ratio: {str(len(valids.index) / len(df.index))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         # save invalids for negative sampling, we convert hrt_int to original uri,
@@ -212,8 +213,10 @@ class AboxScannerScheduler:
             if not out_path.parent.exists():
                 out_path.parent.mkdir(exist_ok=False)
             invalid_uris = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
-            invalid_uris[['head', 'tail']] = invalids[['head', 'tail']].applymap(
+            invalid_uris[['head']] = invalids[['head']].applymap(
                 lambda x: self._context_resources.id2ent[x])  # to int
+            invalid_uris[['tail']] = invalids[['tail']].applymap(
+                lambda x: self._context_resources.classid2class[x])  # to int
             invalid_uris['rel'] = invalids['rel'].apply(
                 lambda x: self._context_resources.id2op[x])  # to int
             invalid_uris.to_csv(f"{work_dir}invalid_type_hrt.txt", header=False, index=False, sep='\t', mode='a')

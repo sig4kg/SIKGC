@@ -14,7 +14,7 @@ class PatternTypeDisjointC():
             return
         df = type_triples
         gp = df.query("is_valid == True").groupby('head', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern domain disjointness"):
+        for g in tqdm(gp, desc="scanning pattern Type disjointness"):
             e = g[0]
             e_types_df = g[1]
             existing_types = self._context_resources.entid2classids[e]

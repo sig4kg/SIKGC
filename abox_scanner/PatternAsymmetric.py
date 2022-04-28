@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 
 # asymmetric
-class PatternAsymetric(PatternScanner):
+class PatternAsymmetric(PatternScanner):
     def __init__(self, context_resources: ContextResources) -> None:
         self._pattern_set = None
         self._context_resources = context_resources
@@ -14,7 +14,7 @@ class PatternAsymetric(PatternScanner):
             return
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern 5"):
+        for g in tqdm(gp, desc="scanning pattern Asymmetric"):
             r = g[0]
             if r in self._pattern_set:
                 r_triples_df = g[1]

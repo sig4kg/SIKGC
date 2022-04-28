@@ -15,7 +15,7 @@ class Pattern_e2r1e1_e3r2e1(PatternScanner):
             return
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern 10"):
+        for g in tqdm(gp, desc="scanning pattern e2r1e1_e3r2e1"):
             r1 = g[0]
             if r1 in self._pattern_dict:
                 disjoint_r2_l = self._pattern_dict[r1]

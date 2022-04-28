@@ -24,7 +24,7 @@ class PatternIrreflexive(PatternScanner):
         # triples.update(triples.query("is_valid == True").groupby('rel').apply(lambda x: scan_pattern_single_rel(x)))
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern 8"):
+        for g in tqdm(gp, desc="scanning pattern Irreflexive"):
             r = g[0]
             if r in self._pattern_set:
                 r_triples_df = g[1]

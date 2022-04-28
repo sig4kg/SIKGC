@@ -63,7 +63,6 @@ class ProducerBlock(ABC):
             scan_type_IJPs(work_dir=self.work_dir)
         corrects = valids
         groups = valids.groupby('head')
-        new_ent2types = dict()
         old_ent2types = self.context_resource.entid2classids
         for g in groups:
             ent = g[0]
@@ -71,7 +70,7 @@ class ProducerBlock(ABC):
             if ent in old_ent2types:
                 old_types = set(old_ent2types[ent])
                 new_types = set(types)
-                new_ent2types.update({ent: list(old_types | new_types)})
+                old_ent2types.update({ent: list(old_types | new_types)})
         new_valid_count = len(valids.index)
         new_correct_count = len(corrects.index)
         self.context_resource.type_count = self.context_resource.get_type_count()

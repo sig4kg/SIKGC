@@ -4,9 +4,6 @@ from abox_scanner.abox_utils import wait_until_file_is_saved, save_to_file
 import os
 import os.path as osp
 from itertools import zip_longest
-import pandas as pd
-import random
-from module_utils.schema_silver_sample import *
 from module_utils.sample_util import *
 
 
@@ -23,11 +20,11 @@ def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, pred_tail_only=False) 
             t = original_triple[2]
             pred_t = chunk[2][7:].strip().split('\t')
             pred_ts = zip_longest(*[iter(pred_t)] * 2, fillvalue='')  # preds and scores
-            tmp_preds.extend([[ph[0], r, t] for ph in pred_hs if ph[0] != ''])
+            tmp_preds.extend([[h, r, pt[0]] for pt in pred_ts if pt[0] != ''])
             if not pred_tail_only:
                 pred_h = chunk[1][7:].strip().split('\t')
                 pred_hs = zip_longest(*[iter(pred_h)] * 2, fillvalue='')  # preds and scores
-                tmp_preds.extend([[h, r, pt[0]] for pt in pred_ts if pt[0] != ''])
+                tmp_preds.extend([[ph[0], r, t] for ph in pred_hs if ph[0] != ''])
             all_preds.extend(tmp_preds)
     df = pd.DataFrame(data=all_preds, columns=['head', 'rel', 'tail'])
     df = df.drop_duplicates(keep='first')
@@ -67,9 +64,9 @@ def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, e
 
     df_train.to_csv(osp.join(anyburl_dir, f'train.txt'), header=False, index=False, sep='\t')
     df_dev.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
-    df_test_type = type2hrt_int_df(dict_type_test).drop_duplicates(['head'], keep='first')
     df_hr.to_csv(osp.join(anyburl_dir, f'test_hr.txt'), header=False, index=False, sep='\t')
     df_rt.to_csv(osp.join(anyburl_dir, f'test_rt.txt'), header=False, index=False, sep='\t')
+    df_test_type = type2hrt_int_df(dict_type_test).drop_duplicates(['head'], keep='first')
     df_test_type.to_csv(osp.join(anyburl_dir, f'test_type.txt'), header=False, index=False, sep='\t')
     wait_until_file_is_saved(anyburl_dir+'train.txt')
     wait_until_file_is_saved(anyburl_dir+'valid.txt')

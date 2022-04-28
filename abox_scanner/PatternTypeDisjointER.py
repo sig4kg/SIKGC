@@ -19,9 +19,12 @@ class PatternTypeDisjointER():
         for g in tqdm(gp, desc="scanning pattern type disjoint with somevaluefrom R"):
             e = g[0]
             e_types_df = g[1]
+            if e not in gp_hrt_df.groups.keys():
+                continue
             e_hrt_df = gp_hrt_df.get_group(e)
             need_update = False
             for idx, row in e_types_df.iterrows():
+                # get type of e
                 c = row['tail']
                 if c not in self._pattern_dict:
                     continue
@@ -45,7 +48,7 @@ class PatternTypeDisjointER():
                     continue
                 r1 = self._context_resources.class2id[r1_uri]
                 r2_l = items[1].split('@@')
-                r2 = [self._context_resources.class2id[rr2[1:-1]] for rr2 in r2_l if rr2[1:-1] in self._context_resources.class2id]
+                r2 = [self._context_resources.op2id[rr2[1:-1]] for rr2 in r2_l if rr2[1:-1] in self._context_resources.op2id]
                 if len(r2) > 0:
                     pattern_dict.update({r1: r2})
             self._pattern_dict = pattern_dict

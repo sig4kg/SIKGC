@@ -2,7 +2,7 @@ from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
 from module_utils.materialize_util import *
 import pandas as pd
 from scripts import run_scripts
-from pathlib import Path
+from module_utils.common_util import timethis
 
 class M(ProducerBlock):
     def __init__(self, context_resource: ContextResources,
@@ -12,6 +12,7 @@ class M(ProducerBlock):
         self.acc = True
 
     # if ACC=False, it means running in parallel, we do ACC until all producers complete.
+    @timethis
     def produce(self, acc=True):
         self.acc = acc
         self.context_resource.to_ntriples(self.pipeline_config.work_dir, schema_in_nt=self.pipeline_config.schema_in_nt)

@@ -1,6 +1,4 @@
-import os
 import os.path as osp
-from pathlib import Path
 from blp.extend_models import *
 import networkx as nx
 import torch
@@ -11,10 +9,7 @@ from logging import Logger
 from sacred import Experiment
 from sacred.observers import MongoObserver
 from transformers import BertTokenizer, get_linear_schedule_with_warmup
-from collections import defaultdict
 import numpy as np
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from module_utils.file_util import *
 from data import CATEGORY_IDS
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
@@ -22,7 +17,6 @@ from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset
 import models
 import utils
 import pandas as pd
-import sacred
 
 # OUT_PATH = 'output/'
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')

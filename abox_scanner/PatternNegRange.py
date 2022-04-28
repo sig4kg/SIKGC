@@ -13,7 +13,7 @@ class PatternNegRange(PatternScanner):
             return
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern 2"):
+        for g in tqdm(gp, desc="scanning pattern Range disjointness"):
             rel = g[0]
             r_triples_df = g[1]
             need_update = False
@@ -46,7 +46,7 @@ class PatternNegRange(PatternScanner):
             for l in lines:
                 items = l.strip().split('\t')
                 op = self._context_resources.op2id[items[0][1:-1]]
-                disjoint = [self._context_resources.class2id[ii[1:-1]] for ii in items[1][:-1].split('@@') if
+                disjoint = [self._context_resources.class2id[ii[1:-1]] for ii in items[1].split('@@') if
                             ii not in ['owl:Nothing']]
                 pattern_dict.update({op: disjoint})
             self._pattern_dict = pattern_dict

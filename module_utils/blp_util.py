@@ -8,7 +8,7 @@ import os.path as osp
 from scripts.run_scripts import mk_dir
 import csv
 import random
-
+from module_utils.sample_util import *
 
 
 def read_hrts_blp_2_hrt_int_df(hrts_blp_file, context_resource: ContextResources):
@@ -37,56 +37,34 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
             out_f.close()
 
 
-def split_all_triples(context_resource, work_dir, inductive=False, exclude_rels=[]):
-    # df = read_hrt_2_df(work_dir + "all_triples.tsv")
-    df = context_resource.hrt_int_df.copy(deep=True)
-    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to int
-    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2op[x])  # to int
-    rels = df['rel'].drop_duplicates(keep='first')
-    total =len(df.index)
-    rate = len(rels.index) * 500 / total
-    rate = rate if rate < 0.1 else 0.1
+def split_all_rel_triples(context_resource: ContextResources, inductive, work_dir, exclude_rels=[], exclude_ents=[]):
+    df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(context_resource=context_resource,
+                                                                   exclude_rels=exclude_rels,
+                                                                   produce=True)
+    dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
+                                                                        exclude_ents=exclude_ents,
+                                                                        produce=True)
     # if inductive:
     #     drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
     #                   seed=0)
         # os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
-    # else:
+    # else
+    # save rel axioms to file
     train_name = "ind-train.tsv" if inductive else "train.tsv"
     dev_name = "ind-dev.tsv" if inductive else "dev.tsv"
-    count_dev = int(total * rate)
-    count_dev = len(rels) if count_dev < len(rels) else count_dev
-    groups = df.groupby('rel')
-    dev_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
-    for g in groups:
-        r_triples_df = g[1]
-        sample_num = int(len(r_triples_df.index) * rate)
-        sample_num = 1 if sample_num < 1 else sample_num
-        random_sample_count = random.randint(1, sample_num)
-        dev_r = r_triples_df.sample(random_sample_count)
-        dev_df = pd.concat([dev_df, dev_r])
-    if len(dev_df) < count_dev:
-        diff_df = pd.concat([df, dev_df, dev_df]).drop_duplicates(keep=False)
-        dev_df = pd.concat([dev_df, diff_df.sample(count_dev - len(dev_df))])
-    sample_train = pd.concat([df, dev_df, dev_df]).drop_duplicates(keep=False)
-    rels_train = sample_train['rel'].drop_duplicates(keep='first')
-    if len(rels_train) < len(rels):
-        miss_rel = pd.concat([rels, rels_train, rels_train]).drop_duplicates(keep=False)
-        filtered_tris = dev_df[dev_df['rel'].isin(list(miss_rel))]
-        sample_train = pd.concat([sample_train, filtered_tris])
-    sample_train.to_csv(osp.join(work_dir, train_name), header=False, index=False, sep='\t')
-    dev_df.to_csv(osp.join(work_dir, dev_name), header=False, index=False, sep='\t')
-    if len(exclude_rels) > 0:
-        df_test = df.query("not rel in @exclude_rels")
-    else:
-        df_test = df
-    df_hr = df_test.drop_duplicates(['head', 'rel'], keep='first')
-    df_rt = df_test.drop_duplicates(['rel', 'tail'], keep='first')
+    df_rel_train.to_csv(osp.join(work_dir, train_name), header=False, index=False, sep='\t')
+    df_rel_dev.to_csv(osp.join(work_dir, dev_name), header=False, index=False, sep='\t')
+    df_hr = df_rel_test.drop_duplicates(['head', 'rel'], keep='first')
+    df_rt = df_rel_test.drop_duplicates(['rel', 'tail'], keep='first')
     if len(df_hr.index) > len(df_rt.index):
         df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
     else:
         df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
     df_hr.to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t')
     df_rt.to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t')
+    # save type axioms to file
+
+
     wait_until_file_is_saved(f'{work_dir}test_hr.tsv')
     wait_until_file_is_saved(f'{work_dir}test_rt.tsv')
 

@@ -1,6 +1,7 @@
 **/outputs
 **/checkpoint
 **/release
+**/resources
 **/resources/DBpedia-text
 **/resources/DBpediaP/*
 **/resources/DBpedia-politics

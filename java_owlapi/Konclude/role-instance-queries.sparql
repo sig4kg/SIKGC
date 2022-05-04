@@ -1,5 +1,0 @@
-SELECT Distinct ?x (<http://treat.net/onto.owl#interact> AS ?relation)  ?y
-Where { ?x <http://treat.net/onto.owl#interact> ?y . }
-
-SELECT Distinct ?x (<http://treat.net/onto.owl#have_function> AS ?relation)  ?y
-Where { ?x <http://treat.net/onto.owl#have_functioin> ?y . }

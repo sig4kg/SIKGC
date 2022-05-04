@@ -169,10 +169,12 @@ def type_train_and_pred():
         mode='min', # mode of the monitored quantity  for optimization
     )
     # Instantiate the Model Trainer
-    trainer = pl.Trainer(max_epochs = N_EPOCHS , gpus = 1, callbacks=[checkpoint_callback],progress_bar_refresh_rate = 30)
+    trainer = pl.Trainer(max_epochs=N_EPOCHS, gpus=1, callbacks=[checkpoint_callback], progress_bar_refresh_rate=30)
     # Train the Classifier Model
     trainer.fit(model, Tdata_module)
     trainer.test(model, datamodule=Tdata_module)
+
+
 
 
 def node_classification(dataset, checkpoint):

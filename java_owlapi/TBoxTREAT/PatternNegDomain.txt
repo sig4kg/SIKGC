@@ -1,3 +1,0 @@
-<http://test/dllite/work_for>	<http://test/dllite/#Work>
-<http://test/dllite/hasParent>	<http://test/dllite/#Work>
-<http://test/dllite/hasChild>	<http://test/dllite/#Work>

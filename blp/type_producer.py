@@ -18,6 +18,12 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 from sklearn import metrics
 
+###
+# Author: Sylvia Wang
+# 2022/05
+###
+
+
 
 class DataTransformer():
     def __init__(self, data_dir):

@@ -33,7 +33,6 @@ class DataTransformer():
         self.y = []
         self.mlb = MultiLabelBinarizer()
         self.num_labels = 0
-        self.all_classes = set()
 
     def data_transform_read_file(self, data_dir):
         self.data_dir = data_dir
@@ -48,7 +47,6 @@ class DataTransformer():
                     ent_types = items[1:]
                     x.append(ent)
                     y.append(ent_types)
-                    self.all_classes.update(ent_types)
                 return len(x)
 
         train_count = read_classes(self.data_dir + "type_train.txt")
@@ -116,8 +114,7 @@ class TypeDataset(Dataset):
         x_id = self.ent2id[ent_str]
         x_idx = self.entid2idx[x_id]
         x = self.ent_emb[x_idx]
-        y = np.array(item_idx)
-        y = torch.FloatTensor(y)
+        y = torch.tensor(self.labels[item_idx], dtype=torch.float)
         return x, y
 
     def __len__(self):
@@ -139,7 +136,7 @@ class TypeDataModule(pl.LightningDataModule):
         self.test_x = x_test
         self.test_label = y_test
 
-    def setup(self):
+    def setup(self, stage=None):
         self.train_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.tr_x, self.tr_label)
         self.val_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.val_x, self.val_label)
         self.test_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.test_x, self.test_label)
@@ -156,7 +153,7 @@ class TypeDataModule(pl.LightningDataModule):
 
 class NodeClassifier(pl.LightningModule):
     # Set up the classifier
-    def __init__(self, emb_dim=100, n_classes=50, steps_per_epoch=None, n_epochs=3, lr=2e-5):
+    def __init__(self, emb_dim=128, n_classes=50, steps_per_epoch=None, n_epochs=3, lr=2e-5):
         super().__init__()
         self.classifier = nn.Linear(emb_dim, n_classes)
         self.steps_per_epoch = steps_per_epoch
@@ -385,3 +382,9 @@ def type_eval(work_dir, context_resource: ContextResources, train_batch_size=32,
     return model, opt_thresh
 
 
+if __name__ == "__main__":
+    folder = "../outputs/test/"
+    abox_file_path = folder + "abox_hrt_uri.txt"
+    context_resource = ContextResources(abox_file_path, class_and_op_file_path=folder,
+                                        work_dir=folder)
+    df = type_produce(folder + "L/", context_resource=context_resource)

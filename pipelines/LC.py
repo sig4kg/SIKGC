@@ -6,6 +6,7 @@ from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from blp.producer import ex
 import os
 from module_utils.common_util import timethis
+from blp.type_producer import type_produce
 
 
 class LC(ProducerBlock):
@@ -43,9 +44,7 @@ class LC(ProducerBlock):
         print("all produced triples: " + str(len(pred_hrt_df.index)))
 
         if pred_type:
-
-
-
+            df = type_produce(work_dir, context_resource=context_resource)
         return self.collect_result(pred_hrt_df)
 
     def collect_result(self, pred_hrt_df):

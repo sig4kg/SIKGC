@@ -26,8 +26,8 @@ from sklearn import metrics
 
 
 class DataTransformer():
-    def __init__(self, data_dir):
-        self.data_dir = data_dir
+    def __init__(self):
+        self.data_dir = ""
         self.x_tr = []
         self.y_tr = []
         self.x_val = []
@@ -40,7 +40,8 @@ class DataTransformer():
         self.num_labels = 0
         self.all_classes = set()
 
-    def data_transform_read_file(self):
+    def data_transform_read_file(self, data_dir):
+        self.data_dir = data_dir
         x = []
         y = []
 
@@ -76,6 +77,7 @@ class DataTransformer():
         return self
 
     def data_transform_from_context(self, context_resource: ContextResources, work_dir, num_classes=50):
+        self.data_dir = work_dir
         x = []
         y = []
         x_train, x_dev, x_test, y_train, y_dev, y_test = split_data(context_resource, work_dir, num=num_classes)
@@ -110,6 +112,7 @@ class TypeDataset(Dataset):
         self.entid2idx = entid2idx
         self.ents = x
         self.labels = y
+        self.size = len(x)
 
     def __getitem__(self, item_idx):
         item = self.ents[item_idx]
@@ -199,6 +202,20 @@ class NodeClassifier(pl.LightningModule):
         # return [optimizer], [scheduler]
         return [optimizer]
 
+class EmbeddingUtil():
+    def __init__(self, work_dir):
+        ent_emb = torch.load(f'{work_dir}ent_emb.pt', map_location='cpu')
+        if isinstance(ent_emb, tuple):
+            ent_emb = ent_emb[0]
+
+        self.ent_emb = ent_emb.squeeze().numpy()
+        num_embs, emb_dim = ent_emb.shape
+        print(f'Loaded {num_embs} embeddings with dim={emb_dim}')
+        emb_ids = torch.load(f'{work_dir}ents.pt', map_location='cpu')
+        self.entid2idx = utils.make_ent2idx(emb_ids, max_ent_id=emb_ids.max()).numpy()
+        maps = torch.load(f'{work_dir}maps.pt')
+        self.ent_ids = maps['ent_ids']
+
 
 def split_data(context_resource: ContextResources, work_dir, num=50, save_file=False):
     all_classes = [i for cls in context_resource.entid2classids.values() for i in cls]
@@ -233,25 +250,7 @@ def save_to_file(x, y, file_name):
         f.write(content)
 
 
-def type_train_and_test(work_dir, data_transformer: DataTransformer, train_batch_size=32, epochs=12, lr=2e-5):
-    ent_emb = torch.load(f'{work_dir}ent_emb.pt', map_location='cpu')
-    if isinstance(ent_emb, tuple):
-        ent_emb = ent_emb[0]
-
-    ent_emb = ent_emb.squeeze().numpy()
-    num_embs, emb_dim = ent_emb.shape
-    print(f'Loaded {num_embs} embeddings with dim={emb_dim}')
-
-    emb_ids = torch.load(f'{work_dir}ents.pt', map_location='cpu')
-    entid2idx = utils.make_ent2idx(emb_ids, max_ent_id=emb_ids.max()).numpy()
-    maps = torch.load(f'{work_dir}maps.pt')
-    ent_ids = maps['ent_ids']
-
-    # Instantiate and set up the data_module
-    t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
-                                   data_transformer.x_val, data_transformer.y_val,
-                                   data_transformer.x_test, data_transformer.y_test,
-                                   ent_emb, ent_ids, entid2idx, batch_size=train_batch_size)
+def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, train_batch_size=32, epochs=12, lr=2e-5):
     t_data_module.setup()
     # Instantiate the classifier model
     steps_per_epoch = len(data_transformer.x_tr) // train_batch_size
@@ -272,7 +271,8 @@ def type_train_and_test(work_dir, data_transformer: DataTransformer, train_batch
     trainer.fit(model, t_data_module)
     # trainer.test(model, datamodule=t_data_module)
     test_dataloader = t_data_module.test_dataloader()
-    return model
+    opt_thresh = eval_types(model, test_dataloader)
+    return model, opt_thresh
 
 
 def pred(model, dataloader):
@@ -319,24 +319,23 @@ def eval_types(model, test_dataloader):
     opt_thresh = threshold[scores.index(max(scores))]
     print(f'Optimal Threshold Value = {opt_thresh}')
     #predictions for optimal threshold
-    y_pred_labels = classify(flat_pred_outs,opt_thresh)
+    y_pred_labels = classify(flat_pred_outs, opt_thresh)
     y_pred = np.array(y_pred_labels).ravel() # Flatten
     print(metrics.classification_report(y_true,y_pred))
+    return opt_thresh
 
 
-def produce_types(model, data_transformer:DataTransformer, ent_emb, ent2id, entid2idx, threshold=0.4):
-    produce_dataset = TypeDataset(ent_emb, ent2id, entid2idx, data_transformer.x, data_transformer.y)
+def produce_types(model, data_transformer:DataTransformer, emb_util: EmbeddingUtil, threshold=0.4):
+    produce_dataset = TypeDataset(emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx, data_transformer.x, data_transformer.y)
     pred_sampler = SequentialSampler(produce_dataset)
     produce_dataloader = DataLoader(produce_dataset, sampler=pred_sampler, batch_size=64)
     flat_pred_outs, flat_true_labels = pred(model, produce_dataloader)
     thresh = np.float(threshold)
-    #convert labels to 1D array
-    y_true = flat_true_labels.ravel()
     #convert to 1D array
-    y_pred_labels = classify(flat_pred_outs,thresh)
+    y_pred_labels = classify(flat_pred_outs, thresh)
     y_pred = data_transformer.mlb.inverse_transform(np.array(y_pred_labels))
     y_act = data_transformer.mlb.inverse_transform(flat_true_labels)
-    df = pd.DataFrame({'Body': data_transformer.x, 'Actual Tags': y_act, 'Predicted Tags': y_pred})
+    df = pd.DataFrame({'class': data_transformer.x, 'Actual Types': y_act, 'Predicted Types': y_pred})
     return df
 
 
@@ -352,3 +351,31 @@ def classify(pred_prob,thresh):
                 temp.append(0) # Infer tag value as 0 (absent)
         y_pred.append(temp)
     return y_pred
+
+
+def type_produce(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=12, lr=2e-5, num_classes=50):
+    emb_util = EmbeddingUtil(work_dir)
+    data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir, num_classes=num_classes)
+    # Instantiate and set up the data_module
+    t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
+                                   data_transformer.x_val, data_transformer.y_val,
+                                   data_transformer.x_test, data_transformer.y_test,
+                                   emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx, batch_size=train_batch_size)
+    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module, train_batch_size=train_batch_size, epochs=epochs, lr=lr)
+    df = produce_types(model=model, emb_util=emb_util, data_transformer=data_transformer, threshold=opt_thresh)
+    return df
+
+
+def type_eval(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=12, lr=2e-5, num_classes=50, from_file=False):
+    emb_util = EmbeddingUtil(work_dir)
+    if from_file:
+        data_transformer = DataTransformer().data_transform_read_file(work_dir)
+    else:
+        data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir, num_classes=num_classes)
+    # Instantiate and set up the data_module
+    t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
+                                   data_transformer.x_val, data_transformer.y_val,
+                                   data_transformer.x_test, data_transformer.y_test,
+                                   emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx, batch_size=train_batch_size)
+    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module, train_batch_size=train_batch_size, epochs=epochs, lr=lr)
+    return model, opt_thresh

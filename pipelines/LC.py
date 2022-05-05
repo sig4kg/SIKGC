@@ -19,7 +19,7 @@ class LC(ProducerBlock):
         self.acc = True
 
     @timethis
-    def produce(self, acc=True):
+    def produce(self, acc=True, pred_type=True):
         self.acc = acc
         work_dir = self.work_dir + "L/"
         prepare_blp(self.work_dir, work_dir)
@@ -29,10 +29,10 @@ class LC(ProducerBlock):
         hrt_int_df_2_hrt_blp(context_resource, work_dir,
                              triples_only=False)  # generate all_triples.tsv, entities.txt, relations.txt\
         wait_until_file_is_saved(work_dir + "all_triples.tsv")
-        split_all_triples(context_resource, work_dir, inductive=config.inductive,
-                          exclude_rels=config.exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
+        split_data_blp(context_resource, inductive=config.inductive, work_dir=work_dir,
+                       exclude_rels=config.exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
         wait_until_blp_data_ready(work_dir, inductive=config.inductive)
-        # 1. run blp
+        # 1. run blp rel axiom prediction
         config.blp_config.update({'work_dir': work_dir})
         ex.run(config_updates=config.blp_config)
         wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
@@ -41,6 +41,11 @@ class LC(ProducerBlock):
         pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource).drop_duplicates(
             keep='first').reset_index(drop=True)
         print("all produced triples: " + str(len(pred_hrt_df.index)))
+
+        if pred_type:
+
+
+
         return self.collect_result(pred_hrt_df)
 
     def collect_result(self, pred_hrt_df):

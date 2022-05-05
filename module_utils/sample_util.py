@@ -51,27 +51,27 @@ def split_relation_triples(context_resource: ContextResources, exclude_rels=[], 
     return df_train, df_dev, df_test
 
 
-def split_type_triples(context_resource: ContextResources, exclude_ents=[], produce=True):
-    ent_num = len(context_resource.entid2classids)
-    dev_rate = 0.1
-    count_dev = int(ent_num * dev_rate)
-
-    def split_portion(to_split_dict):
-        ent_df = pd.DataFrame(data=to_split_dict.keys(), columns=['ent'])
-        sample_dev_ent = ent_df.sample(count_dev)
-        sample_dev_dict = {ent: context_resource.entid2classids[ent] for ent in sample_dev_ent['ent']}
-        sample_remain = {ent: context_resource.entid2classids[ent] for ent in to_split_dict if ent not in sample_dev_ent}
-        return sample_dev_dict, sample_remain
-
-    sample_dev, sample_train = split_portion(context_resource.entid2classids)
-    if produce:
-        if len(exclude_ents) > 0:
-            sample_test = {ent: context_resource.entid2classids[ent] for ent in exclude_ents}
-        else:
-            sample_test = context_resource.entid2classids
-    else:
-        sample_test, sample_train = split_portion(sample_train)
-    return sample_train, sample_dev, sample_test
+# def split_type_triples(context_resource: ContextResources, exclude_ents=[], produce=True):
+#     ent_num = len(context_resource.entid2classids)
+#     dev_rate = 0.1
+#     count_dev = int(ent_num * dev_rate)
+#
+#     def split_portion(to_split_dict):
+#         ent_df = pd.DataFrame(data=to_split_dict.keys(), columns=['ent'])
+#         sample_dev_ent = ent_df.sample(count_dev)
+#         sample_dev_dict = {ent: context_resource.entid2classids[ent] for ent in sample_dev_ent['ent']}
+#         sample_remain = {ent: context_resource.entid2classids[ent] for ent in to_split_dict if ent not in sample_dev_ent}
+#         return sample_dev_dict, sample_remain
+#
+#     sample_dev, sample_train = split_portion(context_resource.entid2classids)
+#     if produce:
+#         if len(exclude_ents) > 0:
+#             sample_test = {ent: context_resource.entid2classids[ent] for ent in exclude_ents}
+#         else:
+#             sample_test = context_resource.entid2classids
+#     else:
+#         sample_test, sample_train = split_portion(sample_train)
+#     return sample_train, sample_dev, sample_test
 
 
 

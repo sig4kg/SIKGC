@@ -37,13 +37,21 @@ def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triple
             out_f.close()
 
 
-def split_all_rel_triples(context_resource: ContextResources, inductive, work_dir, exclude_rels=[], exclude_ents=[]):
+def save_dict_to_file(type_dict, file_name):
+    content = ""
+    for ent in type_dict:
+        content = content + f"{ent}\t" + "\t".join(type_dict[ent]) + "\n"
+    with open(file_name, mode='w') as f:
+        f.write(content)
+
+
+def split_data_blp(context_resource: ContextResources, inductive, work_dir, exclude_rels=[], exclude_ents=[]):
     df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(context_resource=context_resource,
                                                                    exclude_rels=exclude_rels,
                                                                    produce=True)
-    dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
-                                                                        exclude_ents=exclude_ents,
-                                                                        produce=True)
+    # dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
+    #                                                                     exclude_ents=exclude_ents,
+    #                                                                     produce=True)
     # if inductive:
     #     drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
     #                   seed=0)
@@ -63,8 +71,9 @@ def split_all_rel_triples(context_resource: ContextResources, inductive, work_di
     df_hr.to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t')
     df_rt.to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t')
     # save type axioms to file
-
-
+    # save_dict_to_file(dict_type_train, work_dir + "type_train.txt")
+    # save_dict_to_file(dict_type_dev, work_dir + "type_dev.txt")
+    # save_dict_to_file(dict_type_test, work_dir + "type_test.txt")
     wait_until_file_is_saved(f'{work_dir}test_hr.tsv')
     wait_until_file_is_saved(f'{work_dir}test_rt.tsv')
 

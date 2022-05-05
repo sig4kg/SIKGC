@@ -1,3 +1,5 @@
+import time
+
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
 from transformers import get_linear_schedule_with_warmup
 from torch.optim import Adam
@@ -32,7 +34,7 @@ class DataTransformer():
         self.num_labels = 0
         self.all_classes = set()
 
-    def data_transform(self):
+    def data_transform_read_file(self):
         x = []
         y = []
 
@@ -62,6 +64,33 @@ class DataTransformer():
         self.y_val = yt[train_count: train_count + dev_count]
         self.x_test = x[train_count + dev_count:]
         self.y_test = yt[train_count + dev_count:]
+        self.x = x
+        self.y = yt
+        self.num_labels = len(self.mlb.classes_)
+        return self
+
+    def data_transform_from_context(self, context_resource: ContextResources, work_dir, num_classes=50):
+        x = []
+        y = []
+        x_train, x_dev, x_test, y_train, y_dev, y_test = split_data(context_resource, work_dir, num=num_classes)
+        y.extend(y_train)
+        y.extend(y_dev)
+        y.extend(y_test)
+        x.extend(x_train)
+        x.extend(x_dev)
+        x.extend(x_test)
+        yt = self.mlb.fit_transform(y)
+        print("node classification sample data: ")
+        # Getting a sense of how the tags data looks like
+        print(yt[0])
+        print(self.mlb.inverse_transform(yt[0].reshape(1, -1)))
+        print(self.mlb.classes_)
+        self.x_tr = x_train
+        self.y_tr = yt[:len(x_train)]
+        self.x_val = x_dev
+        self.y_val = yt[len(x_train): len(x_train) + len(x_dev)]
+        self.x_test = x_test
+        self.y_test = yt[len(x_train) + len(x_dev):]
         self.x = x
         self.y = yt
         self.num_labels = len(self.mlb.classes_)
@@ -165,10 +194,7 @@ class NodeClassifier(pl.LightningModule):
         return [optimizer]
 
 
-RANDOM_SEED = 24
-
-
-def split_data(context_resource: ContextResources, num=50):
+def split_data(context_resource: ContextResources, work_dir, num=50, save_file=False):
     all_classes = [i for cls in context_resource.entid2classids.values() for i in cls]
     top_n = Counter(all_classes).most_common(num)
     top_n_tags = [i[0] for i in top_n]
@@ -183,12 +209,25 @@ def split_data(context_resource: ContextResources, num=50):
             x.append(i)
             y.append(temp)
     # First Split for Train and Test
-    x_train, x_dev, y_train, y_dev = train_test_split(x, y, test_size=0.1, random_state=RANDOM_SEED, shuffle=True)
+    x_train, x_dev, y_train, y_dev = train_test_split(x, y, test_size=0.1, random_state=time.time(), shuffle=True)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=time.time(), shuffle=True)
     print(f"length train: {str(x_train)}, length dev: {str(y_dev)}")
-    return x_train, x_dev, y_train, y_dev
+    if save_file:
+        save_to_file(x_train, y_train, work_dir + "type_train.txt")
+        save_to_file(x_dev, y_dev, work_dir + "type_dev.txt")
+        save_to_file(x_test, y_test, work_dir + "type_test.txt")
+    return x_train, x_dev, x_test, y_train, y_dev, y_test
 
 
-def type_train_and_test(work_dir, train_batch_size=32, epochs=12, lr=2e-5):
+def save_to_file(x, y, file_name):
+    content = ""
+    for i in range(len(x)):
+        content = content + f"{x[i]}\t" + "\t".join(y[i]) + "\n"
+    with open(file_name, mode='w') as f:
+        f.write(content)
+
+
+def type_train_and_test(work_dir, data_transformer: DataTransformer, train_batch_size=32, epochs=12, lr=2e-5):
     ent_emb = torch.load(f'{work_dir}ent_emb.pt', map_location='cpu')
     if isinstance(ent_emb, tuple):
         ent_emb = ent_emb[0]
@@ -203,13 +242,11 @@ def type_train_and_test(work_dir, train_batch_size=32, epochs=12, lr=2e-5):
     ent_ids = maps['ent_ids']
 
     # Instantiate and set up the data_module
-    data_transformer = DataTransformer(work_dir).data_transform()
     t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
                                    data_transformer.x_val, data_transformer.y_val,
                                    data_transformer.x_test, data_transformer.y_test,
-                                   ent_emb, entid2idx, batch_size=train_batch_size)
+                                   ent_emb, ent_ids, entid2idx, batch_size=train_batch_size)
     t_data_module.setup()
-
     # Instantiate the classifier model
     steps_per_epoch = len(data_transformer.x_tr) // train_batch_size
     model = NodeClassifier(n_classes=data_transformer.num_labels,
@@ -230,6 +267,7 @@ def type_train_and_test(work_dir, train_batch_size=32, epochs=12, lr=2e-5):
     # trainer.test(model, datamodule=t_data_module)
     test_dataloader = t_data_module.test_dataloader()
     return model
+
 
 def pred(model, dataloader):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -267,7 +305,7 @@ def eval_types(model, test_dataloader):
     y_true = flat_true_labels.ravel()
     for thresh in threshold:
         #classes for each threshold
-        pred_bin_label = classify(flat_pred_outs,thresh)
+        pred_bin_label = classify(flat_pred_outs, thresh)
         #convert to 1D array
         y_pred = np.array(pred_bin_label).ravel()
         scores.append(metrics.f1_score(y_true,y_pred))
@@ -308,72 +346,3 @@ def classify(pred_prob,thresh):
                 temp.append(0) # Infer tag value as 0 (absent)
         y_pred.append(temp)
     return y_pred
-
-# def node_classification(dataset, checkpoint):
-#     ent_emb = torch.load(f'output/ent_emb-{checkpoint}.pt', map_location='cpu')
-#     if isinstance(ent_emb, tuple):
-#         ent_emb = ent_emb[0]
-#
-#     ent_emb = ent_emb.squeeze().numpy()
-#     num_embs, emb_dim = ent_emb.shape
-#     print(f'Loaded {num_embs} embeddings with dim={emb_dim}')
-#
-#     emb_ids = torch.load(f'output/ents-{checkpoint}.pt', map_location='cpu')
-#     ent2idx = utils.make_ent2idx(emb_ids, max_ent_id=emb_ids.max()).numpy()
-#     maps = torch.load(f'data/{dataset}/maps.pt')
-#     ent_ids = maps['ent_ids']
-#     class2labels = defaultdict(lambda: len(class2labels))
-#
-#     splits = ['train', 'dev', 'test']
-#     split_2data = dict()
-#     for split in splits:
-#         with open(f'data/{dataset}/{split}-ents-class.txt') as f:
-#             idx = []
-#             labels = []
-#             for line in f:
-#                 entity, ent_class = line.strip().split()
-#                 entity_id = ent_ids[entity]
-#                 entity_idx = ent2idx[entity_id]
-#                 idx.append(entity_idx)
-#                 labels.append(class2labels[ent_class])
-#
-#             x = ent_emb[idx]
-#             y = np.array(labels)
-#             split_2data[split] = (x, y)
-#
-#     x_train, y_train = split_2data['train']
-#     x_dev, y_dev = split_2data['dev']
-#     x_test, y_test = split_2data['test']
-#
-#     best_dev_metric = 0.0
-#     best_c = 0
-#     for k in range(-4, 2):
-#         c = 10 ** -k
-#         model = LogisticRegression(C=c, multi_class='multinomial',
-#                                    max_iter=1000)
-#         model.fit(x_train, y_train)
-#
-#         dev_preds = model.predict(x_dev)
-#         dev_acc = accuracy_score(y_dev, dev_preds)
-#         print(f'{c:.3f} - {dev_acc:.3f}')
-#
-#         if dev_acc > best_dev_metric:
-#             best_dev_metric = dev_acc
-#             best_c = c
-#
-#     print(f'Best regularization coefficient: {best_c:.4f}')
-#     model = LogisticRegression(C=best_c, multi_class='multinomial',
-#                                max_iter=1000)
-#     x_train_all = np.concatenate((x_train, x_dev))
-#     y_train_all = np.concatenate((y_train, y_dev))
-#     model.fit(x_train_all, y_train_all)
-#
-#     for metric_fn in (accuracy_score, balanced_accuracy_score):
-#         train_preds = model.predict(x_train_all)
-#         train_metric = metric_fn(y_train_all, train_preds)
-#
-#         test_preds = model.predict(x_test)
-#         test_metric = metric_fn(y_test, test_preds)
-#
-#         print(f'Train {metric_fn.__name__}: {train_metric:.3f}')
-#         print(f'Test {metric_fn.__name__}: {test_metric:.3f}')

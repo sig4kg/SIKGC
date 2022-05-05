@@ -1,5 +1,3 @@
-import numpy as np
-
 from models import *
 from gensim.models.fasttext import FastText
 import re

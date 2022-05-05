@@ -1,17 +1,14 @@
 import time
 
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
-from transformers import get_linear_schedule_with_warmup
 from torch.optim import Adam
 from abox_scanner.ContextResources import ContextResources
 from blp.extend_models import *
-from sklearn.metrics import accuracy_score, balanced_accuracy_score
 import torch
 import numpy as np
 import utils
 import pandas as pd
 from collections import Counter
-from torch.nn import BCELoss
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
 import pytorch_lightning as pl
@@ -22,8 +19,6 @@ from sklearn import metrics
 # Author: Sylvia Wang
 # 2022/05
 ###
-
-
 
 class DataTransformer():
     def __init__(self):

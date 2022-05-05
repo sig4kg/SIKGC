@@ -101,7 +101,8 @@ class DataTransformer():
 
 
 class TypeDataset(Dataset):
-    def __init__(self, ent_emb, ent2id, entid2idx, x, y):
+    def __init__(self, context_id2ent, ent_emb, ent2id, entid2idx, x, y):
+        self.context_id2ent = context_id2ent
         self.ent_emb = ent_emb
         self.ent2id = ent2id
         self.entid2idx = entid2idx
@@ -110,8 +111,9 @@ class TypeDataset(Dataset):
         self.size = len(x)
 
     def __getitem__(self, item_idx):
-        item = self.ents[item_idx]
-        x_id = self.ent2id[item]
+        context_id = self.ents[item_idx]
+        ent_str = self.context_id2ent[context_id]
+        x_id = self.ent2id[ent_str]
         x_idx = self.entid2idx[x_id]
         x = self.ent_emb[x_idx]
         y = np.array(item_idx)
@@ -123,8 +125,9 @@ class TypeDataset(Dataset):
 
 
 class TypeDataModule(pl.LightningDataModule):
-    def __init__(self, x_tr, y_tr, x_val, y_val, x_test, y_test, ent_emb, ent2id, entid2idx, batch_size=16):
+    def __init__(self, x_tr, y_tr, x_val, y_val, x_test, y_test, context_id2ent, ent_emb, ent2id, entid2idx, batch_size=16):
         super().__init__()
+        self.context_id2ent = context_id2ent
         self.ent_emb = ent_emb
         self.ent2id = ent2id
         self.entid2idx = entid2idx
@@ -137,9 +140,9 @@ class TypeDataModule(pl.LightningDataModule):
         self.test_label = y_test
 
     def setup(self):
-        self.train_dataset = TypeDataset(self.ent_emb, self.ent2id, self.entid2idx, self.tr_x, self.tr_label)
-        self.val_dataset = TypeDataset(self.ent_emb, self.ent2id, self.entid2idx, self.val_x, self.val_label)
-        self.test_dataset = TypeDataset(self.ent_emb, self.ent2id, self.entid2idx, self.test_x, self.test_label)
+        self.train_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.tr_x, self.tr_label)
+        self.val_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.val_x, self.val_label)
+        self.test_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.test_x, self.test_label)
 
     def train_dataloader(self):
         return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=2)
@@ -204,7 +207,7 @@ class EmbeddingUtil():
             ent_emb = ent_emb[0]
 
         self.ent_emb = ent_emb.squeeze().numpy()
-        num_embs, emb_dim = ent_emb.shape
+        num_embs, emb_dim = self.ent_emb.shape
         print(f'Loaded {num_embs} embeddings with dim={emb_dim}')
         emb_ids = torch.load(f'{work_dir}ents.pt', map_location='cpu')
         self.entid2idx = utils.make_ent2idx(emb_ids, max_ent_id=emb_ids.max()).numpy()
@@ -227,8 +230,8 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
             x.append(i)
             y.append(temp)
     # First Split for Train and Test
-    x_train, x_dev, y_train, y_dev = train_test_split(x, y, test_size=0.1, random_state=time.time(), shuffle=True)
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=time.time(), shuffle=True)
+    x_train, x_dev, y_train, y_dev = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
     print(f"length train: {str(x_train)}, length dev: {str(y_dev)}")
     if save_file:
         save_to_file(x_train, y_train, work_dir + "type_train.txt")
@@ -237,10 +240,10 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
     return x_train, x_dev, x_test, y_train, y_dev, y_test
 
 
-def save_to_file(x, y, file_name):
+def save_to_file(x, y, context_resource: ContextResources, file_name):
     content = ""
     for i in range(len(x)):
-        content = content + f"{x[i]}\t" + "\t".join(y[i]) + "\n"
+        content = content + f"{context_resource.id2ent[x[i]]}\t" + "\t".join(context_resource.classid2class[y[i]]) + "\n"
     with open(file_name, mode='w') as f:
         f.write(content)
 
@@ -261,7 +264,7 @@ def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, trai
         mode='min',  # mode of the monitored quantity  for optimization
     )
     # Instantiate the Model Trainer
-    trainer = pl.Trainer(max_epochs=epochs, gpus=1, callbacks=[checkpoint_callback], progress_bar_refresh_rate=30)
+    trainer = pl.Trainer(max_epochs=epochs, gpus=[], callbacks=[checkpoint_callback], progress_bar_refresh_rate=30)
     # Train the Classifier Model
     trainer.fit(model, t_data_module)
     # trainer.test(model, datamodule=t_data_module)
@@ -355,8 +358,10 @@ def type_produce(work_dir, context_resource: ContextResources, train_batch_size=
     t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
                                    data_transformer.x_val, data_transformer.y_val,
                                    data_transformer.x_test, data_transformer.y_test,
-                                   emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx, batch_size=train_batch_size)
-    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module, train_batch_size=train_batch_size, epochs=epochs, lr=lr)
+                                   context_resource.id2ent, emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx,
+                                   batch_size=train_batch_size)
+    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module,
+                              train_batch_size=train_batch_size, epochs=epochs, lr=lr)
     df = produce_types(model=model, emb_util=emb_util, data_transformer=data_transformer, threshold=opt_thresh)
     return df
 
@@ -366,11 +371,15 @@ def type_eval(work_dir, context_resource: ContextResources, train_batch_size=32,
     if from_file:
         data_transformer = DataTransformer().data_transform_read_file(work_dir)
     else:
-        data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir, num_classes=num_classes)
+        data_transformer = DataTransformer().data_transform_from_context(context_resource,
+                                                                         work_dir=work_dir,
+                                                                         num_classes=num_classes)
     # Instantiate and set up the data_module
     t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
                                    data_transformer.x_val, data_transformer.y_val,
                                    data_transformer.x_test, data_transformer.y_test,
-                                   emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx, batch_size=train_batch_size)
-    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module, train_batch_size=train_batch_size, epochs=epochs, lr=lr)
+                                   context_resource.id2ent, emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx,
+                                   batch_size=train_batch_size)
+    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module,
+                              train_batch_size=train_batch_size, epochs=epochs, lr=lr)
     return model, opt_thresh

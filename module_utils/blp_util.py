@@ -57,19 +57,23 @@ def split_data_blp(context_resource: ContextResources, inductive, work_dir, excl
     #                   seed=0)
         # os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
     # else
+    def to_text(tmp_df):
+        tmp_df[['head', 'tail']] = tmp_df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to str
+        tmp_df[['rel']] = tmp_df[['rel']].applymap(lambda x: context_resource.id2op[x])  # to str
+        return tmp_df
     # save rel axioms to file
     train_name = "ind-train.tsv" if inductive else "train.tsv"
     dev_name = "ind-dev.tsv" if inductive else "dev.tsv"
-    df_rel_train.to_csv(osp.join(work_dir, train_name), header=False, index=False, sep='\t')
-    df_rel_dev.to_csv(osp.join(work_dir, dev_name), header=False, index=False, sep='\t')
+    to_text(df_rel_train).to_csv(osp.join(work_dir, train_name), header=False, index=False, sep='\t')
+    to_text(df_rel_dev).to_csv(osp.join(work_dir, dev_name), header=False, index=False, sep='\t')
     df_hr = df_rel_test.drop_duplicates(['head', 'rel'], keep='first')
     df_rt = df_rel_test.drop_duplicates(['rel', 'tail'], keep='first')
     if len(df_hr.index) > len(df_rt.index):
         df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
     else:
         df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
-    df_hr.to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t')
-    df_rt.to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t')
+    to_text(df_hr).to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t')
+    to_text(df_rt).to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t')
     # save type axioms to file
     # save_dict_to_file(dict_type_train, work_dir + "type_train.txt")
     # save_dict_to_file(dict_type_dev, work_dir + "type_dev.txt")

@@ -2,6 +2,8 @@ import time
 
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
 from torch.optim import Adam
+
+from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 from blp.extend_models import *
 import torch
@@ -168,7 +170,7 @@ class NodeClassifier(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         input_ent_emb = batch[0]
         labels = batch[1]
-        outputs = self.classifier(input_ent_emb)
+        outputs = self(input_ent_emb)
         loss = self.criterion(outputs, labels)
         self.log('train_loss', loss, prog_bar=True, logger=True)
         return {"loss": loss, "predictions": outputs, "labels": labels}
@@ -216,9 +218,13 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
     all_classes = [i for cls in context_resource.entid2classids.values() for i in cls]
     top_n = Counter(all_classes).most_common(num)
     top_n_tags = [i[0] for i in top_n]
+    all_ents = pd.concat([context_resource.hrt_int_df['head'], context_resource.hrt_int_df['tail']], axis=0).drop_duplicates(keep='first')
+    all_ents = all_ents.values.tolist()
     x = []
     y = []
     for i in context_resource.entid2classids:
+        if i not in all_ents:
+            continue
         temp = []
         for t in context_resource.entid2classids[i]:
             if t in top_n_tags:
@@ -281,10 +287,10 @@ def pred(model, dataloader):
         # Add batch to GPU
         batch = tuple(t.to(device) for t in batch)
         # Unpack the inputs from our dataloader
-        b_input_ids, b_attn_mask, b_labels = batch
+        b_input_ids, b_labels = batch
         with torch.no_grad():
             # Forward pass, calculate logit predictions
-            pred_out = model(b_input_ids,b_attn_mask)
+            pred_out = model(b_input_ids)
             pred_out = torch.sigmoid(pred_out)
             # Move predicted output and labels to CPU
             pred_out = pred_out.detach().cpu().numpy()
@@ -320,12 +326,17 @@ def eval_types(model, test_dataloader):
     return opt_thresh
 
 
-def produce_types(model, data_transformer:DataTransformer, emb_util: EmbeddingUtil, threshold=0.4):
-    produce_dataset = TypeDataset(emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx, data_transformer.x, data_transformer.y)
+def produce_types(model, context_resource: ContextResources, data_transformer:DataTransformer, emb_util: EmbeddingUtil, threshold=0.4):
+    produce_dataset = TypeDataset(context_id2ent=context_resource.id2ent,
+                                  ent_emb=emb_util.ent_emb,
+                                  ent2id=emb_util.ent_ids,
+                                  entid2idx= emb_util.entid2idx,
+                                  x=data_transformer.x,
+                                  y=data_transformer.y)
     pred_sampler = SequentialSampler(produce_dataset)
     produce_dataloader = DataLoader(produce_dataset, sampler=pred_sampler, batch_size=64)
     flat_pred_outs, flat_true_labels = pred(model, produce_dataloader)
-    thresh = np.float(threshold)
+    thresh = float(threshold)
     #convert to 1D array
     y_pred_labels = classify(flat_pred_outs, thresh)
     y_pred = data_transformer.mlb.inverse_transform(np.array(y_pred_labels))
@@ -348,7 +359,7 @@ def classify(pred_prob,thresh):
     return y_pred
 
 
-def type_produce(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=12, lr=2e-5, num_classes=50):
+def train_and_produce(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=80, lr=2e-4, num_classes=50):
     emb_util = EmbeddingUtil(work_dir)
     data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir, num_classes=num_classes)
     # Instantiate and set up the data_module
@@ -359,7 +370,11 @@ def type_produce(work_dir, context_resource: ContextResources, train_batch_size=
                                    batch_size=train_batch_size)
     model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module,
                               train_batch_size=train_batch_size, epochs=epochs, lr=lr)
-    df = produce_types(model=model, emb_util=emb_util, data_transformer=data_transformer, threshold=opt_thresh)
+    df = produce_types(model=model,
+                 context_resource=context_resource,
+                 emb_util=emb_util,
+                 data_transformer=data_transformer,
+                 threshold=opt_thresh)
     return df
 
 
@@ -387,4 +402,7 @@ if __name__ == "__main__":
     abox_file_path = folder + "abox_hrt_uri.txt"
     context_resource = ContextResources(abox_file_path, class_and_op_file_path=folder,
                                         work_dir=folder)
-    df = type_produce(folder + "L/", context_resource=context_resource)
+    abox_scanner_scheduler = AboxScannerScheduler("../resources/TREAT/tbox_patterns/", context_resource)
+    valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=folder)
+    context_resource.hrt_int_df = valids
+    df = train_and_produce(folder + "L/", context_resource=context_resource)

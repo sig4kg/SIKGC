@@ -239,7 +239,7 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
     # First Split for Train and Test
     x_train, x_dev, y_train, y_dev = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
-    print(f"length train: {str(x_train)}, length dev: {str(y_dev)}")
+    print(f"length train: {str(len(x_train))}, length dev: {str(len(y_dev))}")
     if save_file:
         save_to_file(x_train, y_train, work_dir + "type_train.txt")
         save_to_file(x_dev, y_dev, work_dir + "type_dev.txt")

@@ -1,8 +1,5 @@
-import time
-
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
 from torch.optim import Adam
-
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 from blp.extend_models import *
@@ -16,6 +13,7 @@ from sklearn.model_selection import train_test_split
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 from sklearn import metrics
+
 
 ###
 # Author: Sylvia Wang
@@ -124,7 +122,8 @@ class TypeDataset(Dataset):
 
 
 class TypeDataModule(pl.LightningDataModule):
-    def __init__(self, x_tr, y_tr, x_val, y_val, x_test, y_test, context_id2ent, ent_emb, ent2id, entid2idx, batch_size=16):
+    def __init__(self, x_tr, y_tr, x_val, y_val, x_test, y_test, context_id2ent, ent_emb, ent2id, entid2idx,
+                 batch_size=16):
         super().__init__()
         self.context_id2ent = context_id2ent
         self.ent_emb = ent_emb
@@ -139,9 +138,12 @@ class TypeDataModule(pl.LightningDataModule):
         self.test_label = y_test
 
     def setup(self, stage=None):
-        self.train_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.tr_x, self.tr_label)
-        self.val_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.val_x, self.val_label)
-        self.test_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.test_x, self.test_label)
+        self.train_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.tr_x,
+                                         self.tr_label)
+        self.val_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.val_x,
+                                       self.val_label)
+        self.test_dataset = TypeDataset(self.context_id2ent, self.ent_emb, self.ent2id, self.entid2idx, self.test_x,
+                                        self.test_label)
 
     def train_dataloader(self):
         return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=2)
@@ -199,6 +201,7 @@ class NodeClassifier(pl.LightningModule):
         # return [optimizer], [scheduler]
         return [optimizer]
 
+
 class EmbeddingUtil():
     def __init__(self, work_dir):
         ent_emb = torch.load(f'{work_dir}ent_emb.pt', map_location='cpu')
@@ -218,7 +221,8 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
     all_classes = [i for cls in context_resource.entid2classids.values() for i in cls]
     top_n = Counter(all_classes).most_common(num)
     top_n_tags = [i[0] for i in top_n]
-    all_ents = pd.concat([context_resource.hrt_int_df['head'], context_resource.hrt_int_df['tail']], axis=0).drop_duplicates(keep='first')
+    all_ents = pd.concat([context_resource.hrt_int_df['head'], context_resource.hrt_int_df['tail']],
+                         axis=0).drop_duplicates(keep='first')
     all_ents = all_ents.values.tolist()
     x = []
     y = []
@@ -246,7 +250,8 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
 def save_to_file(x, y, context_resource: ContextResources, file_name):
     content = ""
     for i in range(len(x)):
-        content = content + f"{context_resource.id2ent[x[i]]}\t" + "\t".join(context_resource.classid2class[y[i]]) + "\n"
+        content = content + f"{context_resource.id2ent[x[i]]}\t" + "\t".join(
+            context_resource.classid2class[y[i]]) + "\n"
     with open(file_name, mode='w') as f:
         f.write(content)
 
@@ -281,7 +286,7 @@ def pred(model, dataloader):
     model.eval()
     # Tracking variables
     pred_outs, true_labels = [], []
-    #i=0
+    # i=0
     # Predict
     for batch in dataloader:
         # Add batch to GPU
@@ -307,61 +312,73 @@ def pred(model, dataloader):
 def eval_types(model, test_dataloader):
     flat_pred_outs, flat_true_labels = pred(model, test_dataloader)
     threshold = np.arange(0.4, 0.51, 0.01)
-    scores = [] # Store the list of f1 scores for prediction on each threshold
-    #convert labels to 1D array
+    scores = []  # Store the list of f1 scores for prediction on each threshold
+    # convert labels to 1D array
     y_true = flat_true_labels.ravel()
     for thresh in threshold:
-        #classes for each threshold
+        # classes for each threshold
         pred_bin_label = classify(flat_pred_outs, thresh)
-        #convert to 1D array
+        # convert to 1D array
         y_pred = np.array(pred_bin_label).ravel()
-        scores.append(metrics.f1_score(y_true,y_pred))
+        scores.append(metrics.f1_score(y_true, y_pred))
     # find the optimal threshold
     opt_thresh = threshold[scores.index(max(scores))]
     print(f'Optimal Threshold Value = {opt_thresh}')
-    #predictions for optimal threshold
+    # predictions for optimal threshold
     y_pred_labels = classify(flat_pred_outs, opt_thresh)
-    y_pred = np.array(y_pred_labels).ravel() # Flatten
-    print(metrics.classification_report(y_true,y_pred))
+    y_pred = np.array(y_pred_labels).ravel()  # Flatten
+    print(metrics.classification_report(y_true, y_pred))
     return opt_thresh
 
 
-def produce_types(model, context_resource: ContextResources, data_transformer:DataTransformer, emb_util: EmbeddingUtil, threshold=0.4):
+def produce_types(model, context_resource: ContextResources, data_transformer: DataTransformer, emb_util: EmbeddingUtil,
+                  threshold=0.4):
     produce_dataset = TypeDataset(context_id2ent=context_resource.id2ent,
                                   ent_emb=emb_util.ent_emb,
                                   ent2id=emb_util.ent_ids,
-                                  entid2idx= emb_util.entid2idx,
+                                  entid2idx=emb_util.entid2idx,
                                   x=data_transformer.x,
                                   y=data_transformer.y)
     pred_sampler = SequentialSampler(produce_dataset)
     produce_dataloader = DataLoader(produce_dataset, sampler=pred_sampler, batch_size=64)
     flat_pred_outs, flat_true_labels = pred(model, produce_dataloader)
     thresh = float(threshold)
-    #convert to 1D array
+    # convert to 1D array
     y_pred_labels = classify(flat_pred_outs, thresh)
     y_pred = data_transformer.mlb.inverse_transform(np.array(y_pred_labels))
-    y_act = data_transformer.mlb.inverse_transform(flat_true_labels)
-    df = pd.DataFrame({'class': data_transformer.x, 'Actual Types': y_act, 'Predicted Types': y_pred})
+    # y_act = data_transformer.mlb.inverse_transform(flat_true_labels)
+    df = pd.DataFrame({'head': data_transformer.x, 'pred': y_pred})
+
+    def explode(tmp_df, col, rename_col):
+        tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
+        return tmp_df.drop(col, axis=1).join(
+            pd.DataFrame(list(tmp_df[col])).stack().reset_index(drop=True).rename(rename_col)
+        )
+    df = explode(df, 'pred', 'tail')
+    df['rel'] = 0
+    df = df[['head', 'rel', 'tail']].astype('int64')
     return df
 
 
 # convert probabilities into 0 or 1 based on a threshold value
-def classify(pred_prob,thresh):
+def classify(pred_prob, thresh):
     y_pred = []
     for tag_label_row in pred_prob:
-        temp=[]
+        temp = []
         for tag_label in tag_label_row:
             if tag_label >= thresh:
-                temp.append(1) # Infer tag value as 1 (present)
+                temp.append(1)  # Infer tag value as 1 (present)
             else:
-                temp.append(0) # Infer tag value as 0 (absent)
+                temp.append(0)  # Infer tag value as 0 (absent)
         y_pred.append(temp)
     return y_pred
 
 
-def train_and_produce(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=80, lr=2e-4, num_classes=50):
+def train_and_produce(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=80, lr=2e-4,
+                      num_classes=50):
     emb_util = EmbeddingUtil(work_dir)
-    data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir, num_classes=num_classes)
+    data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir,
+                                                                     num_classes=num_classes)
     # Instantiate and set up the data_module
     t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
                                    data_transformer.x_val, data_transformer.y_val,
@@ -371,14 +388,15 @@ def train_and_produce(work_dir, context_resource: ContextResources, train_batch_
     model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module,
                               train_batch_size=train_batch_size, epochs=epochs, lr=lr)
     df = produce_types(model=model,
-                 context_resource=context_resource,
-                 emb_util=emb_util,
-                 data_transformer=data_transformer,
-                 threshold=opt_thresh)
+                       context_resource=context_resource,
+                       emb_util=emb_util,
+                       data_transformer=data_transformer,
+                       threshold=opt_thresh)
     return df
 
 
-def type_eval(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=12, lr=2e-5, num_classes=50, from_file=False):
+def type_eval(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=12, lr=2e-5, num_classes=50,
+              from_file=False):
     emb_util = EmbeddingUtil(work_dir)
     if from_file:
         data_transformer = DataTransformer().data_transform_read_file(work_dir)
@@ -403,6 +421,6 @@ if __name__ == "__main__":
     context_resource = ContextResources(abox_file_path, class_and_op_file_path=folder,
                                         work_dir=folder)
     abox_scanner_scheduler = AboxScannerScheduler("../resources/TREAT/tbox_patterns/", context_resource)
-    valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=folder)
-    context_resource.hrt_int_df = valids
-    df = train_and_produce(folder + "L/", context_resource=context_resource)
+    val, inv = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=folder)
+    context_resource.hrt_int_df = val
+    train_and_produce(folder + "L/", context_resource=context_resource, epochs=2)

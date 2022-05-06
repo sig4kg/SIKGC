@@ -10,9 +10,9 @@ from blp.type_producer import train_and_produce
 
 
 class LC(ProducerBlock):
-    def __init__(self, context_resource: ContextResources,
-                 abox_scanner_scheduler: AboxScannerScheduler,
+    def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
                  pipeline_config: PipelineConfig) -> None:
+        super().__init__(context_resource, pipeline_config)
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
@@ -42,46 +42,14 @@ class LC(ProducerBlock):
         pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource).drop_duplicates(
             keep='first').reset_index(drop=True)
         print("all produced triples: " + str(len(pred_hrt_df.index)))
-
+        # 3. type prediction
+        pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
         if pred_type:
-            df = train_and_produce(work_dir, context_resource=context_resource)
-        return self.collect_result(pred_hrt_df)
+            pred_type_df = train_and_produce(work_dir,
+                                             context_resource=context_resource,
+                                             epochs=config.blp_config['max_epochs'])
 
-    def collect_result(self, pred_hrt_df):
-        context_resource = self.context_resource
-        abox_scanner_scheduler = self.abox_scanner_scheduler
-        config = self.pipeline_config
-        # diff
-        new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df,
-                                context_resource.hrt_int_df]).drop_duplicates(keep=False)
-        if not self.acc:
-            tmp_file_name = self.pipeline_config.work_dir + f'subprocess/hrt_l_{os.getpid()}.txt'
-            new_hrt_df.to_csv(tmp_file_name, header=False, index=False, sep='\t')
-            wait_until_file_is_saved(tmp_file_name)
-            del new_hrt_df
-            return
-
-        new_count = len(new_hrt_df.index)
-        print("all old triples: " + str(len(context_resource.hrt_int_df.index)))
-        print("all new triples: " + str(new_count))
-
-        # 3. get valid new triples
-        run_scripts.clean_blp(self.work_dir)
-        to_scan_df = pd.concat([context_resource.hrt_int_df, new_hrt_df]).drop_duplicates(keep="first").reset_index(
-            drop=True)
-        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_rel_IJPs(work_dir=self.work_dir)
-        new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
-            keep=False)
-        new_valid_count = len(new_valids.index)
-        corrects = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=self.work_dir).drop_duplicates(keep=False)
-        new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
-            keep=False)
-        new_correct_count = len(new_corrects.index)
-        del new_corrects
-        train_count = len(context_resource.hrt_int_df.index) + self.context_resource.type_count
-
-        # 5. add new valid hrt to train data
-        extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
-        extend_count = len(extend_hrt_df.index) + self.context_resource.type_count
-        context_resource.hrt_int_df = extend_hrt_df
-        return train_count, extend_count, new_count, new_valid_count, new_correct_count
+        if not acc:
+            return self._save_result_only(pred_hrt_df, pred_type_df, 'l')
+        else:
+            return self._acc_and_collect_result(pred_hrt_df, pred_type_df)

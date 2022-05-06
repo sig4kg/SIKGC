@@ -1,14 +1,13 @@
 import numpy as np
-from owlready2 import *
 import pandas as pd
 import os.path as osp
 from abox_scanner.abox_utils import wait_until_file_is_saved
-from subprocess import Popen, PIPE, STDOUT
 from abox_scanner.ContextResources import ContextResources
-import subprocess
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from bs4 import BeautifulSoup
 from abc import ABC, abstractmethod
+import os
+import datetime
 
 
 RDFTYPE1 = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"

@@ -1,3 +1,5 @@
+import logging
+
 from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
 from module_utils.blp_util import *
 import pandas as pd
@@ -11,8 +13,8 @@ from blp.type_producer import train_and_produce
 
 class LC(ProducerBlock):
     def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
-                 pipeline_config: PipelineConfig) -> None:
-        super().__init__(context_resource, pipeline_config)
+                 pipeline_config: PipelineConfig, logger:logging.Logger) -> None:
+        super().__init__(context_resource, pipeline_config, logger)
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
@@ -27,12 +29,13 @@ class LC(ProducerBlock):
         mk_dir(work_dir)
         context_resource = self.context_resource
         config = self.pipeline_config
+        inductive=config.blp_config['inductive']
         hrt_int_df_2_hrt_blp(context_resource, work_dir,
                              triples_only=False)  # generate all_triples.tsv, entities.txt, relations.txt\
         wait_until_file_is_saved(work_dir + "all_triples.tsv")
-        split_data_blp(context_resource, inductive=config.inductive, work_dir=work_dir,
+        split_data_blp(context_resource, inductive=inductive, work_dir=work_dir,
                        exclude_rels=config.exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
-        wait_until_blp_data_ready(work_dir, inductive=config.inductive)
+        wait_until_blp_data_ready(work_dir, inductive=inductive)
         # 1. run blp rel axiom prediction
         config.blp_config.update({'work_dir': work_dir})
         ex.run(config_updates=config.blp_config)

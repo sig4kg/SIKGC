@@ -49,12 +49,12 @@ def get_schema_aware_silver_testset_from_start(dataset="TEST",
                                                produce=True):
     d_conf = DatasetConfig().get_config(dataset='TEST')
     p_config = PipelineConfig()
-    p_config.set_config(blp_config={},
-                        data_config=d_conf,
-                        dataset=dataset,
-                        loops=1,
-                        work_dir=out_dir,
-                        use_gpu=False)
+    p_config.set_pipeline_config(blp_config={},
+                                 data_config=d_conf,
+                                 dataset=dataset,
+                                 loops=1,
+                                 work_dir=out_dir,
+                                 use_gpu=False)
     context_resource, abox_scanner_scheduler = prepare_context(p_config, consistency_check=True)
     return get_schema_aware_silver_testset(p_config,
                                            context_resource,

@@ -59,7 +59,7 @@ def split_data_blp(context_resource: ContextResources, inductive, work_dir, excl
     # else
     def to_text(tmp_df):
         tmp_df[['head', 'tail']] = tmp_df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to str
-        tmp_df[['rel']] = tmp_df[['rel']].applymap(lambda x: context_resource.id2op[x])  # to str
+        tmp_df['rel'] = tmp_df['rel'].apply(lambda x: context_resource.id2op[x])  # to str
         return tmp_df
     # save rel axioms to file
     train_name = "ind-train.tsv" if inductive else "train.tsv"

@@ -19,6 +19,8 @@ from sklearn import metrics
 # Author: Sylvia Wang
 # 2022/05
 ###
+from file_util import save_to_file
+
 
 class DataTransformer():
     def __init__(self):
@@ -241,13 +243,13 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
     print(f"length train: {str(len(x_train))}, length dev: {str(len(y_dev))}")
     if save_file:
-        save_to_file(x_train, y_train, work_dir + "type_train.txt")
-        save_to_file(x_dev, y_dev, work_dir + "type_dev.txt")
-        save_to_file(x_test, y_test, work_dir + "type_test.txt")
+        write_xy_to_file(x_train, y_train, work_dir + "type_train.txt")
+        write_xy_to_file(x_dev, y_dev, work_dir + "type_dev.txt")
+        write_xy_to_file(x_test, y_test, work_dir + "type_test.txt")
     return x_train, x_dev, x_test, y_train, y_dev, y_test
 
 
-def save_to_file(x, y, context_resource: ContextResources, file_name):
+def write_xy_to_file(x, y, context_resource: ContextResources, file_name):
     content = ""
     for i in range(len(x)):
         content = content + f"{context_resource.id2ent[x[i]]}\t" + "\t".join(
@@ -277,7 +279,8 @@ def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, trai
     trainer.fit(model, t_data_module)
     # trainer.test(model, datamodule=t_data_module)
     test_dataloader = t_data_module.test_dataloader()
-    opt_thresh = eval_types(model, test_dataloader)
+    log_file_name = data_transformer.data_dir + "blp_eval.log"
+    opt_thresh = eval_types(model, test_dataloader, log_file_name)
     return model, opt_thresh
 
 
@@ -309,7 +312,7 @@ def pred(model, dataloader):
     return flat_pred_outs, flat_true_labels
 
 
-def eval_types(model, test_dataloader):
+def eval_types(model, test_dataloader, log_file):
     flat_pred_outs, flat_true_labels = pred(model, test_dataloader)
     threshold = np.arange(0.4, 0.51, 0.01)
     scores = []  # Store the list of f1 scores for prediction on each threshold
@@ -323,11 +326,15 @@ def eval_types(model, test_dataloader):
         scores.append(metrics.f1_score(y_true, y_pred))
     # find the optimal threshold
     opt_thresh = threshold[scores.index(max(scores))]
-    print(f'Optimal Threshold Value = {opt_thresh}')
+    log_str = "-------blp type prediction eval---------\n" + \
+              f'Type prediction: Optimal Threshold Value = {opt_thresh}\n'
+    print(log_str)
+    save_to_file(log_str, log_file, mode='a')
     # predictions for optimal threshold
     y_pred_labels = classify(flat_pred_outs, opt_thresh)
     y_pred = np.array(y_pred_labels).ravel()  # Flatten
     print(metrics.classification_report(y_true, y_pred))
+    save_to_file(str(metrics.classification_report(y_true, y_pred)) + "\n", log_file, mode='a')
     return opt_thresh
 
 

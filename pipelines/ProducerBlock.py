@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 import pandas as pd
 from module_utils.file_util import wait_until_file_is_saved
@@ -8,14 +9,15 @@ import os
 
 class ProducerBlock(ABC):
     def __init__(self, context_resource: ContextResources,
-                 pipeline_config: PipelineConfig) -> None:
+                 pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
         self.context_resource = context_resource
         self.pipeline_config = pipeline_config
         self.work_dir = self.pipeline_config.work_dir
         self.abox_scanner_scheduler = None
+        self.logger = logger
 
     @abstractmethod
-    def produce(self, *args):
+    def produce(self, logger, *args):
         pass
 
     def _save_result_only(self, pred_hrt_df, pred_type_df, prefix):

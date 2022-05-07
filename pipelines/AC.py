@@ -1,3 +1,5 @@
+import logging
+
 from pipelines.PipelineConfig import PipelineConfig
 from pipelines.ProducerBlock import ProducerBlock
 from module_utils.anyburl_util import *
@@ -8,8 +10,8 @@ from module_utils.common_util import timethis
 
 class AC(ProducerBlock):
     def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
-                 pipeline_config: PipelineConfig) -> None:
-        super().__init__(context_resource, pipeline_config)
+                 pipeline_config: PipelineConfig, logger:logging.Logger) -> None:
+        super().__init__(context_resource, pipeline_config, logger)
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.acc = True
         self.pred_type = True

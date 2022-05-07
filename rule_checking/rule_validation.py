@@ -7,7 +7,7 @@ import validators
 from tqdm import tqdm
 import regex
 
-log = log_util.get_logger('rule_validation')
+log = log_util.get_stream_logger('rule_validation')
 
 LOCALHOST = "localhost"
 DBPEDIA_GRAPH_PORT = 8890 if platform.system() == 'Linux' else 5002

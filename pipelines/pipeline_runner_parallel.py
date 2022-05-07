@@ -17,6 +17,9 @@ class PipelineRunnerParallel(PipelineRunnerBase):
     abox_scanner_scheduler = None
     pipeline_config = None
 
+    def __init__(self, logger:logging.Logger):
+        super().__init__(logger=logger)
+
     def create_pipeline(self):
         context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True)
         self.context_resource = context_resource
@@ -35,7 +38,7 @@ class PipelineRunnerParallel(PipelineRunnerBase):
         run_scripts.delete_dir(pipeline_config.work_dir)
         init_workdir(pipeline_config.work_dir)
         log_name = pipeline_config.work_dir + f"{''.join(block_names)}_{pipeline_config.dataset}.log"
-        log_score(dict(pipeline_config), log_file=log_name)
+        log_score(dict(pipeline_config), logger=self.logger)
         self.create_pipeline()
         get_scores = aggregate_scores()
         idx = 1
@@ -55,7 +58,7 @@ class PipelineRunnerParallel(PipelineRunnerBase):
             idx += 1
 
     # collect results and update context
-    def collect_results(self, score_function, log_name, loop_idx):
+    def collect_results(self, score_function, loop_idx):
         old_type_count = self.context_resource.type_count
         train_count = len(self.context_resource.hrt_int_df.index) + old_type_count
 
@@ -91,7 +94,7 @@ class PipelineRunnerParallel(PipelineRunnerBase):
         # overwrite train data in context
         self.context_resource.hrt_int_df = extend_hrt_df
         s = score_function(train_count, extend_count, new_count, new_valid_count, new_correct_count)
-        log_score(s, log_name, loop=loop_idx)
+        log_score(s, logger=self.logger, loop=loop_idx)
 
     def read_tmp_results(self):
         pred_hrt_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])

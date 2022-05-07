@@ -615,7 +615,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     #save scores to log file
     log_str = ""
     log_file_name = work_dir + "blp_eval.log"
-    save_to_file("-------blp eval---------\n", log_file_name, mode='a')
+    save_to_file("-------blp relation prediction eval---------\n", log_file_name, mode='a')
     for k, value in best_hit_at_k.items():
         log_str += f'hits@{k}: {value:.4f}\n'
     save_to_file(log_str, log_file_name, mode='a')

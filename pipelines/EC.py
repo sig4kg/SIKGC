@@ -1,3 +1,5 @@
+import logging
+
 from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
 from module_utils.transE_util import *
 import pandas as pd
@@ -10,11 +12,13 @@ from openKE import train_transe
 class EC(ProducerBlock):
     def __init__(self, context_resource: ContextResources,
                  abox_scanner_scheduler: AboxScannerScheduler,
-                 pipeline_config: PipelineConfig) -> None:
+                 pipeline_config: PipelineConfig, logger:logging.Logger) -> None:
+        super().__init__(context_resource, pipeline_config, logger)
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
         self.acc = True
+
 
     def produce(self, acc=True):
         context_resource = self.context_resource

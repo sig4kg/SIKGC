@@ -40,6 +40,6 @@ def log_score(dict_data, logger:logging.Logger, loop=-1):
     for k in dict_data:
         log_str += f"{k}: {dict_data[k]} \n"
     log_str += "-------------\n"
-    logger.log(log_str)
+    logger.info(log_str)
 
 

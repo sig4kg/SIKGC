@@ -35,9 +35,6 @@ class PipelineRunnerParallel(PipelineRunnerBase):
     def run_pipeline(self, pipeline_config:PipelineConfig, block_names=[]):
         self.pipeline_config = pipeline_config
         self.block_names = block_names
-        run_scripts.delete_dir(pipeline_config.work_dir)
-        init_workdir(pipeline_config.work_dir)
-        log_name = pipeline_config.work_dir + f"{''.join(block_names)}_{pipeline_config.dataset}.log"
         log_score(dict(pipeline_config), logger=self.logger)
         self.create_pipeline()
         get_scores = aggregate_scores()
@@ -54,7 +51,7 @@ class PipelineRunnerParallel(PipelineRunnerBase):
                 p.start()
             for p in processes:
                 p.join()
-            self.collect_results(get_scores, log_name, idx)
+            self.collect_results(get_scores, self.logger, idx)
             idx += 1
 
     # collect results and update context

@@ -34,9 +34,6 @@ class PipelineRunnerSeries(PipelineRunnerBase):
     def run_pipeline(self, pipeline_config: PipelineConfig, blocks=[]):
         self.pipeline_config = pipeline_config
         self.blocks = blocks
-        run_scripts.delete_dir(pipeline_config.work_dir)
-        init_workdir(pipeline_config.work_dir)
-        # log_name = pipeline_config.work_dir + f"{''.join(blocks)}_{pipeline_config.dataset}.log"
         log_score(dict(pipeline_config), logger=self.logger)
         producer_blocks = self.create_pipeline()
         get_scores = aggregate_scores()

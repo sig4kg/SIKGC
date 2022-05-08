@@ -78,7 +78,7 @@ class ProducerBlock(ABC):
         self.context_resource.type_count = self.context_resource.get_type_count()
         return new_count, new_valid_count, new_correct_count
 
-    def _acc_and_collect_result(self, pred_hrt_df, pred_type_df):
+    def _acc_and_collect_result(self, pred_hrt_df, pred_type_df, log_prefix=""):
         context_resource = self.context_resource
         train_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
         rel_count, rel_valid_count, rel_correct_count = self._acc_rel_axiom_and_update_context(pred_hrt_df)
@@ -87,6 +87,10 @@ class ProducerBlock(ABC):
         new_count = rel_count + type_count
         new_valid_count = rel_valid_count + type_valid_count
         new_correct_count = rel_correct_count + type_correct_count
+        self._log_block_result(rel_count, rel_valid_count, rel_correct_count, f"{log_prefix} rel pred - ")
+        self._log_block_result(type_count, type_valid_count, type_correct_count, f"{log_prefix} type pred - ")
         return train_count, extend_count, new_count, new_valid_count, new_correct_count
 
-
+    def _log_block_result(self, new_count, valid_count, correct_count, prefix=''):
+        log_str = f"{prefix} block tmp results -  new: {new_count}, valid: {valid_count}, correct: {correct_count}"
+        self.logger.info(log_str)

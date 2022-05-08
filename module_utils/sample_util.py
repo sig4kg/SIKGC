@@ -2,6 +2,7 @@ from __future__ import annotations
 from abox_scanner.ContextResources import ContextResources
 import pandas as pd
 import random
+from collections import Counter
 
 
 def split_relation_triples(context_resource: ContextResources, exclude_rels=[], produce=True):
@@ -51,27 +52,31 @@ def split_relation_triples(context_resource: ContextResources, exclude_rels=[], 
     return df_train, df_dev, df_test
 
 
-# def split_type_triples(context_resource: ContextResources, exclude_ents=[], produce=True):
-#     ent_num = len(context_resource.entid2classids)
-#     dev_rate = 0.1
-#     count_dev = int(ent_num * dev_rate)
-#
-#     def split_portion(to_split_dict):
-#         ent_df = pd.DataFrame(data=to_split_dict.keys(), columns=['ent'])
-#         sample_dev_ent = ent_df.sample(count_dev)
-#         sample_dev_dict = {ent: context_resource.entid2classids[ent] for ent in sample_dev_ent['ent']}
-#         sample_remain = {ent: context_resource.entid2classids[ent] for ent in to_split_dict if ent not in sample_dev_ent}
-#         return sample_dev_dict, sample_remain
-#
-#     sample_dev, sample_train = split_portion(context_resource.entid2classids)
-#     if produce:
-#         if len(exclude_ents) > 0:
-#             sample_test = {ent: context_resource.entid2classids[ent] for ent in exclude_ents}
-#         else:
-#             sample_test = context_resource.entid2classids
-#     else:
-#         sample_test, sample_train = split_portion(sample_train)
-#     return sample_train, sample_dev, sample_test
+def split_type_triples(context_resource: ContextResources, top_n_types=50, produce=True):
+    ent_num = len(context_resource.entid2classids)
+    dev_rate = 0.1
+    count_dev = int(ent_num * dev_rate)
+
+    all_classes = [i for cls in context_resource.entid2classids.values() for i in cls]
+    top_n = Counter(all_classes).most_common(top_n_types)
+    n_types = [i[0] for i in top_n]
+    all_ents = pd.concat([context_resource.hrt_int_df['head'], context_resource.hrt_int_df['tail']],
+                         axis=0).drop_duplicates(keep='first')
+    all_ents = all_ents.values.tolist()
+
+    def split_portion(to_split_list):
+        ent_df = pd.DataFrame(data=to_split_list, columns=['ent'])
+        sample_dev_ent = ent_df.sample(count_dev, random_state=random.randint(10, 50))
+        sample_dev_dict = {ent: [c for c in context_resource.entid2classids[ent] if c in n_types] for ent in sample_dev_ent['ent']}
+        sample_remain = {ent: [c for c in context_resource.entid2classids[ent] if c in n_types] for ent in to_split_list if ent not in sample_dev_ent}
+        return sample_dev_dict, sample_remain
+
+    sample_dev, sample_train = split_portion(all_ents)
+    if produce:
+        sample_test = {ent: [c for c in context_resource.entid2classids[ent] if c in n_types] for ent in all_ents}
+    else:
+        sample_test, sample_train = split_portion(sample_train)
+    return sample_train, sample_dev, sample_test
 
 
 

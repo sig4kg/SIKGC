@@ -44,13 +44,13 @@ def type2hrt_int_df(type_dict) -> pd.DataFrame:
     return type_df
 
 
-def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[], exclude_ents=[]):
+def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[]):
     df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(context_resource=context_resource,
                                                                    exclude_rels=exclude_rels,
                                                                    produce=True)
     dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
-                                                                  exclude_ents=exclude_ents,
-                                                                  produce=True)
+                                                                        top_n_types=50,
+                                                                        produce=True)
     df_type_train = type2hrt_int_df(dict_type_train)
     df_type_dev = type2hrt_int_df(dict_type_dev)
     df_train = pd.concat([df_rel_train, df_type_train]).reset_index(drop=True)
@@ -68,11 +68,11 @@ def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, e
     df_rt.to_csv(osp.join(anyburl_dir, f'test_rt.txt'), header=False, index=False, sep='\t')
     df_test_type = type2hrt_int_df(dict_type_test).drop_duplicates(['head'], keep='first')
     df_test_type.to_csv(osp.join(anyburl_dir, f'test_type.txt'), header=False, index=False, sep='\t')
-    wait_until_file_is_saved(anyburl_dir+'train.txt')
-    wait_until_file_is_saved(anyburl_dir+'valid.txt')
-    wait_until_file_is_saved(anyburl_dir+'test_hr.txt')
-    wait_until_file_is_saved(anyburl_dir+'test_rt.txt')
-    wait_until_file_is_saved(anyburl_dir+'test_type.txt')
+    wait_until_file_is_saved(anyburl_dir + 'train.txt')
+    wait_until_file_is_saved(anyburl_dir + 'valid.txt')
+    wait_until_file_is_saved(anyburl_dir + 'test_hr.txt')
+    wait_until_file_is_saved(anyburl_dir + 'test_rt.txt')
+    wait_until_file_is_saved(anyburl_dir + 'test_type.txt')
 
 
 def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
@@ -82,7 +82,7 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
                    f"PATH_RULES     = {anyburl_dir}rules/alpha-100\n" \
                    f"PATH_OUTPUT    = {anyburl_dir}predictions/alpha-100\n" \
                    "UNSEEN_NEGATIVE_EXAMPLES = 5\n" \
-                   "TOP_K_OUTPUT = 10\n"\
+                   "TOP_K_OUTPUT = 10\n" \
                    "WORKER_THREADS = 7"
     config_eval = f"PATH_TRAINING  = {anyburl_dir}train.txt\n" \
                   f"PATH_TEST      = {anyburl_dir}test_{pred_with}.txt\n" \
@@ -98,8 +98,8 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
 
 
 def clean_anyburl_tmp_files(anyburl_dir):
-    os.system(f"[ -d {anyburl_dir}predictions ] && rm {anyburl_dir}predictions/*")
-    os.system(f"[ -f {anyburl_dir}config-apply.properties ] && rm {anyburl_dir}config-apply.properties")
+    os.system(f"[ -d {anyburl_dir}predictions ] && mv {anyburl_dir}predictions/* {anyburl_dir}last_round/")
+    os.system(f"[ -f {anyburl_dir}config-apply.properties ] && mv {anyburl_dir}config-apply.properties {anyburl_dir}last_round/")
 
 
 def wait_until_anyburl_data_ready(anyburl_dir):

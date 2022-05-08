@@ -1,6 +1,6 @@
 from scripts import run_scripts
 import argparse
-from exp_config import *
+from log_util import get_file_logger
 from pipelines.pipeline_runner_series import *
 from pipelines.pipeline_runner_parallel import *
 import torch
@@ -17,23 +17,26 @@ def get_block_names(name_in_short: str):
         return capital_names
 
 
-def producers(p_config: PipelineConfig):
-    if p_config.parallel:
-        pipeline_runner = PipelineRunnerParallel()
+def producers(pipeline_config: PipelineConfig):
+    run_scripts.delete_dir(pipeline_config.work_dir)
+    init_workdir(pipeline_config.work_dir)
+    logger = get_file_logger(file_name=pipeline_config.work_dir + f"{pipeline_config.dataset}_{pipeline_config.pipeline}.log")
+    if pipeline_config.parallel:
+        pipeline_runner = PipelineRunnerParallel(logger=logger)
     else:
-        pipeline_runner = PipelineRunnerSeries()
-    block_names = get_block_names(p_config.pipeline)
+        pipeline_runner = PipelineRunnerSeries(logger=logger)
+    block_names = get_block_names(pipeline_config.pipeline)
     if len(block_names) == 0:
         return
     else:
-        pipeline_runner.run_pipeline(p_config, block_names)
+        pipeline_runner.run_pipeline(pipeline_config, block_names)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="l")
+    parser.add_argument('--pipeline', type=str, default="a")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")

@@ -57,6 +57,6 @@ class AC(ProducerBlock):
         if not acc:
             return self._save_result_only(pred_hrt_df, pred_type_df, 'a')
         else:
-            return self._acc_and_collect_result(pred_hrt_df, pred_type_df)
+            return self._acc_and_collect_result(pred_hrt_df, pred_type_df, log_prefix="A")
 
 

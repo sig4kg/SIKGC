@@ -151,7 +151,6 @@ def materialize(work_dir, context_resource: ContextResources, reasoner='TrOWL', 
 
 # return new count
 def update_ent2class(context_resource: ContextResources, pred_type_df) -> int:
-    old_ent2types = context_resource.entid2classids
     groups = pred_type_df.groupby('head')
     old_ent2types = context_resource.entid2classids
     old_type_count = context_resource.get_type_count()

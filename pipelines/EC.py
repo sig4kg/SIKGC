@@ -36,8 +36,8 @@ class EC(ProducerBlock):
         # 3. consistency checking for new triples + old triples
         pred_hrt_df = read_hrts_2_hrt_df(config.work_dir + "transE_raw_hrts.txt").drop_duplicates(
             keep='first').reset_index(drop=True)
-        train_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
+        train_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
         rel_count, rel_valid_count, rel_correct_count = self._acc_rel_axiom_and_update_context(pred_hrt_df)
-        extend_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
+        extend_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
         self._log_block_result(rel_count, rel_valid_count, rel_correct_count, f"E rel pred - ")
         return train_count, extend_count, rel_count, rel_valid_count, rel_correct_count

@@ -70,7 +70,13 @@ class ProducerBlock(ABC):
         valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_type_df(new_type_df). \
             scan_type_IJPs(work_dir=self.work_dir)
         corrects = valids
-        groups = valids.groupby('head')
+        self._update_ent2classes(valids)
+        new_valid_count = len(valids.index)
+        new_correct_count = len(corrects.index)
+        return new_count, new_valid_count, new_correct_count
+
+    def _update_ent2classes(self, type_df):
+        groups = type_df.groupby('head')
         old_ent2types = self.context_resource.entid2classids
         for g in groups:
             ent = g[0]
@@ -79,10 +85,6 @@ class ProducerBlock(ABC):
                 old_types = set(old_ent2types[ent])
                 new_types = set(types)
                 old_ent2types.update({ent: list(old_types | new_types)})
-        new_valid_count = len(valids.index)
-        new_correct_count = len(corrects.index)
-        self.context_resource.type_count = self.context_resource.get_type_count()
-        return new_count, new_valid_count, new_correct_count
 
     def _acc_and_collect_result(self, pred_hrt_df, pred_type_df, log_prefix=""):
         context_resource = self.context_resource

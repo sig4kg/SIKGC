@@ -1,10 +1,10 @@
 from abox_scanner.abox_utils import init_dir, wait_until_file_is_saved
 from materialize_util import materialize
-from scripts import run_scripts
 from pipelines.ProducerBlock import PipelineConfig
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 import os
+import pandas as pd
 
 
 def get_block_names(name_in_short: str):
@@ -101,16 +101,22 @@ def prepare_schema_aware_silver_data(context_resource: ContextResources, pipelin
                                             context_resource,
                                             pipeline_config.reasoner,
                                             exclude_rels=pipeline_config.exclude_rels)
-    old_ent2types = context_resource.entid2classids
-    new_count = 0
-    for ent in new_ent2types:
-        if ent in old_ent2types:
-            old_types = set(old_ent2types[ent])
-            new_types = set(new_ent2types[ent])
-            diff = new_types.difference(old_types)
-            if len(diff) > 0:
-                new_count = new_count + len(diff)
-                old_ent2types[ent].extend(list(diff))
-    context_resource.type_count += new_count
+    groups = pred_type_df.groupby('head')
+    ent2types = context_resource.entid2classids.copy(deep=True)
+    for g in groups:
+        ent = g[0]
+        types = g[1]['tail'].tolist()
+        if ent in ent2types:
+            old_types = set(ent2types[ent])
+            new_types = set(types)
+            ent2types.update({ent: list(old_types | new_types)})
+
+    new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).\
+        drop_duplicates(keep="first").reset_index(drop=True)
+
+
+
+
+
 
 

@@ -32,29 +32,20 @@ class M(ProducerBlock):
             return self.collect_result(pred_hrt_df, pred_type_df)
 
     def collect_result(self, pred_hrt_df, pred_type_df):
-        train_count = len(self.context_resource.hrt_int_df.index) + self.context_resource.type_count
+        train_count = len(self.context_resource.hrt_int_df.index) + self.context_resource.get_type_count()
         context_resource = self.context_resource
         old_type_df = context_resource.type2hrt_int_df()
+        old_type_count = context_resource.get_type_count()
         new_type_df = pd.concat([pred_type_df, old_type_df, old_type_df]).drop_duplicates(
             keep=False).reset_index(drop=True)
-        new_type_count = len(new_type_df.index)
-        groups = pred_type_df.groupby('head')
-        old_ent2types = self.context_resource.entid2classids
-        for g in groups:
-            ent = g[0]
-            types = g[1]['tail'].tolist()
-            if ent in old_ent2types:
-                old_types = set(old_ent2types[ent])
-                new_types = set(types)
-                old_ent2types.update({ent: list(old_types | new_types)})
-        self.context_resource.type_count = self.context_resource.get_type_count()
-
+        self._update_ent2classes(new_type_df)
+        new_type_count = context_resource.get_type_count() - old_type_count
         new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
         new_rel_count = len(new_hrt_df.index)
         extended_hrt_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df]).drop_duplicates(
             keep='first').reset_index(drop=True)
-        extend_count = self.context_resource.type_count + len(extended_hrt_df.index)
+        extend_count = self.context_resource.get_type_count() + len(extended_hrt_df.index)
         new_count = new_type_count + new_rel_count
         context_resource.hrt_int_df = extended_hrt_df
         print("new type assertions: " + str(new_type_count))

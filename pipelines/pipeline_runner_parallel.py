@@ -3,11 +3,8 @@ from module_utils.materialize_util import update_ent2class
 import log_util
 from pipelines.PipelineRunnerBase import *
 from pipelines.ProducerBlock import ProducerBlock
-from pipelines.exp_config import *
 from pipeline_util import *
 from tqdm.auto import trange
-from pathlib import Path
-import copy
 import multiprocessing
 
 
@@ -57,7 +54,6 @@ class PipelineRunnerParallel(PipelineRunnerBase, ProducerBlock):
 
     # collect results and update context
     def collect_results(self, score_function, loop_idx):
-        old_type_count = self.context_resource.type_count
         pred_hrt_df, pred_type_df = self.read_tmp_results()
         train_count, extend_count, new_count, new_valid_count, new_correct_count = self._acc_and_collect_result(pred_hrt_df, pred_type_df, log_prefix="L")
         s = score_function(train_count, extend_count, new_count, new_valid_count, new_correct_count)

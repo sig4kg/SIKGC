@@ -1,13 +1,8 @@
 from __future__ import annotations
-import pandas as pd
-from abox_scanner.ContextResources import ContextResources
-from blp.blp_data_utils import drop_entities
 from abox_scanner.abox_utils import wait_until_file_is_saved
 import os
 import os.path as osp
 from scripts.run_scripts import mk_dir
-import csv
-import random
 from module_utils.sample_util import *
 
 
@@ -45,13 +40,10 @@ def save_dict_to_file(type_dict, file_name):
         f.write(content)
 
 
-def split_data_blp(context_resource: ContextResources, inductive, work_dir, exclude_rels=[], exclude_ents=[]):
+def split_data_blp(context_resource: ContextResources, inductive, work_dir, exclude_rels=[]):
     df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(context_resource=context_resource,
                                                                    exclude_rels=exclude_rels,
                                                                    produce=True)
-    # dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
-    #                                                                     exclude_ents=exclude_ents,
-    #                                                                     produce=True)
     # if inductive:
     #     drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
     #                   seed=0)
@@ -74,10 +66,6 @@ def split_data_blp(context_resource: ContextResources, inductive, work_dir, excl
         df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
     to_text(df_hr).to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t')
     to_text(df_rt).to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t')
-    # save type axioms to file
-    # save_dict_to_file(dict_type_train, work_dir + "type_train.txt")
-    # save_dict_to_file(dict_type_dev, work_dir + "type_dev.txt")
-    # save_dict_to_file(dict_type_test, work_dir + "type_test.txt")
     wait_until_file_is_saved(f'{work_dir}test_hr.tsv')
     wait_until_file_is_saved(f'{work_dir}test_rt.tsv')
 
@@ -89,6 +77,13 @@ def prepare_blp(source_dir, work_dir):
     os.system(f"[ -f {source_dir}entity2type.txt ] && cp {source_dir}entity2type.txt {work_dir}entity2type.txt")
     os.system(f"[ -f {source_dir}entity2textlong.txt ] && cp {source_dir}entity2textlong.txt {work_dir}entity2textlong.txt")
     os.system(f"[ -f {source_dir}invalid_hrt.txt ] && cp {source_dir}invalid_hrt.txt {work_dir}invalid_hrt.txt")
+
+
+def clean_blp(work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system('echo ../scripts/clean_blp.sh')
+    os.system('../scripts/clean_blp.sh ' + work_dir)
 
 
 def wait_until_blp_data_ready(work_dir, inductive=False):

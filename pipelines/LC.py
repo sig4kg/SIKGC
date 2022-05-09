@@ -3,12 +3,10 @@ import logging
 from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
 from module_utils.blp_util import *
 import pandas as pd
-from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from blp.producer import ex
-import os
 from module_utils.common_util import timethis
-from blp.type_producer import train_and_produce
+from type_producer import train_and_produce
 
 
 class LC(ProducerBlock):
@@ -22,7 +20,7 @@ class LC(ProducerBlock):
         self.acc = True
 
     @timethis
-    def produce(self, acc=True, pred_type=True):
+    def produce(self, acc=True):
         self.acc = acc
         work_dir = self.work_dir + "L/"
         prepare_blp(self.work_dir, work_dir)
@@ -47,7 +45,7 @@ class LC(ProducerBlock):
         print("all produced triples: " + str(len(pred_hrt_df.index)))
         # 3. type prediction
         pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
-        if pred_type:
+        if self.pipeline_config.pred_type:
             pred_type_df = train_and_produce(work_dir,
                                              context_resource=context_resource,
                                              epochs=config.blp_config['max_epochs'])

@@ -7,19 +7,9 @@ import torch
 
 # by Sylvia Wang
 
-def get_block_names(name_in_short: str):
-    capital_names = name_in_short.upper().strip().split('_')
-    supported = ['M', 'A', 'L']
-    if any([x not in supported for x in capital_names]):
-        print("Unsupported pipeline, please use pipeline names as a_l_m, m_a_l etc.")
-        return []
-    else:
-        return capital_names
-
-
 def producers(pipeline_config: PipelineConfig):
     run_scripts.delete_dir(pipeline_config.work_dir)
-    init_workdir(pipeline_config.work_dir)
+    init_dir(pipeline_config.work_dir)
     logger = get_file_logger(file_name=pipeline_config.work_dir + f"{pipeline_config.dataset}_{pipeline_config.pipeline}.log")
     if pipeline_config.parallel:
         pipeline_runner = PipelineRunnerParallel(logger=logger)
@@ -45,7 +35,8 @@ if __name__ == "__main__":
     parser.add_argument("--parallel", type=bool, default=False)
     parser.add_argument("--schema_aware", type=bool, default=False)
     parser.add_argument("--reasoner", type=str, default='Konclude')
-    parser.add_argument("--pred_type", type=str, default='False')
+    parser.add_argument("--pred_type", type=str, default=False)
+    parser.add_argument("--silver-eval", type=bool, default=False)
     args = parser.parse_args()
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')

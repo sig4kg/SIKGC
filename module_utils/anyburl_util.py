@@ -4,6 +4,8 @@ from abox_scanner.abox_utils import wait_until_file_is_saved, save_to_file
 import os
 import os.path as osp
 from itertools import zip_longest
+
+from file_util import init_dir
 from module_utils.sample_util import *
 
 
@@ -98,6 +100,7 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
 
 
 def clean_anyburl_tmp_files(anyburl_dir):
+    init_dir(f"{anyburl_dir}last_round/")
     os.system(f"[ -d {anyburl_dir}predictions ] && mv {anyburl_dir}predictions/* {anyburl_dir}last_round/")
     os.system(f"[ -f {anyburl_dir}config-apply.properties ] && mv {anyburl_dir}config-apply.properties {anyburl_dir}last_round/")
 
@@ -110,6 +113,35 @@ def wait_until_anyburl_data_ready(anyburl_dir):
     wait_until_file_is_saved(anyburl_dir + "config-apply.properties")
     wait_until_file_is_saved(anyburl_dir + "config-eval.properties")
     wait_until_file_is_saved(anyburl_dir + "config-learn.properties")
+
+
+def learn_anyburl(work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system('../scripts/run_anyburl.sh ' + work_dir)
+    wait_until_file_is_saved(work_dir + "/rules/alpha-100", 60)
+
+
+def predict_with_anyburl(work_dir):
+    print("Predicting via AnyBURL...")
+    os.system(f"java -Xmx10G -cp {work_dir}AnyBURL-JUNO.jar de.unima.ki.anyburl.Apply {work_dir}config-apply.properties")
+    wait_until_file_is_saved(work_dir + "predictions/alpha-100_plog", 60)
+    print("Evaluating AnyBURL...")
+    os.system(f"java -Xmx10G -cp {work_dir}AnyBURL-JUNO.jar de.unima.ki.anyburl.Eval {work_dir}config-eval.properties > {work_dir}anyburl_eval.log")
+
+
+def read_eval_result(work_dir):
+    with open(work_dir + "anyburl_eval.log") as f:
+        last_line = f.readlines()[-1].strip()
+        scores = last_line.split()
+        formated = f"hit@1, hit@3, hit@10, MRR\n" + "'".join(scores)
+        return formated
+
+
+def clean_anyburl(work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system('../scripts/clean_anyburl.sh ' + work_dir)
 
 
 if __name__ == "__main__":

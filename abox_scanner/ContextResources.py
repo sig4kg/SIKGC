@@ -16,7 +16,7 @@ class PatternScanner(ABC):
 
 class ContextResources:
     def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir):
-        init_workdir(work_dir)
+        init_dir(work_dir)
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt')
         # h, r, t
@@ -29,7 +29,6 @@ class ContextResources:
         self.entid2classids = entid2classid(self.ent2id, self.class2id, class_and_op_file_path + "entity2type.txt")
         self.id2ent = {self.ent2id[key]: key for key in self.ent2id}
         self.id2op = {self.op2id[key]: key for key in self.op2id}
-        self.type_count = reduce(lambda x,y: x + y, [len(v) for v in self.entid2classids.values()])
 
     def get_type_count(self):
         self.type_count = reduce(lambda x,y: x + y, [len(v) for v in self.entid2classids.values()])

@@ -1,9 +1,20 @@
-from abox_scanner.abox_utils import init_workdir, wait_until_file_is_saved
+from abox_scanner.abox_utils import init_dir, wait_until_file_is_saved
+from materialize_util import materialize
 from scripts import run_scripts
 from pipelines.ProducerBlock import PipelineConfig
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 import os
+
+
+def get_block_names(name_in_short: str):
+    capital_names = name_in_short.upper().strip().split('_')
+    supported = ['M', 'A', 'L']
+    if any([x not in supported for x in capital_names]):
+        print("Unsupported pipeline, please use pipeline names as a_l_m, m_a_l etc.")
+        return []
+    else:
+        return capital_names
 
 
 def aggregate_scores():
@@ -80,3 +91,26 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
         abox_scanner_scheduler.register_patterns_all()
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
     return context_resource, abox_scanner_scheduler
+
+
+def prepare_schema_aware_silver_data(context_resource: ContextResources, pipeline_config: PipelineConfig):
+    context_resource.to_ntriples(pipeline_config.work_dir, schema_in_nt=pipeline_config.schema_in_nt)
+    wait_until_file_is_saved(pipeline_config.work_dir + "tbox_abox.nt", 120)
+    print("running materialization...")
+    pred_type_df, pred_hrt_df = materialize(pipeline_config.work_dir,
+                                            context_resource,
+                                            pipeline_config.reasoner,
+                                            exclude_rels=pipeline_config.exclude_rels)
+    old_ent2types = context_resource.entid2classids
+    new_count = 0
+    for ent in new_ent2types:
+        if ent in old_ent2types:
+            old_types = set(old_ent2types[ent])
+            new_types = set(new_ent2types[ent])
+            diff = new_types.difference(old_types)
+            if len(diff) > 0:
+                new_count = new_count + len(diff)
+                old_ent2types[ent].extend(list(diff))
+    context_resource.type_count += new_count
+
+

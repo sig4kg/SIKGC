@@ -41,6 +41,8 @@ class ProducerBlock(ABC):
         new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
         new_count = len(new_hrt_df.index)
+        if new_count == 0:
+            return 0, 0, 0
         to_scan_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df]).drop_duplicates(keep="first").reset_index(
             drop=True)
         valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
@@ -56,11 +58,15 @@ class ProducerBlock(ABC):
         return new_count, new_valid_count, new_correct_count
 
     def _acc_type_axiom_and_update_context(self, pred_type_df):
+        if len(pred_type_df.index) == 0:
+            return 0, 0, 0
         context_resource = self.context_resource
         old_type_df = context_resource.type2hrt_int_df()
         new_type_df = pd.concat([pred_type_df, old_type_df, old_type_df]).drop_duplicates(
             keep=False).reset_index(drop=True)
         new_count = len(new_type_df.index)
+        if new_count == 0:
+            return 0, 0, 0
         valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_type_df(new_type_df). \
             scan_type_IJPs(work_dir=self.work_dir)
         corrects = valids
@@ -80,10 +86,10 @@ class ProducerBlock(ABC):
 
     def _acc_and_collect_result(self, pred_hrt_df, pred_type_df, log_prefix=""):
         context_resource = self.context_resource
-        train_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
+        train_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
         rel_count, rel_valid_count, rel_correct_count = self._acc_rel_axiom_and_update_context(pred_hrt_df)
         type_count, type_valid_count, type_correct_count = self._acc_type_axiom_and_update_context(pred_type_df)
-        extend_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
+        extend_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
         new_count = rel_count + type_count
         new_valid_count = rel_valid_count + type_valid_count
         new_correct_count = rel_correct_count + type_correct_count

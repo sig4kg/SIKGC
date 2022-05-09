@@ -427,7 +427,7 @@ if __name__ == "__main__":
     abox_file_path = folder + "abox_hrt_uri.txt"
     context_resource = ContextResources(abox_file_path, class_and_op_file_path=folder,
                                         work_dir=folder)
-    abox_scanner_scheduler = AboxScannerScheduler("../resources/TREAT/tbox_patterns/", context_resource)
+    abox_scanner_scheduler = AboxScannerScheduler("resources/TREAT/tbox_patterns/", context_resource)
     val, inv = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=folder)
     context_resource.hrt_int_df = val
     train_and_produce(folder + "L/", context_resource=context_resource, epochs=2)

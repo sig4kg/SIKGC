@@ -45,3 +45,11 @@ def wait_until_train_pred_data_ready(work_dir):
     wait_until_file_is_saved(work_dir + "train/entity2id.txt", 60)
     wait_until_file_is_saved(work_dir + "train/relation2id.txt", 60)
     wait_until_file_is_saved(work_dir + "train/train2id.txt", 60)
+
+
+def clean_tranE(work_dir):
+    if work_dir[-1] == '/':
+        work_dir = work_dir[:-1]
+    os.system('echo ../scripts/clean_transE.sh')
+    os.system('../scripts/clean_transE.sh ' + work_dir)
+

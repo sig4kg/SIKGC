@@ -5,8 +5,8 @@ import random
 from collections import Counter
 
 
-def split_relation_triples(context_resource: ContextResources, exclude_rels=[], produce=True):
-    df = context_resource.hrt_int_df.copy(deep=True)
+def split_relation_triples(hrt_df, exclude_rels=[], produce=True):
+    df = hrt_df.copy(deep=True)
     rels = df['rel'].drop_duplicates(keep='first')
     total = len(df.index)
     dev_rate = len(rels.index) * 100 / total
@@ -44,11 +44,11 @@ def split_relation_triples(context_resource: ContextResources, exclude_rels=[], 
             df_test = pd.concat([df_test, df_dev, df_dev]).drop_duplicates(keep="first")
         else:
             df_test = pd.concat([df, df_dev, df_dev]).drop_duplicates(keep="first")
+        df_test = df_test.reset_index(drop=True)
     else:
-        df_test, df_train = split_portion(df_train)
+        df_test = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
     df_train = df_train.reset_index(drop=True)
     df_dev = df_dev.reset_index(drop=True)
-    df_test = df_test.reset_index(drop=True)
     return df_train, df_dev, df_test
 
 
@@ -75,7 +75,7 @@ def split_type_triples(context_resource: ContextResources, top_n_types=50, produ
     if produce:
         sample_test = {ent: [c for c in context_resource.entid2classids[ent] if c in n_types] for ent in all_ents}
     else:
-        sample_test, sample_train = split_portion(sample_train)
+        sample_test = {}
     return sample_train, sample_dev, sample_test
 
 

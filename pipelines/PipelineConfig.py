@@ -17,6 +17,7 @@ class PipelineConfig:
     pred_type = False
     parallel = False
     pipeline = ""
+    silver_eval = False
 
     def set_blp_config(self, blp_config: {}):
         self.blp_config = blp_config
@@ -39,7 +40,8 @@ class PipelineConfig:
                             pred_type,
                             parallel,
                             pipeline,
-                            reasoner):
+                            reasoner,
+                            silver_eval):
         self.work_dir = work_dir
         self.loops = loops
         self.dataset = dataset
@@ -48,6 +50,7 @@ class PipelineConfig:
         self.reasoner = reasoner
         self.parallel = parallel
         self.pipeline = pipeline
+        self.silver_eval = silver_eval
         return self
 
     def __iter__(self):

@@ -1,10 +1,13 @@
 from __future__ import annotations
-from abox_scanner.ContextResources import ContextResources
+
+from sklearn.metrics import precision_recall_fscore_support
 from abox_scanner.abox_utils import wait_until_file_is_saved, save_to_file
 import os
 import os.path as osp
 from itertools import zip_longest
-
+import numpy as np
+from sklearn import metrics
+from sklearn.preprocessing import MultiLabelBinarizer
 from file_util import init_dir
 from module_utils.sample_util import *
 
@@ -34,6 +37,60 @@ def read_hrt_pred_anyburl_2_hrt_int_df(pred_anyburl_file, pred_tail_only=False) 
     return df
 
 
+def read_type_pred_and_scores(pred_anyburl_file, all_classes) -> dict:
+    all_preds = dict()
+    with open(pred_anyburl_file) as f:
+        lines = f.readlines()
+        chunks = zip_longest(*[iter(lines)] * 3, fillvalue='')
+        for chunk in chunks:
+            tmp_preds = []
+            original_triple = chunk[0].strip().split()
+            h = original_triple[0]
+            pred_t = chunk[2][7:].strip().split('\t')
+            pred_ts = zip_longest(*[iter(pred_t)] * 2, fillvalue='')  # preds and scores
+            tmp_preds.extend([(int(pt[0]), float(pt[1])) for pt in pred_ts if pt[0] != '' and int(pt[0]) in all_classes])
+            all_preds.update({int(h): tmp_preds})
+    return all_preds
+
+
+def get_optimal_threshold(pred_anyburl_file, ground_truth_dict, all_classes):
+    pred_dict = read_type_pred_and_scores(pred_anyburl_file, all_classes)
+    ents = pred_dict.keys()
+    threshold = np.arange(0.01, 0.11, 0.02)
+    mlb = MultiLabelBinarizer()
+    num = len(ents)
+    scores = []  # Store the list of f1 scores for prediction on each threshold
+    for thresh in threshold:
+        y = [[cs[0] for cs in pred_dict[e] if cs[1] >= thresh] for e in ents]
+        for e in ents:
+            y.append(ground_truth_dict[e])
+        yt = mlb.fit_transform(y)
+        y_true = yt[num:]
+        y_pred = yt[:num]
+        scores.append(metrics.f1_score(y_true, y_pred, average='macro'))
+    # find the optimal threshold
+    opt_thresh = threshold[scores.index(max(scores))]
+    log_str = "-------blp type prediction eval---------\n" + \
+              f'Type prediction: Optimal Threshold Value = {opt_thresh}\n'
+    print(log_str)
+    return opt_thresh
+
+
+def get_silver_type_scores(pred_anyburl_file, ground_truth_dict, threshhold, all_classes):
+    pred_dict = read_type_pred_and_scores(pred_anyburl_file, all_classes)
+    ents = pred_dict.keys()
+    mlb = MultiLabelBinarizer()
+    num = len(ents)
+    y = [cs[0] for e in ents for cs in pred_dict[e] if cs[1] >= threshhold]
+    for e in ents:
+        y.append(ground_truth_dict[e])
+    yt = mlb.fit_transform(y)
+    y_true = yt[num:]
+    y_pred = yt[:num]
+    scores = precision_recall_fscore_support(y_true, y_pred, average='macro')
+    return scores
+
+
 def type2hrt_int_df(type_dict) -> pd.DataFrame:
     type_hrt = []
     for entid in type_dict:
@@ -47,7 +104,7 @@ def type2hrt_int_df(type_dict) -> pd.DataFrame:
 
 
 def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[]):
-    df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(context_resource=context_resource,
+    df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(hrt_df=context_resource.hrt_int_df,
                                                                    exclude_rels=exclude_rels,
                                                                    produce=True)
     dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
@@ -77,6 +134,14 @@ def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, e
     wait_until_file_is_saved(anyburl_dir + 'test_type.txt')
 
 
+def generate_silver_eval_file(context_resource: ContextResources, anyburl_dir):
+    df_type_test = type2hrt_int_df(context_resource.silver_type)
+    df_type_test.to_csv(osp.join(anyburl_dir, f'test_type_silver.txt'), header=False, index=False, sep='\t')
+    context_resource.silver_rel.to_csv(osp.join(anyburl_dir, f'test_rel_silver.txt'), header=False, index=False, sep='\t')
+    wait_until_file_is_saved(anyburl_dir + 'test_type_silver.txt')
+    wait_until_file_is_saved(anyburl_dir + 'test_rel_silver.txt')
+
+
 def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
     config_apply = f"PATH_TRAINING  = {anyburl_dir}train.txt\n" \
                    f"PATH_TEST      = {anyburl_dir}test_{pred_with}.txt\n" \
@@ -97,12 +162,17 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
     save_to_file(config_apply, anyburl_dir + "config-apply.properties")
     save_to_file(config_eval, anyburl_dir + "config-eval.properties")
     save_to_file(config_learn, anyburl_dir + "config-learn.properties")
+    wait_until_file_is_saved(anyburl_dir + "config-apply.properties")
+    wait_until_file_is_saved(anyburl_dir + "config-eval.properties")
+    wait_until_file_is_saved(anyburl_dir + "config-learn.properties")
 
 
 def clean_anyburl_tmp_files(anyburl_dir):
     init_dir(f"{anyburl_dir}last_round/")
     os.system(f"[ -d {anyburl_dir}predictions ] && mv {anyburl_dir}predictions/* {anyburl_dir}last_round/")
     os.system(f"[ -f {anyburl_dir}config-apply.properties ] && mv {anyburl_dir}config-apply.properties {anyburl_dir}last_round/")
+    os.system(f"[ -f {anyburl_dir}anyburl_eval.log ] && rm {anyburl_dir}anyburl_eval.log")
+
 
 
 def wait_until_anyburl_data_ready(anyburl_dir):
@@ -110,9 +180,6 @@ def wait_until_anyburl_data_ready(anyburl_dir):
     wait_until_file_is_saved(anyburl_dir + "test_rt.txt")
     wait_until_file_is_saved(anyburl_dir + "valid.txt")
     wait_until_file_is_saved(anyburl_dir + "train.txt")
-    wait_until_file_is_saved(anyburl_dir + "config-apply.properties")
-    wait_until_file_is_saved(anyburl_dir + "config-eval.properties")
-    wait_until_file_is_saved(anyburl_dir + "config-learn.properties")
 
 
 def learn_anyburl(work_dir):

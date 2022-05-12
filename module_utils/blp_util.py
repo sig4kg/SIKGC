@@ -41,7 +41,7 @@ def save_dict_to_file(type_dict, file_name):
 
 
 def split_data_blp(context_resource: ContextResources, inductive, work_dir, exclude_rels=[]):
-    df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(context_resource=context_resource,
+    df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(hrt_df=context_resource.hrt_int_df,
                                                                    exclude_rels=exclude_rels,
                                                                    produce=True)
     # if inductive:

@@ -81,7 +81,7 @@ def get_silver_type_scores(pred_anyburl_file, ground_truth_dict, threshhold, all
     ents = pred_dict.keys()
     mlb = MultiLabelBinarizer()
     num = len(ents)
-    y = [cs[0] for e in ents for cs in pred_dict[e] if cs[1] >= threshhold]
+    y = [[cs[0] for cs in pred_dict[e] if cs[1] >= threshhold] for e in ents]
     for e in ents:
         y.append(ground_truth_dict[e])
     yt = mlb.fit_transform(y)

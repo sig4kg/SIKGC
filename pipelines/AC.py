@@ -17,6 +17,7 @@ class AC(ProducerBlock):
         self.tmp_work_dir = pipeline_config.work_dir
 
     def predict_anyburl(self, pred_with: str):
+        prepare_anyburl_configs(self.tmp_work_dir, pred_with=pred_with)
         pred_tail_only = "type" in pred_with
         print("predicting with anyBURL " + pred_with)
         predict_with_anyburl(self.tmp_work_dir)
@@ -44,18 +45,18 @@ class AC(ProducerBlock):
         # predict
         tmp_pred_hrt1 = self.predict_anyburl(pred_with='hr')
         clean_anyburl_tmp_files(self.tmp_work_dir)
-        prepare_anyburl_configs(work_dir, pred_with='rt')
         tmp_pred_hrt2 = self.predict_anyburl(pred_with='rt')
         clean_anyburl_tmp_files(self.tmp_work_dir)
         pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
         if self.pipeline_config.pred_type:
-            prepare_anyburl_configs(work_dir, pred_with='type')
             pred_type_df = self.predict_anyburl(pred_with='type')
             clean_anyburl_tmp_files(self.tmp_work_dir)
         if self.pipeline_config.silver_eval:
             score1, score2 = self.silver_eval()
-            self.logger.info(score1)
-            self.logger.info(score2)
+            log_str = f"Type prediction: precision, recall, F1, Support \n" \
+                      f"{str(score1)} \n" \
+                      f"rel axiom prediction: {str(score2)}\n"
+            self.logger.info(log_str)
         # clean
         clean_anyburl(work_dir=work_dir)
         # save result or acc
@@ -69,20 +70,19 @@ class AC(ProducerBlock):
     def silver_eval(self):
         generate_silver_eval_file(context_resource=self.context_resource, anyburl_dir=self.tmp_work_dir)
         # run eval on types
-        prepare_anyburl_configs(self.tmp_work_dir, pred_with='type_silver')
         self.predict_anyburl(pred_with='type_silver')
         pred_file = self.tmp_work_dir + "predictions/alpha-100"
-        eval_log_file = self.tmp_work_dir + "anyburl_eval.log"
         opt_threshold = get_optimal_threshold(pred_file,
                                               self.context_resource.silver_type,
                                               self.context_resource.classid2class.keys())
+        self.logger.info(f"Optimal threshold for Anyburl type prediciton: {opt_threshold}")
         scores1 = get_silver_type_scores(pred_file, self.context_resource.silver_type,
                                          opt_threshold, self.context_resource.classid2class.keys())
         clean_anyburl_tmp_files(self.tmp_work_dir)
         # run eval on rel assertions
-        prepare_anyburl_configs(self.tmp_work_dir, pred_with='rel_silver')
         self.predict_anyburl(pred_with='rel_silver')
         scores2 = read_eval_result(self.tmp_work_dir)
+        clean_anyburl_tmp_files(self.tmp_work_dir)
         return scores1, scores2
 
 

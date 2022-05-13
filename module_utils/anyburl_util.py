@@ -67,6 +67,8 @@ def get_optimal_threshold(pred_anyburl_file, ground_truth_dict, all_classes):
         yt = mlb.fit_transform(y)
         y_true = yt[num:]
         y_pred = yt[:num]
+        y_true = np.array(y_true).ravel()
+        y_pred = np.array(y_pred).ravel()
         scores.append(metrics.f1_score(y_true, y_pred, average='macro'))
     # find the optimal threshold
     opt_thresh = threshold[scores.index(max(scores))]
@@ -87,6 +89,8 @@ def get_silver_type_scores(pred_anyburl_file, ground_truth_dict, threshhold, all
     yt = mlb.fit_transform(y)
     y_true = yt[num:]
     y_pred = yt[:num]
+    y_true = np.array(y_true).ravel()
+    y_pred = np.array(y_pred).ravel()
     scores = metrics.classification_report(y_true, y_pred)
     return scores
 

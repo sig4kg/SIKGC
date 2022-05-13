@@ -95,10 +95,10 @@ class ProducerBlock(ABC):
         new_count = rel_count + type_count
         new_valid_count = rel_valid_count + type_valid_count
         new_correct_count = rel_correct_count + type_correct_count
-        self._log_block_result(rel_count, rel_valid_count, rel_correct_count, f"{log_prefix} rel pred - ")
-        self._log_block_result(type_count, type_valid_count, type_correct_count, f"{log_prefix} type pred - ")
+        self._log_block_result(rel_count, rel_valid_count, rel_correct_count, f"{log_prefix} rel pred")
+        self._log_block_result(type_count, type_valid_count, type_correct_count, f"{log_prefix} type pred")
         return train_count, extend_count, new_count, new_valid_count, new_correct_count
 
     def _log_block_result(self, new_count, valid_count, correct_count, prefix=''):
-        log_str = f"{prefix} block tmp results -  new: {new_count}, valid: {valid_count}, correct: {correct_count}"
+        log_str = f"Block {prefix} tmp results -  new: {new_count}, valid: {valid_count}, correct: {correct_count}"
         self.logger.info(log_str)

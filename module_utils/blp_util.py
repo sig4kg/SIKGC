@@ -70,6 +70,14 @@ def split_data_blp(context_resource: ContextResources, inductive, work_dir, excl
     wait_until_file_is_saved(f'{work_dir}test_rt.tsv')
 
 
+def generate_silver_rel_eval_file(context_resource: ContextResources, work_dir):
+    tmp_df = context_resource.silver_rel.copy(deep=True)
+    tmp_df[['head', 'tail']] = tmp_df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to str
+    tmp_df['rel'] = tmp_df['rel'].apply(lambda x: context_resource.id2op[x])  # to str
+    tmp_df.to_csv(f'{work_dir}test_rel_silver.tsv', header=False, index=False, sep='\t')
+    wait_until_file_is_saved(f'{work_dir}test_rel_silver.tsv')
+
+
 def prepare_blp(source_dir, work_dir):
     mk_dir(work_dir)
     os.system(f"[ -f {source_dir}entity2text.txt ] && cp {source_dir}entity2text.txt {work_dir}entity2text.txt")

@@ -26,7 +26,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="a")
+    parser.add_argument('--pipeline', type=str, default="l")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser.add_argument("--parallel", type=bool, default=False)
     parser.add_argument("--schema_aware", type=bool, default=False)
     parser.add_argument("--reasoner", type=str, default='Konclude')
-    parser.add_argument("--pred_type", type=str, default=False)
+    parser.add_argument("--pred_type", type=str, default=True)
     parser.add_argument("--silver_eval", type=bool, default=True)
     args = parser.parse_args()
     if args.parallel:
@@ -45,7 +45,8 @@ if __name__ == "__main__":
     blp_conf = BLPConfig().get_blp_config(rel_model=args.rel_model,
                                           inductive=args.inductive,
                                           dataset=args.dataset,
-                                          schema_aware=args.schema_aware)
+                                          schema_aware=args.schema_aware,
+                                          silver_eval=args.silver_eval)
     p_config = PipelineConfig().set_pipeline_config(dataset=args.dataset,
                                                     loops=args.loops,
                                                     work_dir=args.work_dir,

@@ -1,5 +1,9 @@
+import logging
+
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
 from torch.optim import Adam
+
+import log_util
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 from blp.extend_models import *
@@ -76,6 +80,7 @@ class DataTransformer():
         x = []
         y = []
         x_train, x_dev, x_test, y_train, y_dev, y_test = split_data(context_resource, work_dir, num=num_classes)
+
         y.extend(y_train)
         y.extend(y_dev)
         y.extend(y_test)
@@ -221,6 +226,8 @@ class EmbeddingUtil():
 
 def split_data(context_resource: ContextResources, work_dir, num=50, save_file=False):
     all_classes = [i for cls in context_resource.entid2classids.values() for i in cls]
+    all_silver_classes = [i for cls in context_resource.silver_type.values() for i in cls]
+    all_classes = list(set(all_classes) | set(all_silver_classes))
     top_n = Counter(all_classes).most_common(num)
     top_n_tags = [i[0] for i in top_n]
     all_ents = pd.concat([context_resource.hrt_int_df['head'], context_resource.hrt_int_df['tail']],
@@ -240,8 +247,12 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
             y.append(temp)
     # First Split for Train and Test
     x_train, x_dev, y_train, y_dev = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
-    print(f"length train: {str(len(x_train))}, length dev: {str(len(y_dev))}")
+    if context_resource.silver_rel is not None and len(context_resource.silver_rel) > 0:
+        x_test = list(context_resource.silver_type.keys())
+        y_test = [[c for c in context_resource.silver_type[e] if c in top_n_tags] for e in context_resource.silver_type]
+    else:
+        x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.1, random_state=24, shuffle=True)
+    print(f"length train: {str(len(x_train))}, length dev: {str(len(x_dev))}, length silver test: {str(len(x_test))}")
     if save_file:
         write_xy_to_file(x_train, y_train, work_dir + "type_train.txt")
         write_xy_to_file(x_dev, y_dev, work_dir + "type_dev.txt")
@@ -258,7 +269,7 @@ def write_xy_to_file(x, y, context_resource: ContextResources, file_name):
         f.write(content)
 
 
-def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, train_batch_size=32, epochs=12, lr=2e-5):
+def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, logger: logging.Logger, train_batch_size=32, epochs=12, lr=2e-5):
     t_data_module.setup()
     # Instantiate the classifier model
     steps_per_epoch = len(data_transformer.x_tr) // train_batch_size
@@ -279,8 +290,7 @@ def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, trai
     trainer.fit(model, t_data_module)
     # trainer.test(model, datamodule=t_data_module)
     test_dataloader = t_data_module.test_dataloader()
-    log_file_name = data_transformer.data_dir + "blp_eval.log"
-    opt_thresh = eval_types(model, test_dataloader, log_file_name)
+    opt_thresh = eval_types(model, test_dataloader, logger)
     return model, opt_thresh
 
 
@@ -312,8 +322,8 @@ def pred(model, dataloader):
     return flat_pred_outs, flat_true_labels
 
 
-def eval_types(model, test_dataloader, log_file):
-    flat_pred_outs, flat_true_labels = pred(model, test_dataloader)
+def eval_types(model, eval_dataloader, logger: logging.Logger):
+    flat_pred_outs, flat_true_labels = pred(model, eval_dataloader)
     threshold = np.arange(0.4, 0.51, 0.01)
     scores = []  # Store the list of f1 scores for prediction on each threshold
     # convert labels to 1D array
@@ -327,14 +337,14 @@ def eval_types(model, test_dataloader, log_file):
     # find the optimal threshold
     opt_thresh = threshold[scores.index(max(scores))]
     log_str = "-------blp type prediction eval---------\n" + \
-              f'Type prediction: Optimal Threshold Value = {opt_thresh}\n'
+              f'Type prediction: Optimal Threshold Value = {opt_thresh}'
     print(log_str)
-    save_to_file(log_str, log_file, mode='a')
+    logger.info(log_str)
     # predictions for optimal threshold
     y_pred_labels = classify(flat_pred_outs, opt_thresh)
     y_pred = np.array(y_pred_labels).ravel()  # Flatten
     print(metrics.classification_report(y_true, y_pred))
-    save_to_file(str(metrics.classification_report(y_true, y_pred)) + "\n", log_file, mode='a')
+    logger.info(metrics.classification_report(y_true, y_pred))
     return opt_thresh
 
 
@@ -381,7 +391,7 @@ def classify(pred_prob, thresh):
     return y_pred
 
 
-def train_and_produce(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=80, lr=2e-4,
+def train_and_produce(work_dir, context_resource: ContextResources, logger: logging.Logger, train_batch_size=32, epochs=80, lr=2e-4,
                       num_classes=50):
     emb_util = EmbeddingUtil(work_dir)
     data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir,
@@ -392,34 +402,15 @@ def train_and_produce(work_dir, context_resource: ContextResources, train_batch_
                                    data_transformer.x_test, data_transformer.y_test,
                                    context_resource.id2ent, emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx,
                                    batch_size=train_batch_size)
-    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module,
+    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module, logger=logger,
                               train_batch_size=train_batch_size, epochs=epochs, lr=lr)
+
     df = produce_types(model=model,
                        context_resource=context_resource,
                        emb_util=emb_util,
                        data_transformer=data_transformer,
                        threshold=opt_thresh)
     return df
-
-
-def type_eval(work_dir, context_resource: ContextResources, train_batch_size=32, epochs=12, lr=2e-5, num_classes=50,
-              from_file=False):
-    emb_util = EmbeddingUtil(work_dir)
-    if from_file:
-        data_transformer = DataTransformer().data_transform_read_file(work_dir)
-    else:
-        data_transformer = DataTransformer().data_transform_from_context(context_resource,
-                                                                         work_dir=work_dir,
-                                                                         num_classes=num_classes)
-    # Instantiate and set up the data_module
-    t_data_module = TypeDataModule(data_transformer.x_tr, data_transformer.y_tr,
-                                   data_transformer.x_val, data_transformer.y_val,
-                                   data_transformer.x_test, data_transformer.y_test,
-                                   context_resource.id2ent, emb_util.ent_emb, emb_util.ent_ids, emb_util.entid2idx,
-                                   batch_size=train_batch_size)
-    model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module,
-                              train_batch_size=train_batch_size, epochs=epochs, lr=lr)
-    return model, opt_thresh
 
 
 if __name__ == "__main__":
@@ -430,4 +421,4 @@ if __name__ == "__main__":
     abox_scanner_scheduler = AboxScannerScheduler("resources/TREAT/tbox_patterns/", context_resource)
     val, inv = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=folder)
     context_resource.hrt_int_df = val
-    train_and_produce(folder + "L/", context_resource=context_resource, epochs=2)
+    train_and_produce(folder + "L/", context_resource=context_resource, logger=log_util.get_stream_logger(), epochs=2)

@@ -53,7 +53,7 @@ def config():
     use_cached_text = False
     do_downstream_sample = False
     do_produce = True
-    do_eval = False
+    silver_eval = False
     schema_aware = False
 
 
@@ -480,7 +480,7 @@ def produce(model,
 def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     encoder_name, regularizer, max_len, num_negatives, lr,
                     use_scheduler, batch_size, emb_batch_size, eval_batch_size,
-                    max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce, do_eval,
+                    max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce, silver_eval,
                     _run: Run, _log: Logger,
                     schema_aware):
     drop_stopwords = model in {'bert-bow', 'bert-dkrl',
@@ -634,13 +634,13 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                            entities=train_val_test_ent,
                            emb_batch_size=emb_batch_size,
                            work_dir=work_dir)
-    if do_eval:
-        valid_data_silver = GraphDataset(f'silver_test.tsv')
+    if silver_eval:
+        valid_data_silver = GraphDataset(f'{work_dir}test_rel_silver.tsv')
         valid_loader_silver = DataLoader(valid_data_silver, eval_batch_size)
         val_mrr, hit_at_k, ent_emb = eval_link_prediction(model, valid_loader_silver, train_data,
-                                                    train_val_ent, epoch,
+                                                    train_val_ent, 0,
                                                     emb_batch_size, prefix='valid', return_embeddings=True)
-        save_to_file("-------blp eval on test set ---------\n", log_file_name, mode='a')
+        save_to_file("-------blp eval on rel silver test set ---------\n", log_file_name, mode='a')
         for k, value in hit_at_k.items():
             log_str += f'hits@{k}: {value:.4f}\n'
         save_to_file(log_str, log_file_name, mode='a')

@@ -39,5 +39,5 @@ class EC(ProducerBlock):
         train_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
         rel_count, rel_valid_count, rel_correct_count = self._acc_rel_axiom_and_update_context(pred_hrt_df)
         extend_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
-        self._log_block_result(rel_count, rel_valid_count, rel_correct_count, f"E rel pred - ")
+        self._log_block_result(rel_count, rel_valid_count, rel_correct_count, f"E rel pred")
         return train_count, extend_count, rel_count, rel_valid_count, rel_correct_count

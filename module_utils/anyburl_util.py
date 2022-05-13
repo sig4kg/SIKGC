@@ -56,7 +56,7 @@ def read_type_pred_and_scores(pred_anyburl_file, all_classes) -> dict:
 def get_optimal_threshold(pred_anyburl_file, ground_truth_dict, all_classes):
     pred_dict = read_type_pred_and_scores(pred_anyburl_file, all_classes)
     ents = pred_dict.keys()
-    threshold = np.arange(0.01, 0.11, 0.02)
+    threshold = np.arange(0.05, 0.4, 0.02)
     mlb = MultiLabelBinarizer()
     num = len(ents)
     scores = []  # Store the list of f1 scores for prediction on each threshold
@@ -87,8 +87,15 @@ def get_silver_type_scores(pred_anyburl_file, ground_truth_dict, threshhold, all
     yt = mlb.fit_transform(y)
     y_true = yt[num:]
     y_pred = yt[:num]
-    scores = precision_recall_fscore_support(y_true, y_pred, average='macro')
+    scores = metrics.classification_report(y_true, y_pred)
     return scores
+
+
+def read_type_pred_to_df(pred_anyburl_file, all_classes, threshhold):
+    pred_dict = read_type_pred_and_scores(pred_anyburl_file, all_classes)
+    ents = pred_dict.keys()
+    pred_types = {e: [cs[0] for cs in pred_dict[e] if cs[1] >= threshhold] for e in ents}
+    return type2hrt_int_df(pred_types)
 
 
 def type2hrt_int_df(type_dict) -> pd.DataFrame:

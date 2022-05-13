@@ -33,6 +33,35 @@ def split_relation_triples(hrt_df, exclude_rels=[], produce=True):
             miss_rel = pd.concat([rels, rels_train_left, rels_train_left]).drop_duplicates(keep=False)
             filtered_tris = tmp_dev_df[tmp_dev_df['rel'].isin(list(miss_rel))]
             sample_left = pd.concat([sample_left, filtered_tris])
+        # ent in dev must in train
+        dev_ents = pd.concat([tmp_dev_df['head'], tmp_dev_df['tail']], axis=0).drop_duplicates(keep='first')
+        sample_left_ents = pd.concat([sample_left['head'], sample_left['tail']]).drop_duplicates(keep='first')
+        ent_not_in_train = pd.concat([dev_ents, sample_left_ents, sample_left_ents]).drop_duplicates(keep=False)
+        round = 0
+        while len(ent_not_in_train) > 0:
+            put_back = tmp_dev_df.query("head in @ent_not_in_train or tail in @ent_not_in_train")
+            tmp_dev_df = pd.concat([tmp_dev_df, put_back, put_back]).drop_duplicates(keep=False)
+            if round > 3:
+                sample_left = pd.concat([sample_left, put_back]).drop_duplicates(keep='first')
+                break
+            redo_rel = put_back['rel'].drop_duplicates(keep='first')
+            filter_redo_rel = sample_left.query("rel in @ redo_rel and head not in @ent_not_in_train and tail not in @ent_not_in_train")
+            filter_group = filter_redo_rel.groupby('rel')
+            re_sampled = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+            for r in redo_rel:
+                if len(tmp_dev_df.query("rel == @r").index) > 0:
+                    continue
+                for g in filter_group:
+                    r_redo_df = g[1].sample(1)
+                    tmp_dev_df = pd.concat([tmp_dev_df, r_redo_df])
+                    re_sampled = pd.concat([re_sampled, r_redo_df])
+            sample_left = pd.concat([sample_left, re_sampled, re_sampled]).drop_duplicates(keep=False)
+            sample_left = pd.concat([sample_left, put_back]).drop_duplicates(keep='first')
+            dev_ents = pd.concat([tmp_dev_df['head'], tmp_dev_df['tail']], axis=0).drop_duplicates(keep='first')
+            sample_left_ents = pd.concat([sample_left['head'], sample_left['tail']]).drop_duplicates(keep='first')
+            ent_not_in_train = pd.concat([dev_ents, sample_left_ents, sample_left_ents]).drop_duplicates(keep=False)
+            round += 1
+
         tmp_dev_df = tmp_dev_df.reset_index(drop=True)
         sample_left = sample_left.reset_index(drop=True)
         return tmp_dev_df, sample_left

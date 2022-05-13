@@ -33,6 +33,8 @@ class LC(ProducerBlock):
         wait_until_file_is_saved(work_dir + "all_triples.tsv")
         split_data_blp(context_resource, inductive=inductive, work_dir=work_dir,
                        exclude_rels=config.exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
+        if self.pipeline_config.silver_eval:
+            generate_silver_rel_eval_file(self.context_resource, work_dir)
         wait_until_blp_data_ready(work_dir, inductive=inductive)
         # 1. run blp rel axiom prediction
         config.blp_config.update({'work_dir': work_dir})
@@ -47,7 +49,7 @@ class LC(ProducerBlock):
         pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
         if self.pipeline_config.pred_type:
             pred_type_df = train_and_produce(work_dir,
-                                             context_resource=context_resource,
+                                             context_resource=context_resource, logger=self.logger,
                                              epochs=config.blp_config['max_epochs'])
 
         if not acc:

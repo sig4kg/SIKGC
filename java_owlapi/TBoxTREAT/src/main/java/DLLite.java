@@ -118,9 +118,16 @@ public class DLLite {
 
     private void addNegD(OWLOntology ont, Map<String, OWLObject> mapCache) {
         System.out.println("Creating neg D...");
+        List<String> all_ops = new ArrayList<>();
+        for (OWLObjectProperty op : ont.getObjectPropertiesInSignature()) {
+            all_ops.add(op.getIRI().toString());
+        }
         for (OWLClass cls : ont.getClassesInSignature()) {
             if (!cls.isNamed()) {
                 continue;
+            }
+            if (all_ops.contains(cls.getIRI().toString())) {
+                continue; // exclude punning
             }
             String clsIRIStr = cls.getIRI().toString();
             List<String> splits = splitIRI(clsIRIStr);
@@ -189,8 +196,6 @@ public class DLLite {
         // Now create restrictions to describe the class of individual object properties
         addRandRivs(ont, mapCache);
         addNegD(ont, mapCache);
-//        flattenSymetricP(ont);
-//        flattenInversof(ont);
         // Schema + Delta, then inference
         OWLOntology infOnt1 = reasonerUtil.classify(ont, man);
         return infOnt1;

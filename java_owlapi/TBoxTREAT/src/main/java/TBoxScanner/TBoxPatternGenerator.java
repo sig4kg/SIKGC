@@ -17,15 +17,20 @@ import java.util.function.Supplier;
 
       */
 public class TBoxPatternGenerator {
-    String ontology_file;
+    String ontology_file = "";
     String out_dir;
-    OWLOntology ont;
+    OWLOntology ont = null;
     OWLReasonerFactory rf;
     OWLReasoner reasoner;
     OWLDataFactory factory;
 
     public TBoxPatternGenerator(String ontoloty_file, String output_dir) {
         this.ontology_file = ontoloty_file;
+        this.out_dir = output_dir;
+    }
+
+    public TBoxPatternGenerator(OWLOntology ontoloty, String output_dir) {
+        this.ont = ontoloty;
         this.out_dir = output_dir;
     }
 
@@ -44,7 +49,9 @@ public class TBoxPatternGenerator {
 
     public void getAllClasses() {
         try {
-            loadOnto();
+            if (ont == null && ontology_file.length() > 0) {
+                loadOnto();
+            }
             Set<OWLAnnotationAssertionAxiom> all_axioms = ont.getAxioms(AxiomType.ANNOTATION_ASSERTION);
             File rel2text_txt = new File(out_dir + "/rel2text.txt");
             FileWriter rel2text_f = new FileWriter(rel2text_txt);
@@ -81,7 +88,9 @@ public class TBoxPatternGenerator {
 
     public void GeneratePatterns() {
         try {
-            loadOnto();
+            if (ont == null && ontology_file.length() > 0) {
+                loadOnto();
+            }
             ArrayList<Supplier<BasePattern>> patternConsumersIJPs = RegesterIJPatterns();
             ArrayList<Supplier<BasePattern>> patternConsumersSchemaCorrect = RegesterSchemaCorrectPatterns();
             for (Supplier<BasePattern> p : patternConsumersIJPs) {

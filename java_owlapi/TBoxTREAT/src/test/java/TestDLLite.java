@@ -1,16 +1,23 @@
 import ReasonerUtils.HermitUtil;
 import ReasonerUtils.TrOWLUtil;
 import TBoxScanner.PatternDLLite;
+import TBoxScanner.TBoxPatternGenerator;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TestDLLite {
     DLLite dlliteCvt= new DLLite("output/");
@@ -123,6 +130,57 @@ public class TestDLLite {
     }
 
     @Test
+    public void testInverseOfPunning() throws OWLOntologyCreationException {
+        ontology = manager.createOntology(ontologyIRI);
+        OWLClass clsB = factory.getOWLClass(IRI.create(ontologyIRI + "#Person"));
+        OWLClass clsC = factory.getOWLClass(IRI.create(ontologyIRI + "#Work"));
+        OWLClass clsA = factory.getOWLClass(IRI.create(ontologyIRI + "#Woman"));
+        // A subclassof B
+        OWLAxiom axiom1 = factory.getOWLSubClassOfAxiom(clsA, clsB);
+        AddAxiom addAxiom1 = new AddAxiom(ontology, axiom1);
+        manager.applyChange(addAxiom1);
+        // B disjointwith C
+        OWLAxiom axiom2 = factory.getOWLDisjointClassesAxiom(clsB, clsC);
+        AddAxiom addAxiom2 = new AddAxiom(ontology, axiom2);
+        manager.applyChange(addAxiom2);
+        // inverseof
+        OWLObjectProperty hasParent = factory.getOWLObjectProperty(":hasParent", pm);
+        OWLObjectProperty hasChild = factory.getOWLObjectProperty(":hasChild", pm);
+        OWLAxiom axiom3 = factory.getOWLInverseObjectPropertiesAxiom(hasChild, hasParent);
+        AddAxiom addAxiom3 = new AddAxiom(ontology, axiom3);
+        manager.applyChange(addAxiom3);
+        // domain and range
+        OWLObjectProperty work_for = factory.getOWLObjectProperty(":work_for", pm);
+        OWLAxiom axiom5 = factory.getOWLObjectPropertyDomainAxiom(work_for, clsB);
+        OWLAxiom axiom6 = factory.getOWLObjectPropertyRangeAxiom(work_for, clsC);
+        AddAxiom addAxiom5 = new AddAxiom(ontology, axiom5);
+        AddAxiom addAxiom6 = new AddAxiom(ontology, axiom6);
+        manager.applyChange(addAxiom5);
+        manager.applyChange(addAxiom6);
+        OWLAxiom axiom7 = factory.getOWLObjectPropertyRangeAxiom(hasParent, clsB);
+        OWLAxiom axiom8 = factory.getOWLObjectPropertyDomainAxiom(hasParent, clsB);
+        AddAxiom addAxiom7 = new AddAxiom(ontology, axiom7);
+        AddAxiom addAxiom8 = new AddAxiom(ontology, axiom8);
+        manager.applyChange(addAxiom7);
+        manager.applyChange(addAxiom8);
+        //add punning
+        OWLClass a = factory.getOWLClass(":work_for", pm);
+        OWLClass b = factory.getOWLClass(":hasParent", pm);
+        OWLClass c = factory.getOWLClass(":hasParent", pm);
+        OWLDeclarationAxiom aa = factory.getOWLDeclarationAxiom(a);
+        OWLDeclarationAxiom bb = factory.getOWLDeclarationAxiom(b);
+        OWLDeclarationAxiom cc = factory.getOWLDeclarationAxiom(c);
+        manager.addAxiom(ontology, aa);
+        manager.addAxiom(ontology, bb);
+        manager.addAxiom(ontology, cc);
+        Map<String, OWLObject> map = new HashMap<>();
+        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
+        PatternDLLite pattern = new PatternDLLite();
+        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
+        pattern.generatePattern();
+    }
+
+    @Test
     public void testSymetric() throws OWLOntologyCreationException {
         ontology = manager.createOntology(ontologyIRI);
         // symetric
@@ -164,11 +222,57 @@ public class TestDLLite {
 
     @Test
     public void testNELL() throws Exception {
+        List<String> toKeepProperties = new ArrayList<>();
+        try (Stream<String> lines2 = Files.lines(Paths.get("output/OP.txt"))) {
+            lines2.forEach(toKeepProperties::add);
+        }
         ontology = dlliteCvt.loadOnto("../../resources/NELL.ontology.ttl");
-        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
-        PatternDLLite pattern = new PatternDLLite();
-        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
-        pattern.generateOPPattern();
+        IRI ontologyIRI = IRI.create("http://replicate.nell/test");
+        OWLOntology clean_ont = manager.createOntology(ontologyIRI);
+        OWLDataFactory factory = manager.getOWLDataFactory();
+        List<String> all_ops = new ArrayList<>();
+        for (OWLObjectProperty op : ontology.getObjectPropertiesInSignature()) {
+            all_ops.add(op.getIRI().toString());
+            // the maximum  number  of OP that  TrOWL can handle is 302;
+            // any more OPs would lead to direct reasoning only.
+            if (toKeepProperties.contains(op.getIRI().toString())) {
+                for (OWLAxiom ax: ontology.getAxioms(op)) {
+                    if (ax.isOfType(AxiomType.INVERSE_OBJECT_PROPERTIES)) {
+                        List<OWLObjectProperty> out_of_range = ax.getObjectPropertiesInSignature().stream().filter(ele -> toKeepProperties.contains(ele.getIRI().toString())).collect(Collectors.toList());
+                        if (out_of_range.size() > 0) {
+                            continue;
+                        }
+                    }
+                    AddAxiom aa = new AddAxiom(clean_ont, ax);
+                    manager.applyChange(aa);
+                }
+            }
+        }
+        List<String> all_cls = new ArrayList<>();
+        for (OWLClass oc : ontology.getClassesInSignature()) {
+            if (all_ops.contains(oc.getIRI().toString())) {
+                continue;
+            } else {
+                for (OWLAxiom dec : ontology.getAxioms(oc)) {
+                    AddAxiom aa = new AddAxiom(clean_ont, dec);
+                    all_cls.add(oc.getIRI().toString());
+                    manager.applyChange(aa);
+                }
+            }
+        }
+
+        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, clean_ont);
+        TBoxPatternGenerator tboxScanner = new TBoxPatternGenerator(infOnt, "output/");
+        tboxScanner.GeneratePatterns();
+        tboxScanner.getAllClasses();
+        NTriplesDocumentFormat nTriplesFormat = new NTriplesDocumentFormat();
+        File inferredOntologyFile = new File("output/nell_resized_tbox.nt");
+        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
+            manager.saveOntology(infOnt, nTriplesFormat, outputStream);
+        } catch (OWLOntologyStorageException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Test

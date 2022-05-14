@@ -218,7 +218,12 @@ def get_entity2text(abox_file, class2text_file, out_file):
 
 
 if __name__ == "__main__":
-    get_entity2text("../resources/NELL/abox_hrt.txt", "../resources/NELL-995_2/class2text.txt", "../outputs/entity2text.txt")
+    tdf = pd.read_csv("../resources/NELL/abox_hrt_uri.txt",header=None,
+                      names=['head', 'rel', 'tail'], sep="\t", error_bad_lines=False, engine="python")
+    rell = tdf[['rel']].drop_duplicates(keep='first')
+    rell.to_csv("../resources/NELL/OP.txt", header=None, index=None, sep='\t', mode='w')
+    print(len(rell.index))
+    # get_entity2text("../resources/NELL/abox_hrt.txt", "../resources/NELL-995_2/class2text.txt", "../outputs/entity2text.txt")
 
     # format_NELL("../resources/NELL/abox_hrt.txt", "../resources/NELL/abox_hrt_uri.txt")
     # format_NELL_entity2text("../resources/NELL-995_2/entity2text.txt", "../resources/NELL/entity2text.txt")

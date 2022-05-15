@@ -33,7 +33,7 @@ if __name__ == "__main__":
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
     parser.add_argument("--inductive", type=bool, default=False)
-    parser.add_argument("--schema_in_nt", type=str, default='../outputs/test/tbox.nt')
+    parser.add_argument("--schema_in_nt", type=str, default='')
     parser.add_argument("--parallel", type=bool, default=False)
     parser.add_argument("--schema_aware", type=bool, default=False)
     parser.add_argument("--reasoner", type=str, default='Konclude')
@@ -43,7 +43,8 @@ if __name__ == "__main__":
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')
     data_conf = DatasetConfig().get_config(args.dataset)
-    data_conf.schema_in_nt = args.schema_in_nt
+    if args.schema_in_nt != '':
+        data_conf.schema_in_nt = args.schema_in_nt
     blp_conf = BLPConfig().get_blp_config(rel_model=args.rel_model,
                                           inductive=args.inductive,
                                           dataset=args.dataset,

@@ -34,8 +34,8 @@ class PipelineRunnerParallel(PipelineRunnerBase, ProducerBlock):
         self.create_pipeline()
         get_scores = aggregate_scores()
         idx = 1
-        run_scripts.mk_dir(self.pipeline_config.work_dir + "last_round")
-        run_scripts.mk_dir(self.pipeline_config.work_dir + "subprocess")
+        init_dir(self.pipeline_config.work_dir + "last_round")
+        init_dir(self.pipeline_config.work_dir + "subprocess")
         for ep in trange(pipeline_config.loops, colour="green", position=0, leave=True, desc="Pipeline processing"):
             processes = []
             for block in self.block_names:

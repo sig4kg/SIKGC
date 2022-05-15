@@ -6,7 +6,7 @@ import pandas as pd
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from blp.producer import ex
 from module_utils.common_util import timethis
-from type_producer import train_and_produce
+from module_utils.type_producer import train_and_produce
 
 
 class LC(ProducerBlock):

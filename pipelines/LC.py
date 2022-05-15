@@ -50,4 +50,4 @@ class LC(ProducerBlock):
         if not acc:
             return self._save_result_only(pred_hrt_df, pred_type_df, 'l')
         else:
-            return self._acc_and_collect_result(pred_hrt_df, pred_type_df, log_prefix="L")
+            return self.acc_and_collect_result(pred_hrt_df, pred_type_df, log_prefix="L")

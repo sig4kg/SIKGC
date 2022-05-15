@@ -67,7 +67,7 @@ class AC(ProducerBlock):
         if not acc:
             return self._save_result_only(pred_hrt_df, pred_type_df, 'a')
         else:
-            return self._acc_and_collect_result(pred_hrt_df, pred_type_df, log_prefix="A")
+            return self.acc_and_collect_result(pred_hrt_df, pred_type_df, log_prefix="A")
 
     def silver_eval(self):
         generate_silver_eval_file(context_resource=self.context_resource, anyburl_dir=self.tmp_work_dir)

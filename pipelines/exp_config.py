@@ -157,11 +157,11 @@ class DatasetConfig:
 
     def setDBpedia(self):
         self.input_dir = "../resources/DBpedia-politics/"
-        self.schema_file = '../resources/DBpediaP/resized_tbox.nt'
+        self.schema_file = '../resources/DBpediaP/tbox.nt'
         self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []
-        self.schema_in_nt ='../resources/DBpediaP/resized_tbox.nt'
+        self.schema_in_nt ='../resources/DBpediaP/tbox.nt'
 
     def get_config(self, dataset):
         if dataset == "NELL":

@@ -1,10 +1,10 @@
 package TBoxScanner;
 
+import TBoxScanner.deprecates.*;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
-import sun.jvm.hotspot.ui.tree.FloatTreeNodeAdapter;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplPlain;
 
@@ -17,10 +17,9 @@ import java.util.function.Supplier;
 
       */
 public class TBoxPatternGenerator {
-    String ontology_file;
+    String ontology_file = "";
     String out_dir;
-    OWLOntology ont;
-    OWLReasonerFactory rf;
+    OWLOntology ont = null;
     OWLReasoner reasoner;
     OWLDataFactory factory;
 
@@ -29,12 +28,19 @@ public class TBoxPatternGenerator {
         this.out_dir = output_dir;
     }
 
+    public TBoxPatternGenerator(OWLOntology ontoloty, OWLReasoner reasoner, OWLDataFactory factory, String output_dir) {
+        this.ont = ontoloty;
+        this.out_dir = output_dir;
+        this.reasoner = reasoner;
+        this.factory = factory;
+    }
+
     private void loadOnto() {
         try {
             OWLOntologyManager man = OWLManager.createOWLOntologyManager();
             InputStream is = this.readFileAsStream(ontology_file);
             ont = man.loadOntologyFromOntologyDocument(is);
-            rf = new JFactFactory();
+            OWLReasonerFactory rf = new JFactFactory();
             reasoner = rf.createReasoner(ont);
             factory = man.getOWLDataFactory();
         } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {
@@ -44,7 +50,9 @@ public class TBoxPatternGenerator {
 
     public void getAllClasses() {
         try {
-            loadOnto();
+            if (ont == null && ontology_file.length() > 0) {
+                loadOnto();
+            }
             Set<OWLAnnotationAssertionAxiom> all_axioms = ont.getAxioms(AxiomType.ANNOTATION_ASSERTION);
             File rel2text_txt = new File(out_dir + "/rel2text.txt");
             FileWriter rel2text_f = new FileWriter(rel2text_txt);
@@ -79,35 +87,19 @@ public class TBoxPatternGenerator {
         }
     }
 
-    public void GeneratePatternsDllite() {
-        try {
-            loadOnto();
-            PatternDLLite pattern = new PatternDLLite();
-            pattern.SetOWLAPIContext(ont, reasoner, factory, out_dir);
-            pattern.generateOPPattern();
-            pattern.generateFuncPattern();
-            pattern.generateTypePattern();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void GeneratePatterns() {
         try {
-            loadOnto();
+            if (ont == null && ontology_file.length() > 0) {
+                loadOnto();
+            }
             ArrayList<Supplier<BasePattern>> patternConsumersIJPs = RegesterIJPatterns();
             ArrayList<Supplier<BasePattern>> patternConsumersSchemaCorrect = RegesterSchemaCorrectPatterns();
-            ArrayList<Supplier<BasePattern>> patternGen = RegesterAxiomGeneratorPatterns();
             for (Supplier<BasePattern> p : patternConsumersIJPs) {
-                System.out.println("Generating pattern: " + p.get().toString());
+                System.out.println("Generating neg pattern: " + p.get().toString());
                 p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
             }
             for (Supplier<BasePattern> p : patternConsumersSchemaCorrect) {
-                System.out.println("Generating pattern: " + p.get().toString());
-                p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
-            }
-            for (Supplier<BasePattern> p : patternGen) {
-                System.out.println("Generating pattern: " + p.get().toString());
+                System.out.println("Generating pos pattern: " + p.get().toString());
                 p.get().SetOWLAPIContext(ont, reasoner, factory, out_dir).generatePattern();
             }
         } catch (IllegalArgumentException e) {
@@ -117,40 +109,16 @@ public class TBoxPatternGenerator {
 
     private ArrayList<Supplier<BasePattern>> RegesterIJPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-        patternConsumers.add(Pattern1::new);
-        patternConsumers.add(Pattern2::new);
-        patternConsumers.add(Pattern3::new);
-        patternConsumers.add(Pattern4::new);
-        patternConsumers.add(Pattern5::new);
-        patternConsumers.add(Pattern6::new);
-        patternConsumers.add(Pattern7::new);
-        patternConsumers.add(Pattern8::new);
-        patternConsumers.add(Pattern9::new);
-        patternConsumers.add(Pattern10::new);
-        patternConsumers.add(Pattern11::new);
-        patternConsumers.add(Pattern12::new);
-        patternConsumers.add(Pattern13::new);
-        patternConsumers.add(Pattern14::new);
-        patternConsumers.add(Pattern15::new);
-        patternConsumers.add(Pattern16::new);
+        patternConsumers.add(PatternDLLite::new);
+        patternConsumers.add(PatternAsymmetric::new);
+        patternConsumers.add(PatternIrreflexive::new);
         return patternConsumers;
     }
 
     private ArrayList<Supplier<BasePattern>> RegesterSchemaCorrectPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-        patternConsumers.add(PatternDomain::new);
-        patternConsumers.add(PatternRange::new);
-        return patternConsumers;
-    }
-
-    private ArrayList<Supplier<BasePattern>> RegesterAxiomGeneratorPatterns() {
-        ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-        patternConsumers.add(PatternGenInverse::new);
-        patternConsumers.add(PatternGenSymetric::new);
-        patternConsumers.add(PatternGenSubProperty::new);
-        patternConsumers.add(PatternGenReflexive::new);
-        patternConsumers.add(PatternGenTransitive::new);
-        patternConsumers.add(PatternTypeDisjointness::new);
+        patternConsumers.add(PatternPosDomain::new);
+        patternConsumers.add(PatternPosRange::new);
         return patternConsumers;
     }
 

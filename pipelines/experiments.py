@@ -1,71 +1,62 @@
+from file_util import init_dir
+from pipelines.exp_config import DatasetConfig, BLPConfig
 from scripts import run_scripts
 import argparse
-from exp_config import *
+from log_util import get_file_logger
 from pipelines.pipeline_runner_series import *
 from pipelines.pipeline_runner_parallel import *
 import torch
 
 # by Sylvia Wang
 
-def get_block_names(name_in_short: str):
-    capital_names = name_in_short.upper().strip().split('_')
-    supported = ['M', 'A', 'L']
-    if any([x not in supported for x in capital_names]):
-        print("Unsupported pipeline, please use pipeline names as a_l_m, m_a_l etc.")
-        return []
-    else:
-        return capital_names
-
-
-def producers(dataset="TEST", work_dir="../outputs/test/", pipeline="clc", use_gpu=False, loops=1, rel_model="transe",
-              inductive=False, schema_in_nt='', reasoner='', schema_aware=False, parallel=False):
-    data_conf = DatasetConfig().get_config(dataset)
-    blp_conf = BLPConfig().get_blp_config(rel_model=rel_model, inductive=inductive, dataset=dataset, schema_aware=schema_aware)
-    p_config = PipelineConfig().set_config(blp_config=blp_conf,
-                                           data_config=data_conf,
-                                           dataset=dataset,
-                                           loops=loops,
-                                           work_dir=work_dir,
-                                           use_gpu=use_gpu)
-    if schema_in_nt != '':
-        p_config.schema_in_nt = schema_in_nt
-    if reasoner != '':
-        p_config.reasoner = reasoner
-    if parallel:
-        pipeline_runner = PipelineRunnerParallel()
-    else:
-        pipeline_runner = PipelineRunnerSeries()
-    block_names = get_block_names(pipeline)
+def producers(pipeline_config: PipelineConfig):
+    block_names = get_block_names(pipeline_config.pipeline)
     if len(block_names) == 0:
         return
+    run_scripts.delete_dir(pipeline_config.work_dir)
+    init_dir(pipeline_config.work_dir)
+    logger = get_file_logger(file_name=pipeline_config.work_dir + f"{pipeline_config.dataset}_{pipeline_config.pipeline}.log")
+    if pipeline_config.parallel:
+        pipeline_runner = PipelineRunnerParallel(pipeline_config, logger=logger)
     else:
-        pipeline_runner.run_pipeline(p_config, block_names)
+        pipeline_runner = PipelineRunnerSeries(pipeline_config, logger=logger)
+    pipeline_runner.run_pipeline()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
-    parser.add_argument('--dataset', type=str, default="TEST")
+    parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="l")
+    parser.add_argument('--pipeline', type=str, default="m")
     parser.add_argument('--use_gpu', type=bool, default=False)
-    parser.add_argument('--loops', type=int, default=2)
+    parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
     parser.add_argument("--inductive", type=bool, default=False)
-    parser.add_argument("--schema_in_nt", type=str, default='../outputs/test/tbox.nt')
+    parser.add_argument("--schema_in_nt", type=str, default='')
     parser.add_argument("--parallel", type=bool, default=False)
-    parser.add_argument("--schema_aware", type=bool, default=False)
+    parser.add_argument("--schema_aware_sampling", type=bool, default=False)
     parser.add_argument("--reasoner", type=str, default='Konclude')
+    parser.add_argument("--pred_type", type=str, default=True)
+    parser.add_argument("--silver_eval", type=bool, default=False)
     args = parser.parse_args()
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')
-    producers(dataset=args.dataset,
-              work_dir=args.work_dir,
-              pipeline=args.pipeline,
-              use_gpu=args.use_gpu,
-              inductive=args.inductive,
-              rel_model=args.rel_model,
-              loops=args.loops,
-              schema_in_nt=args.schema_in_nt,
-              reasoner=args.reasoner,
-              schema_aware=args.schema_aware,
-              parallel=args.parallel)
+    data_conf = DatasetConfig().get_config(args.dataset)
+    if args.schema_in_nt != '':
+        data_conf.schema_in_nt = args.schema_in_nt
+    blp_conf = BLPConfig().get_blp_config(rel_model=args.rel_model,
+                                          inductive=args.inductive,
+                                          dataset=args.dataset,
+                                          schema_aware=args.schema_aware_sampling,
+                                          silver_eval=args.silver_eval)
+    p_config = PipelineConfig().set_pipeline_config(dataset=args.dataset,
+                                                    loops=args.loops,
+                                                    work_dir=args.work_dir,
+                                                    pred_type=args.pred_type,
+                                                    reasoner=args.reasoner,
+                                                    parallel=args.parallel,
+                                                    pipeline=args.pipeline,
+                                                    use_gpu=args.use_gpu,
+                                                    silver_eval=args.silver_eval)
+    p_config.set_blp_config(blp_conf).set_data_config(data_conf)
+    producers(p_config)

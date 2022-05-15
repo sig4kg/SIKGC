@@ -11,14 +11,13 @@ import java.io.PrintWriter;
 
 public abstract class BasePattern implements IPattern{
     protected String outputDir;
-    protected String filePrefix = "TBoxPattern";
     protected PrintWriter pw = null;
     protected OWLDataFactory factory;
     protected OWLReasoner reasoner;
     protected OWLOntology ont;
 
-    protected PrintWriter GetPrintWriter(String index) throws IOException{
-        File f = new File(this.outputDir + "/" + this.filePrefix + "_" + index + ".txt");
+    protected PrintWriter GetPrintWriter(String fileName) throws IOException{
+        File f = new File(this.outputDir + "/" + fileName);
         FileWriter fw = new FileWriter(f);
         this.pw = new PrintWriter(fw);
         return this.pw;

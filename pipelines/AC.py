@@ -1,84 +1,94 @@
-from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
+import logging
+from pipelines.PipelineConfig import PipelineConfig
+from pipelines.ProducerBlock import ProducerBlock
 from module_utils.anyburl_util import *
 import pandas as pd
 from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
+from module_utils.common_util import timethis
+
 
 class AC(ProducerBlock):
-    def __init__(self, context_resource: ContextResources,
-                 abox_scanner_scheduler: AboxScannerScheduler,
-                 pipeline_config: PipelineConfig) -> None:
-        self.context_resource = context_resource
-        self.abox_scanner_scheduler = abox_scanner_scheduler
-        self.pipeline_config = pipeline_config
-        self.work_dir = self.pipeline_config.work_dir
-        self.acc = True
+    def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
+                 pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
+        super().__init__(context_resource, abox_scanner_scheduler, pipeline_config, logger)
+        self.tmp_work_dir = pipeline_config.work_dir + "A/"
+        self.type_threshold = 0.001
+        self.pred_file = self.tmp_work_dir + "predictions/alpha-100"
 
+    def predict_anyburl(self, pred_with: str):
+        clean_anyburl_tmp_files(self.tmp_work_dir)
+        prepare_anyburl_configs(self.tmp_work_dir, pred_with=pred_with)
+        pred_tail_only = "type" in pred_with
+        print("predicting with anyBURL " + pred_with)
+        predict_with_anyburl(self.tmp_work_dir)
+        wait_until_file_is_saved(self.tmp_work_dir + "predictions/alpha-100", 60)
+        tmp_pred_hrt = read_hrt_pred_anyburl_2_hrt_int_df(self.tmp_work_dir + "predictions/alpha-100",
+                                                          pred_tail_only=pred_tail_only).drop_duplicates(
+            keep='first').reset_index(drop=True)
+        if "type" in pred_with:
+            all_classes = self.context_resource.classid2class.keys()
+            tmp_pred_hrt = tmp_pred_hrt.query("tail in @all_classes")
+        return tmp_pred_hrt
+
+    @timethis
     def produce(self, acc=True):
         self.acc = acc
-        work_dir = self.work_dir + "A/"
-        run_scripts.mk_dir(work_dir)
+        run_scripts.mk_dir(self.tmp_work_dir)
         context_resource = self.context_resource
-        hrt_int_df_2_hrt_anyburl(context_resource, work_dir)
-        split_all_triples_anyburl(context_resource, work_dir, exclude_rels=self.pipeline_config.exclude_rels)
-        prepare_anyburl_configs(work_dir, pred_with='hr')
-        wait_until_anyburl_data_ready(work_dir)
+        split_all_triples_anyburl(context_resource, self.tmp_work_dir, exclude_rels=self.pipeline_config.exclude_rels)
+        prepare_anyburl_configs(self.tmp_work_dir, pred_with='hr')
+        wait_until_anyburl_data_ready(self.tmp_work_dir)
         print("learning anyBURL...")
-        run_scripts.learn_anyburl(work_dir)
-        print("predicting with anyBURL...")
-        run_scripts.predict_with_anyburl(work_dir)
-        tmp_pred_hrt1 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100",
-                                                           context_resource).drop_duplicates(
-            keep='first').reset_index(drop=True)
-        clean_anyburl_tmp_files(work_dir)
-        prepare_anyburl_configs(work_dir, pred_with='rt')
-        wait_until_anyburl_data_ready(work_dir)
-        print("predicting with anyBURL...")
-        run_scripts.predict_with_anyburl(work_dir)
-        wait_until_file_is_saved(work_dir + "predictions/alpha-100", 60)
-        tmp_pred_hrt2 = read_hrt_pred_anyburl_2_hrt_int_df(work_dir + "predictions/alpha-100",
-                                                           context_resource).drop_duplicates(
-            keep='first').reset_index(drop=True)
-        run_scripts.clean_anyburl(work_dir=work_dir)
-        # consistency checking for new triples
+        learn_anyburl(self.tmp_work_dir)
+        # predict
+        tmp_pred_hrt1 = self.predict_anyburl(pred_with='hr')
+        tmp_pred_hrt2 = self.predict_anyburl(pred_with='rt')
+        # type prediction
+        if self.pipeline_config.silver_eval:
+            score1, score2 = self.silver_eval()
+            log_str = f"Anyburl type prediction:\n" \
+                      f"{str(score1)} \n" \
+                      f"rel axiom prediction:\n {str(score2)}"
+            self.logger.info(log_str)
+
+        pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+        if self.pipeline_config.pred_type:
+            self.predict_anyburl(pred_with='type')
+            pred_type_df = read_type_pred_to_df(self.pred_file,
+                                                self.context_resource.classid2class.keys(),
+                                                self.type_threshold)
+
+        # clean
+        clean_anyburl(work_dir=self.tmp_work_dir)
+        # save result or acc
         pred_hrt_df = pd.concat([tmp_pred_hrt1, tmp_pred_hrt2]).drop_duplicates(
             keep='first').reset_index(drop=True)
+        if not acc:
+            return self._save_result_only(pred_hrt_df, pred_type_df, 'a')
+        else:
+            return self.acc_and_collect_result(pred_hrt_df, pred_type_df, log_prefix="A")
 
-        return self.collect_result(pred_hrt_df)
+    def silver_eval(self):
+        generate_silver_eval_file(context_resource=self.context_resource, anyburl_dir=self.tmp_work_dir)
+        # run eval on types
+        self.predict_anyburl(pred_with='type_silver')
+        opt_threshold = get_optimal_threshold(self.pred_file,
+                                              self.context_resource.silver_type,
+                                              self.context_resource.classid2class.keys())
+        self.type_threshold = opt_threshold
+        self.logger.info(f"Optimal threshold for Anyburl type prediciton: {opt_threshold}")
+        scores1 = get_silver_type_scores(self.pred_file, self.context_resource.silver_type,
+                                         opt_threshold, self.context_resource.classid2class.keys())
+        # run eval on rel assertions
+        self.predict_anyburl(pred_with='rel_silver')
+        scores2 = read_eval_result(self.tmp_work_dir)
+        return scores1, scores2
 
-    def collect_result(self, pred_hrt_df):
-        context_resource = self.context_resource
-        # acc and collect score
-        new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
-            keep=False)
-        if not self.acc:
-            tmp_file_name = self.pipeline_config.work_dir + f'subprocess/hrt_a_{os.getpid()}.txt'
-            new_hrt_df.to_csv(tmp_file_name, header=False, index=False, sep='\t')
-            wait_until_file_is_saved(tmp_file_name)
-            del new_hrt_df
-            return
 
-        new_count = len(new_hrt_df.index)
-        #  backup and clean last round data
-        run_scripts.clean_anyburl(work_dir=self.pipeline_config.work_dir)
-        to_scan_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df]).drop_duplicates(keep="first").reset_index(
-            drop=True)
-        valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df).scan_IJ_patterns(work_dir=self.work_dir)
-        corrects = self.abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=self.work_dir)
-        new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
-            keep=False)
-        new_valid_count = len(new_valids.index)
-        del new_valids
-        new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
-            keep=False)
-        new_correct_count = len(new_corrects.index)
-        del new_corrects
-        train_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
 
-        # add new valid hrt to train set
-        extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(drop=True)
-        extend_count = len(extend_hrt_df.index) + self.context_resource.type_count
-        # overwrite train data in context
-        context_resource.hrt_int_df = extend_hrt_df
-        # check rate
-        return train_count, extend_count, new_count, new_valid_count, new_correct_count
+
+
+
+
+

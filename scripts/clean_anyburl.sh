@@ -21,5 +21,4 @@ fi
 [ -f "$WORK_DIR/valid_hrt.txt" ] && mv $WORK_DIR/valid_hrt.txt $LAST_ROUND
 [ -f "$WORK_DIR/all_triples.txt" ] && mv $WORK_DIR/all_triples.txt $LAST_ROUND
 [ -f "$WORK_DIR/test*.txt" ] && mv $WORK_DIR/test*.txt $LAST_ROUND
-[ -f "$WORK_DIR/config-apply.properties" ] && mv $WORK_DIR/config-apply.properties $LAST_ROUND
 

@@ -1,14 +1,15 @@
+import logging
+
 from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
 from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
-from module_utils.transE_util import *
 from module_utils.rumis_util import *
 
 
 class RC(ProducerBlock):
-    def __init__(self, context_resource: ContextResources,
-                 abox_scanner_scheduler: AboxScannerScheduler,
-                 pipeline_config: PipelineConfig) -> None:
+    def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
+                 pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
+        super().__init__(context_resource, pipeline_config, logger)
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config
@@ -51,7 +52,7 @@ class RC(ProducerBlock):
 
         #  backup and clean last round data
         run_scripts.clean_rumis(work_dir=config.work_dir)
-        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(pred_hrt_df).scan_IJ_patterns(
+        valids, invalids = abox_scanner_scheduler.set_triples_to_scan_int_df(pred_hrt_df).scan_rel_IJPs(
             work_dir=config.work_dir)
         new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
@@ -61,12 +62,12 @@ class RC(ProducerBlock):
             keep=False)
         new_correct_count = len(new_corrects.index)
         del new_corrects
-        train_count = len(context_resource.hrt_int_df.index) + context_resource.type_count
+        train_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
 
         # add new valid hrt to train set
         extend_hrt_df = pd.concat([context_resource.hrt_int_df, valids], axis=0).drop_duplicates(keep='first').reset_index(
             drop=True)
-        extend_count = len(extend_hrt_df.index) + context_resource.type_count
+        extend_count = len(extend_hrt_df.index) + context_resource.get_type_count()
         # overwrite train data in context
         print("update context data")
         context_resource.hrt_int_df = extend_hrt_df

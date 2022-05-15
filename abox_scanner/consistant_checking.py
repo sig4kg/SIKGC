@@ -1,6 +1,4 @@
-import pandas as pd
 from pipelines.pipeline_util import *
-from abox_scanner.pattern_type_scanner import PatternTypeDiscjointness
 
 if __name__ == "__main__":
     # triples_path = "../resources/DBpedia-politics/abox_hrt_uri.txt"  # h, t, r
@@ -25,7 +23,7 @@ if __name__ == "__main__":
     # abox_scanner_scheduler.register_gen_pattern()
     # t = abox_scanner_scheduler.scan_generator_patterns()
     # abox_scanner_scheduler.register_pattern([1, 2, 5,8,9,10,11,12,13], ['pos_domain', 'pos_range'])
-    # valids, invalids = abox_scanner_scheduler.scan_IJ_patterns(work_dir='../outputs/test/')
+    # valids, invalids = abox_scanner_scheduler.scan_rel_IJPs(work_dir='../outputs/test/')
 
     # abox_scanner_scheduler.scan_schema_correct_patterns(work_dir='../outputs/test/')
     # context_res.hrt_int_df = valids

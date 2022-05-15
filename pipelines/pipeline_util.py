@@ -1,13 +1,26 @@
-from abox_scanner.abox_utils import init_workdir, wait_until_file_is_saved
-from scripts import run_scripts
+from abox_scanner.abox_utils import wait_until_file_is_saved
+from module_utils.materialize_util import materialize
 from pipelines.ProducerBlock import PipelineConfig
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 import os
+import pandas as pd
+from module_utils.sample_util import split_relation_triples, split_type_triples
+
+
+def get_block_names(name_in_short: str):
+    capital_names = name_in_short.upper().strip().split('_')
+    supported = ['M', 'A', 'L']
+    if any([x not in supported for x in capital_names]):
+        print("Unsupported pipeline, please use pipeline names as a_l_m, m_a_l etc.")
+        return []
+    else:
+        return capital_names
 
 
 def aggregate_scores():
     init_kgs, target_kgs, nc, vc, cc, n = [], [], [], [], [], [0]
+
     def add_new(init_kgc, extend_kgc, new_count, new_valid_count, new_correct_count):
         n[0] = n[0] + 1
         nc.append(new_count)
@@ -34,7 +47,8 @@ def aggregate_scores():
         f_h = 2 * f_correctness * f_coverage / (f_coverage + f_correctness) if (f_coverage + f_correctness) > 0 else 0
         f_consistency = tf_consistency / n[0]
         f_coverage2 = ty / init_kgs[0]
-        f_h2 = 2 * f_consistency * f_coverage2 / (f_coverage2 + f_consistency) if (f_coverage2 + f_consistency) > 0 else 0
+        f_h2 = 2 * f_consistency * f_coverage2 / (f_coverage2 + f_consistency) if (
+                                                                                          f_coverage2 + f_consistency) > 0 else 0
         result = {"init_kgs": init_kgs,
                   "target_kgs": target_kgs,
                   "new_count": nc,
@@ -53,8 +67,7 @@ def aggregate_scores():
     return add_new
 
 
-def prepare_context(pipeline_config: PipelineConfig, consistency_check=True,
-                    create_id_file=False, abox_file_hrt=""):
+def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abox_file_hrt=""):
     work_dir = pipeline_config.work_dir
     # prepare tbox patterns
     # if pipeline_config.tbox_patterns_dir == "" or not os.path.exists(pipeline_config.tbox_patterns_dir):
@@ -68,16 +81,67 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True,
     else:
         abox_file_path = pipeline_config.input_dir + "abox_hrt_uri.txt"
     context_resource = ContextResources(abox_file_path, class_and_op_file_path=work_dir,
-                                        work_dir=work_dir, create_id_file=create_id_file)
+                                        work_dir=work_dir)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(pipeline_config.tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
     if consistency_check:
-        valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_IJ_patterns(work_dir=work_dir)
+        valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir)
         abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
         # wait_until_file_is_saved(work_dir + "valid_hrt.txt")
         context_resource.hrt_int_df = valids
     else:
-        abox_scanner_scheduler.register_pattern([1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 15])
+        abox_scanner_scheduler.register_patterns_all()
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
+
+    # schema_aware silver evaluation, we freeze a small portion of test data and keep them in context_resource
+    if pipeline_config.silver_eval:
+        freeze_silver_test_data(context_resource, pipeline_config)
     return context_resource, abox_scanner_scheduler
+
+
+def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_config: PipelineConfig):
+    context_resource.to_ntriples(pipeline_config.work_dir, schema_in_nt=pipeline_config.schema_in_nt)
+    wait_until_file_is_saved(pipeline_config.work_dir + "tbox_abox.nt", 120)
+    print("running materialization...")
+    pred_hrt_df, pred_type_df = materialize(pipeline_config.work_dir,
+                                            context_resource,
+                                            pipeline_config.reasoner,
+                                            exclude_rels=pipeline_config.exclude_rels)
+    groups = pred_type_df.groupby('head')
+    ent2types = context_resource.entid2classids.copy()
+    for g in groups:
+        ent = g[0]
+        types = g[1]['tail'].tolist()
+        if ent in ent2types:
+            old_types = set(ent2types[ent])
+            new_types = set(types)
+            ent2types.update({ent: list(old_types | new_types)})
+
+    new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]). \
+        drop_duplicates(keep="first").reset_index(drop=True)
+
+    df_rel_train, df_rel_test, _ = split_relation_triples(hrt_df=context_resource.hrt_int_df,
+                                                          exclude_rels=pipeline_config.exclude_rels,
+                                                          produce=False)
+    dict_type_train, dict_type_test, _ = split_type_triples(context_resource=context_resource,
+                                                            top_n_types=50,
+                                                            produce=False)
+    silver_rel_test = pd.concat([df_rel_test, new_hrt_df]).drop_duplicates(keep='first').reset_index(drop=True)
+    silver_type_dict = {ent: ent2types[ent] for ent in dict_type_test}
+    splited = {'rel_test': silver_rel_test,
+               'type_test': silver_type_dict,
+               'rel_train': df_rel_train,
+               'type_train': dict_type_train}
+    return splited
+
+
+# this function split a portion of test data and extend with materialization data.
+# the left data will be set to context_resource
+def freeze_silver_test_data(context_resource: ContextResources, pipeline_config: PipelineConfig):
+    splited = split_schema_aware_silver_data(context_resource, pipeline_config)
+    context_resource.hrt_int_df = splited['rel_train']
+    context_resource.entid2classids = splited['type_train']
+    context_resource.silver_rel = splited['rel_test']
+    context_resource.silver_type = splited['type_test']
+

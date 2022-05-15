@@ -1,6 +1,4 @@
-import os
 import os.path as osp
-from pathlib import Path
 from blp.extend_models import *
 import networkx as nx
 import torch
@@ -11,10 +9,7 @@ from logging import Logger
 from sacred import Experiment
 from sacred.observers import MongoObserver
 from transformers import BertTokenizer, get_linear_schedule_with_warmup
-from collections import defaultdict
 import numpy as np
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from module_utils.file_util import *
 from data import CATEGORY_IDS
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
@@ -22,7 +17,6 @@ from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset
 import models
 import utils
 import pandas as pd
-import sacred
 
 # OUT_PATH = 'output/'
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -59,6 +53,7 @@ def config():
     use_cached_text = False
     do_downstream_sample = False
     do_produce = True
+    silver_eval = False
     schema_aware = False
 
 
@@ -485,7 +480,7 @@ def produce(model,
 def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     encoder_name, regularizer, max_len, num_negatives, lr,
                     use_scheduler, batch_size, emb_batch_size, eval_batch_size,
-                    max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce,
+                    max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce, silver_eval,
                     _run: Run, _log: Logger,
                     schema_aware):
     drop_stopwords = model in {'bert-bow', 'bert-dkrl',
@@ -620,7 +615,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     #save scores to log file
     log_str = ""
     log_file_name = work_dir + "blp_eval.log"
-    save_to_file("-------blp eval---------\n", log_file_name, mode='a')
+    save_to_file("-------blp training eval---------\n", log_file_name, mode='a')
     for k, value in best_hit_at_k.items():
         log_str += f'hits@{k}: {value:.4f}\n'
     save_to_file(log_str, log_file_name, mode='a')
@@ -639,6 +634,20 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                            entities=train_val_test_ent,
                            emb_batch_size=emb_batch_size,
                            work_dir=work_dir)
+    if silver_eval:
+        valid_data_silver = GraphDataset(f'{work_dir}test_rel_silver.tsv')
+        valid_loader_silver = DataLoader(valid_data_silver, eval_batch_size)
+        val_mrr, hit_at_k, ent_emb = eval_link_prediction(model, valid_loader_silver, train_data,
+                                                    train_val_ent, 0,
+                                                    emb_batch_size, prefix='valid', return_embeddings=True)
+        save_to_file("-------blp eval on rel silver test set ---------\n", log_file_name, mode='a')
+        log_str = ''
+        for k, value in hit_at_k.items():
+            log_str += f'hits@{k}: {value:.4f}\n'
+        save_to_file(log_str, log_file_name, mode='a')
+        # Save final entity embeddings obtained with trained encoder
+        torch.save(ent_emb, osp.join(work_dir, f'ent_emb.pt'))
+        torch.save(train_val_test_ent, osp.join(work_dir, f'ents.pt'))
 
     if do_produce:
         _log.info('Produce new triples...')
@@ -660,20 +669,16 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         df_tris[['r']] = df_tris[['r']].applymap(lambda x: id2rel[x])  # to string
         df_tris[['h', 't']] = df_tris[['h', 't']].applymap(lambda x: id2entity[x])  # to string
         df_tris.to_csv(osp.join(work_dir, f'blp_new_triples.csv'), header=False, index=False, sep='\t', mode='a')
-        # torch.save(ent_emb, osp.join(work_dir, f'ent_emb-{_run._id}.pt'))
+        # Save final entity embeddings obtained with trained encoder
+        torch.save(ent_emb, osp.join(work_dir, f'ent_emb.pt'))
+        torch.save(train_val_test_ent, osp.join(work_dir, f'ents.pt'))
 
-    # Save final entity embeddings obtained with trained encoder
-    # torch.save(train_val_test_ent, osp.join(work_dir, f'ents-{_run._id}.pt'))
 
-
-#
 @ex.automain
 def my_main():
     link_prediction()
 
 
-#
-#
 if __name__ == '__main__':
     ex.run()
 

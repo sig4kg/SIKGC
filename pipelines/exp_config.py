@@ -83,7 +83,7 @@ class BLPConfig:
         }
         return conf
 
-    def get_blp_config(self, rel_model, inductive, dataset, schema_aware):
+    def get_blp_config(self, rel_model, inductive, dataset, schema_aware, silver_eval):
         if rel_model == 'transe':
             tmp_conf = self.getTranse()
         elif rel_model == "complex":
@@ -95,7 +95,7 @@ class BLPConfig:
         else:
             print(f"{rel_model} is not supported., please use transe, complex or simple")
             return {}
-        tmp_conf.update({'inductive': inductive, 'schema_aware': schema_aware})
+        tmp_conf.update({'inductive': inductive, 'schema_aware': schema_aware, 'silver_eval': silver_eval})
 
         if not inductive:
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
@@ -119,14 +119,12 @@ class BLPConfig:
 
 class DatasetConfig:
     input_dir = ""
-    schema_file = ""
     tbox_patterns_dir = ""
     max_epoch = 2
     schema_in_nt = ""
 
     def setTest(self):
         self.input_dir = "../resources/TEST/"
-        self.schema_file = '../resources/NELL/tbox.nt'
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 2
         self.exclude_rels = []
@@ -134,7 +132,6 @@ class DatasetConfig:
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"
-        self.schema_file = '../resources/NELL/tbox.nt'
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []
@@ -142,10 +139,9 @@ class DatasetConfig:
 
     def setTREAT(self):
         self.input_dir = "../resources/TREAT/"
-        self.schema_file = '../resources/TREAT/tbox.nt'
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
         self.e_max_epoch = 500
-        self.schema_in_nt='../resources/TREAT/tbox_dllite.nt'
+        self.schema_in_nt='../resources/TREAT/tbox.nt'
         self.prefix = "http://treat.net/onto.owl#"
         self.exclude_rels = [self.prefix + "has_parameter",
                              self.prefix + "has_property",
@@ -157,11 +153,10 @@ class DatasetConfig:
 
     def setDBpedia(self):
         self.input_dir = "../resources/DBpedia-politics/"
-        self.schema_file = '../resources/DBpediaP/resized_tbox.nt'
         self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []
-        self.schema_in_nt ='../resources/DBpediaP/resized_tbox.nt'
+        self.schema_in_nt ='../resources/DBpediaP/tbox.nt'
 
     def get_config(self, dataset):
         if dataset == "NELL":

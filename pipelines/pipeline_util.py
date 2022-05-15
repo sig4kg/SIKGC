@@ -1,5 +1,5 @@
 from abox_scanner.abox_utils import init_dir, wait_until_file_is_saved
-from materialize_util import materialize
+from module_utils.materialize_util import materialize
 from pipelines.ProducerBlock import PipelineConfig
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources

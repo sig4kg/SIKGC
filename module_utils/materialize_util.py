@@ -48,7 +48,7 @@ class MaterialisationKonclude(MaterialisationReasoner):
             df = pd.read_csv(
                 self.work_dir + "materialized_tbox_abox.nt", header=None, names=['head', 'rel', 'tail'], sep=" ", usecols=range(3)).drop_duplicates(
                 keep='first').reset_index(drop=True)
-            new_ent2types = get_types_hrt_from_nt(df, self.context_resource)
+            df_types = get_types_hrt_from_nt(df, self.context_resource)
         if os.path.exists(self.work_dir + "materialized_role_instance.xml"):
             # Konclude realisation has two steps, one is to call realization to get type assertions,
             # another is to query for each role to get new relation assertions
@@ -65,7 +65,7 @@ class MaterialisationKonclude(MaterialisationReasoner):
             df_properties['rel'] = df_properties['rel'].apply(
                 lambda x: self.context_resource.op2id[x] if x in self.context_resource.op2id else np.nan)  # to int
             df_properties = df_properties.dropna(how='any').astype('int64')
-        return new_ent2types, df_properties
+        return df_properties, df_types
 
 
 class MaterialisationTrOWL(MaterialisationReasoner):
@@ -144,7 +144,7 @@ def materialize(work_dir, context_resource: ContextResources, reasoner='TrOWL', 
     else:
         reasoner_func = MaterialisationKonclude
     reasoner_util = reasoner_func(work_dir=work_dir, context_resource=context_resource, exclude_rels=exclude_rels)
-    new_type_assertions, new_property_assertions = reasoner_util.do_materialise()
+    new_property_assertions, new_type_assertions = reasoner_util.do_materialise()
     print(f"The materialisation duration is {datetime.datetime.now() - start_time}")
     return new_property_assertions, new_type_assertions
 

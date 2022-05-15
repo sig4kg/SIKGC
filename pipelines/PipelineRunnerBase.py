@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 import logging
 import pipelines.M
-import pipelines.RC
+# import pipelines.RC
 import pipelines.AC
 import pipelines.LC
-import pipelines.EC
+# import pipelines.EC
 
 
 class PipelineRunnerBase(ABC):
@@ -15,8 +15,8 @@ class PipelineRunnerBase(ABC):
                                                 kwargs['pipeline_config'], kwargs['logger']),
             'A': lambda kwargs: pipelines.AC.AC(kwargs['context_resource'], kwargs['abox_scanner_scheduler'],
                                                 kwargs['pipeline_config'], kwargs['logger']),
-            'E': lambda kwargs: pipelines.EC.EC(kwargs['context_resource'], kwargs['abox_scanner_scheduler'],
-                                                kwargs['pipeline_config'], kwargs['logger'])
+            # 'E': lambda kwargs: pipelines.EC.EC(kwargs['context_resource'], kwargs['abox_scanner_scheduler'],
+            #                                     kwargs['pipeline_config'], kwargs['logger'])
         }
         self.logger = logger
 

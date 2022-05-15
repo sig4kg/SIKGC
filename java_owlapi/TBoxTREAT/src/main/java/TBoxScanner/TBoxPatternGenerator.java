@@ -122,17 +122,6 @@ public class TBoxPatternGenerator {
         return patternConsumers;
     }
 
-//    private ArrayList<Supplier<BasePattern>> RegesterAxiomGeneratorPatterns() {
-//        ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-//        patternConsumers.add(PatternGenInverse::new);
-//        patternConsumers.add(PatternGenSymetric::new);
-//        patternConsumers.add(PatternGenSubProperty::new);
-//        patternConsumers.add(PatternGenReflexive::new);
-//        patternConsumers.add(PatternGenTransitive::new);
-//        patternConsumers.add(PatternTypeDisjointness::new);
-//        return patternConsumers;
-//    }
-
     private InputStream readFileAsStream(String fileName) throws FileNotFoundException {
         // The class loader that loaded the class
 //        ClassLoader classLoader = getClass().getClassLoader();

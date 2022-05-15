@@ -1,9 +1,5 @@
 import logging
-
 from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
-from module_utils.transE_util import *
-import pandas as pd
-from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from module_utils.transE_util import *
 from openKE import train_transe

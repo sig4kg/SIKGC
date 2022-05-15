@@ -8,6 +8,7 @@ from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from module_utils.common_util import timethis
 
+
 class AC(ProducerBlock):
     def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
                  pipeline_config: PipelineConfig, logger:logging.Logger) -> None:

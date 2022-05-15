@@ -1,14 +1,15 @@
+import logging
+
 from pipelines.ProducerBlock import ProducerBlock, PipelineConfig
 from scripts import run_scripts
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
-from module_utils.transE_util import *
 from module_utils.rumis_util import *
 
 
 class RC(ProducerBlock):
-    def __init__(self, context_resource: ContextResources,
-                 abox_scanner_scheduler: AboxScannerScheduler,
-                 pipeline_config: PipelineConfig) -> None:
+    def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
+                 pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
+        super().__init__(context_resource, pipeline_config, logger)
         self.context_resource = context_resource
         self.abox_scanner_scheduler = abox_scanner_scheduler
         self.pipeline_config = pipeline_config

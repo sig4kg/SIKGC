@@ -260,11 +260,7 @@ public class TestDLLite {
                 }
             }
         }
-
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, clean_ont);
-        TBoxPatternGenerator tboxScanner = new TBoxPatternGenerator(infOnt, "output/");
-        tboxScanner.GeneratePatterns();
-        tboxScanner.getAllClasses();
         NTriplesDocumentFormat nTriplesFormat = new NTriplesDocumentFormat();
         File inferredOntologyFile = new File("output/nell_resized_tbox.nt");
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
@@ -273,6 +269,9 @@ public class TestDLLite {
             e.printStackTrace();
             throw e;
         }
+        TBoxPatternGenerator tboxScanner = new TBoxPatternGenerator(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
+        tboxScanner.GeneratePatterns();
+        tboxScanner.getAllClasses();
     }
 
     @Test

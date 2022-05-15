@@ -20,7 +20,6 @@ public class TBoxPatternGenerator {
     String ontology_file = "";
     String out_dir;
     OWLOntology ont = null;
-    OWLReasonerFactory rf;
     OWLReasoner reasoner;
     OWLDataFactory factory;
 
@@ -29,9 +28,11 @@ public class TBoxPatternGenerator {
         this.out_dir = output_dir;
     }
 
-    public TBoxPatternGenerator(OWLOntology ontoloty, String output_dir) {
+    public TBoxPatternGenerator(OWLOntology ontoloty, OWLReasoner reasoner, OWLDataFactory factory, String output_dir) {
         this.ont = ontoloty;
         this.out_dir = output_dir;
+        this.reasoner = reasoner;
+        this.factory = factory;
     }
 
     private void loadOnto() {
@@ -39,7 +40,7 @@ public class TBoxPatternGenerator {
             OWLOntologyManager man = OWLManager.createOWLOntologyManager();
             InputStream is = this.readFileAsStream(ontology_file);
             ont = man.loadOntologyFromOntologyDocument(is);
-            rf = new JFactFactory();
+            OWLReasonerFactory rf = new JFactFactory();
             reasoner = rf.createReasoner(ont);
             factory = man.getOWLDataFactory();
         } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {

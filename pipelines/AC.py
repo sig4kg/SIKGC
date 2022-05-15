@@ -1,5 +1,4 @@
 import logging
-
 from pipelines.PipelineConfig import PipelineConfig
 from pipelines.ProducerBlock import ProducerBlock
 from module_utils.anyburl_util import *

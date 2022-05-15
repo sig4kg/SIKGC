@@ -1,8 +1,6 @@
 import logging
-
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
 from torch.optim import Adam
-
 import log_util
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
@@ -23,7 +21,6 @@ from sklearn import metrics
 # Author: Sylvia Wang
 # 2022/05
 ###
-from file_util import save_to_file
 
 
 class DataTransformer():

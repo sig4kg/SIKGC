@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from sklearn.metrics import precision_recall_fscore_support
 from abox_scanner.abox_utils import wait_until_file_is_saved, save_to_file
 import os
@@ -8,7 +7,7 @@ from itertools import zip_longest
 import numpy as np
 from sklearn import metrics
 from sklearn.preprocessing import MultiLabelBinarizer
-from file_util import init_dir
+from module_utils.file_util import init_dir
 from module_utils.sample_util import *
 
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 import os
 import pandas as pd
 from abox_scanner.ContextResources import ContextResources
-from file_util import wait_until_file_is_saved
+from module_utils.file_util import wait_until_file_is_saved
 
 
 def read_hrt_rumis_2_hrt_int_df(hrt_rumis_file, context_resource: ContextResources):

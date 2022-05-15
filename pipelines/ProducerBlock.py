@@ -1,22 +1,22 @@
 import logging
-from abc import ABC, abstractmethod
 import pandas as pd
 from module_utils.file_util import wait_until_file_is_saved
 from abox_scanner.ContextResources import ContextResources
+from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from pipelines.PipelineConfig import PipelineConfig
 import os
 
 
-class ProducerBlock(ABC):
-    def __init__(self, context_resource: ContextResources,
+class ProducerBlock():
+    def __init__(self, context_resource: ContextResources, abox_scanner_scheduler:AboxScannerScheduler,
                  pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
         self.context_resource = context_resource
         self.pipeline_config = pipeline_config
         self.work_dir = self.pipeline_config.work_dir
-        self.abox_scanner_scheduler = None
+        self.abox_scanner_scheduler = abox_scanner_scheduler
         self.logger = logger
+        self.acc = True
 
-    @abstractmethod
     def produce(self, logger, *args):
         pass
 
@@ -24,14 +24,14 @@ class ProducerBlock(ABC):
         context_resource = self.context_resource
         new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
-        tmp_file_name1 = self.pipeline_config.work_dir + f'subprocess/{prefix}_rel_{os.getpid()}.txt'
+        tmp_file_name1 = self.pipeline_config.work_dir + f'subprocess/rel_{prefix}_{os.getpid()}.txt'
         new_hrt_df.to_csv(tmp_file_name1, header=False, index=False, sep='\t')
         wait_until_file_is_saved(tmp_file_name1)
         # save type df
         old_type_df = context_resource.type2hrt_int_df()
         new_type_df = pd.concat([pred_type_df, old_type_df, old_type_df]).drop_duplicates(
             keep=False).reset_index(drop=True)
-        tmp_file_name2 = self.pipeline_config.work_dir + f'subprocess/{prefix}_type_{os.getpid()}.txt'
+        tmp_file_name2 = self.pipeline_config.work_dir + f'subprocess/type_{prefix}_{os.getpid()}.txt'
         new_type_df.to_csv(tmp_file_name2, header=False, index=False, sep='\t')
         wait_until_file_is_saved(tmp_file_name2)
         return
@@ -86,7 +86,7 @@ class ProducerBlock(ABC):
                 new_types = set(types)
                 old_ent2types.update({ent: list(old_types | new_types)})
 
-    def _acc_and_collect_result(self, pred_hrt_df, pred_type_df, log_prefix=""):
+    def acc_and_collect_result(self, pred_hrt_df, pred_type_df, log_prefix=""):
         context_resource = self.context_resource
         train_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
         rel_count, rel_valid_count, rel_correct_count = self._acc_rel_axiom_and_update_context(pred_hrt_df)

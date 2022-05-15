@@ -12,12 +12,7 @@ from module_utils.type_producer import train_and_produce
 class LC(ProducerBlock):
     def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
                  pipeline_config: PipelineConfig, logger:logging.Logger) -> None:
-        super().__init__(context_resource, pipeline_config, logger)
-        self.context_resource = context_resource
-        self.abox_scanner_scheduler = abox_scanner_scheduler
-        self.pipeline_config = pipeline_config
-        self.work_dir = self.pipeline_config.work_dir
-        self.acc = True
+        super().__init__(context_resource, abox_scanner_scheduler, pipeline_config, logger)
 
     @timethis
     def produce(self, acc=True):

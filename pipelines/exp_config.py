@@ -119,14 +119,12 @@ class BLPConfig:
 
 class DatasetConfig:
     input_dir = ""
-    schema_file = ""
     tbox_patterns_dir = ""
     max_epoch = 2
     schema_in_nt = ""
 
     def setTest(self):
         self.input_dir = "../resources/TEST/"
-        self.schema_file = '../resources/NELL/tbox.nt'
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 2
         self.exclude_rels = []
@@ -134,7 +132,6 @@ class DatasetConfig:
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"
-        self.schema_file = '../resources/NELL/tbox.nt'
         self.tbox_patterns_dir = "../resources/NELL-patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []
@@ -142,10 +139,9 @@ class DatasetConfig:
 
     def setTREAT(self):
         self.input_dir = "../resources/TREAT/"
-        self.schema_file = '../resources/TREAT/tbox.nt'
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
         self.e_max_epoch = 500
-        self.schema_in_nt='../resources/TREAT/tbox_dllite.nt'
+        self.schema_in_nt='../resources/TREAT/tbox.nt'
         self.prefix = "http://treat.net/onto.owl#"
         self.exclude_rels = [self.prefix + "has_parameter",
                              self.prefix + "has_property",
@@ -157,7 +153,6 @@ class DatasetConfig:
 
     def setDBpedia(self):
         self.input_dir = "../resources/DBpedia-politics/"
-        self.schema_file = '../resources/DBpediaP/tbox.nt'
         self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []

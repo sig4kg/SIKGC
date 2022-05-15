@@ -10,10 +10,8 @@ from module_utils.common_util import timethis
 
 class AC(ProducerBlock):
     def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
-                 pipeline_config: PipelineConfig, logger:logging.Logger) -> None:
-        super().__init__(context_resource, pipeline_config, logger)
-        self.abox_scanner_scheduler = abox_scanner_scheduler
-        self.acc = True
+                 pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
+        super().__init__(context_resource, abox_scanner_scheduler, pipeline_config, logger)
         self.tmp_work_dir = pipeline_config.work_dir + "A/"
         self.type_threshold = 0.001
         self.pred_file = self.tmp_work_dir + "predictions/alpha-100"

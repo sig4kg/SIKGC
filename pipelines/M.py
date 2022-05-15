@@ -10,10 +10,7 @@ from module_utils.common_util import timethis
 class M(ProducerBlock):
     def __init__(self, context_resource: ContextResources,
                  pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
-        super().__init__(context_resource, pipeline_config, logger)
-        self.context_resource = context_resource
-        self.pipeline_config = pipeline_config
-        self.acc = True
+        super().__init__(context_resource, None, pipeline_config, logger)
 
     # if ACC=False, it means running in parallel, we do ACC until all producers complete.
     @timethis

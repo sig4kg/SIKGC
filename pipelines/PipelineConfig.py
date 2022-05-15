@@ -25,7 +25,6 @@ class PipelineConfig:
 
     def set_data_config(self, data_config: DatasetConfig):
         self.input_dir = data_config.input_dir
-        self.schema_file = data_config.schema_file
         self.tbox_patterns_dir = data_config.tbox_patterns_dir
         self.e_max_epoch = data_config.e_max_epoch
         self.exclude_rels = data_config.exclude_rels

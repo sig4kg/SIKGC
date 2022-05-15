@@ -42,7 +42,7 @@ class MaterialisationKonclude(MaterialisationReasoner):
         return self.parse_result()
 
     def parse_result(self):
-        new_ent2types = {}
+        df_types = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
         df_properties = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
         if os.path.exists(self.work_dir + "materialized_tbox_abox.nt"):
             df = pd.read_csv(

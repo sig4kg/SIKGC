@@ -641,6 +641,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                     train_val_ent, 0,
                                                     emb_batch_size, prefix='valid', return_embeddings=True)
         save_to_file("-------blp eval on rel silver test set ---------\n", log_file_name, mode='a')
+        log_str = ''
         for k, value in hit_at_k.items():
             log_str += f'hits@{k}: {value:.4f}\n'
         save_to_file(log_str, log_file_name, mode='a')

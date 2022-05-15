@@ -1,12 +1,11 @@
-from abox_scanner.abox_utils import init_dir, wait_until_file_is_saved
+from abox_scanner.abox_utils import wait_until_file_is_saved
 from module_utils.materialize_util import materialize
 from pipelines.ProducerBlock import PipelineConfig
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 import os
 import pandas as pd
-
-from sample_util import split_relation_triples, split_type_triples
+from module_utils.sample_util import split_relation_triples, split_type_triples
 
 
 def get_block_names(name_in_short: str):

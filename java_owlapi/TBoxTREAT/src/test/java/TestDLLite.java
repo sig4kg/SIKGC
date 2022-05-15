@@ -262,9 +262,16 @@ public class TestDLLite {
         }
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, clean_ont);
         NTriplesDocumentFormat nTriplesFormat = new NTriplesDocumentFormat();
-        File inferredOntologyFile = new File("output/nell_resized_tbox.nt");
-        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile)) {
+        File inferredOntologyFile1 = new File("output/tbox_dllite.nt");
+        File inferredOntologyFile2 = new File("output/tbox.nt");
+        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile1)) {
             manager.saveOntology(infOnt, nTriplesFormat, outputStream);
+        } catch (OWLOntologyStorageException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile2)) {
+            manager.saveOntology(clean_ont, nTriplesFormat, outputStream);
         } catch (OWLOntologyStorageException e) {
             e.printStackTrace();
             throw e;

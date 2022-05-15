@@ -1185,3 +1185,5 @@ http://ste-lod-crew.fr/nell/ontology/zipcode
 http://ste-lod-crew.fr/nell/ontology/zipcodeinlocation
 http://ste-lod-crew.fr/nell/ontology/zoo
 http://ste-lod-crew.fr/nell/ontology/zooincity
+http://www.w3.org/2002/07/owl#Nothing
+http://www.w3.org/2002/07/owl#Thing

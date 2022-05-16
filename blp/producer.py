@@ -488,6 +488,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
     prefix = 'ind-' if inductive and model != 'transductive' else ''
     triples_file = f'{work_dir}{prefix}train.tsv'
+    _log.info(torch.__version__)
     _log.info(f"Is cuda available? {torch.cuda.is_available()}")
     _log.info(f"device: {device}")
     if device != torch.device('cpu'):

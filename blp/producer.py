@@ -19,6 +19,7 @@ import utils
 import pandas as pd
 
 # OUT_PATH = 'output/'
+print(f"Is cuda available? {torch.cuda.is_available()}")
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 ex = Experiment(save_git_info=False)
 ex.logger = utils.get_logger()

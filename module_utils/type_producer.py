@@ -282,7 +282,7 @@ def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, logg
         mode='min',  # mode of the monitored quantity  for optimization
     )
     # Instantiate the Model Trainer
-    trainer = pl.Trainer(max_epochs=epochs, gpus=[], callbacks=[checkpoint_callback], progress_bar_refresh_rate=30)
+    trainer = pl.Trainer(max_epochs=epochs, gpus=1, callbacks=[checkpoint_callback], progress_bar_refresh_rate=30)
     # Train the Classifier Model
     trainer.fit(model, t_data_module)
     # trainer.test(model, datamodule=t_data_module)

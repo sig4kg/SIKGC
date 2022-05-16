@@ -19,7 +19,6 @@ import utils
 import pandas as pd
 
 # OUT_PATH = 'output/'
-print(f"Is cuda available? {torch.cuda.is_available()}")
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 ex = Experiment(save_git_info=False)
 ex.logger = utils.get_logger()
@@ -489,7 +488,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
     prefix = 'ind-' if inductive and model != 'transductive' else ''
     triples_file = f'{work_dir}{prefix}train.tsv'
-
+    _log.info(f"Is cuda available? {torch.cuda.is_available()}")
+    _log.info(f"device: {device}")
     if device != torch.device('cpu'):
         num_devices = torch.cuda.device_count()
         if batch_size % num_devices != 0:

@@ -293,6 +293,7 @@ def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, logg
 
 def pred(model, dataloader):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    model.to(device)
     model.eval()
     # Tracking variables
     pred_outs, true_labels = [], []

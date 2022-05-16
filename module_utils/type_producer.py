@@ -364,14 +364,14 @@ def produce_types(model, context_resource: ContextResources, data_transformer: D
     # y_act = data_transformer.mlb.inverse_transform(flat_true_labels)
     df = pd.DataFrame({'head': data_transformer.x, 'pred': y_pred})
 
-    def explode(tmp_df, col, rename_col):
+    def explode(tmp_df, col, rename_col) -> pd.DataFrame:
         tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
         return tmp_df.drop(col, axis=1).join(
             pd.DataFrame(list(tmp_df[col])).stack().reset_index(drop=True).rename(rename_col)
         )
     df = explode(df, 'pred', 'tail')
     df['rel'] = 0
-    df = df[['head', 'rel', 'tail']].astype('int64')
+    df = df[['head', 'rel', 'tail']].dropna(how='any').astype('int64')
     return df
 
 

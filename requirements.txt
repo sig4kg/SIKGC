@@ -8,6 +8,7 @@ nltk
 tqdm >=4.60.0
 transformers>=4.10.0
 pytorch-lightning
+torchmetrics
 pymongo
 pytrec-eval
 rdflib

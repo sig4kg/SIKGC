@@ -282,7 +282,11 @@ def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, logg
         mode='min',  # mode of the monitored quantity  for optimization
     )
     # Instantiate the Model Trainer
-    trainer = pl.Trainer(max_epochs=epochs, gpus=1, callbacks=[checkpoint_callback], progress_bar_refresh_rate=30)
+    if torch.cuda.is_available():
+        gpus = 1
+    else:
+        gpus = []
+    trainer = pl.Trainer(max_epochs=epochs, gpus=gpus, callbacks=[checkpoint_callback], progress_bar_refresh_rate=30)
     # Train the Classifier Model
     trainer.fit(model, t_data_module)
     # trainer.test(model, datamodule=t_data_module)
@@ -366,9 +370,10 @@ def produce_types(model, context_resource: ContextResources, data_transformer: D
 
     def explode(tmp_df, col, rename_col) -> pd.DataFrame:
         tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
-        return tmp_df.drop(col, axis=1).join(
-            pd.DataFrame(list(tmp_df[col])).stack().reset_index(drop=True).rename(rename_col)
-        )
+        tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
+        tm = tm.rename(columns = {0:rename_col}).join(tmp_df, on='level_0').\
+            drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
+        return tm
     df = explode(df, 'pred', 'tail')
     df['rel'] = 0
     df = df[['head', 'rel', 'tail']].dropna(how='any').astype('int64')
@@ -412,6 +417,14 @@ def train_and_produce(work_dir, context_resource: ContextResources, logger: logg
 
 
 if __name__ == "__main__":
+    # da = {'c1': [1,2,3], 'c2': [[1,2,3], [], [4]]}
+    # tmp_df = pd.DataFrame.from_dict(data=da)
+    # col = 'c2'
+    # rename_col = 'tail'
+    # tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
+    # tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
+    # tm = tm.rename(columns = {0:rename_col}).join(tmp_df, on='level_0').drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
+
     folder = "../outputs/test/"
     abox_file_path = folder + "abox_hrt_uri.txt"
     context_resource = ContextResources(abox_file_path, class_and_op_file_path=folder,

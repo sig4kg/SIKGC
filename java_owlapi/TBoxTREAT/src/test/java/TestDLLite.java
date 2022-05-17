@@ -102,7 +102,7 @@ public class TestDLLite {
 //        OWLOntology infOnt1 = dlliteCvt.inferAdditionalClass(trOWLUtil2, ontology, map);
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
         PatternDLLite pattern = new PatternDLLite();
-        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "./");
+        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
         pattern.generateOPPattern();
     }
 
@@ -113,20 +113,30 @@ public class TestDLLite {
         OWLObjectProperty hasMother = factory.getOWLObjectProperty(":hasParent", pm);
         OWLObjectProperty hasChild = factory.getOWLObjectProperty(":hasChild", pm);
         OWLAxiom axiom3 = factory.getOWLInverseObjectPropertiesAxiom(hasChild, hasMother);
-//        OWLAxiom axiom4 = factory.getOWLSubObjectPropertyOfAxiom(hasChild, factory.getOWLObjectInverseOf(hasMother));
-//        OWLAxiom axiom5 = factory.getOWLSubObjectPropertyOfAxiom(hasMother, factory.getOWLObjectInverseOf(hasChild));
-//        AddAxiom addAxiom3 = new AddAxiom(ontology, axiom3);
-//        AddAxiom addAxiom4 = new AddAxiom(ontology, axiom4);
-//        manager.applyChange(addAxiom3);
-//        manager.applyChange(addAxiom4);
-        for (OWLSubObjectPropertyOfAxiom ax : ((OWLInverseObjectPropertiesAxiom) axiom3).asSubObjectPropertyOfAxioms()) {
-            AddAxiom addAx = new AddAxiom(ontology, ax);
-            manager.applyChange(addAx);
-            break;
-        }
+        AddAxiom addAxiom3 = new AddAxiom(ontology, axiom3);
+        manager.applyChange(addAxiom3);
         Map<String, OWLObject> map = new HashMap<>();
         OWLOntology infOnt1 = dlliteCvt.inferAdditionalClass(trOWLUtil2, ontology, map);
 //        OWLOntology infOnt2 = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
+    }
+
+    @Test
+    public void testFunctionalInvers() throws OWLOntologyCreationException {
+        ontology = manager.createOntology(ontologyIRI);
+        OWLObjectProperty hasWife = factory.getOWLObjectProperty(":hasWife", pm);
+        OWLObjectProperty wifeof = factory.getOWLObjectProperty(":wifeOf", pm);
+        OWLAxiom axiom3 = factory.getOWLInverseObjectPropertiesAxiom(hasWife, wifeof);
+        OWLAxiom axiom4 = factory.getOWLFunctionalObjectPropertyAxiom(hasWife);
+        AddAxiom addAxiom3 = new AddAxiom(ontology, axiom3);
+        AddAxiom addAxiom4 = new AddAxiom(ontology, axiom4);
+        manager.applyChange(addAxiom3);
+        manager.applyChange(addAxiom4);
+        Map<String, OWLObject> map = new HashMap<>();
+//        OWLOntology infOnt1 = dlliteCvt.inferAdditionalClass(trOWLUtil2, ontology, map);
+        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
+        PatternDLLite pattern = new PatternDLLite();
+        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
+        pattern.generateFuncPattern();
     }
 
     @Test
@@ -260,26 +270,27 @@ public class TestDLLite {
                 }
             }
         }
-        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, clean_ont);
-        TBoxPatternGenerator tboxScanner = new TBoxPatternGenerator(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
-        tboxScanner.GeneratePatterns();
-        tboxScanner.getAllClasses();
-
         NTriplesDocumentFormat nTriplesFormat = new NTriplesDocumentFormat();
-        File inferredOntologyFile1 = new File("output/tbox_dllite.nt");
         File inferredOntologyFile2 = new File("output/tbox.nt");
-        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile1)) {
-            manager.saveOntology(infOnt, nTriplesFormat, outputStream);
-        } catch (OWLOntologyStorageException e) {
-            e.printStackTrace();
-            throw e;
-        }
         try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile2)) {
             manager.saveOntology(clean_ont, nTriplesFormat, outputStream);
         } catch (OWLOntologyStorageException e) {
             e.printStackTrace();
             throw e;
         }
+        manager.removeOntology(ontology);
+        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, clean_ont);
+        File inferredOntologyFile1 = new File("output/tbox_dllite.nt");
+        try (OutputStream outputStream = new FileOutputStream(inferredOntologyFile1)) {
+            manager.saveOntology(infOnt, nTriplesFormat, outputStream);
+        } catch (OWLOntologyStorageException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        TBoxPatternGenerator tboxScanner = new TBoxPatternGenerator(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
+        tboxScanner.GeneratePatterns();
+        tboxScanner.getAllClasses();
+
     }
 
     @Test

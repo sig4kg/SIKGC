@@ -92,14 +92,12 @@ public class DLLite {
             mapCache.put(D1.getIRI().toString(), expD1);
             mapCache.put(D2.getIRI().toString(), expD2);
             // R-
-//            OWLObjectPropertyExpression ivs_R = R.getInverseProperty();
-//            String ivs_R_Name = splits.get(0) + "#ivs_" + splits.get(1);
-//            OWLObjectProperty ivs_R_p = dataFactory.getOWLObjectProperty(IRI.create(ivs_R_Name));
-//            OWLAxiom def3 = dataFactory.getOWLEquivalentObjectPropertiesAxiom(ivs_R_p, ivs_R);
-//            man.addAxiom(ont, def3);
-//            OWLAxiom def4 = dataFactory.getOWLEquivalentClassesAxiom(D2, dataFactory.getOWLObjectSomeValuesFrom(ivs_R_p, this.owlThing));
-//            man.addAxiom(ont, def4);
-//            mapCache.put(ivs_R_p.getIRI().toString(), ivs_R);
+            OWLObjectPropertyExpression ivs_R = R.getInverseProperty();
+            String ivs_R_Name = splits.get(0) + "#ivs_" + splits.get(1);
+            OWLObjectProperty ivs_R_exp = dataFactory.getOWLObjectProperty(IRI.create(ivs_R_Name));
+            OWLAxiom def3 = dataFactory.getOWLEquivalentObjectPropertiesAxiom(ivs_R_exp, ivs_R);
+            man.addAxiom(ont, def3);
+            mapCache.put(ivs_R_exp.getIRI().toString(), ivs_R);
         }
     }
 
@@ -141,40 +139,10 @@ public class DLLite {
     }
 
     private void flattenInversof(OWLOntology ontology) {
-        for (OWLInverseObjectPropertiesAxiom axIvs : ontology.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES)) {
-            OWLObjectPropertyExpression r1 = axIvs.getFirstProperty();
-            OWLObjectPropertyExpression r2 = axIvs.getSecondProperty();
-            String nr1 = r1.getNamedProperty().getIRI().toString();
-            List<String> splits1 = splitIRI(nr1);
-            String some_r1 = splits1.get(0) + "#some_" + splits1.get(1);
-            String some_ivs_r1 = splits1.get(0) + "#some_ivs_" + splits1.get(1);
-            String neg_some_r1 = splits1.get(0) + "#neg_some_" + splits1.get(1);
-            String neg_some_ivs_r1 = splits1.get(0) + "#neg_some_ivs_" + splits1.get(1);
-            String nr2 = r2.getNamedProperty().getIRI().toString();
-            List<String> splits2 = splitIRI(nr2);
-            String some_r2 = splits2.get(0) + "#some_" + splits2.get(1);
-            String some_ivs_r2 = splits2.get(0) + "#some_ivs_" + splits2.get(1);
-            String neg_some_r2 = splits2.get(0) + "#neg_some_" + splits2.get(1);
-            String neg_some_ivs_r2 = splits2.get(0) + "#neg_some_ivs_" + splits2.get(1);
-            OWLAxiom ax1 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_r2), dataFactory.getOWLClass(some_ivs_r1));
-            OWLAxiom ax2 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_ivs_r2), dataFactory.getOWLClass(some_r1));
-            OWLAxiom ax3 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_r1), dataFactory.getOWLClass(some_ivs_r2));
-            OWLAxiom ax4 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(some_ivs_r1), dataFactory.getOWLClass(some_r2));
-            OWLAxiom ax5 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_ivs_r1), dataFactory.getOWLClass(neg_some_r2));
-            OWLAxiom ax6 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_r1), dataFactory.getOWLClass(neg_some_ivs_r2));
-            OWLAxiom ax7 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_ivs_r2), dataFactory.getOWLClass(neg_some_r1));
-            OWLAxiom ax8 = dataFactory.getOWLSubClassOfAxiom(dataFactory.getOWLClass(neg_some_r2), dataFactory.getOWLClass(neg_some_ivs_r1));
-            man.addAxiom(ontology, ax1);
-            man.addAxiom(ontology, ax2);
-            man.addAxiom(ontology, ax3);
-            man.addAxiom(ontology, ax4);
-            man.addAxiom(ontology, ax5);
-            man.addAxiom(ontology, ax6);
-            man.addAxiom(ontology, ax7);
-            man.addAxiom(ontology, ax8);
-//            for (OWLSubObjectPropertyOfAxiom ax : axIvs.asSubObjectPropertyOfAxioms()) {
-//                man.addAxiom(ontology, ax);
-//            }
+        for (OWLInverseObjectPropertiesAxiom axiom : ontology.getAxioms(AxiomType.INVERSE_OBJECT_PROPERTIES)) {
+            for (OWLSubObjectPropertyOfAxiom subax : axiom.asSubObjectPropertyOfAxioms()) {
+                man.addAxiom(ontology, subax);
+            }
         }
     }
 
@@ -225,28 +193,48 @@ public class DLLite {
                 man.applyChange(tmpaddAx);
             }
         }
+        //replace R- with expressions
+        Set<OWLSubObjectPropertyOfAxiom> subOPof = merged1.getAxioms(AxiomType.SUB_OBJECT_PROPERTY);
+        for (OWLSubObjectPropertyOfAxiom s : subOPof) {
+            OWLObjectPropertyExpression sub = s.getSubProperty();
+            OWLObjectPropertyExpression sup = s.getSuperProperty();
+            String subIRI = "";
+            String supIRI = "";
+            if (sub.isNamed()) {
+                subIRI = ((OWLObjectProperty) sub).getIRI().toString();
+            }
+            if (sup.isNamed()) {
+                supIRI = ((OWLObjectProperty) sup).getIRI().toString();
+            }
+            if (mapCache.containsKey(subIRI) || mapCache.containsKey(supIRI)) {
+                OWLObjectPropertyExpression recoverSub = (OWLObjectPropertyExpression)(mapCache.getOrDefault(subIRI, sub));
+                OWLObjectPropertyExpression recoverSup = (OWLObjectPropertyExpression)(mapCache.getOrDefault(supIRI, sup));
+                OWLSubObjectPropertyOfAxiom recoverAX = dataFactory.getOWLSubObjectPropertyOfAxiom(recoverSub, recoverSup);
+                // Add the axiom to our ontology
+                AddAxiom tmpaddAx = new AddAxiom(merged1, recoverAX);
+                man.applyChange(tmpaddAx);
+            }
+        }
         // remove additional classes
-        System.out.println("Removing D and N...");
+        System.out.println("Removing D, N and R-...");
         OWLEntityRemover remover = new OWLEntityRemover(merged1);
         for (OWLClass namedClass : merged1.getClassesInSignature()) {
             if (mapCache.containsKey(namedClass.getIRI().toString())) {
                 namedClass.accept(remover);
             }
         }
+        for (OWLObjectProperty namedOP : merged1.getObjectPropertiesInSignature()) {
+            if (mapCache.containsKey(namedOP.getIRI().toString())) {
+                namedOP.accept(remover);
+            }
+        }
         man.applyChanges(remover.getChanges());
-        // new schema = Schema.classification ( recover D and N)
         System.out.println("Infer recovered schema + delta ...");
-
-        //B1 \in B2 or B1 \in \negB2
-//        OWLOntology infOnt2 = this.koncludeUtil.koncludeClassifier(merged1, man);
         OWLOntology infOnt2 = reasonerUtil.classify(merged1, man);
         return infOnt2;
     }
 
     public OWLOntology ont2dllite(IReasonerUtil reasonerUtil, OWLOntology ont) throws OWLOntologyCreationException {
-        if (!man.getOntologies().contains(ont)) {
-
-        }
         // remove annotations
         List<OWLAxiom> toRemoveAxiom = new ArrayList<OWLAxiom>();
         toRemoveAxiom.addAll(ont.getAxioms(AxiomType.ANNOTATION_ASSERTION));
@@ -290,6 +278,7 @@ public class DLLite {
 //        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.TRANSITIVE_OBJECT_PROPERTY));
 //        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.SUB_OBJECT_PROPERTY));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.DISJOINT_CLASSES));
+//        toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.DISJOINT_OBJECT_PROPERTIES));
         toRemoveAxiom.addAll(merged2.getAxioms(AxiomType.EQUIVALENT_CLASSES));
 
         for (OWLAxiom ax : toRemoveAxiom) {

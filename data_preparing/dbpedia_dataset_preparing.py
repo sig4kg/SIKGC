@@ -6,7 +6,7 @@ from tqdm import tqdm
 import time
 import pandas as pd
 from abox_scanner import AboxScannerScheduler
-from abox_scanner.abox_utils import ContextResources
+from abox_scanner.ContextResources import ContextResources
 
 
 # DEFAULT_GRAPH = "http://dbpedia.org"

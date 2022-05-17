@@ -3,6 +3,7 @@ package ReasonerUtils;
 import eu.trowl.owlapi3.rel.reasoner.dl.RELReasoner;
 import eu.trowl.owlapi3.rel.reasoner.dl.RELReasonerFactory;
 import eu.trowl.owlapi3.rel.util.InferredSubClassAxiomMultiGenerator;
+import eu.trowl.owlapi3.rel.util.InferredSubObjectPropertyAxiomMultiGenerator;
 import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.*;
@@ -51,6 +52,7 @@ public class TrOWLUtil extends ReasonerBase {
         );
         List<InferredAxiomGenerator<? extends OWLAxiom>> generators = new ArrayList<>();
         generators.add(new InferredSubClassAxiomMultiGenerator());
+        generators.add(new InferredSubObjectPropertyAxiomMultiGenerator());
         InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, generators);
         try {
             OWLOntology infOnt = man.createOntology();

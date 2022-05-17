@@ -5,7 +5,6 @@ import org.semanticweb.owlapi.model.*;
 import java.io.*;
 import java.util.*;
 
-import uk.ac.manchester.cs.owl.owlapi.OWLObjectComplementOfImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectSomeValuesFromImpl;
 
 
@@ -17,8 +16,12 @@ public class PatternDLLite extends BasePattern implements IPattern {
     public final Map<OWLClassExpression, Set<OWLClassExpression>> _D2DisjointC = new HashMap<>();
     public final Map<OWLClassExpression, Set<OWLClassExpression>> _D2DisjointER = new HashMap<OWLClassExpression, Set<OWLClassExpression>>();
     public final Map<OWLClassExpression, Set<OWLClassExpression>> _D2DisjointEInversR = new HashMap<OWLClassExpression, Set<OWLClassExpression>>();
+    Map<OWLObjectPropertyExpression, Set<OWLObjectPropertyExpression>> Rsup2Rsubs = new HashMap<>();
+    Map<OWLObjectPropertyExpression, Set<OWLObjectPropertyExpression>> Rsup2RIvsSubs = new HashMap<>();
 
     public void generatePattern() {
+        cache_subsumptions();
+        cache_disjointness();
         generateOPPattern();
         generateFuncPattern();
         generateTypePattern();
@@ -101,6 +104,20 @@ public class PatternDLLite extends BasePattern implements IPattern {
                 }
             }
         }
+        //cache R and R- subsumptions
+        Collection<OWLSubObjectPropertyOfAxiom> axiomsOP = this.ont.getAxioms(AxiomType.SUB_OBJECT_PROPERTY);
+        for (OWLSubObjectPropertyOfAxiom ax : axiomsOP) {
+            OWLObjectPropertyExpression sub = ax.getSubProperty();
+            OWLObjectPropertyExpression sup = ax.getSuperProperty();
+            if (sub == sup || !sup.isNamed()) {
+                continue;
+            }
+            if (sub.isNamed()) {
+                add2map(sup, sub, Rsup2Rsubs);
+            } else {
+                add2map(sup, sub, Rsup2RIvsSubs);
+            }
+        }
     }
 
     private void writeMap2File(String fileName, Map<String, Set<String>> map) {
@@ -138,10 +155,12 @@ public class PatternDLLite extends BasePattern implements IPattern {
     }
 
     public void generateOPPattern() {
+        if (_ERSups.size() == 0) {
+            cache_subsumptions();
+            cache_disjointness();
+        }
         // consider \some R subclassof D, D= C|\some Rx|\some Rx-
         // and \some R- subclassof D, D= C|\some Rx|\some Rx-
-        cache_subsumptions();
-        cache_disjointness();
         Map<String, Set<String>> domain_Pattern = new HashMap<>();
         Map<String, Set<String>> e1r1e2_e1r2e3 = new HashMap<>();
         Map<String, Set<String>> e1r1e2_e3r2e1 = new HashMap<>();
@@ -206,82 +225,37 @@ public class PatternDLLite extends BasePattern implements IPattern {
     }
 
     public void generateFuncPattern() {
-        // Func(r1)   (e1, r1, e2), (e1, r1, e3)
-        // er2 /subsum er1 && er2- /subsum er1-   (e1, r1, e2), (e1, r2, e3) or (e1, r2, e2), (e1, r2, e3)
-        // er2 /subsum er1- && er2- /subsum er1   (e1, r1, e2), (e3, r2, e1) or (e3, r2, e1), (e2, r2, e1)
-        Map<String, Set<String>> ER_supof_ER = new HashMap<>();
-        Map<String, Set<String>> ER_supof_ERInvs = new HashMap<>();
-        Map<String, Set<String>> ERInvs_supof_ER = new HashMap<>();
-        Map<String, Set<String>> ERInvs_supof_ERInvs = new HashMap<>();
-        for (OWLClassExpression ER2 : _ERSups.keySet()) {
-            OWLObjectPropertyExpression r2 = ((OWLObjectSomeValuesFromImpl) ER2).getProperty();
-            for (OWLClassExpression ER1 : _ERSups.get(ER2)) {
-                if (ER1.isNamed()) {
-                    continue;
-                }
-                ClassExpressionType cet = ER1.getClassExpressionType();
-                if (cet.equals(ClassExpressionType.OBJECT_COMPLEMENT_OF)) {
-                    continue;
-                }
-                OWLObjectPropertyExpression r1 = ((OWLObjectSomeValuesFromImpl) ER1).getProperty();
-                // ER1
-                if (r1.isNamed()) {
-                    add2map(r1.toString(), r2.toString(), ER_supof_ER);
-                } else {
-                    //ER1Inv
-                    if (r1.isObjectPropertyExpression() && r1.getInverseProperty().isNamed()) {
-                        add2map(r1.toString(), r2.toString(), ER_supof_ERInvs);
-                    }
-                }
-            }
+        if (_ERSups.size() == 0) {
+            cache_subsumptions();
+            cache_disjointness();
         }
-        for (OWLClassExpression ER2 : _ERInvsSups.keySet()) {
-            OWLObjectPropertyExpression r2 = ((OWLObjectSomeValuesFromImpl) ER2).getProperty();
-            for (OWLClassExpression ER1 : _ERInvsSups.get(ER2)) {
-                if (ER1.isNamed()) {
-                    continue;
-                }
-                ClassExpressionType cet = ER1.getClassExpressionType();
-                if (cet.equals(ClassExpressionType.OBJECT_COMPLEMENT_OF)) {
-                    continue;
-                }
-                OWLObjectPropertyExpression r1 = ((OWLObjectSomeValuesFromImpl) ER1).getProperty();
-                // ER1
-                if (r1.isNamed()) {
-                    add2map(r1.toString(), r2.toString(), ERInvs_supof_ER);
-                } else {
-                    //ER1Inv
-                    if (r1.isObjectPropertyExpression() && r1.getInverseProperty().isNamed()) {
-                        add2map(r1.toString(), r2.toString(), ERInvs_supof_ERInvs);
-                    }
-                }
-            }
-        }
-        // Func(r1)   (e1, r1, e2), (e1, r1, e3)
-        // er2 /subsum er1 && er2- /subsum er1-   (e1, r1, e2), (e1, r2, e3) or (e1, r2, e2), (e1, r2, e3)
-        // er2 /subsum er1- && er2- /subsum er1   (e1, r1, e2), (e3, r2, e1) or (e2, r2, e1), (e3, r2, e1)
+        // 1. Func(r1)   (e1, r1, e2), (e1, r1, e3)
+        // SubObjectPropertyOf(r1, r2)  r1 -> r2; eg: SubObjectPropertyOf( :hasWife :hasSpouse )
+        // 2. Func(r1) and SubObjectPropertyOf(r2, r1)     (e1, r1, e2), (e1, r2, e3) or (e1, r2, e2), (e1, r2, e3)
+        // 3. Func(r1) and SubObjectPropertyOf(r2-, r1)     (e1, r1, e2), (e3, r2, e1) or (e3, r2, e1), (e2, r2, e1)
         Set<String> func_e1r1e2_e1r1e3 = new HashSet<>();
         Map<String, Set<String>> func_e1r1e2e1r2e3_e1r2e2e1r2e3 = new HashMap<String, Set<String>>();
         Map<String, Set<String>> func_e1r1e2e3r2e1_e2r2e1e3r2e1 = new HashMap<String, Set<String>>();
         List<OWLObjectPropertyExpression> functional = new ArrayList<>();
+        // 1. Func(r1)   (e1, r1, e2), (e1, r1, e3)
         for (OWLFunctionalObjectPropertyAxiom funcp : ont.getAxioms(AxiomType.FUNCTIONAL_OBJECT_PROPERTY)) {
             func_e1r1e2_e1r1e3.add(funcp.getProperty().toString());
             functional.add(funcp.getProperty());
         }
         for (OWLObjectPropertyExpression r1Exp : functional) {
             String r1 = r1Exp.toString();
-            if (ER_supof_ER.containsKey(r1) && ERInvs_supof_ERInvs.containsKey(r1)) {
-                Set<String> possible_r2ERs = ER_supof_ER.get(r1);
-                Set<String> possible_r2ERInvs = ERInvs_supof_ERInvs.get(r1);
-                Set<String> r2 = new HashSet<>(possible_r2ERs);
-                r2.retainAll(possible_r2ERInvs); // er2 /subsum er1 && er2- /subsum er1-
+            // 2. Func(r1) and SubObjectPropertyOf(r2, r1)     (e1, r1, e2), (e1, r2, e3) or (e1, r2, e2), (e1, r2, e3)
+            if (Rsup2Rsubs.containsKey(r1Exp)) {
+                Set<OWLObjectPropertyExpression> possible_r2exp = Rsup2Rsubs.get(r1Exp);
+                Set<String> r2 = new HashSet<>();
+                possible_r2exp.forEach(e -> r2.add(e.getNamedProperty().toString()));
                 func_e1r1e2e1r2e3_e1r2e2e1r2e3.put(r1, r2);
             }
-            if (ER_supof_ERInvs.containsKey(r1) && ERInvs_supof_ER.containsKey(r1)) {
-                Set<String> possible_r2ERs = ER_supof_ER.get(r1);
-                Set<String> possible_r2ERInvs = ERInvs_supof_ERInvs.get(r1);
-                Set<String> r2 = new HashSet<>(possible_r2ERs);
-                r2.retainAll(possible_r2ERInvs); // er2 /subsum er1- && er2- /subsum er1
+            // 3. Func(r1) and SubObjectPropertyOf(r2-, r1)     (e1, r1, e2), (e3, r2, e1) or (e3, r2, e1), (e2, r2, e1)
+            if (Rsup2RIvsSubs.containsKey(r1Exp)) {
+                Set<OWLObjectPropertyExpression> possible_r2exp = Rsup2RIvsSubs.get(r1Exp);
+                Set<String> r2 = new HashSet<>();
+                possible_r2exp.forEach(e -> r2.add(e.getNamedProperty().toString()));
                 func_e1r1e2e3r2e1_e2r2e1e3r2e1.put(r1, r2);
             }
         }
@@ -291,6 +265,10 @@ public class PatternDLLite extends BasePattern implements IPattern {
     }
 
     public void generateTypePattern() {
+        if (_ERSups.size() == 0) {
+            cache_subsumptions();
+            cache_disjointness();
+        }
         Map<String, Set<String>> C2Cs = new HashMap<>();
         Map<String, Set<String>> C2ERs = new HashMap<>();
         Map<String, Set<String>> C2ERInvs = new HashMap<>();

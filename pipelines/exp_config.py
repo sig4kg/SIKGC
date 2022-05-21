@@ -83,7 +83,7 @@ class BLPConfig:
         }
         return conf
 
-    def get_blp_config(self, rel_model, inductive, dataset, schema_aware, silver_eval):
+    def get_blp_config(self, rel_model, inductive, dataset, schema_aware, silver_eval, producer):
         if rel_model == 'transe':
             tmp_conf = self.getTranse()
         elif rel_model == "complex":
@@ -95,7 +95,7 @@ class BLPConfig:
         else:
             print(f"{rel_model} is not supported., please use transe, complex or simple")
             return {}
-        tmp_conf.update({'inductive': inductive, 'schema_aware': schema_aware, 'silver_eval': silver_eval})
+        tmp_conf.update({'inductive': inductive, 'schema_aware': schema_aware, 'silver_eval': silver_eval, "do_produce": producer})
 
         if not inductive:
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})

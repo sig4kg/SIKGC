@@ -69,12 +69,14 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent
 <http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent> .
 <http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/agent> .
 <http://ste-lod-crew.fr/nell/ontology/agentcollaborateswithagent> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/agent> .
 # 
 # http://ste-lod-crew.fr/nell/ontology/agentcompeteswithagent
 <http://ste-lod-crew.fr/nell/ontology/agentcompeteswithagent> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/agentcompeteswithagent> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/agentcompeteswithagent> .
 <http://ste-lod-crew.fr/nell/ontology/agentcompeteswithagent> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/agent> .
 <http://ste-lod-crew.fr/nell/ontology/agentcompeteswithagent> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/agent> .
 # 
@@ -528,6 +530,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/cityalsoknownas
 <http://ste-lod-crew.fr/nell/ontology/cityalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/cityalsoknownas> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/cityalsoknownas> .
 <http://ste-lod-crew.fr/nell/ontology/cityalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/cityalsoknownas> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/city> .
 <http://ste-lod-crew.fr/nell/ontology/cityalsoknownas> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/city> .
@@ -583,6 +586,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing
 <http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing> .
 <http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/clothing> .
 <http://ste-lod-crew.fr/nell/ontology/clothingtogowithclothing> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/clothing> .
@@ -613,6 +617,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/companyalsoknownas
 <http://ste-lod-crew.fr/nell/ontology/companyalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/companyalsoknownas> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/companyalsoknownas> .
 <http://ste-lod-crew.fr/nell/ontology/companyalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/companyalsoknownas> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/company> .
 <http://ste-lod-crew.fr/nell/ontology/companyalsoknownas> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/company> .
@@ -627,6 +632,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/competeswith
 <http://ste-lod-crew.fr/nell/ontology/competeswith> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/competeswith> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/competeswith> .
 <http://ste-lod-crew.fr/nell/ontology/competeswith> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/competeswith> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/company> .
 <http://ste-lod-crew.fr/nell/ontology/competeswith> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/company> .
@@ -641,6 +647,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/countryalsoknownas
 <http://ste-lod-crew.fr/nell/ontology/countryalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/countryalsoknownas> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/countryalsoknownas> .
 <http://ste-lod-crew.fr/nell/ontology/countryalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/countryalsoknownas> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/country> .
 <http://ste-lod-crew.fr/nell/ontology/countryalsoknownas> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/country> .
@@ -761,12 +768,14 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/hassibling
 <http://ste-lod-crew.fr/nell/ontology/hassibling> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/hassibling> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/hassibling> .
 <http://ste-lod-crew.fr/nell/ontology/hassibling> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/hassibling> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/person> .
 <http://ste-lod-crew.fr/nell/ontology/hassibling> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/person> .
 # 
 # http://ste-lod-crew.fr/nell/ontology/hasspouse
 <http://ste-lod-crew.fr/nell/ontology/hasspouse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/hasspouse> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/hasspouse> .
 <http://ste-lod-crew.fr/nell/ontology/hasspouse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
 <http://ste-lod-crew.fr/nell/ontology/hasspouse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/hasspouse> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/person> .
@@ -948,6 +957,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/mutualproxyfor
 <http://ste-lod-crew.fr/nell/ontology/mutualproxyfor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/mutualproxyfor> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/mutualproxyfor> .
 <http://ste-lod-crew.fr/nell/ontology/mutualproxyfor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/mutualproxyfor> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/everypromotedthing> .
 <http://ste-lod-crew.fr/nell/ontology/mutualproxyfor> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/everypromotedthing> .
@@ -986,6 +996,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas
 <http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas> .
 <http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/organization> .
 <http://ste-lod-crew.fr/nell/ontology/organizationalsoknownas> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/organization> .
@@ -1053,6 +1064,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/personalsoknownas
 <http://ste-lod-crew.fr/nell/ontology/personalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/personalsoknownas> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/personalsoknownas> .
 <http://ste-lod-crew.fr/nell/ontology/personalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/personalsoknownas> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/person> .
 <http://ste-lod-crew.fr/nell/ontology/personalsoknownas> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/person> .
@@ -1360,6 +1372,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince
 <http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince> .
 <http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/stateorprovince> .
 <http://ste-lod-crew.fr/nell/ontology/stateorprovinceisborderedbystateorprovince> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/stateorprovince> .
@@ -1380,12 +1393,14 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/synonymfor
 <http://ste-lod-crew.fr/nell/ontology/synonymfor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/synonymfor> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/synonymfor> .
 <http://ste-lod-crew.fr/nell/ontology/synonymfor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/synonymfor> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/everypromotedthing> .
 <http://ste-lod-crew.fr/nell/ontology/synonymfor> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/everypromotedthing> .
 # 
 # http://ste-lod-crew.fr/nell/ontology/teamalsoknownas
 <http://ste-lod-crew.fr/nell/ontology/teamalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/teamalsoknownas> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/teamalsoknownas> .
 <http://ste-lod-crew.fr/nell/ontology/teamalsoknownas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/teamalsoknownas> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/sportsteam> .
 <http://ste-lod-crew.fr/nell/ontology/teamalsoknownas> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/sportsteam> .
@@ -1400,6 +1415,7 @@
 # 
 # http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam
 <http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam> <http://www.w3.org/2002/07/owl#inverseOf> <http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam> .
 <http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#IrreflexiveProperty> .
 <http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam> <http://www.w3.org/2000/01/rdf-schema#domain> <http://ste-lod-crew.fr/nell/ontology/sportsteam> .
 <http://ste-lod-crew.fr/nell/ontology/teamplaysagainstteam> <http://www.w3.org/2000/01/rdf-schema#range> <http://ste-lod-crew.fr/nell/ontology/sportsteam> .

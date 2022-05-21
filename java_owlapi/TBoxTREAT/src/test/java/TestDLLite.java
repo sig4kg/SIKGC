@@ -5,6 +5,7 @@ import TBoxScanner.TBoxPatternGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
 import org.semanticweb.owlapi.model.*;
@@ -231,7 +232,7 @@ public class TestDLLite {
     }
 
     @Test
-    public void testNELL() throws Exception {
+    public void getNELLPatterns() throws Exception {
         List<String> toKeepProperties = new ArrayList<>();
         try (Stream<String> lines2 = Files.lines(Paths.get("output/OP.txt"))) {
             lines2.forEach(toKeepProperties::add);
@@ -248,8 +249,14 @@ public class TestDLLite {
             if (toKeepProperties.contains(op.getIRI().toString())) {
                 for (OWLAxiom ax: ontology.getAxioms(op)) {
                     if (ax.isOfType(AxiomType.INVERSE_OBJECT_PROPERTIES)) {
-                        List<OWLObjectProperty> out_of_range = ax.getObjectPropertiesInSignature().stream().filter(ele -> toKeepProperties.contains(ele.getIRI().toString())).collect(Collectors.toList());
-                        if (out_of_range.size() > 0) {
+                        Boolean outOfRange = false;
+                        for (OWLObjectProperty tmpOP : ax.getObjectPropertiesInSignature()) {
+                            if (!toKeepProperties.contains(tmpOP.getIRI().toString())) {
+                                outOfRange = true;
+                                break;
+                            }
+                        }
+                        if (outOfRange) {
                             continue;
                         }
                     }
@@ -294,11 +301,27 @@ public class TestDLLite {
     }
 
     @Test
-    public void testDBpedia() throws Exception {
+    public void getDBpediaPatterns() throws Exception {
         ontology = dlliteCvt.loadOnto("../../resources/DBpedia-politics/tbox.nt");
+//        ontology = dlliteCvt.loadOnto("../../resources/DBpediaP/dbpedia_2016-10.owl");
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
-        PatternDLLite pattern = new PatternDLLite();
-        pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
-        pattern.generateOPPattern();
+        TBoxPatternGenerator tboxScanner = new TBoxPatternGenerator(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
+        tboxScanner.GeneratePatterns();
+        tboxScanner.getAllClasses();
+    }
+
+    @Test
+    public void getTREATPatterns() throws Exception {
+        ontology = dlliteCvt.loadOnto("../../resources/TREAT/tbox.nt");
+        OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
+        TBoxPatternGenerator tboxScanner = new TBoxPatternGenerator(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
+        tboxScanner.GeneratePatterns();
+        tboxScanner.getAllClasses();
+    }
+
+    @Test
+    public void testConsistency() {
+        ontology = dlliteCvt.loadOnto("../../outputs/test/tbox_abox.ttl");
+        assertTrue(trOWLUtil2.getReasoner(ontology).isConsistent());
     }
 }

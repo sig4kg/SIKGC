@@ -38,6 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--reasoner", type=str, default='Konclude')
     parser.add_argument("--pred_type", type=str, default=True)
     parser.add_argument("--silver_eval", type=bool, default=True)
+    parser.add_argument("--producer", type=bool, default=False)
     args = parser.parse_args()
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')
@@ -48,7 +49,8 @@ if __name__ == "__main__":
                                           inductive=args.inductive,
                                           dataset=args.dataset,
                                           schema_aware=args.schema_aware_sampling,
-                                          silver_eval=args.silver_eval)
+                                          silver_eval=args.silver_eval,
+                                          producer=args.producer)
     p_config = PipelineConfig().set_pipeline_config(dataset=args.dataset,
                                                     loops=args.loops,
                                                     work_dir=args.work_dir,

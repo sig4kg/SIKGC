@@ -39,7 +39,6 @@ class PipelineRunnerSeries(PipelineRunnerBase):
 
             if not self.pipeline_config.produce:
                 continue
-
             s = get_scores(init_c, extend_c, nc, nv, ncc)
             log_score(s, logger=self.logger, loop=idx)
             idx += 1

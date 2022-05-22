@@ -35,7 +35,7 @@ class LC(ProducerBlock):
         config.blp_config.update({'work_dir': work_dir})
         ex.run(config_updates=config.blp_config)
         pred_hrt_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
-        if config.blp_config['do_produce']:
+        if config.produce:
             wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
             pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv", context_resource).drop_duplicates(
             keep='first').reset_index(drop=True)
@@ -47,7 +47,7 @@ class LC(ProducerBlock):
                                              context_resource=context_resource, logger=self.logger,
                                              epochs=config.blp_config['max_epochs'], produce=config.blp_config["do_produce"])
         if not config.produce:
-            return 0, 0, 0, 0, 0
+            return
 
         if not acc:
             return self._save_result_only(pred_hrt_df, pred_type_df, 'l')

@@ -244,7 +244,7 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
             y.append(temp)
     # First Split for Train and Test
     x_train, x_dev, y_train, y_dev = train_test_split(x, y, test_size=0.1, random_state=24, shuffle=True)
-    if context_resource.silver_rel is not None and len(context_resource.silver_rel) > 0:
+    if context_resource.silver_type is not None and len(context_resource.silver_type) > 0:
         x_test = list(context_resource.silver_type.keys())
         y_test = [[c for c in context_resource.silver_type[e] if c in top_n_tags] for e in context_resource.silver_type]
     else:
@@ -395,7 +395,7 @@ def classify(pred_prob, thresh):
 
 
 def train_and_produce(work_dir, context_resource: ContextResources, logger: logging.Logger, train_batch_size=32, epochs=80, lr=2e-4,
-                      num_classes=50):
+                      num_classes=50, produce=True):
     emb_util = EmbeddingUtil(work_dir)
     data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir,
                                                                      num_classes=num_classes)
@@ -407,12 +407,14 @@ def train_and_produce(work_dir, context_resource: ContextResources, logger: logg
                                    batch_size=train_batch_size)
     model, opt_thresh = train(data_transformer=data_transformer, t_data_module=t_data_module, logger=logger,
                               train_batch_size=train_batch_size, epochs=epochs, lr=lr)
-
-    df = produce_types(model=model,
-                       context_resource=context_resource,
-                       emb_util=emb_util,
-                       data_transformer=data_transformer,
-                       threshold=opt_thresh)
+    if produce:
+        df = produce_types(model=model,
+                           context_resource=context_resource,
+                           emb_util=emb_util,
+                           data_transformer=data_transformer,
+                           threshold=opt_thresh)
+    else:
+        df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
     return df
 
 

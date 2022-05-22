@@ -671,7 +671,9 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         df_tris[['r']] = df_tris[['r']].applymap(lambda x: id2rel[x])  # to string
         df_tris[['h', 't']] = df_tris[['h', 't']].applymap(lambda x: id2entity[x])  # to string
         df_tris.to_csv(osp.join(work_dir, f'blp_new_triples.csv'), header=False, index=False, sep='\t', mode='a')
-
+        # Save final entity embeddings obtained with trained encoder
+        torch.save(ent_emb, osp.join(work_dir, f'ent_emb.pt'))
+        torch.save(train_val_test_ent, osp.join(work_dir, f'ents.pt'))
 
 @ex.automain
 def my_main():

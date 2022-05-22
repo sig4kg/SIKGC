@@ -33,7 +33,13 @@ class PipelineRunnerSeries(PipelineRunnerBase):
             init_c, extend_c, nc, nv, ncc = 0, 0, 0, 0, 0
             for pdc in producer_blocks:
                 a,b,c,d,e = pdc.produce()
+                if not self.pipeline_config.produce:
+                    continue
                 init_c, extend_c, nc, nv, ncc = iter_count(a,b,c,d,e)
+
+            if not self.pipeline_config.produce:
+                continue
+
             s = get_scores(init_c, extend_c, nc, nv, ncc)
             log_score(s, logger=self.logger, loop=idx)
             idx += 1

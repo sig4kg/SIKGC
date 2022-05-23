@@ -646,6 +646,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         log_str = ''
         for k, value in hit_at_k.items():
             log_str += f'hits@{k}: {value:.4f}\n'
+        log_str += f"mrr: {val_mrr}"
         save_to_file(log_str, log_file_name, mode='a')
         # Save final entity embeddings obtained with trained encoder
         torch.save(ent_emb, osp.join(work_dir, f'ent_emb.pt'))

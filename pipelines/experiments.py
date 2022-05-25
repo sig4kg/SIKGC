@@ -31,14 +31,14 @@ if __name__ == "__main__":
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
-    parser.add_argument("--inductive", type=bool, default=False)
+    parser.add_argument("--inductive", type=str, default='False')
     parser.add_argument("--schema_in_nt", type=str, default='')
-    parser.add_argument("--parallel", type=bool, default=False)
-    parser.add_argument("--schema_aware_sampling", type=bool, default=False)
+    parser.add_argument("--parallel", type=str, default='False')
+    parser.add_argument("--schema_aware_sampling", type=str, default='False')
     parser.add_argument("--reasoner", type=str, default='Konclude')
-    parser.add_argument("--pred_type", type=str, default=True)
-    parser.add_argument("--silver_eval", type=bool, default=True)
-    parser.add_argument("--produce", type=bool, default=False)
+    parser.add_argument("--pred_type", type=str, default='True')
+    parser.add_argument("--silver_eval", type=str, default='True')
+    parser.add_argument("--produce", type=str, default='False')
     args = parser.parse_args()
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')
@@ -46,20 +46,20 @@ if __name__ == "__main__":
     if args.schema_in_nt != '':
         data_conf.schema_in_nt = args.schema_in_nt
     blp_conf = BLPConfig().get_blp_config(rel_model=args.rel_model,
-                                          inductive=args.inductive,
+                                          inductive=args.inductive == 'True',
                                           dataset=args.dataset,
-                                          schema_aware=args.schema_aware_sampling,
-                                          silver_eval=args.silver_eval,
-                                          do_produce=args.produce)
+                                          schema_aware=args.schema_aware_sampling == 'True',
+                                          silver_eval=args.silver_eval == 'True',
+                                          do_produce=args.produce == 'True')
     p_config = PipelineConfig().set_pipeline_config(dataset=args.dataset,
                                                     loops=args.loops,
                                                     work_dir=args.work_dir,
-                                                    pred_type=args.pred_type,
+                                                    pred_type=args.pred_type == 'True',
                                                     reasoner=args.reasoner,
-                                                    parallel=args.parallel,
+                                                    parallel=args.parallel == 'True',
                                                     pipeline=args.pipeline,
                                                     use_gpu=args.use_gpu,
-                                                    silver_eval=args.silver_eval,
-                                                    produce=args.produce)
+                                                    silver_eval=args.silver_eval == 'True',
+                                                    produce=args.produce == 'True')
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
     producers(p_config)

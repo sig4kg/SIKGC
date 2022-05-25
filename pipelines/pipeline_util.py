@@ -111,9 +111,9 @@ def generate_invalids(context_resource: ContextResources, abox_scanner_scheduler
     valids = context_resource.hrt_int_df
     candidate_ents = context_resource.id2ent.keys()
     corrupt = pd.DataFrame()
-    corrupt['c_h'] = valids['head'].apply(func=lambda x: random.sample(candidate_ents, 2))
+    corrupt['c_h'] = valids['head'].apply(func=lambda x: random.sample(candidate_ents, 3))
     corrupt['rel'] = valids['rel']
-    corrupt['c_t'] = valids['tail'].apply(func=lambda x: random.sample(candidate_ents, 2))
+    corrupt['c_t'] = valids['tail'].apply(func=lambda x: random.sample(candidate_ents, 3))
     corrupt.reset_index(drop=True)
     def explode(tmp_df, col, rename_col) -> pd.DataFrame:
         tmp_df[col] = tmp_df[col].apply(lambda x: list(x))

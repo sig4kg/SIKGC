@@ -1,3 +1,6 @@
+import random
+
+import scripts.run_scripts
 from abox_scanner.abox_utils import wait_until_file_is_saved
 from module_utils.materialize_util import materialize
 from pipelines.ProducerBlock import PipelineConfig
@@ -86,18 +89,47 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
     abox_scanner_scheduler = AboxScannerScheduler(pipeline_config.tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
     if consistency_check:
-        valids, invalids = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir)
+        valids, _ = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
         abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
-        # wait_until_file_is_saved(work_dir + "valid_hrt.txt")
         context_resource.hrt_int_df = valids
     else:
         abox_scanner_scheduler.register_patterns_all()
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
 
-    # schema_aware silver evaluation, we freeze a small portion of test data and keep them in context_resource
+    # schema-aware sampling
+    if pipeline_config.blp_config['schema_aware']:
+        generate_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
+        scripts.run_scripts.delete_file(pipeline_config.work_dir + "valid_hrt.txt")
+
+        # schema_aware silver evaluation, we freeze a small portion of test data and keep them in context_resource
     if pipeline_config.silver_eval:
         freeze_silver_test_data(context_resource, pipeline_config)
     return context_resource, abox_scanner_scheduler
+
+
+def generate_invalids(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir):
+    valids = context_resource.hrt_int_df
+    candidate_ents = context_resource.id2ent.keys()
+    corrupt = pd.DataFrame()
+    corrupt['c_h'] = valids['head'].apply(func=lambda x: random.sample(candidate_ents, 2))
+    corrupt['rel'] = valids['rel']
+    corrupt['c_t'] = valids['tail'].apply(func=lambda x: random.sample(candidate_ents, 2))
+    corrupt.reset_index(drop=True)
+    def explode(tmp_df, col, rename_col) -> pd.DataFrame:
+        tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
+        tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
+        tm = tm.rename(columns={0: rename_col}).join(tmp_df, on='level_0'). \
+            drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
+        return tm
+
+    corrupt = explode(corrupt, "c_h", "head").dropna(how='any')
+    corrupt = explode(corrupt, "c_t", "tail")
+    corrupt = corrupt[['head', 'rel', 'tail']].dropna(how='any').astype('int64')
+    to_scan_df = pd.concat([context_resource.hrt_int_df, corrupt]).drop_duplicates(keep="first").reset_index(
+        drop=True)
+    context_resource.hrt_to_scan_df = to_scan_df
+    abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=True)
+    wait_until_file_is_saved(f'{work_dir}invalid_hrt.txt')
 
 
 def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_config: PipelineConfig):
@@ -144,4 +176,3 @@ def freeze_silver_test_data(context_resource: ContextResources, pipeline_config:
     context_resource.entid2classids = splited['type_train']
     context_resource.silver_rel = splited['rel_test']
     context_resource.silver_type = splited['type_test']
-

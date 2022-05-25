@@ -15,7 +15,7 @@ def to_dllite(schema_file, work_dir):
     wait_until_file_is_saved(f"{work_dir}/tbox_dllite.ttl")
 
 def delete_file(file_path):
-    os.system("rm " + file_path)
+    os.system(f" [ -f {file_path} ] && rm {file_path}")
 
 
 def delete_dir(dir):

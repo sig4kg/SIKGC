@@ -98,7 +98,7 @@ class BLPConfig:
         tmp_conf.update({'inductive': inductive, 'schema_aware': schema_aware, 'silver_eval': silver_eval, "do_produce": do_produce})
 
         if not inductive:
-            tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3})
+            tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3, 'use_scheduler': False})
 
         if dataset == "DBpedia":
             tmp_conf.update({'batch_size': 1024, 'max_epochs': 30})

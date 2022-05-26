@@ -23,7 +23,24 @@ def consistency_NELL():
 
 
 if __name__ == "__main__":
-    consistency_DBPed()
+    from transformers import BertModel, BertTokenizer
+    import torch
+    from sklearn.metrics.pairwise import cosine_similarity
+    encoder_name = 'bert-base-cased'
+    tokenizer = BertTokenizer.from_pretrained(encoder_name)
+    model= BertModel.from_pretrained(encoder_name)
+    input1 = torch.tensor(tokenizer.encode("Barack Obama")).unsqueeze(0)
+    outputs1 = model(input1)
+    pooled_output1 = outputs1[1]
+
+    input2 = torch.tensor(tokenizer.encode("George W. Bush")).unsqueeze(0)
+    outputs2 = model(input2)
+    pooled_output2 = outputs2[1]
+    cos = cosine_similarity(pooled_output1.detach().numpy(), pooled_output2.detach().numpy())
+    print(cos)
+
+    # consistency_DBPed()
+
 
 
 

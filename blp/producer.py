@@ -44,7 +44,7 @@ def config():
     max_len = 32
     num_negatives = 12
     lr = 1e-3
-    use_scheduler = False
+    use_scheduler = True
     batch_size = 64
     emb_batch_size = 512
     eval_batch_size = 64

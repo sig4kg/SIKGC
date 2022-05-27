@@ -151,7 +151,7 @@ def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_
             ent2types.update({ent: list(old_types | new_types)})
 
     new_hrt_df = pd.concat([pred_hrt_df, context_resource.hrt_int_df, context_resource.hrt_int_df]). \
-        drop_duplicates(keep="first").reset_index(drop=True)
+        drop_duplicates(keep=False).reset_index(drop=True)
 
     df_rel_train, df_rel_test, _ = split_relation_triples(hrt_df=context_resource.hrt_int_df,
                                                           exclude_rels=pipeline_config.exclude_rels,

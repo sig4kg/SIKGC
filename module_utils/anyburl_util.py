@@ -113,35 +113,35 @@ def type2hrt_int_df(type_dict) -> pd.DataFrame:
     return type_df
 
 
-def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[]):
+def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, exclude_rels=[], produce=True):
     df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(hrt_df=context_resource.hrt_int_df,
                                                                    exclude_rels=exclude_rels,
-                                                                   produce=True)
+                                                                   produce=produce)
     dict_type_train, dict_type_dev, dict_type_test = split_type_triples(context_resource=context_resource,
                                                                         top_n_types=50,
-                                                                        produce=True)
+                                                                        produce=produce)
     df_type_train = type2hrt_int_df(dict_type_train)
     df_type_dev = type2hrt_int_df(dict_type_dev)
     df_train = pd.concat([df_rel_train, df_type_train]).reset_index(drop=True)
     df_dev = pd.concat([df_rel_dev, df_type_dev]).reset_index(drop=True)
-    df_hr = df_rel_test.drop_duplicates(['head', 'rel'], keep='first')
-    df_rt = df_rel_test.drop_duplicates(['rel', 'tail'], keep='first')
-    if len(df_hr.index) > len(df_rt.index):
-        df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
-    else:
-        df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
-
     df_train.to_csv(osp.join(anyburl_dir, f'train.txt'), header=False, index=False, sep='\t')
     df_dev.to_csv(osp.join(anyburl_dir, f'valid.txt'), header=False, index=False, sep='\t')
-    df_hr.to_csv(osp.join(anyburl_dir, f'test_hr.txt'), header=False, index=False, sep='\t')
-    df_rt.to_csv(osp.join(anyburl_dir, f'test_rt.txt'), header=False, index=False, sep='\t')
-    df_test_type = type2hrt_int_df(dict_type_test).drop_duplicates(['head'], keep='first')
-    df_test_type.to_csv(osp.join(anyburl_dir, f'test_type.txt'), header=False, index=False, sep='\t')
     wait_until_file_is_saved(anyburl_dir + 'train.txt')
     wait_until_file_is_saved(anyburl_dir + 'valid.txt')
-    wait_until_file_is_saved(anyburl_dir + 'test_hr.txt')
-    wait_until_file_is_saved(anyburl_dir + 'test_rt.txt')
-    wait_until_file_is_saved(anyburl_dir + 'test_type.txt')
+    if produce:
+        df_hr = df_rel_test.drop_duplicates(['head', 'rel'], keep='first')
+        df_rt = df_rel_test.drop_duplicates(['rel', 'tail'], keep='first')
+        if len(df_hr.index) > len(df_rt.index):
+            df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
+        else:
+            df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
+        df_hr.to_csv(osp.join(anyburl_dir, f'test_hr.txt'), header=False, index=False, sep='\t')
+        df_rt.to_csv(osp.join(anyburl_dir, f'test_rt.txt'), header=False, index=False, sep='\t')
+        df_test_type = type2hrt_int_df(dict_type_test).drop_duplicates(['head'], keep='first')
+        df_test_type.to_csv(osp.join(anyburl_dir, f'test_type.txt'), header=False, index=False, sep='\t')
+        wait_until_file_is_saved(anyburl_dir + 'test_hr.txt')
+        wait_until_file_is_saved(anyburl_dir + 'test_rt.txt')
+        wait_until_file_is_saved(anyburl_dir + 'test_type.txt')
 
 
 def generate_silver_eval_file(context_resource: ContextResources, anyburl_dir):
@@ -179,7 +179,7 @@ def prepare_anyburl_configs(anyburl_dir, pred_with='hr'):
 
 def clean_anyburl_tmp_files(anyburl_dir):
     init_dir(f"{anyburl_dir}last_round/")
-    os.system(f"[ -d {anyburl_dir}predictions ] && mv {anyburl_dir}predictions/* {anyburl_dir}last_round/")
+    os.system(f"[ -f {anyburl_dir}predictions/alpha* ] && mv {anyburl_dir}predictions/* {anyburl_dir}last_round/")
     os.system(f"[ -f {anyburl_dir}config-apply.properties ] && mv {anyburl_dir}config-apply.properties {anyburl_dir}last_round/")
     os.system(f"[ -f {anyburl_dir}anyburl_eval.log ] && rm {anyburl_dir}anyburl_eval.log")
 

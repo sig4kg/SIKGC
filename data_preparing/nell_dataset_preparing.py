@@ -217,12 +217,17 @@ def get_entity2text(abox_file, class2text_file, out_file):
     ent_text_df.to_csv(out_file, header=None, index=None, sep='\t', mode='w')
 
 
+def get_entity2text_revert(in_file, out_file):
+    df = pd.read_csv(in_file, header=None, names=['ent', 'text'], sep="\t", error_bad_lines=False, engine="python")
+    df['text'] = df['text'].apply(lambda x: x.split(',')[-1].strip())
+    df.to_csv(out_file, header=None, index=None, sep='\t', mode='w')
+
 if __name__ == "__main__":
-    tdf = pd.read_csv("../resources/NELL/abox_hrt_uri.txt",header=None,
-                      names=['head', 'rel', 'tail'], sep="\t", error_bad_lines=False, engine="python")
-    rell = tdf[['rel']].drop_duplicates(keep='first')
-    rell.to_csv("../resources/NELL/OP.txt", header=None, index=None, sep='\t', mode='w')
-    print(len(rell.index))
+    # tdf = pd.read_csv("../resources/NELL/abox_hrt_uri.txt",header=None,
+    #                   names=['head', 'rel', 'tail'], sep="\t", error_bad_lines=False, engine="python")
+    # rell = tdf[['rel']].drop_duplicates(keep='first')
+    # rell.to_csv("../resources/NELL/OP.txt", header=None, index=None, sep='\t', mode='w')
+    # print(len(rell.index))
     # get_entity2text("../resources/NELL/abox_hrt.txt", "../resources/NELL-995_2/class2text.txt", "../outputs/entity2text.txt")
 
     # format_NELL("../resources/NELL/abox_hrt.txt", "../resources/NELL/abox_hrt_uri.txt")
@@ -238,3 +243,4 @@ if __name__ == "__main__":
     # nell_tidyup_text_files('../resources/NELL-995_2/')
     # read_file_to_dict('../resources/NELL-995_2/relation2text_all.txt')
     # filter_small_data("../resources/NELL-995_2/", "../resources/NELL-995-small/")
+    get_entity2text_revert("../resources/NELL/entity2text.txt", "../resources/NELL-995/entity2text2.txt")

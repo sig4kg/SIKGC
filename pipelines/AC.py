@@ -36,7 +36,10 @@ class AC(ProducerBlock):
         self.acc = acc
         run_scripts.mk_dir(self.tmp_work_dir)
         context_resource = self.context_resource
-        split_all_triples_anyburl(context_resource, self.tmp_work_dir, exclude_rels=self.pipeline_config.exclude_rels)
+        split_all_triples_anyburl(context_resource,
+                                  self.tmp_work_dir,
+                                  exclude_rels=self.pipeline_config.exclude_rels,
+                                  produce=self.pipeline_config.produce)
         prepare_anyburl_configs(self.tmp_work_dir, pred_with='hr')
         wait_until_anyburl_data_ready(self.tmp_work_dir)
         print("learning anyBURL...")

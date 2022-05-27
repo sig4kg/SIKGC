@@ -101,7 +101,7 @@ class BLPConfig:
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3, 'use_scheduler': False})
 
         if dataset == "DBpedia":
-            tmp_conf.update({'batch_size': 1024, 'max_epochs': 30})
+            tmp_conf.update({'batch_size': 1024, 'max_epochs': 60})
             if inductive:
                 tmp_conf.update({'lr': 1e-4, 'max_epochs': 60})
         elif dataset == "TREAT":
@@ -109,9 +109,9 @@ class BLPConfig:
             if inductive:
                 tmp_conf.update({'model': 'fasttext', 'lr': 5e-4, 'max_epochs': 80, 'batch_size': 128})
         elif dataset == "NELL":
-            tmp_conf.update({'max_epochs': 200})
+            tmp_conf.update({'max_epochs': 100})
             if inductive:
-                tmp_conf.update({'lr': 1e-4, 'batch_size': 1024, "max_epochs": 200})
+                tmp_conf.update({'lr': 1e-4, 'batch_size': 1024, "max_epochs": 100})
             if rel_model == 'rotate':
                 tmp_conf.update({'batch_size': 32, 'regularizer': 1e-3, 'lr': 2e-5, 'max_epochs': 50})
         return tmp_conf

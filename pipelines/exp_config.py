@@ -156,7 +156,7 @@ class DatasetConfig:
         self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
         self.e_max_epoch = 500
         self.exclude_rels = []
-        self.schema_in_nt ='../resources/DBpediaP/tbox.nt'
+        self.schema_in_nt ='../resources/DBpedia-politics/tbox.nt'
 
     def get_config(self, dataset):
         if dataset == "NELL":

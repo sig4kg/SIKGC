@@ -26,9 +26,11 @@ class AC(ProducerBlock):
         tmp_pred_hrt = read_hrt_pred_anyburl_2_hrt_int_df(self.tmp_work_dir + "predictions/alpha-100",
                                                           pred_tail_only=pred_tail_only).drop_duplicates(
             keep='first').reset_index(drop=True)
+        all_classes = self.context_resource.classid2class.keys()
         if "type" in pred_with:
-            all_classes = self.context_resource.classid2class.keys()
             tmp_pred_hrt = tmp_pred_hrt.query("tail in @all_classes")
+        else:
+            tmp_pred_hrt = tmp_pred_hrt.query("tail not in @all_classes")
         return tmp_pred_hrt
 
     @timethis

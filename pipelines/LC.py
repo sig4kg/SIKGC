@@ -44,7 +44,7 @@ class LC(ProducerBlock):
         pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
         if self.pipeline_config.pred_type:
             pred_type_df = train_and_produce(work_dir,
-                                             context_resource=context_resource, logger=self.logger,
+                                             context_resource=context_resource, logger=self.logger, train_batch_size=64,
                                              epochs=config.blp_config['max_epochs'], produce=config.blp_config["do_produce"])
         if not config.produce:
             return

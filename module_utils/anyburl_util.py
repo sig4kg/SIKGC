@@ -146,6 +146,7 @@ def split_all_triples_anyburl(context_resource: ContextResources, anyburl_dir, e
 
 def generate_silver_eval_file(context_resource: ContextResources, anyburl_dir):
     df_type_test = type2hrt_int_df(context_resource.silver_type)
+    df_type_test = df_type_test.drop_duplicates(['head', 'rel'], keep='first')
     df_type_test.to_csv(osp.join(anyburl_dir, f'test_type_silver.txt'), header=False, index=False, sep='\t')
     context_resource.silver_rel.to_csv(osp.join(anyburl_dir, f'test_rel_silver.txt'), header=False, index=False, sep='\t')
     wait_until_file_is_saved(anyburl_dir + 'test_type_silver.txt')

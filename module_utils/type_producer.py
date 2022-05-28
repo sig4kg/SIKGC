@@ -22,6 +22,7 @@ from sklearn import metrics
 # 2022/05
 ###
 
+NUM_WORKERS= 64
 
 class DataTransformer():
     def __init__(self):
@@ -150,13 +151,13 @@ class TypeDataModule(pl.LightningDataModule):
                                         self.test_label)
 
     def train_dataloader(self):
-        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=64)
+        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=NUM_WORKERS)
 
     def val_dataloader(self):
-        return DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=64)
+        return DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=NUM_WORKERS)
 
     def test_dataloader(self):
-        return DataLoader(self.test_dataset, batch_size=self.batch_size, num_workers=64)
+        return DataLoader(self.test_dataset, batch_size=self.batch_size, num_workers=NUM_WORKERS)
 
 
 class NodeClassifier(pl.LightningModule):
@@ -360,7 +361,7 @@ def produce_types(model, context_resource: ContextResources, data_transformer: D
                                   x=data_transformer.x,
                                   y=data_transformer.y)
     pred_sampler = SequentialSampler(produce_dataset)
-    produce_dataloader = DataLoader(produce_dataset, sampler=pred_sampler, batch_size=64)
+    produce_dataloader = DataLoader(produce_dataset, sampler=pred_sampler, batch_size=NUM_WORKERS)
     flat_pred_outs, flat_true_labels = pred(model, produce_dataloader)
     thresh = float(threshold)
     # convert to 1D array

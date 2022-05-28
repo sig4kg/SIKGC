@@ -22,7 +22,7 @@ from sklearn import metrics
 # 2022/05
 ###
 
-NUM_WORKERS= 64
+NUM_WORKERS=8
 
 class DataTransformer():
     def __init__(self):

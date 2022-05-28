@@ -361,7 +361,7 @@ def produce_types(model, context_resource: ContextResources, data_transformer: D
                                   x=data_transformer.x,
                                   y=data_transformer.y)
     pred_sampler = SequentialSampler(produce_dataset)
-    produce_dataloader = DataLoader(produce_dataset, sampler=pred_sampler, batch_size=NUM_WORKERS)
+    produce_dataloader = DataLoader(produce_dataset, sampler=pred_sampler, batch_size=64, num_workers=NUM_WORKERS)
     flat_pred_outs, flat_true_labels = pred(model, produce_dataloader)
     thresh = float(threshold)
     # convert to 1D array

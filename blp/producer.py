@@ -615,7 +615,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
             break
         last_valid_mrr = val_mrr
     #save scores to log file
-    log_str = ""
+    log_str = f"mrr: {best_valid_mrr}"
     log_file_name = work_dir + "blp_eval.log"
     save_to_file("-------blp training eval---------\n", log_file_name, mode='a')
     for k, value in best_hit_at_k.items():

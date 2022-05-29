@@ -433,7 +433,7 @@ if __name__ == "__main__":
     # tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
     # tm = tm.rename(columns = {0:rename_col}).join(tmp_df, on='level_0').drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
 
-    folder = "../outputs/silverNL/L_transe/"
+    folder = "../outputs/silverNL/E_transe/"
     abox_file_path = folder + "abox_hrt_uri.txt"
     context_resource_t = ContextResources(abox_file_path, class_and_op_file_path=folder,
                                         work_dir=folder)
@@ -441,7 +441,7 @@ if __name__ == "__main__":
     val, inv = abox_scanner_scheduler_t.register_patterns_all().scan_rel_IJPs(work_dir=folder)
     context_resource_t.hrt_int_df = val
     blp_conf = BLPConfig().get_blp_config(rel_model='transe',
-                                          inductive=True,
+                                          inductive=False,
                                           dataset="NELL",
                                           schema_aware=False,
                                           silver_eval=True,

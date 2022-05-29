@@ -430,9 +430,6 @@ def test_TP(work_dir, dataset):
     abox_file_path = work_dir + "abox_hrt_uri.txt"
     context_resource_t = ContextResources(abox_file_path, class_and_op_file_path=work_dir,
                                           work_dir=work_dir)
-    abox_scanner_scheduler_t = AboxScannerScheduler("../resources/NELL-patterns/", context_resource_t)
-    val, inv = abox_scanner_scheduler_t.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
-    context_resource_t.hrt_int_df = val
     blp_conf = BLPConfig().get_blp_config(rel_model='transe',
                                           inductive=False,
                                           dataset=dataset,
@@ -451,6 +448,9 @@ def test_TP(work_dir, dataset):
                                                     produce=False)
     data_conf = DatasetConfig().get_config(dataset)
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
+    abox_scanner_scheduler_t = AboxScannerScheduler(data_conf.tbox_patterns_dir, context_resource_t)
+    val, inv = abox_scanner_scheduler_t.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
+    context_resource_t.hrt_int_df = val
     freeze_silver_test_data(context_resource_t, p_config)
     train_and_produce(work_dir + "L/", context_resource=context_resource_t, logger=log_util.get_file_logger(file_name=work_dir + "NELL_l.log"),
                       train_batch_size=512, produce=False, epochs=200)

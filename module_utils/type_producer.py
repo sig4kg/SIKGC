@@ -1,3 +1,4 @@
+import argparse
 import logging
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
 from torch.optim import Adam
@@ -456,4 +457,8 @@ def test_TP(work_dir, dataset):
 
 
 if __name__ == "__main__":
-    test_TP("../outputs/silverNL/E_comples_neg/", "NELL")
+    parser = argparse.ArgumentParser(description="experiment settings")
+    parser.add_argument('--dataset', type=str, default="NELL")
+    parser.add_argument('--work_dir', type=str, default="../outputs/silverNL/E_comples_neg/")
+    argss = parser.parse_args()
+    test_TP(argss.work_dir, argss.dataset)

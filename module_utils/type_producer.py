@@ -287,8 +287,9 @@ def train(data_transformer: DataTransformer, t_data_module: TypeDataModule, logg
         gpus = 1
     else:
         gpus = []
+
     trainer = pl.Trainer(max_epochs=epochs, gpus=gpus,
-                         callbacks=[checkpoint_callback, TQDMProgressBar(refresh_rate=30)])
+                         callbacks=[checkpoint_callback, TQDMProgressBar(refresh_rate=30)], log_every_n_steps=10)
     # Train the Classifier Model
     trainer.fit(model, t_data_module)
     # trainer.test(model, datamodule=t_data_module)

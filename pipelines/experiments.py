@@ -37,8 +37,8 @@ if __name__ == "__main__":
     parser.add_argument("--schema_aware_sampling", type=str, default='False')
     parser.add_argument("--reasoner", type=str, default='Konclude')
     parser.add_argument("--pred_type", type=str, default='True')
-    parser.add_argument("--silver_eval", type=str, default='True')
-    parser.add_argument("--produce", type=str, default='False')
+    parser.add_argument("--silver_eval", type=str, default='False')
+    parser.add_argument("--produce", type=str, default='True')
     args = parser.parse_args()
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')

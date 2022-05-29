@@ -431,7 +431,7 @@ def test_TP(work_dir, dataset):
     context_resource_t = ContextResources(abox_file_path, class_and_op_file_path=work_dir,
                                           work_dir=work_dir)
     abox_scanner_scheduler_t = AboxScannerScheduler("../resources/NELL-patterns/", context_resource_t)
-    val, inv = abox_scanner_scheduler_t.register_patterns_all().scan_rel_IJPs(work_dir=work_dir)
+    val, inv = abox_scanner_scheduler_t.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
     context_resource_t.hrt_int_df = val
     blp_conf = BLPConfig().get_blp_config(rel_model='transe',
                                           inductive=False,

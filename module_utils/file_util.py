@@ -17,6 +17,10 @@ def save_to_file(text, out_filename, mode='w'):
         out_f.write(text)
 
 
+def does_file_exist(file_path):
+    return os.path.exists(file_path)
+
+
 def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
     time_counter = 0
     interval = int(timeout_sec / 10) if timeout_sec > 10 else 1

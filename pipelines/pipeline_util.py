@@ -1,5 +1,6 @@
 import random
 
+import file_util
 import scripts.run_scripts
 from abox_scanner.abox_utils import wait_until_file_is_saved
 from module_utils.materialize_util import materialize
@@ -98,7 +99,8 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
 
     # schema-aware sampling
     if pipeline_config.blp_config['schema_aware']:
-        generate_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
+        if not file_util.does_file_exist(pipeline_config.work_dir + 'invalid_hrt.txt'):
+            generate_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
         scripts.run_scripts.delete_file(pipeline_config.work_dir + "valid_hrt.txt")
 
         # schema_aware silver evaluation, we freeze a small portion of test data and keep them in context_resource

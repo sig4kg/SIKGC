@@ -433,7 +433,7 @@ if __name__ == "__main__":
     # tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
     # tm = tm.rename(columns = {0:rename_col}).join(tmp_df, on='level_0').drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
 
-    folder = "../outputs/silverNL/E_transe/"
+    folder = "../outputs/silverNL/E_neg_transe/"
     abox_file_path = folder + "abox_hrt_uri.txt"
     context_resource_t = ContextResources(abox_file_path, class_and_op_file_path=folder,
                                         work_dir=folder)
@@ -459,6 +459,6 @@ if __name__ == "__main__":
     data_conf = DatasetConfig().get_config("NELL")
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
     freeze_silver_test_data(context_resource_t, p_config)
-    train_and_produce(folder + "L/", context_resource=context_resource_t, logger=log_util.get_stream_logger(),
+    train_and_produce(folder + "L/", context_resource=context_resource_t, logger=log_util.get_file_logger(file_name=folder + "NELL_l.log"),
                       train_batch_size=512, produce=False, epochs=60)
 

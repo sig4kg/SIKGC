@@ -433,7 +433,7 @@ if __name__ == "__main__":
     # tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
     # tm = tm.rename(columns = {0:rename_col}).join(tmp_df, on='level_0').drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
 
-    folder = "../outputs/silverNL/E_neg_transe/"
+    folder = "../outputs/silverNL/Esimple/"
     abox_file_path = folder + "abox_hrt_uri.txt"
     context_resource_t = ContextResources(abox_file_path, class_and_op_file_path=folder,
                                         work_dir=folder)

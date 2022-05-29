@@ -453,7 +453,7 @@ def test_TP(work_dir, dataset):
     context_resource_t.hrt_int_df = val
     freeze_silver_test_data(context_resource_t, p_config)
     train_and_produce(work_dir + "L/", context_resource=context_resource_t, logger=log_util.get_file_logger(file_name=work_dir + "NELL_l.log"),
-                      train_batch_size=512, produce=False, epochs=200)
+                      train_batch_size=512, produce=False, epochs=300)
 
 
 if __name__ == "__main__":

@@ -460,5 +460,5 @@ if __name__ == "__main__":
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
     freeze_silver_test_data(context_resource_t, p_config)
     train_and_produce(folder + "L/", context_resource=context_resource_t, logger=log_util.get_file_logger(file_name=folder + "NELL_l.log"),
-                      train_batch_size=512, produce=False, epochs=60)
+                      train_batch_size=512, produce=False, epochs=200)
 

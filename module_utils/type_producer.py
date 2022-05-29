@@ -450,7 +450,7 @@ if __name__ == "__main__":
                                                     loops=1,
                                                     work_dir=folder,
                                                     pred_type=True,
-                                                    reasoner="",
+                                                    reasoner="Konclude",
                                                     parallel=False,
                                                     pipeline="l",
                                                     use_gpu=True,

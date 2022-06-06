@@ -168,7 +168,6 @@ class SchemaAwareGraphDataset(GraphDataset):
                         inconsistent_triples.append([self.entity2id[head], self.entity2id[tail], self.rel2id[rel]])
             self.i_rh2tid, self.i_rt2hid = list_to_dict(inconsistent_triples)
 
-
     def __getitem__(self, index):
         return self.triples[index]
 

@@ -227,7 +227,7 @@ class EmbeddingUtil():
 
 
 def split_data(context_resource: ContextResources, work_dir, num=50, save_file=False):
-    all_classes = [i for cls in context_resource.entid2classids.values() for i in cls]
+    all_classes = [i for cls in context_resource.silver_type_train.values() for i in cls]
     all_silver_classes = [i for cls in context_resource.silver_type.values() for i in cls]
     all_classes = list(set(all_classes) | set(all_silver_classes))
     top_n = Counter(all_classes).most_common(num)
@@ -237,11 +237,11 @@ def split_data(context_resource: ContextResources, work_dir, num=50, save_file=F
     all_ents = all_ents.values.tolist()
     x = []
     y = []
-    for i in context_resource.entid2classids:
+    for i in context_resource.silver_type_train:
         if i not in all_ents:
             continue
         temp = []
-        for t in context_resource.entid2classids[i]:
+        for t in context_resource.silver_type_train[i]:
             if t in top_n_tags:
                 temp.append(t)
         if len(temp) > 0:
@@ -266,7 +266,7 @@ def write_xy_to_file(x, y, context_resource: ContextResources, file_name):
     content = ""
     for i in range(len(x)):
         content = content + f"{context_resource.id2ent[x[i]]}\t" + "\t".join(
-            context_resource.classid2class[y[i]]) + "\n"
+            context_resource.silver_type_train[y[i]]) + "\n"
     with open(file_name, mode='w') as f:
         f.write(content)
 

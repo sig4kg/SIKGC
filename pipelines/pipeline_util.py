@@ -73,7 +73,6 @@ def aggregate_scores():
 
 def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abox_file_hrt=""):
     work_dir = pipeline_config.work_dir
-    # prepare tbox patterns
     # if pipeline_config.tbox_patterns_dir == "" or not os.path.exists(pipeline_config.tbox_patterns_dir):
     #     run_scripts.run_tbox_scanner(pipeline_config.schema_file, work_dir)
     #     tbox_patterns_dir = work_dir + "tbox_patterns/"
@@ -90,8 +89,10 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
     abox_scanner_scheduler = AboxScannerScheduler(pipeline_config.tbox_patterns_dir, context_resource)
     # first round scan, get ready for training
     if consistency_check:
-        valids, _ = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
-        abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir)
+        if not file_util.does_file_exist(pipeline_config.work_dir + 'valid_hrt.txt'):
+            valids, _ = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
+        else:
+            valids = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + 'valid_hrt.txt')
         context_resource.hrt_int_df = valids
     else:
         abox_scanner_scheduler.register_patterns_all()
@@ -99,9 +100,8 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
 
     # schema-aware sampling
     if pipeline_config.blp_config['schema_aware']:
-        if not file_util.does_file_exist(pipeline_config.work_dir + 'invalid_hrt.txt'):
-            generate_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
-        scripts.run_scripts.delete_file(pipeline_config.work_dir + "valid_hrt.txt")
+        if not file_util.does_file_exist(pipeline_config.work_dir + 'random_invalid_hrt.txt'):
+            generate_random_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
 
         # schema_aware silver evaluation, we freeze a small portion of test data and keep them in context_resource
     if pipeline_config.silver_eval:
@@ -109,7 +109,7 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
     return context_resource, abox_scanner_scheduler
 
 
-def generate_invalids(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir):
+def generate_random_invalids(context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler, work_dir):
     valids = context_resource.hrt_int_df
     candidate_ents = context_resource.id2ent.keys()
     corrupt = pd.DataFrame()
@@ -117,6 +117,7 @@ def generate_invalids(context_resource: ContextResources, abox_scanner_scheduler
     corrupt['rel'] = valids['rel']
     corrupt['c_t'] = valids['tail'].apply(func=lambda x: random.sample(candidate_ents, 8))
     corrupt.reset_index(drop=True)
+
     def explode(tmp_df, col, rename_col) -> pd.DataFrame:
         tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
         tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
@@ -130,8 +131,9 @@ def generate_invalids(context_resource: ContextResources, abox_scanner_scheduler
     to_scan_df = pd.concat([context_resource.hrt_int_df, corrupt]).drop_duplicates(keep="first").reset_index(
         drop=True)
     context_resource.hrt_to_scan_df = to_scan_df
-    abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=True)
-    wait_until_file_is_saved(f'{work_dir}invalid_hrt.txt')
+    v, inv = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
+    inv.to_csv(f"{work_dir}random_invalid_hrt.txt", header=False, index=False, sep='\t', mode='a')
+    wait_until_file_is_saved(f'{work_dir}random_invalid_hrt.txt')
 
 
 def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_config: PipelineConfig):
@@ -163,6 +165,7 @@ def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_
                                                             produce=False)
     silver_rel_test = pd.concat([df_rel_test, new_hrt_df]).drop_duplicates(keep='first').reset_index(drop=True)
     silver_type_dict = {ent: ent2types[ent] for ent in dict_type_test}
+    dict_type_train = {ent: ent2types[ent] for ent in dict_type_train}
     splited = {'rel_test': silver_rel_test,
                'type_test': silver_type_dict,
                'rel_train': df_rel_train,
@@ -173,8 +176,23 @@ def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_
 # this function split a portion of test data and extend with materialization data.
 # the left data will be set to context_resource
 def freeze_silver_test_data(context_resource: ContextResources, pipeline_config: PipelineConfig):
-    splited = split_schema_aware_silver_data(context_resource, pipeline_config)
-    context_resource.hrt_int_df = splited['rel_train']
-    context_resource.entid2classids = splited['type_train']
-    context_resource.silver_rel = splited['rel_test']
-    context_resource.silver_type = splited['type_test']
+    if file_util.does_file_exist(pipeline_config.work_dir + "silver_rel.csv"):
+        silver_rel = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + "silver_rel.csv")
+        silver_rel_train = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + "silver_rel_train.csv")
+        silver_type_test = file_util.read_type_dict(pipeline_config.work_dir + "silver_type_test.csv")
+        silver_type_train = file_util.read_type_dict(pipeline_config.work_dir + "silver_type_train.csv")
+        context_resource.silver_rel = silver_rel
+        context_resource.hrt_int_df = silver_rel_train
+        context_resource.silver_type = silver_type_test
+        context_resource.silver_type_train = silver_type_train
+    else:
+        splited = split_schema_aware_silver_data(context_resource, pipeline_config)
+        context_resource.hrt_int_df = splited['rel_train']
+        context_resource.silver_rel = splited['rel_test']
+        context_resource.silver_type = splited['type_test']
+        context_resource.silver_type_train = splited['type_train']
+        splited['rel_test'].to_csv(pipeline_config.work_dir + "silver_rel.csv", header=False, index=False, sep='\t')
+        splited['rel_train'].to_csv(pipeline_config.work_dir + "silver_rel_train.csv", header=False, index=False, sep='\t')
+        file_util.write_type_dict(splited['type_test'], pipeline_config.work_dir + "silver_type_test.csv")
+        file_util.write_type_dict(splited['type_train'], pipeline_config.work_dir + "silver_type_train.csv")
+

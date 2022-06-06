@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import time
+import pandas as pd
 
 
 def init_dir(work_dir):
@@ -39,3 +40,29 @@ def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
         print(f"saving {file_path} timeout")
     return is_saved
 
+
+def read_hrt_2_hrt_int_df(hrt_file):
+    df = pd.read_csv(
+        hrt_file, header=None, names=['head', 'rel', 'tail'], sep="\t")
+    return df
+
+
+def write_hrt_df(hrt_df, hrt_file):
+    hrt_df.to_csv(hrt_file, header=False, index=False, sep='\t')
+
+
+def read_type_dict(dict_file):
+    r_dict = dict()
+    with open(dict_file, mode='r') as f:
+        for l in f.readlines():
+            items = l.strip().split("\t")
+            r_dict.update({int(items[0]): [int(c) for c in items[1:]]})
+    return r_dict
+
+
+def write_type_dict(t_dict,  dict_file):
+    content = ""
+    for ent in t_dict:
+        content = content + f"{str(ent)}\t" + '\t'.join([str(c) for c in t_dict[ent]]) + "\n"
+    with open(dict_file, mode='w') as f:
+        f.write(content)

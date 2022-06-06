@@ -132,12 +132,12 @@ class AboxScannerScheduler:
             out_path = Path(work_dir)
             if not out_path.parent.exists():
                 out_path.parent.mkdir(exist_ok=False)
-            invalid_uris = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
-            invalid_uris[['head', 'tail']] = invalids[['head', 'tail']].applymap(
-                lambda x: self._context_resources.id2ent[x])  # to int
-            invalid_uris['rel'] = invalids['rel'].apply(
-                lambda x: self._context_resources.id2op[x])  # to int
-            invalid_uris.to_csv(f"{work_dir}invalid_hrt.txt", header=False, index=False, sep='\t', mode='a')
+            # invalid_uris = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+            # invalid_uris[['head', 'tail']] = invalids[['head', 'tail']].applymap(
+            #     lambda x: self._context_resources.id2ent[x])  # to uri
+            # invalid_uris['rel'] = invalids['rel'].apply(
+            #     lambda x: self._context_resources.id2op[x])  # to uri
+            invalids.to_csv(f"{work_dir}invalid_hrt.txt", header=False, index=False, sep='\t', mode='a')
             valids.to_csv(f"{work_dir}valid_hrt.txt", header=None, index=None, sep='\t', mode='w')
             print(f"saving {work_dir}invalid_hrt.txt\nsaving {work_dir}valid_hrt.txt")
             wait_until_file_is_saved(f"{work_dir}invalid_hrt.txt")

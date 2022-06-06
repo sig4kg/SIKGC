@@ -161,7 +161,7 @@ class SchemaAwareGraphDataset(GraphDataset):
                 inconsistent_triples = []
                 for i, line in enumerate(neg_file):
                     values = line.strip().split()
-                    if len(values) > 3 and values[3] == '-1':
+                    if len(values) > 3 or values[3] == '-1':
                         continue
                     head, rel, tail = line.split()[:3]
                     if head in self.entity2id and tail in self.entity2id and rel in self.rel2id:

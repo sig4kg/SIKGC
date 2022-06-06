@@ -73,7 +73,7 @@ class LC(ProducerBlock):
         context_resource = self.context_resource
         random_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "random_invalid_hrt.txt")
         if not file_util.does_file_exist(self.work_dir + "invalid_hrt.txt"):
-            config.blp_config.update({'schema_aware': False, 'do_produce': True})
+            config.blp_config.update({'schema_aware': False, 'do_produce': True, 'silver_eval': False})
             ex.run(config_updates=config.blp_config)
             wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
             pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv",
@@ -84,6 +84,7 @@ class LC(ProducerBlock):
                 drop=True)
             _, similar_inv = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
                 scan_rel_IJPs(work_dir=self.work_dir, save_result=True)
+            config.blp_config.update({'schema_aware': True, 'do_produce': config.produce, 'silver_eval': config.silver_eval})
         else:
             similar_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "invalid_hrt.txt")
         # int 2 uris
@@ -98,4 +99,4 @@ class LC(ProducerBlock):
         neg_examples['rel'] = neg_examples['rel'].apply(
             lambda x: self.context_resource.id2op[x])  # to uri
         neg_examples.to_csv(f"{work_dir}neg_examples.txt", header=False, index=False, sep='\t', mode='w')
-        config.blp_config.update({'schema_aware': True, 'do_produce': config.produce})
+

@@ -90,7 +90,7 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
     # first round scan, get ready for training
     if consistency_check:
         if not file_util.does_file_exist(pipeline_config.work_dir + 'valid_hrt.txt'):
-            valids, _ = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
+            valids, _ = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=True)
         else:
             valids = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + 'valid_hrt.txt')
         context_resource.hrt_int_df = valids

@@ -83,7 +83,7 @@ class LC(ProducerBlock):
                 keep="first").reset_index(
                 drop=True)
             _, similar_inv = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
-                scan_rel_IJPs(work_dir=self.work_dir, save_result=False)
+                scan_rel_IJPs(work_dir=self.work_dir, save_result=True)
         else:
             similar_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "invalid_hrt.txt")
         # int 2 uris

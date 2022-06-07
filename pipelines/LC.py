@@ -72,7 +72,7 @@ class LC(ProducerBlock):
         config = self.pipeline_config
         context_resource = self.context_resource
         random_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "random_invalid_hrt.txt")
-        if not file_util.does_file_exist(self.work_dir + "invalid_hrt.txt"):
+        if not file_util.does_file_exist(self.work_dir + "invalid_hrt.txt") and config.silver_eval:
             config.blp_config.update({'schema_aware': False, 'do_produce': True, 'silver_eval': False})
             ex.run(config_updates=config.blp_config)
             wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
@@ -85,8 +85,10 @@ class LC(ProducerBlock):
             _, similar_inv = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
                 scan_rel_IJPs(work_dir=self.work_dir, save_result=True)
             config.blp_config.update({'schema_aware': True, 'do_produce': config.produce, 'silver_eval': config.silver_eval})
-        else:
+        elif file_util.does_file_exist(self.work_dir + "invalid_hrt.txt"):
             similar_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "invalid_hrt.txt")
+        else:
+            similar_inv = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
 
         neg_examples = pd.concat([random_inv, similar_inv]).drop_duplicates(keep='first')
         # blp need the uris

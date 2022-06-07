@@ -87,11 +87,7 @@ class LC(ProducerBlock):
             config.blp_config.update({'schema_aware': True, 'do_produce': config.produce, 'silver_eval': config.silver_eval})
         else:
             similar_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "invalid_hrt.txt")
-        # int 2 uris
-        similar_inv[['head', 'tail']] = similar_inv[['head', 'tail']].applymap(
-            lambda x: self.context_resource.id2ent[x])  # to uri
-        similar_inv['rel'] = similar_inv['rel'].apply(
-            lambda x: self.context_resource.id2op[x])  # to uri
+
         neg_examples = pd.concat([random_inv, similar_inv]).drop_duplicates(keep='first')
         # blp need the uris
         neg_examples[['head', 'tail']] = neg_examples[['head', 'tail']].applymap(

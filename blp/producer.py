@@ -534,7 +534,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
     train_loader = DataLoader(train_data, batch_size, shuffle=True,
                               collate_fn=train_data.collate_fn,
-                              num_workers=0, drop_last=True)
+                              num_workers=8, drop_last=True)
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
     valid_loader = DataLoader(valid_data, eval_batch_size)
 
@@ -629,7 +629,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         _log.info('get sample and score for Ricky...')
         train_eval_loader2 = DataLoader(train_data, batch_size, shuffle=True,
                                         collate_fn=train_data.collate_fn,
-                                        num_workers=0, drop_last=True)
+                                        num_workers=8, drop_last=True)
         eval_and_get_score(model=model,
                            triples_loader=train_eval_loader2,
                            text_dataset=train_data,

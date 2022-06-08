@@ -159,7 +159,7 @@ class AboxScannerScheduler:
         correct = correct.drop_duplicates(keep="first")
         if len(correct) > 0:
             correct = correct.astype(int)
-        correct.to_csv(f"{work_dir}schema_correct_hrt.txt", header=None, index=None, sep='\t', mode='a')
+        correct.to_csv(f"{work_dir}schema_correct_hrt.txt", header=None, index=None, sep='\t', mode='w')
         print(
             f"scanned total count: {len(self._context_resources.hrt_to_scan_df)}; schema correct count: {str(len(correct))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
@@ -168,7 +168,7 @@ class AboxScannerScheduler:
         inco_valid[['head', 'tail']] = inco_valid[['head', 'tail']].applymap(
             lambda x: self._context_resources.id2ent[x])  # to int
         inco_valid[['rel']] = inco_valid[['rel']].applymap(lambda x: self._context_resources.id2op[x])
-        inco_valid.to_csv(f"{work_dir}incorrect_valid_uri.txt", header=None, index=None, sep='\t', mode='a')
+        inco_valid.to_csv(f"{work_dir}incorrect_valid_uri.txt", header=None, index=None, sep='\t', mode='w')
         return correct
 
     def scan_type_IJPs(self, work_dir, save_result=True):

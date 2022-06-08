@@ -87,15 +87,15 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
                                         work_dir=work_dir)
     # pattern_input_dir, class2int, node2class_int, all_triples_int
     abox_scanner_scheduler = AboxScannerScheduler(pipeline_config.tbox_patterns_dir, context_resource)
+    abox_scanner_scheduler.register_patterns_all()
     # first round scan, get ready for training
     if consistency_check:
         if not file_util.does_file_exist(pipeline_config.work_dir + 'valid_hrt.txt'):
-            valids, _ = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=True)
+            valids, _ = abox_scanner_scheduler.scan_rel_IJPs(work_dir=work_dir, save_result=True)
         else:
             valids = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + 'valid_hrt.txt')
         context_resource.hrt_int_df = valids
     else:
-        abox_scanner_scheduler.register_patterns_all()
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
 
     # schema-aware sampling

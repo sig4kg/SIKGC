@@ -533,15 +533,15 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                  num_devices=num_devices, schema_aware=schema_aware)
 
     train_loader = DataLoader(train_data, batch_size, shuffle=True,
-                              collate_fn=train_data.collate_fn,
+                              collate_fn=train_data.collate_fn, pin_memory=True,
                               num_workers=NUM_WORKERS, drop_last=True)
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
-    valid_loader = DataLoader(valid_data, eval_batch_size, num_workers=NUM_WORKERS)
+    valid_loader = DataLoader(valid_data, eval_batch_size, num_workers=NUM_WORKERS, pin_memory=True)
 
     test_data_hr = GraphDataset(f'{work_dir}test_hr.tsv')
-    test_loader_hr = DataLoader(test_data_hr, eval_batch_size, num_workers=NUM_WORKERS)
+    test_loader_hr = DataLoader(test_data_hr, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
     test_data_rt = GraphDataset(f'{work_dir}test_rt.tsv')
-    test_loader_rt = DataLoader(test_data_rt, eval_batch_size, num_workers=NUM_WORKERS)
+    test_loader_rt = DataLoader(test_data_rt, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
 
     graph = nx.MultiDiGraph()
     all_triples = torch.cat((train_data.triples,
@@ -629,7 +629,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     if do_downstream_sample:
         _log.info('get sample and score for Ricky...')
         train_eval_loader2 = DataLoader(train_data, batch_size, shuffle=True,
-                                        collate_fn=train_data.collate_fn,
+                                        collate_fn=train_data.collate_fn, pin_memory=True,
                                         num_workers=NUM_WORKERS, drop_last=True)
         eval_and_get_score(model=model,
                            triples_loader=train_eval_loader2,
@@ -639,7 +639,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                            work_dir=work_dir)
     if silver_eval:
         valid_data_silver = GraphDataset(f'{work_dir}test_rel_silver.tsv')
-        valid_loader_silver = DataLoader(valid_data_silver, eval_batch_size, num_workers=NUM_WORKERS)
+        valid_loader_silver = DataLoader(valid_data_silver, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
         val_mrr, hit_at_k, ent_emb = eval_link_prediction(model, valid_loader_silver, train_data,
                                                     train_val_ent, 0,
                                                     emb_batch_size, prefix='valid', return_embeddings=True)

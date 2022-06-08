@@ -581,6 +581,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
         for step, data in enumerate(train_loader):
+            #print(f"data device: {data[0].device}")
             loss = model(*data).mean()
             optimizer.zero_grad()
             loss.backward()

@@ -473,7 +473,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                               num_workers=NUM_WORKERS, drop_last=True)
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
     valid_loader = DataLoader(valid_data, eval_batch_size, num_workers=NUM_WORKERS, pin_memory=True)
-
     test_data_hr = GraphDataset(f'{work_dir}test_hr.tsv')
     test_loader_hr = DataLoader(test_data_hr, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
     test_data_rt = GraphDataset(f'{work_dir}test_rt.tsv')
@@ -501,6 +500,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
     if device != torch.device('cpu'):
         model = torch.nn.DataParallel(model).to(device)
+    _log.info(f"model device: {next(model.parameters()).device}")
 
     optimizer = Adam(model.parameters(), lr=lr)
     total_steps = len(train_loader) * max_epochs
@@ -516,9 +516,13 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
-        for step, data in enumerate(train_loader):
-            _log.info(f"data device: {data[0].device}")
-            loss = model(*data).mean()
+        for step, (pos_pairs, rels, neg_idx) in enumerate(train_loader):
+            # _log.info(f"data device: {data[0].device}")
+            if device != torch.device('cpu'):
+                pos_pairs = pos_pairs.to(device)
+                rels = rels.to(device)
+                neg_idx = neg_idx.to(device)
+            loss = model(pos_pairs, rels, neg_idx).mean()
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()

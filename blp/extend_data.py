@@ -34,7 +34,7 @@ class NegSampler:
     def reasoning_for_neg_in_batch_entities(self, data_list,
                                             batch_entities, i_rh2tid, i_rt2hid):
         # data_list are in URI, we need convert URI to context_resource ids
-        candidate_ents_contextid = [self.blp2context_entid[e] for e in batch_entities]
+        candidate_ents_contextid = [self.blp2context_entid[e] for e in torch.unique(batch_entities).tolist()]
         pos_hrt_int = []
         for row_idx, row in enumerate(data_list):
             h, t, r = row[0].item(), row[1].item(), row[2].item()

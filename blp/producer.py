@@ -515,13 +515,23 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     best_state_dict = None
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
-        for step, (pos_pairs, rels, neg_idx) in enumerate(train_loader):
+        for step, data in enumerate(train_loader):
             if device != torch.device('cpu'):
-                pos_pairs = pos_pairs.to(device, non_blocking=True)
-                rels = rels.to(device, non_blocking=True)
-                neg_idx = neg_idx.to(device, non_blocking=True)
-            # _log.info(f"data device: {rels.device}")
-            loss = model(pos_pairs, rels, neg_idx).mean()
+                if len(data) == 3:
+                    pos_pairs, rels, neg_idx = data[0], data[1], data[2]
+                    pos_pairs = pos_pairs.to(device, non_blocking=True)
+                    rels = rels.to(device, non_blocking=True)
+                    neg_idx = neg_idx.to(device, non_blocking=True)
+                    loss = model(pos_pairs, rels, neg_idx).mean()
+                elif len(data)==4:
+                    text_tok, text_mask, rels, neg_idx = data[0], data[1], data[2], data[3]
+                    text_tok = text_tok.to(device, non_blocking=True)
+                    text_mask = text_mask.to(device, non_blocking=True)
+                    rels = rels.to(device, non_blocking=True)
+                    neg_idx = neg_idx.to(device, non_blocking=True)
+                    loss = model(text_tok, text_mask, rels, neg_idx).mean()
+            else:
+                loss = model(*data).mean()
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()

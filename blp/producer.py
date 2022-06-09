@@ -332,9 +332,9 @@ def produce(model,
     for i, triples in enumerate(triples_loader_hr):
         heads, tails, rels = torch.chunk(triples, chunks=3, dim=1)
         # Map entity IDs to positions in ent_emb
-        heads = ent2idx[heads].to(device)
-        tails = ent2idx[tails].to(device)
-        rels = rels.to(device)
+        heads = ent2idx[heads].to(device, non_blocking=True)
+        tails = ent2idx[tails].to(device, non_blocking=True)
+        rels = rels.to(device, non_blocking=True)
         assert heads.min() >= 0
         assert tails.min() >= 0
         # Embed triple
@@ -360,9 +360,9 @@ def produce(model,
     for i, triples in enumerate(triples_loader_rt):
         heads, tails, rels = torch.chunk(triples, chunks=3, dim=1)
         # Map entity IDs to positions in ent_emb
-        heads = ent2idx[heads].to(device)
-        tails = ent2idx[tails].to(device)
-        rels = rels.to(device)
+        heads = ent2idx[heads].to(device, non_blocking=True)
+        tails = ent2idx[tails].to(device, non_blocking=True)
+        rels = rels.to(device, non_blocking=True)
         assert heads.min() >= 0
         assert tails.min() >= 0
         # Embed triple
@@ -517,9 +517,9 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         for step, (pos_pairs, rels, neg_idx) in enumerate(train_loader):
             # _log.info(f"data device: {data[0].device}")
             if device != torch.device('cpu'):
-                pos_pairs = pos_pairs.to(device)
-                rels = rels.to(device)
-                neg_idx = neg_idx.to(device)
+                pos_pairs = pos_pairs.to(device, non_blocking=True)
+                rels = rels.to(device, non_blocking=True)
+                neg_idx = neg_idx.to(device, non_blocking=True)
             _log.info(f"data device: {rels.device}")
             loss = model(pos_pairs, rels, neg_idx).mean()
             optimizer.zero_grad()

@@ -120,10 +120,8 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
         # Map entity IDs to positions in ent_emb
         heads = ent2idx[heads].to(device)
         tails = ent2idx[tails].to(device)
-
         assert heads.min() >= 0
         assert tails.min() >= 0
-
         # Embed triple
         head_embs = ent_emb.squeeze()[heads]
         tail_embs = ent_emb.squeeze()[tails]

@@ -35,15 +35,17 @@ class NegSampler:
                                             batch_entities, i_rh2tid, i_rt2hid):
         # data_list are in URI, we need convert URI to context_resource ids
         candidate_ents_contextid = [self.blp2context_entid[e] for e in torch.unique(batch_entities).tolist()]
+        sample_count = len(candidate_ents_contextid)
+        sample_count = 64 if sample_count > 64 else sample_count
         pos_hrt_int = []
         for row_idx, row in enumerate(data_list):
             h, t, r = row[0].item(), row[1].item(), row[2].item()
             pos_hrt_int.append([self.blp2context_entid[h], self.blp2context_relid[r], self.blp2context_entid[t]])
         pos_examples_df = pd.DataFrame(data=pos_hrt_int, columns=['head', 'rel', 'tail'])
         corrupt = pd.DataFrame()
-        corrupt['c_h'] = pos_examples_df['head'].apply(func=lambda x: random.sample(candidate_ents_contextid, 64))
+        corrupt['c_h'] = pos_examples_df['head'].apply(func=lambda x: random.sample(candidate_ents_contextid, sample_count))
         corrupt['rel'] = pos_examples_df['rel']
-        corrupt['c_t'] = pos_examples_df['tail'].apply(func=lambda x: random.sample(candidate_ents_contextid, 64))
+        corrupt['c_t'] = pos_examples_df['tail'].apply(func=lambda x: random.sample(candidate_ents_contextid, sample_count))
         corrupt.reset_index(drop=True)
 
         def explode(tmp_df, col, rename_col) -> pd.DataFrame:

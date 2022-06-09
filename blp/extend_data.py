@@ -41,9 +41,9 @@ class NegSampler:
             pos_hrt_int.append([self.blp2context_entid[h], self.blp2context_relid[r], self.blp2context_entid[t]])
         pos_examples_df = pd.DataFrame(data=pos_hrt_int, columns=['head', 'rel', 'tail'])
         corrupt = pd.DataFrame()
-        corrupt['c_h'] = pos_examples_df['head'].apply(func=lambda x: random.sample(candidate_ents_contextid, 8))
+        corrupt['c_h'] = pos_examples_df['head'].apply(func=lambda x: random.sample(candidate_ents_contextid, 64))
         corrupt['rel'] = pos_examples_df['rel']
-        corrupt['c_t'] = pos_examples_df['tail'].apply(func=lambda x: random.sample(candidate_ents_contextid, 8))
+        corrupt['c_t'] = pos_examples_df['tail'].apply(func=lambda x: random.sample(candidate_ents_contextid, 64))
         corrupt.reset_index(drop=True)
 
         def explode(tmp_df, col, rename_col) -> pd.DataFrame:
@@ -176,28 +176,32 @@ def get_schema_aware_neg_sampling_indices(data_list,
 def list_to_dict(invalid_triples, i_rh2id=None, i_rt2id=None):
     # {r: {h: {t1, t2, t3}}}
     if i_rt2id is None:
-        i_rt2id = {}
+        tmp_i_rt2id = {}
+    else:
+        tmp_i_rt2id = copy.deepcopy(i_rt2id)
     if i_rh2id is None:
-        i_rh2id = {}
+        tmp_i_rh2id = {}
+    else:
+        tmp_i_rh2id = copy.deepcopy(i_rh2id)
     for row in invalid_triples:
         h = row[0]
         t = row[1]
         r = row[2]
-        if r in i_rh2id:
-            if h in i_rh2id[r]:
-                i_rh2id[r][h].add(t)
+        if r in tmp_i_rh2id:
+            if h in tmp_i_rh2id[r]:
+                tmp_i_rh2id[r][h].add(t)
             else:
-                i_rh2id[r].update({h: {t}})
+                tmp_i_rh2id[r].update({h: {t}})
         else:
-            i_rh2id.update({r: {h: {t}}})
-        if r in i_rt2id:
-            if t in i_rt2id[r]:
-                i_rt2id[r][t].add(h)
+            tmp_i_rh2id.update({r: {h: {t}}})
+        if r in tmp_i_rt2id:
+            if t in tmp_i_rt2id[r]:
+                tmp_i_rt2id[r][t].add(h)
             else:
-                i_rt2id[r].update({t: {h}})
+                tmp_i_rt2id[r].update({t: {h}})
         else:
-            i_rt2id.update({r: {t: {h}}})
-    return i_rh2id, i_rt2id
+            tmp_i_rt2id.update({r: {t: {h}}})
+    return tmp_i_rh2id, tmp_i_rt2id
 
 
 class SchemaAwareGraphDataset(GraphDataset):

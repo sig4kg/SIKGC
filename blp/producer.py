@@ -512,15 +512,15 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     best_hit_at_k = {}
     early_stop_sign = 0
     checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
+    best_state_dict = None
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
         for step, (pos_pairs, rels, neg_idx) in enumerate(train_loader):
-            # _log.info(f"data device: {data[0].device}")
             if device != torch.device('cpu'):
                 pos_pairs = pos_pairs.to(device, non_blocking=True)
                 rels = rels.to(device, non_blocking=True)
                 neg_idx = neg_idx.to(device, non_blocking=True)
-            _log.info(f"data device: {rels.device}")
+            # _log.info(f"data device: {rels.device}")
             loss = model(pos_pairs, rels, neg_idx).mean()
             optimizer.zero_grad()
             loss.backward()
@@ -546,7 +546,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if val_mrr > best_valid_mrr:
             best_valid_mrr = val_mrr
             best_hit_at_k = hit_at_k
-            torch.save(model.state_dict(), checkpoint_file)
+            best_state_dict = model.state_dict()
+            # torch.save(model.state_dict(), checkpoint_file)
         if val_mrr <= last_valid_mrr:
             early_stop_sign += 1
         elif val_mrr >= best_valid_mrr:
@@ -555,7 +556,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if early_stop_sign >= 6:
             break
         last_valid_mrr = val_mrr
-    # save scores to log file
+    torch.save(best_state_dict, checkpoint_file)
 
     log_file_name = work_dir + "blp_eval.log"
     log_str = f"-------blp training eval---------\nmrr: {best_valid_mrr}\n"

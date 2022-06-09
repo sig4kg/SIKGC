@@ -522,6 +522,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                 pos_pairs = pos_pairs.to(device)
                 rels = rels.to(device)
                 neg_idx = neg_idx.to(device)
+            _log.info(f"data device: {rels.device}")
             loss = model(pos_pairs, rels, neg_idx).mean()
             optimizer.zero_grad()
             loss.backward()

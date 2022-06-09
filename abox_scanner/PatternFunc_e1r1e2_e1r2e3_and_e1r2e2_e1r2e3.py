@@ -11,7 +11,7 @@ class PatternFunc_e1r1e2_e1r2e3_and_e1r2e2_e1r2e3(PatternScanner):
         self._pattern_dict = dict()
         self._context_resources = context_resources
 
-    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+    def scan_pattern_df_rel(self, triples: pd.DataFrame, log_process=True):
         if len(self._pattern_dict) == 0:
             return
         use_gpu = False
@@ -29,7 +29,7 @@ class PatternFunc_e1r1e2_e1r2e3_and_e1r2e2_e1r2e3(PatternScanner):
             print("using pandas ...")
             df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern FunctionalProperty(r1), subPropertyOf(r1, r2)"):
+        for g in tqdm(gp, desc="scanning pattern FunctionalProperty(r1), subPropertyOf(r1, r2)", disable=not log_process):
             r1 = g[0]
             if r1 in self._pattern_dict:
                 r2_l = list(set(self._pattern_dict[r1]))

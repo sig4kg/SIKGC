@@ -11,12 +11,12 @@ class PatternNegDomain(PatternScanner):
         self._pattern_dict = None
         self._context_resources = context_resources
 
-    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+    def scan_pattern_df_rel(self, triples: pd.DataFrame, log_process=True):
         if len(self._pattern_dict) == 0:
             return
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern domain disjointness"):
+        for g in tqdm(gp, desc="scanning pattern domain disjointness", disable=not log_process):
             rel = g[0]
             r_triples_df = g[1]
             need_update = False

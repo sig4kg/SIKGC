@@ -1,4 +1,76 @@
+import copy
+import random
+
+import pandas as pd
+import numpy as np
+from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
+from abox_scanner.ContextResources import ContextResources
 from blp.data import *
+from pipelines.exp_config import DatasetConfig
+
+
+def get_maps_context2blpid(context_resource: ContextResources, blp_ent2id, blp_rel2id):
+    # get context_id to blp_id
+    # get blp_id to context_id
+    context2blp_entid = {context_resource.ent2id[c_ent]: blp_ent2id[c_ent] for c_ent in context_resource.ent2id
+                         if c_ent in context_resource.ent2id and c_ent in blp_ent2id}
+    context2blp_relid = {context_resource.op2id[c_rel]: blp_rel2id[c_rel] for c_rel in context_resource.op2id
+                         if c_rel in context_resource.op2id and c_rel in blp_rel2id}
+    blp2context_entid = {context2blp_entid[key]: key for key in context2blp_entid}
+    blp2context_relid = {context2blp_relid[key]: key for key in context2blp_relid}
+    return context2blp_entid, blp2context_entid, context2blp_relid, blp2context_relid
+
+
+class NegSampler:
+    def __init__(self, context_resource: ContextResources,
+                 abox_scanner_scheduler: AboxScannerScheduler,
+                 blp_ent2id, blp_rel2id):
+        self.context_resource = context_resource
+        self.abox_scanner_scheduler = abox_scanner_scheduler
+        self.blp_ent2id = blp_ent2id
+        self.context2blp_entid, self.blp2context_entid, self.context2blp_relid, self.blp2context_relid = \
+            get_maps_context2blpid(context_resource, blp_ent2id, blp_rel2id)
+
+    def reasoning_for_neg_in_batch_entities(self, data_list,
+                                            batch_entities, i_rh2tid, i_rt2hid):
+        # data_list are in URI, we need convert URI to context_resource ids
+        candidate_ents_contextid = [self.blp2context_entid[e] for e in self.blp2context_entid]
+        pos_hrt_int = []
+        for row_idx, row in enumerate(data_list):
+            h, t, r = row[0].item(), row[1].item(), row[2].item()
+            pos_hrt_int.append([self.blp2context_entid[h], self.blp2context_relid[r], self.blp2context_entid[t]])
+        pos_examples_df = pd.DataFrame(data=pos_hrt_int, columns=['head', 'rel', 'tail'])
+        corrupt = pd.DataFrame()
+        corrupt['c_h'] = pos_examples_df['head'].apply(func=lambda x: random.sample(candidate_ents_contextid, 4))
+        corrupt['rel'] = pos_examples_df['rel']
+        corrupt['c_t'] = pos_examples_df['tail'].apply(func=lambda x: random.sample(candidate_ents_contextid, 4))
+        corrupt.reset_index(drop=True)
+
+        def explode(tmp_df, col, rename_col) -> pd.DataFrame:
+            tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
+            tm = pd.DataFrame(list(tmp_df[col])).stack().reset_index(level=0)
+            tm = tm.rename(columns={0: rename_col}).join(tmp_df, on='level_0'). \
+                drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
+            return tm
+
+        corrupt = explode(corrupt, "c_h", "head").dropna(how='any')
+        corrupt = explode(corrupt, "c_t", "tail")
+        corrupt = corrupt[['head', 'rel', 'tail']].dropna(how='any').astype('int64')
+        to_scan_df = pd.concat([pos_examples_df, corrupt]).drop_duplicates(keep="first").reset_index(
+            drop=True)
+        self.context_resource.hrt_to_scan_df = to_scan_df
+        self.context_resource.hrt_int_df = pos_examples_df
+        _, inv = self.abox_scanner_scheduler.scan_rel_IJPs(work_dir="", save_result=False, log_process=False)
+        # to blp ids
+        inv_blp_df = inv[['head', 'tail', 'rel']]
+        inv_blp_df['head'] = inv_blp_df['head'].apply(
+            lambda x: self.context2blp_entid[x] if x in self.context2blp_entid else np.nan)
+        inv_blp_df['tail'] = inv_blp_df['tail'].apply(
+            lambda x: self.context2blp_entid[x] if x in self.context2blp_entid else np.nan)
+        inv_blp_df['rel'] = inv_blp_df['rel'].apply(
+            lambda x: self.context2blp_relid[x] if x in self.context2blp_relid else np.nan)
+        inv_blp_df = inv_blp_df.dropna(how='any').astype('int64')
+        return list_to_dict(inv_blp_df.to_numpy().tolist(), i_rh2tid, i_rt2hid)
 
 
 def get_schema_aware_neg_sampling_indices(data_list,
@@ -11,7 +83,7 @@ def get_schema_aware_neg_sampling_indices(data_list,
                                           schema_aware=False):
     batch_entities_np = batch_entities.numpy()
     num_ents = batch_size * 2
-    idx = torch.arange(num_ents).reshape(batch_size, 2)     # n rows, 2 columns
+    idx = torch.arange(num_ents).reshape(batch_size, 2)  # n rows, 2 columns
     half_neg_num = int(num_negatives / 2)
     # for each row, generate half_neg_num head neg samples and  half_neg_num tail neg samples
     # sample head
@@ -75,7 +147,7 @@ def get_schema_aware_neg_sampling_indices(data_list,
     random_t_idx = random_t_idx.t().flatten()
     # corrupt the second column
     tail_batch_row_selector = torch.arange(batch_size * half_neg_num * repeats)
-    tail_batch_col_selector = torch.ones(batch_size * half_neg_num * repeats, dtype=torch.long)    # corrupt tail
+    tail_batch_col_selector = torch.ones(batch_size * half_neg_num * repeats, dtype=torch.long)  # corrupt tail
     # Fill the array of negative samples with the sampled random entities
     # at the tail positions
     neg_t_idx = idx.repeat((half_neg_num * repeats, 1))
@@ -90,7 +162,7 @@ def get_schema_aware_neg_sampling_indices(data_list,
     random_h_idx = random_h_idx.t().flatten()
     # corrupt the first column
     head_batch_row_selector = torch.arange(batch_size * half_neg_num * repeats)
-    head_batch_col_selector = torch.zeros(batch_size * half_neg_num * repeats, dtype=torch.long)    # corrupt tail
+    head_batch_col_selector = torch.zeros(batch_size * half_neg_num * repeats, dtype=torch.long)  # corrupt tail
     # Fill the array of negative samples with the sampled random entities
     # at the tail positions
     neg_h_idx = idx.repeat((half_neg_num * repeats, 1))
@@ -101,10 +173,12 @@ def get_schema_aware_neg_sampling_indices(data_list,
     return neg_idx
 
 
-def list_to_dict(invalid_triples):
-    i_rh2id = {}
-    i_rt2id = {}
+def list_to_dict(invalid_triples, i_rh2id=None, i_rt2id=None):
     # {r: {h: {t1, t2, t3}}}
+    if i_rt2id is None:
+        i_rt2id = {}
+    if i_rh2id is None:
+        i_rh2id = {}
     for row in invalid_triples:
         h = row[0]
         t = row[1]
@@ -140,7 +214,10 @@ class SchemaAwareGraphDataset(GraphDataset):
             entities and relations to IDs are saved to disk (for reuse with
             other datasets).
     """
-    def __init__(self, triples_file, inconsistent_triples_file, neg_samples=None, write_maps_file=False,
+
+    def __init__(self, triples_file, inconsistent_triples_file,
+                 dataset,
+                 neg_samples=None, write_maps_file=False,
                  num_devices=1, schema_aware=False):
         """
         :param triples_file:
@@ -167,6 +244,15 @@ class SchemaAwareGraphDataset(GraphDataset):
                     if head in self.entity2id and tail in self.entity2id and rel in self.rel2id:
                         inconsistent_triples.append([self.entity2id[head], self.entity2id[tail], self.rel2id[rel]])
             self.i_rh2tid, self.i_rt2hid = list_to_dict(inconsistent_triples)
+            data_conf = DatasetConfig().get_config(dataset)
+            abox_file_path = data_conf.input_dir + "abox_hrt_uri.txt"
+            tmp_context_resource = ContextResources(abox_file_path, class_and_op_file_path=data_conf.input_dir,
+                                                    work_dir="")
+            abox_scanner_scheduler = AboxScannerScheduler(data_conf.tbox_patterns_dir, tmp_context_resource)
+            abox_scanner_scheduler.register_patterns_rel([1, 2, 3, 4, 5, 6])
+            self.neg_sampler = NegSampler(tmp_context_resource,
+                                          abox_scanner_scheduler,
+                                          self.entity2id, self.rel2id)
 
     def __getitem__(self, index):
         return self.triples[index]
@@ -182,6 +268,10 @@ class SchemaAwareGraphDataset(GraphDataset):
         batch_size = len(data_list)
         pos_pairs, rels = torch.stack(data_list).split(2, dim=1)
         batch_entities = pos_pairs.reshape(batch_size * 2)
+        self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
+                                                             batch_entities=batch_entities,
+                                                             i_rh2tid=self.i_rh2tid,
+                                                             i_rt2hid=self.i_rt2hid)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,
@@ -213,10 +303,10 @@ class SchemaAwareTextGraphDataset(SchemaAwareGraphDataset):
         drop_stopwords: bool
     """
 
-    def __init__(self, triples_file, inconsistent_triples_file, neg_samples, max_len, tokenizer,
+    def __init__(self, triples_file, inconsistent_triples_file, dataset, neg_samples, max_len, tokenizer,
                  drop_stopwords, write_maps_file=False, use_cached_text=False,
                  num_devices=1, schema_aware=False):
-        super().__init__(triples_file, inconsistent_triples_file, neg_samples, write_maps_file,
+        super().__init__(triples_file, inconsistent_triples_file, dataset, neg_samples, write_maps_file,
                          num_devices, schema_aware=schema_aware)
         maps = torch.load(self.maps_path)
         ent_ids = maps['ent_ids']

@@ -71,7 +71,6 @@ class LC(ProducerBlock):
         work_dir = self.work_dir + "L/"
         config = self.pipeline_config
         context_resource = self.context_resource
-        random_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "random_invalid_hrt.txt")
         if not file_util.does_file_exist(self.work_dir + "invalid_hrt.txt") and config.silver_eval:
             config.blp_config.update({'schema_aware': False, 'do_produce': True, 'silver_eval': False})
             ex.run(config_updates=config.blp_config)
@@ -90,7 +89,7 @@ class LC(ProducerBlock):
         else:
             similar_inv = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
 
-        neg_examples = pd.concat([random_inv, similar_inv]).drop_duplicates(keep='first')
+        neg_examples = similar_inv.drop_duplicates(keep='first')
         # blp need the uris
         neg_examples[['head', 'tail']] = neg_examples[['head', 'tail']].applymap(
             lambda x: self.context_resource.id2ent[x])  # to uri

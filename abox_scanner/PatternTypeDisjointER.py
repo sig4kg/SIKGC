@@ -10,13 +10,13 @@ class PatternTypeDisjointER():
 
     # scan (e rdf:type C), C disjointwith \some R, ---> (e, r, x)
     # need scan relation assertions in abox.
-    def scan_pattern_df_rel(self, type_triples: pd.DataFrame):
+    def scan_pattern_df_rel(self, type_triples: pd.DataFrame, log_process=True):
         if len(self._pattern_dict) == 0:
             return
         df = type_triples
         gp = df.query("is_valid == True").groupby('head', group_keys=True, as_index=False)
         gp_hrt_df = self._context_resources.hrt_int_df.groupby('head', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern type disjoint with somevaluefrom R"):
+        for g in tqdm(gp, desc="scanning pattern type disjoint with somevaluefrom R", disable=log_process):
             e = g[0]
             e_types_df = g[1]
             if e not in gp_hrt_df.groups.keys():

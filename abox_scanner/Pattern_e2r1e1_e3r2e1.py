@@ -10,12 +10,12 @@ class Pattern_e2r1e1_e3r2e1(PatternScanner):
         self._pattern_dict = None
         self._context_resources = context_resources
 
-    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+    def scan_pattern_df_rel(self, triples: pd.DataFrame, log_process=True):
         if len(self._pattern_dict) == 0:
             return
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern e2r1e1_e3r2e1"):
+        for g in tqdm(gp, desc="scanning pattern e2r1e1_e3r2e1", disable=not log_process):
             r1 = g[0]
             if r1 in self._pattern_dict:
                 disjoint_r2_l = self._pattern_dict[r1]

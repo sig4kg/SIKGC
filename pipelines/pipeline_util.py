@@ -99,9 +99,9 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
 
     # schema-aware sampling
-    if pipeline_config.blp_config['schema_aware']:
-        if not file_util.does_file_exist(pipeline_config.work_dir + 'random_invalid_hrt.txt'):
-            generate_random_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
+    # if pipeline_config.blp_config['schema_aware']:
+    #     if not file_util.does_file_exist(pipeline_config.work_dir + 'random_invalid_hrt.txt'):
+    #         generate_random_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
 
         # schema_aware silver evaluation, we freeze a small portion of test data and keep them in context_resource
     if pipeline_config.silver_eval:

@@ -9,7 +9,7 @@ class PatternIrreflexive(PatternScanner):
         self._pattern_set = None
         self._context_resources = context_resources
 
-    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+    def scan_pattern_df_rel(self, triples: pd.DataFrame, log_process=True):
         if len(self._pattern_set) == 0:
             return
         # def scan_pattern_single_rel(df: pd.DataFrame):
@@ -24,7 +24,7 @@ class PatternIrreflexive(PatternScanner):
         # triples.update(triples.query("is_valid == True").groupby('rel').apply(lambda x: scan_pattern_single_rel(x)))
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern Irreflexive"):
+        for g in tqdm(gp, desc="scanning pattern Irreflexive", disable=not log_process):
             r = g[0]
             if r in self._pattern_set:
                 r_triples_df = g[1]

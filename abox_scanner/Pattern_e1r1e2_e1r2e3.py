@@ -1,6 +1,8 @@
 from abox_scanner.ContextResources import PatternScanner, ContextResources
 import pandas as pd
 from tqdm import tqdm
+
+
 # domain
 
 
@@ -11,12 +13,13 @@ class Pattern_e1r1e2_e1r2e3(PatternScanner):
         self._pattern_dict = None
         self._context_resources = context_resources
 
-    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+    def scan_pattern_df_rel(self, triples: pd.DataFrame, log_process=True):
         if len(self._pattern_dict) == 0:
             return
         df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
-        for g in tqdm(gp, desc="scanning pattern e1r1e2_e1r2e3"):
+        for g in tqdm(gp, desc="scanning pattern e1r1e2_e1r2e3", disable=not log_process):
+            # for g in gp:
             r1 = g[0]
             if r1 in self._pattern_dict:
                 disjoint_r2_l = self._pattern_dict[r1]
@@ -28,7 +31,8 @@ class Pattern_e1r1e2_e1r2e3(PatternScanner):
                     r2_triples_df = gp.get_group(r2)
                     r2_head = r2_triples_df['head'].to_list()
                     tmp_list.extend(r2_head)
-                df.update(r1_triples_df.query(f"is_new == True and head in @tmp_list")['is_valid'].apply(lambda x: False))
+                df.update(
+                    r1_triples_df.query(f"is_new == True and head in @tmp_list")['is_valid'].apply(lambda x: False))
         return df
 
     def pattern_to_int(self, entry: str):
@@ -42,6 +46,7 @@ class Pattern_e1r1e2_e1r2e3(PatternScanner):
                     continue
                 r1 = self._context_resources.op2id[r1_uri]
                 r2_l = items[1].split('@@')
-                r2 = [self._context_resources.op2id[rr2[1:-1]] for rr2 in r2_l if rr2[1:-1] in self._context_resources.op2id]
+                r2 = [self._context_resources.op2id[rr2[1:-1]] for rr2 in r2_l if
+                      rr2[1:-1] in self._context_resources.op2id]
                 pattern_dict.update({r1: r2})
             self._pattern_dict = pattern_dict

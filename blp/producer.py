@@ -1,4 +1,5 @@
 import os.path as osp
+
 from blp.extend_models import *
 import networkx as nx
 import torch
@@ -7,27 +8,20 @@ from torch.utils.data import DataLoader
 from sacred.run import Run
 from logging import Logger
 from sacred import Experiment
-from sacred.observers import MongoObserver
 from transformers import BertTokenizer, get_linear_schedule_with_warmup
 import numpy as np
 from module_utils.file_util import *
-from data import CATEGORY_IDS
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
 from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset
 import models
 import utils
 import pandas as pd
 
-# OUT_PATH = 'output/'
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 ex = Experiment(save_git_info=False)
 ex.logger = utils.get_logger()
-# Set up database logs
-uri = os.environ.get('DB_URI')
-database = os.environ.get('DB_NAME')
-if all([uri, database]):
-    ex.observers.append(MongoObserver(uri, database))
 NUM_WORKERS = 8
+
 
 @ex.config
 def config():
@@ -65,17 +59,9 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
                          filtering_graph=None, new_entities=None,
                          return_embeddings=False):
     compute_filtered = filtering_graph is not None
-    mrr_by_position = torch.zeros(3, dtype=torch.float).to(device)
-    mrr_pos_counts = torch.zeros_like(mrr_by_position)
-
-    rel_categories = triples_loader.dataset.rel_categories.to(device)
-    mrr_by_category = torch.zeros([2, 4], dtype=torch.float).to(device)
-    mrr_cat_count = torch.zeros([1, 4], dtype=torch.float).to(device)
-
     hit_positions = [1, 3, 10]
     hits_at_k = {pos: 0.0 for pos in hit_positions}
     mrr = 0.0
-    mrr_filt = 0.0
     hits_at_k_filt = {pos: 0.0 for pos in hit_positions}
 
     if device != torch.device('cpu'):
@@ -155,35 +141,6 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
             hits_at_k[hit_positions[j]] += h
         mrr += utils.mrr(pred_ents, true_ents).mean().item()
 
-        if compute_filtered:
-            filters = utils.get_triple_filters(triples, filtering_graph,
-                                               num_entities, ent2idx)
-            heads_filter, tails_filter = filters
-            # Filter entities by assigning them the lowest score in the batch
-            filter_mask = torch.cat((heads_filter, tails_filter)).to(device)
-            pred_ents[filter_mask] = pred_ents.min() - 1.0
-            hits_filt = utils.hit_at_k(pred_ents, true_ents, hit_positions)
-            for j, h in enumerate(hits_filt):
-                hits_at_k_filt[hit_positions[j]] += h
-            mrr_filt_per_triple = utils.mrr(pred_ents, true_ents)
-            mrr_filt += mrr_filt_per_triple.mean().item()
-
-            if new_entities is not None:
-                by_position = utils.split_by_new_position(triples,
-                                                          mrr_filt_per_triple,
-                                                          new_entities)
-                batch_mrr_by_position, batch_mrr_pos_counts = by_position
-                mrr_by_position += batch_mrr_by_position
-                mrr_pos_counts += batch_mrr_pos_counts
-
-            if triples_loader.dataset.has_rel_categories:
-                by_category = utils.split_by_category(triples,
-                                                      mrr_filt_per_triple,
-                                                      rel_categories)
-                batch_mrr_by_cat, batch_mrr_cat_count = by_category
-                mrr_by_category += batch_mrr_by_cat
-                mrr_cat_count += batch_mrr_cat_count
-
         batch_count += 1
         if int(0.2 * total) != 0 and (i + 1) % int(0.2 * total) == 0:
             _log.info(f'[{i + 1:,}/{total:,}]')
@@ -193,50 +150,17 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
             hits_dict[k] /= batch_count
 
     mrr = mrr / batch_count
-    mrr_filt = mrr_filt / batch_count
-
     log_str = f'{prefix} mrr: {mrr:.4f}  '
     _run.log_scalar(f'{prefix}_mrr', mrr, epoch)
     for k, value in hits_at_k.items():
         log_str += f'hits@{k}: {value:.4f}  '
         _run.log_scalar(f'{prefix}_hits@{k}', value, epoch)
-
-    if compute_filtered:
-        log_str += f'mrr_filt: {mrr_filt:.4f}  '
-        _run.log_scalar(f'{prefix}_mrr_filt', mrr_filt, epoch)
-        for k, value in hits_at_k_filt.items():
-            log_str += f'hits@{k}_filt: {value:.4f}  '
-            _run.log_scalar(f'{prefix}_hits@{k}_filt', value, epoch)
-
     _log.info(log_str)
-
-    if new_entities is not None and compute_filtered:
-        mrr_pos_counts[mrr_pos_counts < 1.0] = 1.0
-        mrr_by_position = mrr_by_position / mrr_pos_counts
-        log_str = ''
-        for i, t in enumerate((f'{prefix}_mrr_filt_both_new',
-                               f'{prefix}_mrr_filt_head_new',
-                               f'{prefix}_mrr_filt_tail_new')):
-            value = mrr_by_position[i].item()
-            log_str += f'{t}: {value:.4f}  '
-            _run.log_scalar(t, value, epoch)
-        _log.info(log_str)
-
-    if compute_filtered and triples_loader.dataset.has_rel_categories:
-        mrr_cat_count[mrr_cat_count < 1.0] = 1.0
-        mrr_by_category = mrr_by_category / mrr_cat_count
-
-        for i, case in enumerate(['pred_head', 'pred_tail']):
-            log_str = f'{case} '
-            for cat, cat_id in CATEGORY_IDS.items():
-                log_str += f'{cat}_mrr: {mrr_by_category[i, cat_id]:.4f}  '
-            _log.info(log_str)
 
     if return_embeddings:
         out = (mrr, hits_at_k, ent_emb)
     else:
         out = (mrr, hits_at_k, None)
-
     return out
 
 
@@ -250,7 +174,6 @@ def eval_and_get_score(model,
                        work_dir,
                        _run: Run,
                        _log: Logger):
-    # compute_filtered = filtering_graph is not None
     use_gpu = False
     if device != torch.device('cpu'):
         model = model.module
@@ -475,7 +398,6 @@ def produce(model,
         return produced_triples, None
 
 
-# @ex.capture
 @ex.command
 def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     encoder_name, regularizer, max_len, num_negatives, lr,
@@ -503,15 +425,18 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
     inconsistent_triples_file = f'{work_dir}neg_examples.txt'
     if model == 'transductive':
-        # train_data = GraphDataset(triples_file, num_negatives,
-        #                           write_maps_file=True,
-        #                           num_devices=num_devices)
-        train_data = SchemaAwareGraphDataset(triples_file,
-                                             inconsistent_triples_file,
-                                             num_negatives,
-                                             write_maps_file=True,
-                                             num_devices=num_devices,
-                                             schema_aware=schema_aware)
+        if schema_aware:
+            train_data = SchemaAwareGraphDataset(triples_file,
+                                                 inconsistent_triples_file,
+                                                 dataset=dataset,
+                                                 neg_samples=num_negatives,
+                                                 write_maps_file=True,
+                                                 num_devices=num_devices,
+                                                 schema_aware=schema_aware)
+        else:
+            train_data = GraphDataset(triples_file, num_negatives,
+                                      write_maps_file=True,
+                                      num_devices=num_devices)
     else:
         if model.startswith('bert') or model == 'blp':
             bert_path = "../saved_models/bert-base-cased"
@@ -524,13 +449,24 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
             tokenizer = FastTextTokenizer()
         else:
             tokenizer = GloVeTokenizer('data/glove/glove.6B.300d-maps.pt')
-        train_data = SchemaAwareTextGraphDataset(triples_file,
-                                                 inconsistent_triples_file,
-                                                 num_negatives,
-                                                 max_len, tokenizer, drop_stopwords,
-                                                 write_maps_file=True,
-                                                 use_cached_text=use_cached_text,
-                                                 num_devices=num_devices, schema_aware=schema_aware)
+        if schema_aware:
+            train_data = SchemaAwareTextGraphDataset(triples_file,
+                                                     inconsistent_triples_file,
+                                                     dataset=dataset,
+                                                     neg_samples=num_negatives,
+                                                     max_len=max_len,
+                                                     tokenizer=tokenizer,
+                                                     drop_stopwords=drop_stopwords,
+                                                     write_maps_file=True,
+                                                     use_cached_text=use_cached_text,
+                                                     num_devices=num_devices,
+                                                     schema_aware=schema_aware)
+        else:
+            train_data = TextGraphDataset(triples_file, num_negatives,
+                                          max_len, tokenizer, drop_stopwords,
+                                          write_maps_file=True,
+                                          use_cached_text=use_cached_text,
+                                          num_devices=num_devices)
 
     train_loader = DataLoader(train_data, batch_size, shuffle=True,
                               collate_fn=train_data.collate_fn, pin_memory=True,
@@ -581,7 +517,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
         for step, data in enumerate(train_loader):
-            #print(f"data device: {data[0].device}")
+            # print(f"data device: {data[0].device}")
             loss = model(*data).mean()
             optimizer.zero_grad()
             loss.backward()
@@ -600,8 +536,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
 
         _log.info('Evaluating on validation set')
         val_mrr, hit_at_k, _ = eval_link_prediction(model, valid_loader, train_data,
-                                          train_val_ent, epoch,
-                                          emb_batch_size, prefix='valid')
+                                                    train_val_ent, epoch,
+                                                    emb_batch_size, prefix='valid')
 
         # Keep checkpoint of best performing model (based on raw MRR)
         if val_mrr > best_valid_mrr:
@@ -616,10 +552,10 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if early_stop_sign >= 6:
             break
         last_valid_mrr = val_mrr
-    #save scores to log file
-    log_str = f"mrr: {best_valid_mrr}\n"
+    # save scores to log file
+
     log_file_name = work_dir + "blp_eval.log"
-    save_to_file("-------blp training eval---------\n", log_file_name, mode='a')
+    log_str = f"-------blp training eval---------\nmrr: {best_valid_mrr}\n"
     for k, value in best_hit_at_k.items():
         log_str += f'hits@{k}: {value:.4f}\n'
     save_to_file(log_str, log_file_name, mode='a')
@@ -642,10 +578,9 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         valid_data_silver = GraphDataset(f'{work_dir}test_rel_silver.tsv')
         valid_loader_silver = DataLoader(valid_data_silver, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
         val_mrr, hit_at_k, ent_emb = eval_link_prediction(model, valid_loader_silver, train_data,
-                                                    train_val_ent, 0,
-                                                    emb_batch_size, prefix='valid', return_embeddings=True)
-        save_to_file("-------blp eval on rel silver test set ---------\n", log_file_name, mode='a')
-        log_str = ''
+                                                          train_val_ent, 0,
+                                                          emb_batch_size, prefix='valid', return_embeddings=True)
+        log_str = '-------blp eval on rel silver test set ---------\n'
         for k, value in hit_at_k.items():
             log_str += f'hits@{k}: {value:.4f}\n'
         log_str += f"mrr: {val_mrr}\n"
@@ -678,6 +613,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         torch.save(ent_emb, osp.join(work_dir, f'ent_emb.pt'))
         torch.save(train_val_test_ent, osp.join(work_dir, f'ents.pt'))
 
+
 @ex.automain
 def my_main():
     link_prediction()
@@ -685,5 +621,3 @@ def my_main():
 
 if __name__ == '__main__':
     ex.run()
-
-# ex.run_commandline()

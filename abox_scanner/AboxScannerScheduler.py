@@ -65,6 +65,10 @@ class AboxScannerScheduler:
         self._context_resources.hrt_to_scan_type_df = type_int_df
         return self
 
+    def register_patterns_rel(self, patten_ids:[]) -> AboxScannerScheduler:
+        self.register_patterns(patten_ids, self._rel_IJP_strategies)
+        return self
+
     def register_patterns_all(self) -> AboxScannerScheduler:
         self.register_patterns([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], self._rel_IJP_strategies)
         self.register_patterns([12, 13, 14], self._type_IJP_strategies)
@@ -86,7 +90,7 @@ class AboxScannerScheduler:
                 ps.pattern_to_int(entry)
                 stratege_l.append(ps)
 
-    def scan_rel_IJPs(self, work_dir, save_result=True):
+    def scan_rel_IJPs(self, work_dir, save_result=True, log_process=True):
         # aggregate triples by relation
         start_time = datetime.datetime.now()
         old_df = self._context_resources.hrt_int_df
@@ -110,10 +114,10 @@ class AboxScannerScheduler:
 
         init_invalid = len(df.query("is_valid == False"))
         for scanner in self._rel_IJP_strategies:
-            # print("Scanning schema pattern: " + str(type(scanner)))
-            scanner.scan_pattern_df_rel(df)
+            scanner.scan_pattern_df_rel(df, log_process=log_process)
             total_invalid = len(df.query("is_valid == False"))
-            print(f"{str(type(scanner))} identified invalid triples count: {str(total_invalid - init_invalid)}")
+            if log_process:
+                print(f"{str(type(scanner))} identified invalid triples count: {str(total_invalid - init_invalid)}")
             init_invalid = total_invalid
         # split result
         invalids = df.query("is_valid == False")[['head', 'rel', 'tail']]
@@ -122,10 +126,11 @@ class AboxScannerScheduler:
         valids = df.query("is_valid == True")[['head', 'rel', 'tail']]
         if len(valids) > 0:
             valids = valids.astype(int)
-        print(
-            f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids.index))}; valids count {str(len(valids.index))}")
-        print(f"consistency ratio: {str(len(valids.index) / len(df.index))}")
-        print(f"The scanning duration is {datetime.datetime.now() - start_time}")
+        if log_process:
+            print(
+                f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids.index))}; valids count {str(len(valids.index))}")
+            print(f"consistency ratio: {str(len(valids.index) / len(df.index))}")
+            print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         # save invalids for negative sampling, we convert hrt_int to original uri,
         # because the blp text files use the original uri as keys.
         if save_result:

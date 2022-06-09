@@ -10,7 +10,7 @@ class PatternScanner(ABC):
         pass
 
     @abstractmethod
-    def scan_pattern_df_rel(self, triples: pd.DataFrame):
+    def scan_pattern_df_rel(self, triples: pd.DataFrame, log_process=True):
         pass
 
 

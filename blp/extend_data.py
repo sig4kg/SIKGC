@@ -32,10 +32,11 @@ class NegSampler:
             get_maps_context2blpid(context_resource, blp_ent2id, blp_rel2id)
 
     def reasoning_for_neg_in_batch_entities(self, data_list,
-                                            batch_entities, i_rh2tid, i_rt2hid):
+                                            batch_entities, i_rh2tid, i_rt2hid, num_neg):
         # data_list are in URI, we need convert URI to context_resource ids
         candidate_ents_contextid = [self.blp2context_entid[e] for e in torch.unique(batch_entities).tolist()]
         sample_count = len(candidate_ents_contextid)
+        sample_count = num_neg if num_neg < sample_count else sample_count
         pos_hrt_int = []
         for row_idx, row in enumerate(data_list):
             h, t, r = row[0].item(), row[1].item(), row[2].item()
@@ -283,7 +284,8 @@ class SchemaAwareGraphDataset(GraphDataset):
         tmp_i_rh2id, tmp_i_rt2id = self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
                                                                                         batch_entities=batch_entities,
                                                                                         i_rh2tid=self.i_rh2tid,
-                                                                                        i_rt2hid=self.i_rt2hid)
+                                                                                        i_rt2hid=self.i_rt2hid,
+                                                                                        num_neg=64)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,
@@ -372,7 +374,8 @@ class SchemaAwareTextGraphDataset(SchemaAwareGraphDataset):
         tmp_i_rh2id, tmp_i_rt2id = self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
                                                                                         batch_entities=batch_entities,
                                                                                         i_rh2tid=self.i_rh2tid,
-                                                                                        i_rt2hid=self.i_rt2hid)
+                                                                                        i_rt2hid=self.i_rt2hid,
+                                                                                        num_neg=64)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,

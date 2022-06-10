@@ -43,9 +43,11 @@ class NegSampler:
             pos_hrt_int.append([self.blp2context_entid[h], self.blp2context_relid[r], self.blp2context_entid[t]])
         pos_examples_df = pd.DataFrame(data=pos_hrt_int, columns=['head', 'rel', 'tail'])
         corrupt = pd.DataFrame()
-        corrupt['c_h'] = pos_examples_df['head'].apply(func=lambda x: random.sample(candidate_ents_contextid, sample_count))
+        corrupt['c_h'] = pos_examples_df['head'].apply(
+            func=lambda x: random.sample(candidate_ents_contextid, sample_count))
         corrupt['rel'] = pos_examples_df['rel']
-        corrupt['c_t'] = pos_examples_df['tail'].apply(func=lambda x: random.sample(candidate_ents_contextid, sample_count))
+        corrupt['c_t'] = pos_examples_df['tail'].apply(
+            func=lambda x: random.sample(candidate_ents_contextid, sample_count))
         corrupt.reset_index(drop=True)
 
         def explode(tmp_df, col, rename_col) -> pd.DataFrame:
@@ -274,16 +276,16 @@ class SchemaAwareGraphDataset(GraphDataset):
         batch_size = len(data_list)
         pos_pairs, rels = torch.stack(data_list).split(2, dim=1)
         batch_entities = pos_pairs.reshape(batch_size * 2)
-        self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
-                                                             batch_entities=batch_entities,
-                                                             i_rh2tid=self.i_rh2tid,
-                                                             i_rt2hid=self.i_rt2hid)
+        tmp_i_rh2id, tmp_i_rt2id = self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
+                                                                                        batch_entities=batch_entities,
+                                                                                        i_rh2tid=self.i_rh2tid,
+                                                                                        i_rt2hid=self.i_rt2hid)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,
                                                         rt2h=self.rt2hid,
-                                                        i_rh2tid=self.i_rh2tid,
-                                                        i_rt2hid=self.i_rt2hid,
+                                                        i_rh2tid=tmp_i_rh2id,
+                                                        i_rt2hid=tmp_i_rt2id,
                                                         batch_size=batch_size,
                                                         num_negatives=self.neg_samples,
                                                         schema_aware=self.schema_aware)
@@ -363,12 +365,16 @@ class SchemaAwareTextGraphDataset(SchemaAwareGraphDataset):
         pos_pairs, rels = torch.stack(data_list).split(2, dim=1)
         text_tok, text_mask, text_len = self.get_entity_description(pos_pairs)
         batch_entities = pos_pairs.reshape(batch_size * 2)
+        tmp_i_rh2id, tmp_i_rt2id = self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
+                                                                                        batch_entities=batch_entities,
+                                                                                        i_rh2tid=self.i_rh2tid,
+                                                                                        i_rt2hid=self.i_rt2hid)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,
                                                         rt2h=self.rt2hid,
-                                                        i_rh2tid=self.i_rh2tid,
-                                                        i_rt2hid=self.i_rt2hid,
+                                                        i_rh2tid=tmp_i_rh2id,
+                                                        i_rt2hid=tmp_i_rt2id,
                                                         batch_size=batch_size,
                                                         num_negatives=self.neg_samples,
                                                         repeats=self.num_devices, schema_aware=self.schema_aware)

@@ -556,9 +556,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if val_mrr > best_valid_mrr:
             best_valid_mrr = val_mrr
             best_hit_at_k = hit_at_k
-            torch.save(model.state_dict(), checkpoint_file)
             early_stop_sign = 0
-            # torch.save(model.state_dict(), checkpoint_file)
+            torch.save(model.state_dict(), checkpoint_file)
         if val_mrr <= last_valid_mrr:
             early_stop_sign += 1
 

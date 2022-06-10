@@ -91,7 +91,9 @@ class LC(ProducerBlock):
 
         neg_examples = similar_inv.drop_duplicates(keep='first')
         # blp need the uris
-        neg_examples[['head', 'tail']] = neg_examples[['head', 'tail']].applymap(
+        neg_examples['head'] = neg_examples['head'].apply(
+            lambda x: self.context_resource.id2ent[x])  # to uri
+        neg_examples['tail'] = neg_examples['tail'].apply(
             lambda x: self.context_resource.id2ent[x])  # to uri
         neg_examples['rel'] = neg_examples['rel'].apply(
             lambda x: self.context_resource.id2op[x])  # to uri

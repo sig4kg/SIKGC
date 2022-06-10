@@ -50,7 +50,8 @@ def split_data_blp(context_resource: ContextResources, inductive, work_dir, excl
         # os.system(f"cp {work_dir}all_triples.tsv {work_dir}ind-test.tsv")
     # else
     def to_text(tmp_df):
-        tmp_df[['head', 'tail']] = tmp_df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to str
+        tmp_df['head'] = tmp_df['head'].apply(lambda x: context_resource.id2ent[x])  # to str
+        tmp_df['tail'] = tmp_df['tail'].apply(lambda x: context_resource.id2ent[x])  # to str
         tmp_df['rel'] = tmp_df['rel'].apply(lambda x: context_resource.id2op[x])  # to str
         return tmp_df
     # save rel axioms to file

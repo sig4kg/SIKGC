@@ -285,7 +285,7 @@ class SchemaAwareGraphDataset(GraphDataset):
                                                                                         batch_entities=batch_entities,
                                                                                         i_rh2tid=self.i_rh2tid,
                                                                                         i_rt2hid=self.i_rt2hid,
-                                                                                        num_neg=64)
+                                                                                        num_neg=self.neg_samples)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,
@@ -375,7 +375,7 @@ class SchemaAwareTextGraphDataset(SchemaAwareGraphDataset):
                                                                                         batch_entities=batch_entities,
                                                                                         i_rh2tid=self.i_rh2tid,
                                                                                         i_rt2hid=self.i_rt2hid,
-                                                                                        num_neg=64)
+                                                                                        num_neg=self.neg_samples)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,

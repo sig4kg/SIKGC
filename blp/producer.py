@@ -556,7 +556,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if val_mrr > best_valid_mrr:
             best_valid_mrr = val_mrr
             best_hit_at_k = hit_at_k
-            best_state_dict = model.state_dict()
+            torch.save(model.state_dict(), checkpoint_file)
             early_stop_sign = 0
             # torch.save(model.state_dict(), checkpoint_file)
         if val_mrr <= last_valid_mrr:
@@ -565,8 +565,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if early_stop_sign >= 6:
             break
         last_valid_mrr = val_mrr
-    torch.save(best_state_dict, checkpoint_file)
-    wait_until_file_is_saved(checkpoint_file)
 
     log_file_name = work_dir + "blp_eval.log"
     log_str = f"-------blp training eval---------\nmrr: {best_valid_mrr}\n"

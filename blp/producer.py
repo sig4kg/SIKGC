@@ -567,6 +567,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
             break
         last_valid_mrr = val_mrr
     torch.save(best_state_dict, checkpoint_file)
+    wait_until_file_is_saved(checkpoint_file)
 
     log_file_name = work_dir + "blp_eval.log"
     log_str = f"-------blp training eval---------\nmrr: {best_valid_mrr}\n"

@@ -36,19 +36,24 @@ class NegSampler:
         # data_list are in URI, we need convert URI to context_resource ids
         candidate_ents_contextid = [self.blp2context_entid[e] for e in torch.unique(batch_entities).tolist()]
         sample_count = len(candidate_ents_contextid)
-        sample_count = 10 if sample_count > 10 else sample_count
         pos_hrt_int = []
         for row_idx, row in enumerate(data_list):
             h, t, r = row[0].item(), row[1].item(), row[2].item()
             pos_hrt_int.append([self.blp2context_entid[h], self.blp2context_relid[r], self.blp2context_entid[t]])
         pos_examples_df = pd.DataFrame(data=pos_hrt_int, columns=['head', 'rel', 'tail'])
-        corrupt = pd.DataFrame()
-        corrupt['c_h'] = pos_examples_df['head'].apply(
+        corrupt1 = pd.DataFrame()
+        corrupt1['c_h'] = pos_examples_df['head'].apply(
             func=lambda x: random.sample(candidate_ents_contextid, sample_count))
-        corrupt['rel'] = pos_examples_df['rel']
-        corrupt['c_t'] = pos_examples_df['tail'].apply(
+        corrupt1['rel'] = pos_examples_df['rel']
+        corrupt1['tail'] = pos_examples_df['tail']
+        corrupt1.reset_index(drop=True)
+
+        corrupt2 = pd.DataFrame()
+        corrupt2['head'] = pos_examples_df['head']
+        corrupt2['rel'] = pos_examples_df['rel']
+        corrupt2['c_t'] = pos_examples_df['tail'].apply(
             func=lambda x: random.sample(candidate_ents_contextid, sample_count))
-        corrupt.reset_index(drop=True)
+        corrupt2.reset_index(drop=True)
 
         def explode(tmp_df, col, rename_col) -> pd.DataFrame:
             tmp_df[col] = tmp_df[col].apply(lambda x: list(x))
@@ -57,10 +62,9 @@ class NegSampler:
                 drop(axis=1, labels=[col, 'level_0']).reset_index(drop=True)
             return tm
 
-        corrupt = explode(corrupt, "c_h", "head").dropna(how='any')
-        corrupt = explode(corrupt, "c_t", "tail")
-        corrupt = corrupt[['head', 'rel', 'tail']].dropna(how='any').astype('int64')
-        to_scan_df = pd.concat([pos_examples_df, corrupt]).drop_duplicates(keep="first").reset_index(
+        corrupt1 = explode(corrupt1, "c_h", "head").dropna(how='any').astype('int64')
+        corrupt2 = explode(corrupt2, "c_t", "tail").dropna(how='any').astype('int64')
+        to_scan_df = pd.concat([pos_examples_df, corrupt1, corrupt2]).drop_duplicates(keep="first").reset_index(
             drop=True)
         self.context_resource.hrt_to_scan_df = to_scan_df
         self.context_resource.hrt_int_df = pos_examples_df

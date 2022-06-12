@@ -512,7 +512,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     best_hit_at_k = {}
     early_stop_sign = 0
     checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
-    best_state_dict = None
     for epoch in range(1, max_epochs + 1):
         train_loss = 0
         for step, data in enumerate(train_loader):

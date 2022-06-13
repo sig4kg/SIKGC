@@ -73,9 +73,6 @@ def aggregate_scores():
 
 def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abox_file_hrt=""):
     work_dir = pipeline_config.work_dir
-    # if pipeline_config.tbox_patterns_dir == "" or not os.path.exists(pipeline_config.tbox_patterns_dir):
-    #     run_scripts.run_tbox_scanner(pipeline_config.schema_file, work_dir)
-    #     tbox_patterns_dir = work_dir + "tbox_patterns/"
     # mv data to work_dir
     os.system(f"cp -rf {pipeline_config.input_dir}* {work_dir}")
     # initialize context resource and check consistency
@@ -90,20 +87,15 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
     abox_scanner_scheduler.register_patterns_all()
     # first round scan, get ready for training
     if consistency_check:
-        if not file_util.does_file_exist(pipeline_config.work_dir + 'valid_hrt.txt'):
-            valids, _ = abox_scanner_scheduler.scan_rel_IJPs(work_dir=work_dir, save_result=True)
+        if not file_util.does_file_exist(pipeline_config.work_dir + 'correct_hrt.txt'):
+            abox_scanner_scheduler.scan_rel_IJPs(work_dir=work_dir, save_result=False)
+            cor, incor = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir, save_result=True)
         else:
-            valids = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + 'valid_hrt.txt')
-        context_resource.hrt_int_df = valids
+            cor = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + 'correct_hrt.txt')
+        context_resource.hrt_int_df = cor
     else:
         context_resource.hrt_int_df = context_resource.hrt_to_scan_df
 
-    # schema-aware sampling
-    # if pipeline_config.blp_config['schema_aware']:
-    #     if not file_util.does_file_exist(pipeline_config.work_dir + 'random_invalid_hrt.txt'):
-    #         generate_random_invalids(context_resource, abox_scanner_scheduler, pipeline_config.work_dir)
-
-        # schema_aware silver evaluation, we freeze a small portion of test data and keep them in context_resource
     if pipeline_config.silver_eval:
         freeze_silver_test_data(context_resource, pipeline_config)
     return context_resource, abox_scanner_scheduler

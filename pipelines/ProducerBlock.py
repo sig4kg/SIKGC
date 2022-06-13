@@ -47,12 +47,12 @@ class ProducerBlock():
             drop=True)
         valids, invalids = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
             scan_rel_IJPs(work_dir=self.work_dir)
-        corrects = self.abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=self.work_dir)
+        corrects, incorrects = self.abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=self.work_dir)
         new_valids = pd.concat([valids, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
         new_corrects = pd.concat([corrects, context_resource.hrt_int_df, context_resource.hrt_int_df]).drop_duplicates(
             keep=False)
-        context_resource.hrt_int_df = valids
+        context_resource.hrt_int_df = corrects
         new_valid_count = len(new_valids.index)
         new_correct_count = len(new_corrects.index)
         return new_count, new_valid_count, new_correct_count

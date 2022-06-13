@@ -57,6 +57,11 @@ class AboxScannerScheduler:
                              16: PatternPosRange
                              }
 
+    def get_schema_correct_strategy_patterns(self, pattern_name):
+        for stg in self._schema_correct_strategies:
+            if pattern_name in type(stg).__name__:
+                return stg.pattern_dict
+
     def set_triples_to_scan_int_df(self, hrt_int_df) -> AboxScannerScheduler:
         self._context_resources.hrt_to_scan_df = hrt_int_df
         return self
@@ -65,7 +70,7 @@ class AboxScannerScheduler:
         self._context_resources.hrt_to_scan_type_df = type_int_df
         return self
 
-    def register_patterns_rel(self, patten_ids:[]) -> AboxScannerScheduler:
+    def register_patterns_rel(self, patten_ids: []) -> AboxScannerScheduler:
         self.register_patterns(patten_ids, self._rel_IJP_strategies)
         return self
 
@@ -122,13 +127,14 @@ class AboxScannerScheduler:
         # split result
         invalids = df.query("is_valid == False")[['head', 'rel', 'tail']]
         if len(invalids) > 0:
-            invalids = invalids.astype(int)
+            invalids = invalids.astype(int).reset_index(drop=True)
         valids = df.query("is_valid == True")[['head', 'rel', 'tail']]
         if len(valids) > 0:
-            valids = valids.astype(int)
+            valids = valids.astype(int).reset_index(drop=True)
         if log_process:
-            print(
-                f"total count: {len(self._context_resources.hrt_to_scan_df)}; invalids count: {str(len(invalids.index))}; valids count {str(len(valids.index))}")
+            print(f"total count: {len(self._context_resources.hrt_to_scan_df)}; "
+                  f"invalids count: {str(len(invalids.index))}; "
+                  f"valids count {str(len(valids.index))}")
             print(f"consistency ratio: {str(len(valids.index) / len(df.index))}")
             print(f"The scanning duration is {datetime.datetime.now() - start_time}")
         # save invalids for negative sampling, we convert hrt_int to original uri,
@@ -143,38 +149,36 @@ class AboxScannerScheduler:
             wait_until_file_is_saved(f"{work_dir}invalid_hrt.txt")
         return valids, invalids
 
-    def scan_schema_correct_patterns(self, work_dir):
+    def scan_schema_correct_patterns(self, work_dir, save_result=True):
         start_time = datetime.datetime.now()
         df = self._context_resources.hrt_to_scan_df
         df['correct'] = True
-        init_correct = len(df.query("correct == False"))
+        df.update(df.query("is_valid==False")['correct'].apply(lambda x: False))
+        init_correct_num = len(df.query("correct==False").index)
         for scanner in self._schema_correct_strategies:
             print("Scanning schema pattern: " + str(type(scanner)))
             scanner.scan_pattern_df_rel(df)
-            total_correct = len(df.query("is_valid == False"))
-            print(f"{str(type(scanner))} identified incorrect triples count: {str(total_correct - init_correct)}")
-            init_correct = total_correct
-        total_correct = len(df.query("correct==True"))
-        print(f"identified schema correct triples count: {str(total_correct)}")
-        print(f"correctness ratio: {str(total_correct / len(df.index))}")
-        out_path = Path(work_dir)
-        if not out_path.parent.exists():
-            out_path.parent.mkdir(exist_ok=False)
-        correct = df.query("correct == True")[['head', 'rel', 'tail']]
-        correct = correct.drop_duplicates(keep="first")
-        if len(correct) > 0:
-            correct = correct.astype(int)
-        correct.to_csv(f"{work_dir}schema_correct_hrt.txt", header=None, index=None, sep='\t', mode='w')
-        print(
-            f"scanned total count: {len(self._context_resources.hrt_to_scan_df)}; schema correct count: {str(len(correct))}")
+            incorrect_num = len(df.query("correct == False"))
+            print(f"{str(type(scanner))} identified incorrect triples count: {str(incorrect_num - init_correct_num)}")
+            init_correct_num = incorrect_num
+        all_correct = df.query("correct==True")[['head', 'rel', 'tail']]
+        all_incorrect = df.query("correct==False")[['head', 'rel', 'tail']]
+        if len(all_correct.index) > 0:
+            all_correct = all_correct.reset_index(drop=True).astype(int)
+        if len(all_incorrect) > 0:
+            all_incorrect = all_incorrect.reset_index(drop=True).astype(int)
+        print(f"identified schema correct triples count: {str(len(all_correct.index))}")
+        print(f"identified schema incorrect triples count: {str(len(all_incorrect.index))}")
+        print(f"total scanned: {str(len(df.index))}")
+        print(f"correctness ratio: {str(len(all_correct.index) / len(df.index))}")
         print(f"The scanning duration is {datetime.datetime.now() - start_time}")
-        print(f"saving {work_dir}schema_correct_hrt.txt")
-        inco_valid = df.query("correct == False and is_valid==True")[['head', 'rel', 'tail']]
-        inco_valid[['head', 'tail']] = inco_valid[['head', 'tail']].applymap(
-            lambda x: self._context_resources.id2ent[x])  # to int
-        inco_valid[['rel']] = inco_valid[['rel']].applymap(lambda x: self._context_resources.id2op[x])
-        inco_valid.to_csv(f"{work_dir}incorrect_valid_uri.txt", header=None, index=None, sep='\t', mode='w')
-        return correct
+        if save_result:
+            out_path = Path(work_dir)
+            if not out_path.parent.exists():
+                out_path.parent.mkdir(exist_ok=False)
+            all_incorrect.to_csv(f"{work_dir}incorrect_hrt.txt", header=False, index=False, sep='\t', mode='a')
+            all_correct.to_csv(f"{work_dir}correct_hrt.txt", header=None, index=None, sep='\t', mode='w')
+        return all_correct, all_incorrect
 
     def scan_type_IJPs(self, work_dir, save_result=True):
         # aggregate triples by relation

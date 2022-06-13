@@ -89,7 +89,7 @@ def entid2classid(ent2id, class2id, ent2type_file):
         if len(concept_int) > 0:
             entid2classids.update({ent2id[ent]: concept_int})
         else:
-            entid2classids.update({ent2id[ent]: [-1]})
+            entid2classids.update({ent2id[ent]: []})
     return entid2classids
 
 

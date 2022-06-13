@@ -27,6 +27,7 @@ class Pattern_e2r1e1_e1r2e3(PatternScanner):
                     r2_triples_df = gp.get_group(r2)
                     r2_head = r2_triples_df['head'].to_list()
                     tmp_list.extend(r2_head)
+                tmp_list = list(set(tmp_list))
                 df.update(r1_triples_df.query(f"tail in @tmp_list and is_new==True")['is_valid'].apply(lambda x: False))
         return df
 

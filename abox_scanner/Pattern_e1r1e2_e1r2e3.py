@@ -31,6 +31,7 @@ class Pattern_e1r1e2_e1r2e3(PatternScanner):
                     r2_triples_df = gp.get_group(r2)
                     r2_head = r2_triples_df['head'].to_list()
                     tmp_list.extend(r2_head)
+                tmp_list = list(set(tmp_list))
                 df.update(
                     r1_triples_df.query(f"is_new == True and head in @tmp_list")['is_valid'].apply(lambda x: False))
         return df

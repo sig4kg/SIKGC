@@ -6,8 +6,8 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
         String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
-        String task = System.getProperty("task", "DL-lite");
-        String schema_file = System.getProperty("schema", "../../outputs/fix_NELL/tbox.nt");
+        String task = System.getProperty("task", "TBoxScanner");
+        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox_dllite.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
@@ -16,7 +16,7 @@ public class Main {
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox_dllite.nt");
 //        String schema_file = System.getProperty("schema", "output/abox.nt");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
-        String output_dir = System.getProperty("output_dir", "../../outputs/fix_NELL/");
+        String output_dir = System.getProperty("output_dir", "../../outputs/fix_NELL/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../. ./resources/TEST/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");

@@ -10,6 +10,16 @@ def init_dir(work_dir):
         out_path.mkdir(exist_ok=False)
 
 
+def save_list_to_file(d_list, out_filename, mode='w'):
+    out_file = Path(out_filename)
+    if not out_file.parent.exists():
+        out_file.parent.mkdir(exist_ok=False)
+
+    with open(out_filename, encoding='utf-8', mode=mode) as out_f:
+        for item in d_list:
+            out_f.write(item + '\n')
+        out_f.close()
+
 def save_to_file(text, out_filename, mode='w'):
     out_path = Path(out_filename)
     if not out_path.parent.exists():

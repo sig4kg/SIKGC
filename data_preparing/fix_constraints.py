@@ -1,9 +1,7 @@
 import pandas as pd
 from tqdm import tqdm
-
 import file_util
 import scripts.run_scripts
-from data_preparing.dbpedia_dataset_preparing import save_and_append_results
 
 
 def get_uri_short(uri_long):
@@ -88,7 +86,7 @@ def fix_domain_range(in_dir,  out_dir):
     for ent in ent2types:
         if ent in existing_ent2classes:
             existing_ent2classes[ent].extend([t for t in ent2types[ent]])
-    save_and_append_results([f"{x}\t{';'.join(existing_ent2classes[x])}" for x in existing_ent2classes], out_dir + "entity2type.txt")
+    file_util.save_list_to_file([f"{x}\t{';'.join(existing_ent2classes[x])}" for x in existing_ent2classes], out_dir + "entity2type.txt")
     # extend AllClasses.txt
     new_clz = list(r2range.values())
     new_clz.extend(list(r2domain.values()))
@@ -96,7 +94,7 @@ def fix_domain_range(in_dir,  out_dir):
         lines = f.readlines()
         all_clz = [l.strip() for l in lines]
     all_clz.extend(new_clz)
-    save_and_append_results(all_clz, out_dir + "AllClasses.txt")
+    file_util.save_list_to_file(all_clz, out_dir + "AllClasses.txt")
 
 
 def range2triples(r2range_dict) -> pd.DataFrame:
@@ -117,6 +115,6 @@ def domain2triples(r2domain_dict) -> pd.DataFrame:
 
 if __name__ == "__main__":
     fix_domain_range("../resources/TREAT/", "../outputs/fix_TREAT/")
-    fix_domain_range("../resources/NELL/", "../outputs/fix_NELL/")
-    fix_domain_range("../resources/DBpedia-politics/", "../outputs/fix_DBpedia/")
+    # fix_domain_range("../resources/NELL/", "../outputs/fix_NELL/")
+    # fix_domain_range("../resources/DBpedia-politics/", "../outputs/fix_DBpedia/")
 

@@ -85,4 +85,3 @@ class ContextResources:
         wait_until_file_is_saved(work_dir + "type.nt", 180)
         if schema_in_nt != "":
             os.system(f"cat {schema_in_nt} {work_dir}type.nt > {work_dir}tbox_type.ttl")
-

@@ -36,7 +36,7 @@ class NegSampler:
         # data_list are in URI, we need convert URI to context_resource ids
         candidate_ents_contextid = [self.blp2context_entid[e] for e in torch.unique(batch_entities).tolist()]
         sample_count = len(candidate_ents_contextid)
-        sample_count = num_neg if num_neg < sample_count else sample_count
+        sample_count = num_neg * 4 if num_neg * 4 < sample_count else sample_count
         pos_hrt_int = []
         for row_idx, row in enumerate(data_list):
             h, t, r = row[0].item(), row[1].item(), row[2].item()

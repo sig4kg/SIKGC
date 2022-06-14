@@ -62,6 +62,16 @@ class AboxScannerScheduler:
             if pattern_name in type(stg).__name__:
                 return stg.pattern_dict
 
+    def get_rel_inconsistent_strategy_patterns(self, pattern_name):
+        for stg in self._rel_IJP_strategies:
+            if pattern_name in type(stg).__name__:
+                return stg.pattern_dict
+
+    def get_type_inconsistent_stratefy_patterns(self, pattern_name):
+        for stg in self._type_IJP_strategies:
+            if pattern_name in type(stg).__name__:
+                return stg.pattern_dict
+
     def set_triples_to_scan_int_df(self, hrt_int_df) -> AboxScannerScheduler:
         self._context_resources.hrt_to_scan_df = hrt_int_df
         return self
@@ -153,7 +163,8 @@ class AboxScannerScheduler:
         start_time = datetime.datetime.now()
         df = self._context_resources.hrt_to_scan_df
         df['correct'] = True
-        df.update(df.query("is_valid==False")['correct'].apply(lambda x: False))
+        if 'is_valid' in df.columns.values:
+            df.update(df.query("is_valid==False")['correct'].apply(lambda x: False))
         init_correct_num = len(df.query("correct==False").index)
         for scanner in self._schema_correct_strategies:
             print("Scanning schema pattern: " + str(type(scanner)))

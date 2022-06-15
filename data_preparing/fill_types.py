@@ -21,15 +21,15 @@ def filling_type(in_dir, out_dir):
     context_res = ContextResources(triples_path, class_and_op_file_path=in_dir, work_dir=out_dir)
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_path, context_resources=context_res)
     abox_scanner_scheduler.register_patterns_all()
-    # backup_hrt = context_res.hrt_to_scan_df
+    backup_hrt = context_res.hrt_to_scan_df
     v, inv = abox_scanner_scheduler.scan_rel_IJPs(out_dir, save_result=False)
     corrs, incorr = abox_scanner_scheduler.scan_schema_correct_patterns(out_dir, save_result=False)
     # v = file_util.read_hrt_2_hrt_int_df(in_dir + 'valid_hrt.txt')
     # inv = file_util.read_hrt_2_hrt_int_df(in_dir + 'invalid_hrt.txt')
     # corrs = file_util.read_hrt_2_hrt_int_df(in_dir + 'correct_hrt.txt')
     # incorr = file_util.read_hrt_2_hrt_int_df(in_dir + 'incorrect_hrt.txt')
-    # lack_of_type_df = pd.concat([incorr, inv]).drop_duplicates(keep=False)
-    lack_of_type_df = incorr
+    lack_of_type_df = pd.concat([incorr, inv]).drop_duplicates(keep=False)
+    # lack_of_type_df = incorr
     to_fill = lack_of_type_df.groupby('rel', group_keys=True, as_index=False)
     r2domain = abox_scanner_scheduler.get_schema_correct_strategy_patterns("PatternPosDomain")
     r2range = abox_scanner_scheduler.get_schema_correct_strategy_patterns("PatternPosRange")
@@ -59,11 +59,16 @@ def filling_type(in_dir, out_dir):
                     ent2types[ent].append(r_R[0])
                 else:
                     ent2types.update({ent: [r_R[0]]})
-    context_res.hrt_to_scan_type_df = typedict2df(ent2types)
-    context_res.hrt_int_df = v
-    vt, ivt = abox_scanner_scheduler.scan_type_IJPs(out_dir, save_result=False)
+    # context_res.hrt_to_scan_type_df = typedict2df(ent2types)
+    # context_res.hrt_int_df = v
+    # vt, ivt = abox_scanner_scheduler.scan_type_IJPs(out_dir, save_result=False)
+    for e in context_res.entid2classids:
+        new_e = ent2types[e]
+        if len(context_res.entid2classids[e]) > len(new_e):
+            print(e)
 
-    context_res.hrt_to_scan_df = v
+
+    context_res.hrt_to_scan_df = backup_hrt
     context_res.entid2classids = ent2types
     context_res.hrt_int_df = None
     v2, inv2 = abox_scanner_scheduler.scan_rel_IJPs(out_dir, False)
@@ -80,8 +85,8 @@ def filling_type(in_dir, out_dir):
 
 if __name__ == "__main__":
     filling_type("../resources/TREAT/", "../outputs/fix_TREAT/")
-    filling_type("../resources/NELL/", "../outputs/fix_NELL/")
-    filling_type("../resources/DBpedia-politics/", "../outputs/fix_DBpedia/")
+    # filling_type("../resources/NELL/", "../outputs/fix_NELL/")
+    # filling_type("../resources/DBpedia-politics/", "../outputs/fix_DBpedia/")
 
 
 

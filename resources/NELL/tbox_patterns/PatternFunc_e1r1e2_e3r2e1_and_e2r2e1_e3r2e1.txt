@@ -1,0 +1,1 @@
+<http://ste-lod-crew.fr/nell/ontology/hasspouse>	<http://ste-lod-crew.fr/nell/ontology/hasspouse>

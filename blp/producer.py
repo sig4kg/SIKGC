@@ -12,7 +12,7 @@ from transformers import BertTokenizer, get_linear_schedule_with_warmup
 import numpy as np
 from module_utils.file_util import *
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
-from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset
+from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset, MultiEpochsDataLoader
 import models
 import utils
 import pandas as pd
@@ -49,6 +49,7 @@ def config():
     do_produce = True
     silver_eval = False
     schema_aware = False
+    use_multi_epochs_loader=True
 
 
 @ex.capture
@@ -402,7 +403,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     use_scheduler, batch_size, emb_batch_size, eval_batch_size,
                     max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce, silver_eval,
                     _run: Run, _log: Logger,
-                    schema_aware):
+                    schema_aware, use_multi_epochs_loader):
     drop_stopwords = model in {'bert-bow', 'bert-dkrl',
                                'glove-bow', 'glove-dkrl'}
 
@@ -466,15 +467,18 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                           use_cached_text=use_cached_text,
                                           num_devices=num_devices)
 
-    train_loader = DataLoader(train_data, batch_size, shuffle=True,
+    loader_class = torch.utils.data.DataLoader
+    if use_multi_epochs_loader:
+        loader_class = MultiEpochsDataLoader
+    train_loader = loader_class(train_data, batch_size, shuffle=True,
                               collate_fn=train_data.collate_fn, pin_memory=True,
                               num_workers=NUM_WORKERS, drop_last=True)
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
-    valid_loader = DataLoader(valid_data, eval_batch_size, num_workers=NUM_WORKERS, pin_memory=True)
+    valid_loader = loader_class(valid_data, eval_batch_size, num_workers=NUM_WORKERS, pin_memory=True)
     test_data_hr = GraphDataset(f'{work_dir}test_hr.tsv')
-    test_loader_hr = DataLoader(test_data_hr, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
+    test_loader_hr = loader_class(test_data_hr, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
     test_data_rt = GraphDataset(f'{work_dir}test_rt.tsv')
-    test_loader_rt = DataLoader(test_data_rt, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
+    test_loader_rt = loader_class(test_data_rt, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
 
     graph = nx.MultiDiGraph()
     all_triples = torch.cat((train_data.triples,

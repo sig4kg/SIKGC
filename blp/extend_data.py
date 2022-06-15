@@ -1,6 +1,6 @@
 import copy
 import random
-
+from torch.utils.data import DataLoader
 import pandas as pd
 import numpy as np
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
@@ -387,6 +387,36 @@ class SchemaAwareTextGraphDataset(SchemaAwareGraphDataset):
                                                         repeats=self.num_devices, schema_aware=self.schema_aware)
 
         return text_tok, text_mask, rels, neg_idx
+
+
+class MultiEpochsDataLoader(DataLoader):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._DataLoader__initialized = False
+        self.batch_sampler = _RepeatSampler(self.batch_sampler)
+        self._DataLoader__initialized = True
+        self.iterator = super().__iter__()
+
+    def __len__(self):
+        return len(self.batch_sampler.sampler)
+
+    def __iter__(self):
+        for i in range(len(self)):
+            yield next(self.iterator)
+
+
+class _RepeatSampler(object):
+    """ Sampler that repeats forever.
+    Args:
+        sampler (Sampler)
+    """
+
+    def __init__(self, sampler):
+        self.sampler = sampler
+
+    def __iter__(self):
+        while True:
+            yield from iter(self.sampler)
 
 
 if __name__ == '__main__':

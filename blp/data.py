@@ -254,28 +254,27 @@ class TextGraphDataset(GraphDataset):
 
         maps = torch.load(self.maps_path)
         ent_ids = maps['ent_ids']
+        logger = logging.getLogger()
 
         if max_len is None:
             max_len = tokenizer.max_len
 
         cached_text_path = osp.join(self.directory, 'text_data.pt')
-        if use_cached_text:
-            if osp.exists(cached_text_path):
-                self.text_data = torch.load(cached_text_path)
-                logger = logging.getLogger()
-                logger.info(f'Loaded cached text data for'
-                            f' {self.text_data.shape[0]} entities,'
-                            f' and maximum length {self.text_data.shape[1]}.')
-            else:
-                raise LookupError(f'Cached text file not found at'
-                                  f' {cached_text_path}')
+        if use_cached_text and osp.exists(cached_text_path):
+            self.text_data = torch.load(cached_text_path)
+            logger.info(f'Loaded cached text data for'
+                        f' {self.text_data.shape[0]} entities,'
+                        f' and maximum length {self.text_data.shape[1]}.')
         else:
-            self.text_data = torch.zeros((len(ent_ids), max_len + 1),
-                                         dtype=torch.long)
-        self.text_data = read_entity_text(ent_ids, max_len,
-                                          text_directory=self.directory,
-                                          drop_stopwords=drop_stopwords,
-                                          tokenizer=tokenizer)
+            if use_cached_text:
+                logger.error(f'Cached text file not found at'
+                             f' {cached_text_path}')
+            # self.text_data = torch.zeros((len(ent_ids), max_len + 1),
+            #                              dtype=torch.long)
+            self.text_data = read_entity_text(ent_ids, max_len,
+                                              text_directory=self.directory,
+                                              drop_stopwords=drop_stopwords,
+                                              tokenizer=tokenizer)
 
     def get_entity_description(self, ent_ids):
         """Get entity descriptions for a tensor of entity IDs."""

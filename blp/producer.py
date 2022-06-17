@@ -44,12 +44,12 @@ def config():
     eval_batch_size = 64
     max_epochs = 2
     checkpoint = None
-    use_cached_text = False
+    use_cached_text = True
     do_downstream_sample = False
     do_produce = True
     silver_eval = False
     schema_aware = False
-    use_multi_epochs_loader=True
+    use_multi_epochs_loader = True
 
 
 @ex.capture
@@ -471,8 +471,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     if use_multi_epochs_loader:
         loader_class = MultiEpochsDataLoader
     train_loader = loader_class(train_data, batch_size, shuffle=True,
-                              collate_fn=train_data.collate_fn, pin_memory=True,
-                              num_workers=NUM_WORKERS, drop_last=True)
+                                collate_fn=train_data.collate_fn, pin_memory=True,
+                                num_workers=NUM_WORKERS, drop_last=True)
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
     valid_loader = loader_class(valid_data, eval_batch_size, num_workers=NUM_WORKERS, pin_memory=True)
     test_data_hr = GraphDataset(f'{work_dir}test_hr.tsv')
@@ -526,7 +526,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     rels = rels.to(device, non_blocking=True)
                     neg_idx = neg_idx.to(device, non_blocking=True)
                     loss = model(pos_pairs, rels, neg_idx).mean()
-                elif len(data)==4:
+                elif len(data) == 4:
                     text_tok, text_mask, rels, neg_idx = data[0], data[1], data[2], data[3]
                     text_tok = text_tok.to(device, non_blocking=True)
                     text_mask = text_mask.to(device, non_blocking=True)

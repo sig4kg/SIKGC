@@ -16,7 +16,7 @@ class BLPConfig:
         'eval_batch_size': 32,
         'max_epochs': 2,
         'checkpoint': None,
-        'use_cached_text': False
+        'use_cached_text': True
         }
         return conf
 
@@ -37,7 +37,7 @@ class BLPConfig:
             'eval_batch_size': 32,
             'max_epochs': 2,
             'checkpoint': None,
-            'use_cached_text': False
+            'use_cached_text': True
         }
         return conf
 
@@ -58,7 +58,7 @@ class BLPConfig:
             'eval_batch_size': 64,
             'max_epochs': 2,
             'checkpoint': None,
-            'use_cached_text': False
+            'use_cached_text': True
         }
         return conf
 
@@ -79,7 +79,7 @@ class BLPConfig:
             'eval_batch_size': 64,
             'max_epochs': 2,
             'checkpoint': None,
-            'use_cached_text': False
+            'use_cached_text': True
         }
         return conf
 

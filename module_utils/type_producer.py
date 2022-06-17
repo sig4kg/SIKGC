@@ -2,6 +2,8 @@ import argparse
 import logging
 from torch.utils.data import DataLoader, Dataset, SequentialSampler
 from torch.optim import Adam
+
+import file_util
 import log_util
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
@@ -449,8 +451,13 @@ def test_TP(work_dir, dataset):
     data_conf = DatasetConfig().get_config(dataset)
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
     abox_scanner_scheduler_t = AboxScannerScheduler(data_conf.tbox_patterns_dir, context_resource_t)
-    val, inv = abox_scanner_scheduler_t.register_patterns_all().scan_rel_IJPs(work_dir=work_dir, save_result=False)
-    context_resource_t.hrt_int_df = val
+    abox_scanner_scheduler_t.register_patterns_all()
+    if not file_util.does_file_exist(p_config.work_dir + 'correct_hrt.txt'):
+        abox_scanner_scheduler_t.scan_rel_IJPs(work_dir=work_dir, save_result=False)
+        cor, incor = abox_scanner_scheduler_t.scan_schema_correct_patterns(work_dir=work_dir, save_result=True)
+    else:
+        cor = file_util.read_hrt_2_hrt_int_df(p_config.work_dir + 'correct_hrt.txt')
+    context_resource_t.hrt_int_df = cor
     freeze_silver_test_data(context_resource_t, p_config)
     train_and_produce(work_dir + "L/", context_resource=context_resource_t, logger=log_util.get_file_logger(file_name=work_dir + "NELL_l.log"),
                       train_batch_size=512, produce=False, epochs=300)

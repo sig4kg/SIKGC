@@ -89,7 +89,7 @@ class LC(ProducerBlock):
         else:
             similar_inv = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
 
-        neg_examples = similar_inv.drop_duplicates(keep='first')
+        neg_examples = similar_inv.drop_duplicates(keep='first').copy()
         # blp need the uris
         neg_examples['head'] = neg_examples['head'].apply(
             lambda x: self.context_resource.id2ent[x])  # to uri

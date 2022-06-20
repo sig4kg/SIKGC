@@ -1,3 +1,4 @@
+import file_util
 from pipelines.pipeline_util import *
 
 def consistency_DBPed():
@@ -37,7 +38,10 @@ if __name__ == "__main__":
     # pooled_output2 = outputs2[1]
     # cos = cosine_similarity(pooled_output1.detach().numpy(), pooled_output2.detach().numpy())
     # print(cos)
-    pass
+    hrt = file_util.read_hrt_2_hrt_int_df("../resources/DBpedia-politics/correct_hrt.txt")
+    rh = hrt[['rel', 'head']].drop_duplicates(keep='first')
+    rt = hrt[['rel', 'tail']].drop_duplicates(keep='first')
+    print("i")
 
 
 

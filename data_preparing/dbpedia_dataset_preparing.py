@@ -417,4 +417,4 @@ def fix_dbpedia_property_constraints():
 if __name__ == "__main__":
     # get_all_classes_relations("../resources/DBpedia-politics/entity2type.txt", "../resources/DBpedia-politics/PoliticalTriplesWD.txt", out_dir="../outputs/test_dbpedia/")
     # generate_entity2type("../resources/DBpediaP/PoliticalTriplesWD.txt", "../outputs/dbpedia_data/")
-    fix_dbpedia_property_constraints()
+    pass

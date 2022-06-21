@@ -20,7 +20,7 @@ import pandas as pd
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 ex = Experiment(save_git_info=False)
 ex.logger = utils.get_logger()
-NUM_WORKERS = 0
+NUM_WORKERS = 2
 
 
 @ex.config

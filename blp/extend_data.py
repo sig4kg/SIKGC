@@ -3,7 +3,7 @@ import random
 from torch.utils.data import DataLoader
 import pandas as pd
 import numpy as np
-
+from prefetch_generator import BackgroundGenerator
 import file_util
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
@@ -344,9 +344,8 @@ class SchemaAwareTextGraphDataset(SchemaAwareGraphDataset):
         batch_entities = pos_pairs.reshape(batch_size * 2)
         tmp_i_rh2id, tmp_i_rt2id = self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
                                                                                         batch_entities=batch_entities,
-                                                                                        i_rh2tid=self.i_rh2tid,
-                                                                                        i_rt2hid=self.i_rt2hid,
-                                                                                        num_neg=self.neg_samples)
+                                                                                        num_neg=self.neg_samples,
+                                                                                        invalid_df=self.invalid_hrt_df)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,
@@ -366,7 +365,7 @@ class MultiEpochsDataLoader(DataLoader):
         self._DataLoader__initialized = False
         self.batch_sampler = _RepeatSampler(self.batch_sampler)
         self._DataLoader__initialized = True
-        self.iterator = super().__iter__()
+        self.iterator = BackgroundGenerator(super().__iter__())
 
     def __len__(self):
         return len(self.batch_sampler.sampler)

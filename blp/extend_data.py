@@ -366,6 +366,7 @@ class MultiEpochsDataLoader(DataLoader):
         self.batch_sampler = _RepeatSampler(self.batch_sampler)
         self._DataLoader__initialized = True
         self.iterator = BackgroundGenerator(super().__iter__())
+        # self.iterator = super().__iter__()
 
     def __len__(self):
         return len(self.batch_sampler.sampler)

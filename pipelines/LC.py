@@ -84,18 +84,4 @@ class LC(ProducerBlock):
             _, similar_inv = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
                 scan_rel_IJPs(work_dir=self.work_dir, save_result=True)
             config.blp_config.update({'schema_aware': True, 'do_produce': config.produce, 'silver_eval': config.silver_eval})
-        elif file_util.does_file_exist(self.work_dir + "invalid_hrt.txt"):
-            similar_inv = file_util.read_hrt_2_hrt_int_df(self.work_dir + "invalid_hrt.txt")
-        else:
-            similar_inv = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
-
-        neg_examples = similar_inv.drop_duplicates(keep='first').copy()
-        # blp need the uris
-        neg_examples['head'] = neg_examples['head'].apply(
-            lambda x: self.context_resource.id2ent[x])  # to uri
-        neg_examples['tail'] = neg_examples['tail'].apply(
-            lambda x: self.context_resource.id2ent[x])  # to uri
-        neg_examples['rel'] = neg_examples['rel'].apply(
-            lambda x: self.context_resource.id2op[x])  # to uri
-        neg_examples.to_csv(f"{work_dir}neg_examples.txt", header=False, index=False, sep='\t', mode='w')
 

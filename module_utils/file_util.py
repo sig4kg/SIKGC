@@ -52,8 +52,11 @@ def wait_until_file_is_saved(file_path: str, timeout_sec=10) -> bool:
 
 
 def read_hrt_2_hrt_int_df(hrt_file):
-    df = pd.read_csv(
-        hrt_file, header=None, names=['head', 'rel', 'tail'], sep="\t")
+    if does_file_exist(hrt_file):
+        df = pd.read_csv(
+            hrt_file, header=None, names=['head', 'rel', 'tail'], sep="\t")
+    else:
+        df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
     return df
 
 

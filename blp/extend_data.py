@@ -3,6 +3,8 @@ import random
 from torch.utils.data import DataLoader
 import pandas as pd
 import numpy as np
+
+import file_util
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
 from blp.data import *
@@ -32,16 +34,16 @@ class NegSampler:
             get_maps_context2blpid(context_resource, blp_ent2id, blp_rel2id)
 
     def reasoning_for_neg_in_batch_entities(self, data_list,
-                                            batch_entities, i_rh2tid, i_rt2hid, num_neg):
+                                            batch_entities, num_neg, invalid_df):
         # data_list are in URI, we need convert URI to context_resource ids
         candidate_ents_contextid = [self.blp2context_entid[e] for e in torch.unique(batch_entities).tolist()]
         sample_count = len(candidate_ents_contextid)
         sample_count = num_neg * 2 if num_neg * 2 < sample_count else sample_count
-        pos_hrt_int = []
-        for row_idx, row in enumerate(data_list):
-            h, t, r = row[0].item(), row[1].item(), row[2].item()
-            pos_hrt_int.append([self.blp2context_entid[h], self.blp2context_relid[r], self.blp2context_entid[t]])
-        pos_examples_df = pd.DataFrame(data=pos_hrt_int, columns=['head', 'rel', 'tail'])
+        pos_htr_int = pd.DataFrame(data=data_list, columns=['head', 'tail', 'rel']).applymap(lambda x: x.item()).copy()
+        pos_htr_int['head'] = pos_htr_int['head'].apply(lambda x: self.blp2context_entid[x])
+        pos_htr_int['tail'] = pos_htr_int['tail'].apply(lambda x: self.blp2context_entid[x])
+        pos_htr_int['rel'] = pos_htr_int['rel'].apply(lambda x: self.blp2context_relid[x])
+        pos_examples_df = pos_htr_int[['head', 'rel', 'tail']]
         corrupt1 = pd.DataFrame()
         corrupt1['c_h'] = pos_examples_df['head'].apply(
             func=lambda x: random.sample(candidate_ents_contextid, sample_count))
@@ -71,7 +73,7 @@ class NegSampler:
         self.context_resource.hrt_int_df = pos_examples_df
         _, inv = self.abox_scanner_scheduler.scan_rel_IJPs(work_dir="", save_result=False, log_process=False)
         # to blp ids
-        inv_blp_df = inv[['head', 'tail', 'rel']]
+        inv_blp_df = pd.concat([inv, invalid_df]).drop_duplicates(keep='first').reset_index(drop=True)
         inv_blp_df['head'] = inv_blp_df['head'].apply(
             lambda x: self.context2blp_entid[x] if x in self.context2blp_entid else np.nan)
         inv_blp_df['tail'] = inv_blp_df['tail'].apply(
@@ -79,7 +81,7 @@ class NegSampler:
         inv_blp_df['rel'] = inv_blp_df['rel'].apply(
             lambda x: self.context2blp_relid[x] if x in self.context2blp_relid else np.nan)
         inv_blp_df = inv_blp_df.dropna(how='any').astype('int64')
-        return list_to_dict(inv_blp_df.to_numpy().tolist(), i_rh2tid, i_rt2hid)
+        return df_to_dict(inv_blp_df)
 
 
 def get_schema_aware_neg_sampling_indices(data_list,
@@ -182,34 +184,15 @@ def get_schema_aware_neg_sampling_indices(data_list,
     return neg_idx
 
 
-def list_to_dict(invalid_triples, i_rh2id=None, i_rt2id=None):
+def df_to_dict(invalid_triples_df):
     # {r: {h: {t1, t2, t3}}}
-    if i_rt2id is None:
-        tmp_i_rt2id = {}
-    else:
-        tmp_i_rt2id = copy.deepcopy(i_rt2id)
-    if i_rh2id is None:
-        tmp_i_rh2id = {}
-    else:
-        tmp_i_rh2id = copy.deepcopy(i_rh2id)
-    for row in invalid_triples:
-        h = row[0]
-        t = row[1]
-        r = row[2]
-        if r in tmp_i_rh2id:
-            if h in tmp_i_rh2id[r]:
-                tmp_i_rh2id[r][h].add(t)
-            else:
-                tmp_i_rh2id[r].update({h: {t}})
-        else:
-            tmp_i_rh2id.update({r: {h: {t}}})
-        if r in tmp_i_rt2id:
-            if t in tmp_i_rt2id[r]:
-                tmp_i_rt2id[r][t].add(h)
-            else:
-                tmp_i_rt2id[r].update({t: {h}})
-        else:
-            tmp_i_rt2id.update({r: {t: {h}}})
+    agg_rh = invalid_triples_df.groupby(['rel', 'head'], as_index=False).agg({'tail': lambda x: list(x)})
+    rh_df = agg_rh.set_index(['rel', 'head']).unstack(level=0).droplevel(level=0, axis=1)
+    tmp_i_rh2id = {col: rh_df[col].dropna().to_dict() for col in rh_df}
+    # {r: {t: {h1, h2, h3}}}
+    agg_rt = invalid_triples_df.groupby(['rel', 'tail'], as_index=False).agg({'head': lambda x: list(x)})
+    rt_df = agg_rt.set_index(['rel', 'tail']).unstack(level=0).droplevel(level=0, axis=1)
+    tmp_i_rt2id = {col: rt_df[col].dropna().to_dict() for col in rt_df}
     return tmp_i_rh2id, tmp_i_rt2id
 
 
@@ -242,21 +225,10 @@ class SchemaAwareGraphDataset(GraphDataset):
         """
         super().__init__(triples_file, neg_samples, write_maps_file, num_devices)
         # Read triples and store as ints in tensor
-        self.rh2tid, self.rt2hid = list_to_dict(self.triples.tolist())
-        self.i_rh2tid = {}
-        self.i_rt2hid = {}
+        self.rh2tid, self.rt2hid = df_to_dict(pd.DataFrame(data=self.triples.tolist(), columns=['head', 'tail', 'rel']))
         self.schema_aware = schema_aware
         if schema_aware:
-            with open(inconsistent_triples_file) as neg_file:
-                inconsistent_triples = []
-                for i, line in enumerate(neg_file):
-                    values = line.strip().split()
-                    if len(values) > 3 and values[3] == '-1':
-                        continue
-                    head, rel, tail = line.split()[:3]
-                    if head in self.entity2id and tail in self.entity2id and rel in self.rel2id:
-                        inconsistent_triples.append([self.entity2id[head], self.entity2id[tail], self.rel2id[rel]])
-            self.i_rh2tid, self.i_rt2hid = list_to_dict(inconsistent_triples)
+            self.invalid_hrt_df = file_util.read_hrt_2_hrt_int_df(inconsistent_triples_file)
             data_conf = DatasetConfig().get_config(dataset)
             abox_file_path = data_conf.input_dir + "abox_hrt_uri.txt"
             tmp_context_resource = ContextResources(abox_file_path, class_and_op_file_path=data_conf.input_dir,
@@ -283,9 +255,8 @@ class SchemaAwareGraphDataset(GraphDataset):
         batch_entities = pos_pairs.reshape(batch_size * 2)
         tmp_i_rh2id, tmp_i_rt2id = self.neg_sampler.reasoning_for_neg_in_batch_entities(data_list=data_list,
                                                                                         batch_entities=batch_entities,
-                                                                                        i_rh2tid=self.i_rh2tid,
-                                                                                        i_rt2hid=self.i_rt2hid,
-                                                                                        num_neg=self.neg_samples)
+                                                                                        num_neg=self.neg_samples,
+                                                                                        invalid_df=self.invalid_hrt_df)
         neg_idx = get_schema_aware_neg_sampling_indices(data_list=data_list,
                                                         batch_entities=batch_entities,
                                                         rh2t=self.rh2tid,
@@ -420,4 +391,18 @@ class _RepeatSampler(object):
 
 
 if __name__ == '__main__':
-    pass
+    tt = pd.DataFrame(data=[[0,1,2], [0,1,3], [4, 1, 3], [0,2,5]], columns=['head', 'rel', 'tail'])
+    print(tt)
+    agg_rh = tt.groupby(['rel', 'head'], as_index=False).agg({'tail': lambda x: list(x)})
+    new_df = agg_rh.set_index(['rel', 'head']).unstack(level=0).droplevel(level=0, axis=1)
+    d = {col: new_df[col].dropna().to_dict() for col in new_df}
+    print(d)
+    # agg_rh = tt.groupby(['rel', 'head'], as_index=False).agg({'tail': lambda x: list(x)})
+    # print(agg_rh)
+    # agg_r = tt.groupby(['rel'], as_index=False).agg({'head': lambda x: list(x)})
+    # print(agg_r)
+
+
+
+
+

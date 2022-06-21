@@ -422,7 +422,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         num_devices = 1
         _log.info('Training on CPU')
 
-    inconsistent_triples_file = f'{work_dir}neg_examples.txt'
+    inconsistent_triples_file = f'{work_dir}invalid_hrt.txt'
     if model == 'transductive':
         if schema_aware:
             train_data = SchemaAwareGraphDataset(triples_file,

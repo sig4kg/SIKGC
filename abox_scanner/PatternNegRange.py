@@ -15,16 +15,11 @@ class PatternNegRange(PatternScanner):
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
         for g in tqdm(gp, desc="scanning pattern Range disjointness", disable=not log_process):
             rel = g[0]
-            r_triples_df = g[1]
-            need_update = False
+            r_triples_df = g[1].copy()
+            r_triples_df['tail'] = r_triples_df['tail'].apply(lambda x: self._context_resources.entid2classids[x])
             if rel in self._pattern_dict:
-                invalid = self._pattern_dict[rel]
-                for idx, row in r_triples_df.iterrows():
-                    h_classes = self._context_resources.entid2classids[row['tail']]
-                    if any([h_c in invalid for h_c in h_classes]):
-                        r_triples_df.loc[idx, 'is_valid'] = False
-                        need_update = True
-            if need_update:
+                invalid_clz = self._pattern_dict[rel]
+                r_triples_df['is_valid'] = r_triples_df['tail'].apply(lambda x: len(set(x) & set(invalid_clz)) == 0)
                 df.update(r_triples_df.query("is_valid == False")['is_valid'])
         return df
 

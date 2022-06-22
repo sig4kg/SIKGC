@@ -33,3 +33,8 @@ http://treat.net/onto.owl#Service_Instance
 http://treat.net/onto.owl#Service_microservice
 http://treat.net/onto.owl#VM_Type
 http://www.w3.org/2002/07/owl#Thing
+http://treat.net/onto.owl#Range_category
+http://treat.net/onto.owl#Range_log
+http://treat.net/onto.owl#Range_peer_up
+http://treat.net/onto.owl#Domain_category
+http://treat.net/onto.owl#Domain_peer_up

@@ -89,7 +89,7 @@ class ProducerBlock():
     def acc_and_collect_result(self, pred_hrt_df, pred_type_df, log_prefix=""):
         context_resource = self.context_resource
         train_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()
-        train_count = train_count if self.pipeline_config.pred_type else len(context_resource.hrt_int_df.index)
+        # train_count = train_count if self.pipeline_config.pred_type else len(context_resource.hrt_int_df.index)
         rel_count, rel_valid_count, rel_correct_count = self._acc_rel_axiom_and_update_context(pred_hrt_df)
         type_count, type_valid_count, type_correct_count = self._acc_type_axiom_and_update_context(pred_type_df)
         extend_count = len(context_resource.hrt_int_df.index) + context_resource.get_type_count()

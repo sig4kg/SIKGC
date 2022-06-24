@@ -41,7 +41,8 @@ class AC(ProducerBlock):
         split_all_triples_anyburl(context_resource,
                                   self.tmp_work_dir,
                                   exclude_rels=self.pipeline_config.exclude_rels,
-                                  produce=self.pipeline_config.produce)
+                                  produce=self.pipeline_config.produce,
+                                  with_type=self.pipeline_config.pred_type)
         prepare_anyburl_configs(self.tmp_work_dir, pred_with='hr')
         wait_until_anyburl_data_ready(self.tmp_work_dir)
         print("learning anyBURL...")
@@ -58,13 +59,13 @@ class AC(ProducerBlock):
             tmp_pred_hrt1 = self.predict_anyburl(pred_with='hr')
             tmp_pred_hrt2 = self.predict_anyburl(pred_with='rt')
             # type prediction
-
-            pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
             if self.pipeline_config.pred_type:
                 self.predict_anyburl(pred_with='type')
                 pred_type_df = read_type_pred_to_df(self.pred_file,
                                                     self.context_resource.classid2class.keys(),
                                                     self.type_threshold)
+            else:
+                pred_type_df = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
             # clean
             clean_anyburl(work_dir=self.tmp_work_dir)
             # save result or acc

@@ -231,7 +231,7 @@ public class TestDLLite {
         }
     }
 
-    @Test
+    //@Test
     public void getNELLPatterns() throws Exception {
         List<String> toKeepProperties = new ArrayList<>();
         try (Stream<String> lines2 = Files.lines(Paths.get("output/OP.txt"))) {
@@ -300,7 +300,7 @@ public class TestDLLite {
 
     }
 
-    @Test
+    //@Test
     public void getDBpediaPatterns() throws Exception {
         ontology = dlliteCvt.loadOnto("../../resources/DBpedia-politics/tbox.nt");
 //        ontology = dlliteCvt.loadOnto("../../resources/DBpediaP/dbpedia_2016-10.owl");
@@ -310,7 +310,7 @@ public class TestDLLite {
         tboxScanner.getAllClasses();
     }
 
-    @Test
+    //@Test
     public void getTREATPatterns() throws Exception {
         ontology = dlliteCvt.loadOnto("../../resources/TREAT/tbox.nt");
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
@@ -319,9 +319,9 @@ public class TestDLLite {
         tboxScanner.getAllClasses();
     }
 
-    @Test
-    public void testConsistency() {
-        ontology = dlliteCvt.loadOnto("../../outputs/test/tbox_abox.ttl");
-        assertTrue(trOWLUtil2.getReasoner(ontology).isConsistent());
-    }
+//    @Test
+//    public void testConsistency() {
+//        ontology = dlliteCvt.loadOnto("../../outputs/test/tbox_abox.ttl");
+//        assertTrue(trOWLUtil2.getReasoner(ontology).isConsistent());
+//    }
 }

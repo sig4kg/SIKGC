@@ -1,4 +1,5 @@
 import random
+import time
 
 import file_util
 import scripts.run_scripts
@@ -75,6 +76,7 @@ def prepare_context(pipeline_config: PipelineConfig, consistency_check=True, abo
     work_dir = pipeline_config.work_dir
     # mv data to work_dir
     os.system(f"cp -rf {pipeline_config.input_dir}* {work_dir}")
+    time.sleep(3)
     # initialize context resource and check consistency
     if abox_file_hrt != "":
         abox_file_path = abox_file_hrt

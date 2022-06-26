@@ -1,5 +1,6 @@
 import argparse
 
+from file_util import init_dir
 from log_util import get_file_logger
 from pipelines.exp_config import *
 from pipeline_util import *
@@ -10,6 +11,7 @@ from blp.producer import ex
 
 
 def run_E_method_without_ACC(work_dir, dataset):
+    init_dir(work_dir)
     data_conf = DatasetConfig().get_config(dataset)
     blp_conf = BLPConfig().get_blp_config(rel_model="transe",
                                           inductive=False,

@@ -97,6 +97,14 @@ def clean_blp(work_dir):
     os.system('../scripts/clean_blp.sh ' + work_dir)
 
 
+def backup_embeddings(work_dir, round_num):
+    dir_name = work_dir + 'round_' + str(round_num)
+    mk_dir(dir_name)
+    os.system(f"[ -f {work_dir}ent_emb.pt ] && cp {work_dir}ent_emb.pt {dir_name}/ent_emb.pt")
+    os.system(f"[ -f {work_dir}ents.pt ] && cp {work_dir}ents.pt {dir_name}/ents.pt")
+    os.system(f"[ -f {work_dir}maps.pt ] && cp {work_dir}maps.pt {dir_name}/maps.pt")
+
+
 def wait_until_blp_data_ready(work_dir, inductive=False):
     if inductive:
         # wait_until_file_is_saved(work_dir + "dev-ents.txt")

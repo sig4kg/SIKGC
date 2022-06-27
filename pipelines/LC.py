@@ -10,6 +10,15 @@ from module_utils.common_util import timethis
 from module_utils.type_producer import train_and_produce
 
 
+def get_loop_num():
+    loop_num = [0]
+    def get_round():
+        loop_num[0] = loop_num[0] + 1
+        return loop_num[0]
+    return get_round
+
+GET_LOOP = get_loop_num()
+
 class LC(ProducerBlock):
     def __init__(self, context_resource: ContextResources, abox_scanner_scheduler: AboxScannerScheduler,
                  pipeline_config: PipelineConfig, logger: logging.Logger) -> None:
@@ -56,6 +65,7 @@ class LC(ProducerBlock):
                                              train_batch_size=512,
                                              epochs=config.blp_config['max_epochs'],
                                              produce=config.blp_config["do_produce"])
+        backup_embeddings(work_dir, GET_LOOP())
         if not config.produce:
             return
         if not acc:

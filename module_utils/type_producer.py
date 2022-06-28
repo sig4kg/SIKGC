@@ -427,7 +427,7 @@ def train_and_produce(work_dir, context_resource: ContextResources, logger: logg
     return df
 
 
-def test_TP(work_dir, dataset):
+def test_TP(work_dir, dataset, emb_dir="L/"):
     work_dir = work_dir
     abox_file_path = work_dir + "abox_hrt_uri.txt"
     context_resource_t = ContextResources(abox_file_path, class_and_op_file_path=work_dir,
@@ -459,7 +459,7 @@ def test_TP(work_dir, dataset):
         cor = file_util.read_hrt_2_hrt_int_df(p_config.work_dir + 'correct_hrt.txt')
     context_resource_t.hrt_int_df = cor
     freeze_silver_test_data(context_resource_t, p_config)
-    train_and_produce(work_dir + "L/", context_resource=context_resource_t, logger=log_util.get_file_logger(file_name=work_dir + "NELL_l.log"),
+    train_and_produce(work_dir + emb_dir, context_resource=context_resource_t, logger=log_util.get_file_logger(file_name=work_dir + "NELL_l.log"),
                       train_batch_size=512, produce=False, epochs=300)
 
 
@@ -467,5 +467,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="NELL")
     parser.add_argument('--work_dir', type=str, default="../outputs/silverNL/E_comples_neg/")
+    parser.add_argument('--emb_dir', type=str, default="L/")
     argss = parser.parse_args()
-    test_TP(argss.work_dir, argss.dataset)
+    test_TP(argss.work_dir, argss.dataset, argss.emb_dir)

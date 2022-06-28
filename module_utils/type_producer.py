@@ -405,6 +405,7 @@ def classify(pred_prob, thresh):
 
 def train_and_produce(work_dir, context_resource: ContextResources, logger: logging.Logger, train_batch_size=32, epochs=80, lr=2e-4,
                       num_classes=50, produce=True):
+    logger.info(f"emb dir: {work_dir}")
     emb_util = EmbeddingUtil(work_dir)
     data_transformer = DataTransformer().data_transform_from_context(context_resource, work_dir=work_dir,
                                                                      num_classes=num_classes)

@@ -40,6 +40,6 @@ class PatternPosDomain(PatternScanner):
                 if r1_uri not in self._context_resources.op2id:
                     continue
                 op = self._context_resources.op2id[r1_uri]
-                domain = [self._context_resources.class2id[ii[1:-1]] for ii in items[1][:-1].split('\"') if ii not in ['owl:Nothing']]
+                domain = [self._context_resources.class2id[ii[1:-1]] for ii in items[1][:-1].split('\"') if ii not in ['owl:Nothing'] and ii[1:-1] in self._context_resources.class2id]
                 pattern_dict.update({op: domain})
             self.pattern_dict = pattern_dict

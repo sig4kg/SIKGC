@@ -50,6 +50,6 @@ class PatternPosRange(PatternScanner):
                     continue
                 op = self._context_resources.op2id[r1_uri]
                 range = [self._context_resources.class2id[ii[1:-1]] for ii in items[1][:-1].split('\"') if
-                            ii not in ['owl:Nothing']]
+                            ii not in ['owl:Nothing'] and ii[1:-1] in self._context_resources.class2id]
                 pattern_dict.update({op: range})
             self.pattern_dict = pattern_dict

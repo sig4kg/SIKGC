@@ -335,7 +335,7 @@ def pred(model, dataloader):
 
 def eval_types(model, eval_dataloader, logger: logging.Logger):
     flat_pred_outs, flat_true_labels = pred(model, eval_dataloader)
-    threshold = np.arange(0.35, 0.65, 0.01)
+    threshold = np.arange(0.38, 0.70, 0.01)
     scores = []  # Store the list of f1 scores for prediction on each threshold
     # convert labels to 1D array
     y_true = flat_true_labels.ravel()

@@ -10,7 +10,7 @@ def split_relation_triples(hrt_df, exclude_rels=[], produce=True):
     rels = df['rel'].drop_duplicates(keep='first')
     total = len(df.index)
     dev_rate = len(rels.index) * 100 / total
-    dev_rate = dev_rate if dev_rate < 0.1 else 0.1
+    dev_rate = dev_rate if 0.05 < dev_rate < 0.1 else 0.1
     count_dev = int(total * dev_rate)
     count_dev = len(rels) if count_dev < len(rels) else count_dev
 

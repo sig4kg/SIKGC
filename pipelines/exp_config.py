@@ -107,7 +107,7 @@ class BLPConfig:
         elif dataset == "TREAT":
             tmp_conf.update({'lr': 1e-3, 'regularizer': 1e-2, 'max_epochs': 60, 'batch_size': 128})
             if inductive:
-                tmp_conf.update({'model': 'fasttext', 'lr': 5e-4, 'max_epochs': 60, 'batch_size': 128})
+                tmp_conf.update({'model': 'fasttext', 'lr': 5e-4, 'max_epochs': 120, 'batch_size': 128})
         elif dataset == "NELL":
             tmp_conf.update({'max_epochs': 100, 'batch_size': 1024})
             if inductive:

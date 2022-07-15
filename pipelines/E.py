@@ -38,6 +38,8 @@ def run_E_method_without_ACC(work_dir, dataset, model):
     wait_until_file_is_saved(work_dir + "all_triples.tsv")
     split_data_blp(context_resource=context_resource, work_dir=work_dir, inductive=False,
                       exclude_rels=[])  # split all_triples.tsv to train.tsv, dev.tsv, takes time
+    if p_config.silver_eval:
+        generate_silver_rel_eval_file(context_resource, work_dir)
     wait_until_blp_data_ready(work_dir, inductive=False)
     # 1. run blp
     ex.run(config_updates=p_config.blp_config)

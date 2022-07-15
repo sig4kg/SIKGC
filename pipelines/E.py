@@ -28,7 +28,7 @@ def run_E_method_without_ACC(work_dir, dataset, model):
                                                     parallel=False,
                                                     pipeline='l',
                                                     produce=True,
-                                                    silver_eval=False,
+                                                    silver_eval=True,
                                                     use_gpu=True)
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
     context_resource, abox_scanner_scheduler = prepare_context(p_config, consistency_check=False)

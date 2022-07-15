@@ -10,14 +10,14 @@ import pandas as pd
 from blp.producer import ex
 
 
-def run_E_method_without_ACC(work_dir, dataset):
+def run_E_method_without_ACC(work_dir, dataset, model):
     init_dir(work_dir)
     data_conf = DatasetConfig().get_config(dataset)
-    blp_conf = BLPConfig().get_blp_config(rel_model="transe",
+    blp_conf = BLPConfig().get_blp_config(rel_model=model,
                                           inductive=False,
                                           dataset=dataset,
                                           schema_aware=False,
-                                          silver_eval=False,
+                                          silver_eval=True,
                                           do_produce=True)
     blp_conf.update({'work_dir': work_dir})
     p_config = PipelineConfig().set_pipeline_config(dataset=dataset,
@@ -73,7 +73,8 @@ def run_E_method_without_ACC(work_dir, dataset):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
+    parser.add_argument('--model', type=str, default="transe")
     parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
     argss = parser.parse_args()
-    run_E_method_without_ACC(argss.work_dir, argss.dataset)
+    run_E_method_without_ACC(argss.work_dir, argss.dataset, argss.model)

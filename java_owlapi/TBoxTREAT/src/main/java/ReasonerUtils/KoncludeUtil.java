@@ -1,14 +1,15 @@
 package ReasonerUtils;
 
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class KoncludeUtil extends ReasonerBase {
@@ -19,6 +20,20 @@ public class KoncludeUtil extends ReasonerBase {
         this.Konclude_bin = Konclude_bin;
         this.output_dir = output_dir;
         this.Konclude_config = Konclude_bin.substring(0, Konclude_bin.lastIndexOf("/") + 1) + "../Configs/default-config.xml";
+    }
+
+    public List<OWLAxiom> getInconsistentSubset(OWLOntology ontology, OWLOntologyManager man, List<OWLAxiom> toCheckAxioms) {
+        List<OWLAxiom> inconsistentTriples = new ArrayList<>();
+        for(OWLAxiom ax : toCheckAxioms) {
+            man.addAxiom(ontology, ax);
+            OWLReasoner reasoner = getReasoner(ontology);
+            if (!reasoner.isConsistent()) {
+                RemoveAxiom removeAxiom = new RemoveAxiom(ontology, ax);
+                man.applyChange(removeAxiom);
+                inconsistentTriples.add(ax);
+            }
+        }
+        return inconsistentTriples;
     }
 
     // Konclude class

@@ -7,16 +7,16 @@ public class Main {
     public static void main(String[] args) throws Exception {
         String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
         String task = System.getProperty("task", "TBoxScanner");
-        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox.nt");
+//        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox_dllite.nt");
-//        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/resized_tbox.nt");
+        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox_dllite.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox_dllite.nt");
 //        String schema_file = System.getProperty("schema", "output/abox.nt");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
-        String output_dir = System.getProperty("output_dir", "../../outputs/fix_NELL/tbox_patterns/");
+        String output_dir = System.getProperty("output_dir", "./output/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../. ./resources/TEST/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
@@ -52,6 +52,7 @@ public class Main {
         System.out.println("ontology file path: " + ontologyFullPath);
         TBoxPatternGenerator tboxScanner = null;
         String fileName = schema_file.substring(schema_file.lastIndexOf('/') + 1, schema_file.lastIndexOf('.'));
+        long start = System.currentTimeMillis();
         switch (task) {
             case "TBoxScanner":
                 tboxScanner = new TBoxPatternGenerator(ontologyFullPath, outputFullPath);
@@ -98,6 +99,9 @@ public class Main {
             default:
                 return;
         }
+        long end = System.currentTimeMillis();
+        System.out.println("Time takes " +
+                (end - start)/1000 + "s");
     }
 
 }

@@ -135,16 +135,18 @@ def get_schema_aware_neg_sampling_indices(data_list,
             if r in i_rh2tid:
                 i_rh = i_rh2tid[r]
                 if h in i_rh:
-                    possible_neg_t = i_rh[h]
-                    inco_t_ent_idx = [key for key, val in enumerate(batch_entities_np) if val in possible_neg_t]
+                    candidate_neg_t = i_rh[h]
+                    # inco_t_ent_idx = [key for key, val in enumerate(batch_entities_np) if val in candidate_neg_t]
+                    inco_t_ent_idx = candidate_neg_t
                     inco_t_ent_idx = torch.tensor(inco_t_ent_idx, dtype=torch.int64)
                     row_t_twos = torch.full(inco_t_ent_idx.shape, fill_value=10.0)
                     row_tail_weights.scatter_(0, inco_t_ent_idx, row_t_twos)
             if r in i_rt2hid:
                 i_rt = i_rt2hid[r]
                 if t in i_rt:
-                    possible_neg_h = i_rt[t]
-                    inco_h_ent_idx = [key for key, val in enumerate(batch_entities_np) if val in possible_neg_h]
+                    candidate_neg_h = i_rt[t]
+                    # inco_h_ent_idx = [key for key, val in enumerate(batch_entities_np) if val in candidate_neg_h]
+                    inco_h_ent_idx = candidate_neg_h
                     inco_h_ent_idx = torch.tensor(inco_h_ent_idx, dtype=torch.int64)
                     row_h_twos = torch.full(inco_h_ent_idx.shape, fill_value=10.0)
                     row_head_weights.scatter_(0, inco_h_ent_idx, row_h_twos)

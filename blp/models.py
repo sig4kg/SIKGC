@@ -312,7 +312,6 @@ def rotate_score(heads, tails, rels, embedding_range):
     return score
 
 
-
 def margin_loss(pos_scores, neg_scores):
     loss = 1 - pos_scores + neg_scores
     loss[loss < 0] = 0

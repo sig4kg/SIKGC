@@ -29,6 +29,8 @@ class Pattern_e1r1e2_e1r2e3(PatternScanner):
                     if r2 not in gp.groups:
                         continue
                     r2_triples_df = gp.get_group(r2)
+                    # if neg_sampling:
+                    #     r2_triples_df = gp.get_group(r2).query("is_new == True")
                     r2_head = r2_triples_df['head'].to_list()
                     tmp_list.extend(r2_head)
                 tmp_list = list(set(tmp_list))

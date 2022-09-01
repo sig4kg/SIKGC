@@ -24,15 +24,15 @@ public class KoncludeUtil extends ReasonerBase {
 
     public List<OWLAxiom> getInconsistentSubset(OWLOntology ontology, OWLOntologyManager man, List<OWLAxiom> toCheckAxioms) {
         List<OWLAxiom> inconsistentTriples = new ArrayList<>();
-        for(OWLAxiom ax : toCheckAxioms) {
-            man.addAxiom(ontology, ax);
-            OWLReasoner reasoner = getReasoner(ontology);
-            if (!reasoner.isConsistent()) {
-                RemoveAxiom removeAxiom = new RemoveAxiom(ontology, ax);
-                man.applyChange(removeAxiom);
-                inconsistentTriples.add(ax);
-            }
-        }
+//        for(OWLAxiom ax : toCheckAxioms) {
+//            man.addAxiom(ontology, ax);
+//            OWLReasoner reasoner = getReasoner(ontology);
+//            if (!reasoner.isConsistent()) {
+//                RemoveAxiom removeAxiom = new RemoveAxiom(ontology, ax);
+//                man.applyChange(removeAxiom);
+//                inconsistentTriples.add(ax);
+//            }
+//        }
         return inconsistentTriples;
     }
 

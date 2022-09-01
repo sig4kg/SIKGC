@@ -109,7 +109,7 @@ public class TBoxPatternGenerator {
 
     private ArrayList<Supplier<BasePattern>> RegesterIJPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-        patternConsumers.add(PatternDLLite::new);
+        patternConsumers.add(PatternDLLite2::new);
         patternConsumers.add(PatternAsymmetric::new);
         patternConsumers.add(PatternIrreflexive::new);
         return patternConsumers;

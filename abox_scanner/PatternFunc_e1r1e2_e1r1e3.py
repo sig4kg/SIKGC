@@ -18,6 +18,8 @@ class PatternFunc_e1r1e2_e1r1e3(PatternScanner):
             r = g[0]
             if r in self._pattern_set:
                 r_triples_df = g[1]
+                # if neg_sampling:
+                    # duplicate heads and different is_new
                 df.update(r_triples_df[r_triples_df.duplicated('head', keep=False)].
                                     query("is_new==True")['is_valid'].apply(lambda x: False))
         return df

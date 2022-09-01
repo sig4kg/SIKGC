@@ -38,13 +38,13 @@ public class PatternDLLite extends BasePattern implements IPattern {
     }
 
     private Set<OWLClassExpression> getDisjointClassExpressions(OWLClassExpression D) {
-        Set<OWLClassExpression> negD = new HashSet<>();
+        Set<OWLClassExpression> disjointD = new HashSet<>();
         if (_D2Sups.containsKey(D)) {
             for (OWLClassExpression sup : _D2Sups.get(D)) {
-                negD.add(sup.getComplementNNF());
+                disjointD.add(sup.getComplementNNF());
             }
         }
-        return negD;
+        return disjointD;
     }
 
     private void cache_disjointness() {
@@ -77,6 +77,50 @@ public class PatternDLLite extends BasePattern implements IPattern {
     }
 
     private void cache_subsumptions() {
+        //cache all ER and ER- subsumptions
+        Collection<OWLSubClassOfAxiom> axioms = this.ont.getAxioms(AxiomType.SUBCLASS_OF);
+        for (OWLSubClassOfAxiom ax : axioms) {
+            OWLClassExpression sub = ax.getSubClass();
+            OWLClassExpression sup = ax.getSuperClass();
+            add2map(sub, sup, _D2Sups);
+            if (sub.isNamed()) {
+                add2map(sub, sup, _CSups);
+            }
+            // do not cache \neg C
+            ClassExpressionType cet = sub.getClassExpressionType();
+            if (cet.equals(ClassExpressionType.OBJECT_COMPLEMENT_OF)) {
+                continue;
+            }
+            if (cet.equals(ClassExpressionType.OBJECT_SOME_VALUES_FROM)) {
+                OWLObjectPropertyExpression p = ((OWLObjectSomeValuesFromImpl) sub).getProperty();
+                // ER
+                if (p.isNamed()) {
+                    add2map(sub, sup, _ERSups);
+                } else {
+                    //ERInv
+                    if (p.isObjectPropertyExpression() && p.getInverseProperty().isNamed()) {
+                        add2map(sub, sup, _ERInvsSups);
+                    }
+                }
+            }
+        }
+        //cache R and R- subsumptions
+        Collection<OWLSubObjectPropertyOfAxiom> axiomsOP = this.ont.getAxioms(AxiomType.SUB_OBJECT_PROPERTY);
+        for (OWLSubObjectPropertyOfAxiom ax : axiomsOP) {
+            OWLObjectPropertyExpression sub = ax.getSubProperty();
+            OWLObjectPropertyExpression sup = ax.getSuperProperty();
+            if (sub == sup || !sup.isNamed()) {
+                continue;
+            }
+            if (sub.isNamed()) {
+                add2map(sup, sub, Rsup2Rsubs);
+            } else {
+                add2map(sup, sub, Rsup2RIvsSubs);
+            }
+        }
+    }
+
+    private void cache_subsumptions2() {
         //cache all ER and ER- subsumptions
         Collection<OWLSubClassOfAxiom> axioms = this.ont.getAxioms(AxiomType.SUBCLASS_OF);
         for (OWLSubClassOfAxiom ax : axioms) {
@@ -188,6 +232,55 @@ public class PatternDLLite extends BasePattern implements IPattern {
                 }
 
             }
+        }
+        Map<String, Set<String>> range_Pattern = new HashMap<>();
+        Map<String, Set<String>> e2r1e1_e1r2e3 = new HashMap<>();
+        Map<String, Set<String>> e2r1e1_e3r2e1 = new HashMap<>();
+        for (OWLClassExpression ERInvs : _ERInvsSups.keySet()) {
+            String r = ((OWLObjectSomeValuesFromImpl) ERInvs).getProperty().getNamedProperty().toString();
+            Set<OWLClassExpression> sups = _ERInvsSups.get(ERInvs);
+            for (OWLClassExpression D : sups) {
+                if (_D2DisjointC.containsKey(D)) {
+                    Set<OWLClassExpression> disjoint_C = _D2DisjointC.get(D);
+                    for (OWLClassExpression element : disjoint_C) {
+                        add2map(r, element.toString(), range_Pattern);
+                    }
+                }
+                if (_D2DisjointER.containsKey(D)) {
+                    Set<OWLClassExpression> disjoint_ER2 = _D2DisjointER.get(D);
+                    for (OWLClassExpression element : disjoint_ER2) {
+                        add2map(r, ((OWLObjectSomeValuesFromImpl) element).getProperty().toString(), e2r1e1_e1r2e3);
+                    }
+                }
+                if (_D2DisjointEInversR.containsKey(D)) {
+                    Set<OWLClassExpression> disjoint_ER2invers = _D2DisjointEInversR.get(D);
+                    for (OWLClassExpression element : disjoint_ER2invers) {
+                        add2map(r, ((OWLObjectSomeValuesFromImpl) element).getProperty().getNamedProperty().toString(), e2r1e1_e3r2e1);
+                    }
+                }
+            }
+        }
+        writeMap2File("PatternNegDomain.txt", domain_Pattern);
+        writeMap2File("PatternNegRange.txt", range_Pattern);
+        writeMap2File("Pattern_e1r1e2_e1r2e3.txt", e1r1e2_e1r2e3);
+        writeMap2File("Pattern_e1r1e2_e3r2e1.txt", e1r1e2_e3r2e1);
+        writeMap2File("Pattern_e2r1e1_e1r2e3.txt", e2r1e1_e1r2e3);
+        writeMap2File("Pattern_e2r1e1_e3r2e1.txt", e2r1e1_e3r2e1);
+    }
+
+    public void generateOPPattern2() {
+        if (_ERSups.size() == 0) {
+            cache_subsumptions();
+        }
+        // consider \some R subclassof D, D= C|\some Rx|\some Rx-
+        // and \some R- subclassof D, D= C|\some Rx|\some Rx-
+        Map<String, Set<String>> domain_Pattern = new HashMap<>();
+        Map<String, Set<String>> e1r1e2_e1r2e3 = new HashMap<>();
+        Map<String, Set<String>> e1r1e2_e3r2e1 = new HashMap<>();
+        for (OWLClassExpression ER : _ERSups.keySet()) {
+            String r = ((OWLObjectSomeValuesFromImpl) ER).getProperty().toString();
+            Set<OWLClassExpression> sups = _ERSups.get(ER);
+
         }
         Map<String, Set<String>> range_Pattern = new HashMap<>();
         Map<String, Set<String>> e2r1e1_e1r2e3 = new HashMap<>();

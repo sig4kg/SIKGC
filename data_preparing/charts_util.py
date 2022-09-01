@@ -229,7 +229,7 @@ def drawTREAT():
     drawEL(iters, label1, key1, iter_num=3, span=3, out_file=OUT_FILE_PREFIX + "treat1.png")
 
     label2 = ['M', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
-    key2 = ['M', 'L_TransE', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'M,L,R (parallel)']
+    key2 = ['M', 'L_SimplE', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'M,L,R (parallel)']
     drawEL(iters, label2, key2, iter_num=2, span=0, out_file=OUT_FILE_PREFIX + "treat2.png")
 
     label3 = [r'$E_{TransE}$', '$E_{TransE,neg}$', r"$L_{TransE}$", r"$L_{TransE,neg}$",

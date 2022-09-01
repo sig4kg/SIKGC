@@ -4,22 +4,27 @@ from pipelines.pipeline_util import *
 def consistency_DBPed():
     triples_path = "../resources/DBpedia-politics/abox_hrt_uri.txt"  # h, t, r
     class_and_op_file_path = "../resources/DBpedia-politics/"
-    tbox_patterns_path = "../resources/DBpedia-politics/tbox_patterns"
+    tbox_patterns_path = "../resources/DBpedia-politics/tbox_patterns/"
     wdir = "../outputs/test/"
     context_res = ContextResources(triples_path, class_and_op_file_path=class_and_op_file_path, work_dir=wdir)
     # context_res.hrt_int_df = context_res.hrt_to_scan_df
     abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_path, context_resources=context_res)
     v, inv = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(wdir, False)
-    context_res.hrt_int_df = v
-    context_res.to_ntriples(wdir, "../resources/DBpedia-politics/tbox.nt")
+    # context_res.hrt_int_df = v
+    # context_res.to_ntriples(wdir, "../resources/DBpedia-politics/tbox.nt")
     abox_scanner_scheduler.scan_schema_correct_patterns(wdir)
 
 
 def consistency_NELL():
-    triples_path = "../resources/TEST/abox_hrt_uri.txt"  # h, t, r
+    triples_path = "../resources/NELL/abox_hrt_uri.txt"  # h, t, r
     class_and_op_file_path = "../resources/NELL/"
-    tbox_patterns_path = "../resources/NELL-patterns/"
+    tbox_patterns_path = "../resources/NELL/tbox_patterns/"
     wdir = "../outputs/test/"
+    context_res = ContextResources(triples_path, class_and_op_file_path=class_and_op_file_path, work_dir=wdir)
+    # context_res.hrt_int_df = context_res.hrt_to_scan_df
+    abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_path, context_resources=context_res)
+    v, inv = abox_scanner_scheduler.register_patterns_all().scan_rel_IJPs(wdir, False)
+    abox_scanner_scheduler.scan_schema_correct_patterns(wdir)
 
 
 if __name__ == "__main__":
@@ -38,10 +43,11 @@ if __name__ == "__main__":
     # pooled_output2 = outputs2[1]
     # cos = cosine_similarity(pooled_output1.detach().numpy(), pooled_output2.detach().numpy())
     # print(cos)
-    hrt = file_util.read_hrt_2_hrt_int_df("../resources/DBpedia-politics/correct_hrt.txt")
-    rh = hrt[['rel', 'head']].drop_duplicates(keep='first')
-    rt = hrt[['rel', 'tail']].drop_duplicates(keep='first')
-    print("i")
+    # hrt = file_util.read_hrt_2_hrt_int_df("../resources/DBpedia-politics/correct_hrt.txt")
+    # rh = hrt[['rel', 'head']].drop_duplicates(keep='first')
+    # rt = hrt[['rel', 'tail']].drop_duplicates(keep='first')
+    # print("i")
+    consistency_NELL()
 
 
 

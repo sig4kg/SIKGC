@@ -1,4 +1,7 @@
-from pykeen.datasets import Nations, CSKG
+import os
+
+import pykeen.datasets
+from pykeen.datasets import Nations, CSKG, UMLS
 from pykeen.datasets.conceptnet import ConceptNet
 import argparse
 from tqdm import tqdm
@@ -13,9 +16,7 @@ from blp.producer import ex
 import torch
 
 
-def format_dataset(workdir):
-    dataset = CSKG()
-    # dataset = Nations()
+def format_dataset(dataset, workdir):
     train_and_test = torch.concat([dataset.training.mapped_triples, dataset.testing.mapped_triples], 0)
     dev = dataset.validation.mapped_triples
     all_triples = torch.concat([train_and_test, dev], 0)
@@ -52,17 +53,31 @@ def read_hrt_2_df(work_dir):
     return df[['head', 'rel', 'tail']]
 
 
-def run_E_method_without_ACC(work_dir, model, loop=2):
+def to_name(dataset: pykeen.datasets.Dataset, df, workdir, iter):
+    entid2name = dict((v, k) for k, v in dataset.entity_to_id.items())
+    relid2name = dict((v, k) for k, v in dataset.relation_to_id.items())
+    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: entid2name[x])  # to name
+    df[['rel']] = df[['rel']].applymap(lambda x: relid2name[x])  # to name
+    df[['head', 'rel', 'tail']].to_csv(workdir + "new_triples_{}.tsv".format(iter), index=False, header=False, sep='\t')
+
+
+def run_E_method_without_ACC(work_dir, model, loop=2, lr=1e-3):
+    dataset = CSKG()
+    # dataset = Nations()
+    # dataset = UMLS()
+    os.system(f"[ -d {work_dir} ] && rm -r {work_dir}")
     init_dir(work_dir)
+    init_dir(work_dir + "last_round/")
     blp_conf = BLPConfig().get_blp_config(rel_model=model,
                                           inductive=False,
                                           dataset='Other',
                                           schema_aware=False,
                                           silver_eval=False,
                                           do_produce=True)
-    blp_conf.update({'work_dir': work_dir})
+    blp_conf.update({'work_dir': work_dir, 'regularizer': 0, 'lr': lr, 'max_epochs': 50})
     # train.tsv, dev.tsv
-    train_df = format_dataset(work_dir)
+    train_df = format_dataset(dataset, work_dir)
+
     for l in tqdm(range(loop)):
         wait_until_blp_data_ready(work_dir, inductive=False)
         # 1. run blp
@@ -75,23 +90,26 @@ def run_E_method_without_ACC(work_dir, model, loop=2):
         logger = get_file_logger(file_name='test.log')
         new_hrt_df = pd.concat([pred_hrt_df, train_df, train_df]).drop_duplicates(
             keep=False)
-
         new_count = len(new_hrt_df.index)
         if new_count == 0:
             logger.info(f"new_count: 0")
             return
         # 3. update train set
+        os.system(f'[ -f {work_dir} + "train.tsv" ] && mv {work_dir}train.tsv {work_dir}/last_round/')
         expanded_df = pd.concat([train_df, pred_hrt_df]).drop_duplicates(keep="first").\
             reset_index(drop=True)
         train_df = expanded_df
         expanded_df.to_csv(work_dir + "train.tsv", index=False, header=False, sep='\t')
+        to_name(dataset, new_hrt_df, work_dir, l)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--model', type=str, default="complex")
-    parser.add_argument('--lr', type=float, default=2e-5)
+    parser.add_argument('--lr', type=float, default=5e-3)
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
     parser.add_argument('--loop', type=int, default=2)
     argss = parser.parse_args()
-    run_E_method_without_ACC(argss.work_dir, argss.model, loop=argss.loop)
+    run_E_method_without_ACC(argss.work_dir, argss.model, loop=argss.loop, lr=argss.lr)
+
+

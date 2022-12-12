@@ -355,7 +355,7 @@ def produce(model,
             tokeep_indices = (score_t_k[column_index].view(triples.shape[0], ) >= truth_score_t - threshold).nonzero(
 
                 as_tuple=True)  # x <= true + threshole   -> -x >= -true -threshole  ->
-            tmp_hrts = torch.cat([entities[heads], entities[rels], entities[t], score_t_k[column_index]], 1)
+            tmp_hrts = torch.cat([entities[heads], rels, entities[t], score_t_k[column_index]], 1)
             fitered_hrts = tmp_hrts[tokeep_indices]
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
     for i, triples in enumerate(triples_loader_rt):
@@ -383,7 +383,7 @@ def produce(model,
         for column_index, h in enumerate(pred_h_k_hit):
             tokeep_indices = (score_h_k[column_index].view(triples.shape[0], ) >= truth_score_h - threshold).nonzero(
                 as_tuple=True)  # true_score + threshold >= pred
-            tmp_hrts = torch.cat([entities[h], entities[rels], entities[tails], score_h_k[column_index]], 1)
+            tmp_hrts = torch.cat([entities[h], rels, entities[tails], score_h_k[column_index]], 1)
             fitered_hrts = tmp_hrts[tokeep_indices]
             produced_triples = fitered_hrts if produced_triples is None else torch.cat([produced_triples, fitered_hrts])
     # read to cpu and ready to output
@@ -564,7 +564,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         if val_mrr <= last_valid_mrr:
             early_stop_sign += 1
 
-        if early_stop_sign >= 6:
+        if early_stop_sign >= 10:
             break
         last_valid_mrr = val_mrr
 

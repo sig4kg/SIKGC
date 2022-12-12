@@ -13,7 +13,7 @@ pymongo
 pytrec-eval
 rdflib
 accelerate
-datasets >= 1.8.0
+#datasets >= 1.8.0
 sentencepiece != 0.1.92
 protobuf
 #torch >= 1.3

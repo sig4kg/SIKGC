@@ -1,17 +1,17 @@
-from datasets import list_datasets, load_dataset, list_metrics, load_metric
+# from datasets import list_datasets, load_dataset, list_metrics, load_metric
 import pandas as pd
 from pathlib import Path
 from tqdm import tqdm
 
 
-def load_nell_sentense(output_dir):
-    # Load a dataset and print the first example in the training set
-    nell_dataset = load_dataset('nell', 'nell_belief_sentences')
-    # with open(output_dir + 'nell_sentences.csv', 'w') as f:
-    #     for line in nell_dataset['train'][0:10]:
-    #         f.write(line + "\n")
-    df = pd.DataFrame(nell_dataset['train'][:])
-    df.to_csv(output_dir + 'nell_sentences.csv', sep='\t')
+# def load_nell_sentense(output_dir):
+#     # Load a dataset and print the first example in the training set
+#     nell_dataset = load_dataset('nell', 'nell_belief_sentences')
+#     # with open(output_dir + 'nell_sentences.csv', 'w') as f:
+#     #     for line in nell_dataset['train'][0:10]:
+#     #         f.write(line + "\n")
+#     df = pd.DataFrame(nell_dataset['train'][:])
+#     df.to_csv(output_dir + 'nell_sentences.csv', sep='\t')
 
 
 
@@ -232,7 +232,7 @@ if __name__ == "__main__":
 
     # format_NELL("../resources/NELL/abox_hrt.txt", "../resources/NELL/abox_hrt_uri.txt")
     # format_NELL_entity2text("../resources/NELL-995_2/entity2text.txt", "../resources/NELL/entity2text.txt")
-    # format_NELL_entity2type("../resources/NELL/NELLKG0.txt", "../resources/NELL-patterns/entity2type.txt")
+    format_NELL_entity2type("../resources/NELL-995/NELLKG0.txt", "../outputs/entity2type.txt")
     # nell_ent_to_sentenses("../resources/NELL-995_2/nell_sentences.csv", output_dir="../resources/NELL-995_2/")
     # nell_ent_to_description([
     #     "../resources/NELL-995_2/nell115.csvaa",

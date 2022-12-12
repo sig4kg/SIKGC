@@ -84,8 +84,8 @@ def filling_type(in_dir, out_dir):
 
 
 if __name__ == "__main__":
-    filling_type("../resources/TREAT/", "../outputs/fix_TREAT/")
-    # filling_type("../resources/NELL/", "../outputs/fix_NELL/")
+    # filling_type("../resources/TREAT/", "../outputs/fix_TREAT/")
+    filling_type("../resources/NELL/", "../outputs/fix_NELL/")
     # filling_type("../resources/DBpedia-politics/", "../outputs/fix_DBpedia/")
 
 

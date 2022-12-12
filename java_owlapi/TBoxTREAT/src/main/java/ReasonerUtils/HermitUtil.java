@@ -2,14 +2,23 @@ package ReasonerUtils;
 
 import eu.trowl.owlapi3.rel.reasoner.dl.RELReasonerFactory;
 import org.semanticweb.HermiT.Configuration;
+import org.semanticweb.owl.explanation.api.Explanation;
+import org.semanticweb.owl.explanation.api.ExplanationGenerator;
+import org.semanticweb.owl.explanation.impl.blackbox.checker.InconsistentOntologyExplanationGeneratorFactory;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.util.*;
 import org.semanticweb.HermiT.Configuration;
 import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+
 import eu.trowl.owlapi3.rel.util.InferredSubClassAxiomMultiGenerator;
 
 public class HermitUtil extends ReasonerBase {
@@ -26,18 +35,28 @@ public class HermitUtil extends ReasonerBase {
         return reasoner;
     }
 
-    public List<OWLAxiom> getInconsistentSubset(OWLOntology ontology, OWLOntologyManager man, List<OWLAxiom> toCheckAxioms) {
-        List<OWLAxiom> inconsistentTriples = new ArrayList<>();
-        for(OWLAxiom ax : toCheckAxioms) {
-            man.addAxiom(ontology, ax);
-            OWLReasoner reasoner = getReasoner(ontology);
-            if (!reasoner.isConsistent()) {
-                RemoveAxiom removeAxiom = new RemoveAxiom(ontology, ax);
-                man.applyChange(removeAxiom);
-                inconsistentTriples.add(ax);
-            }
+    public Set<Explanation<OWLAxiom>> getInconsistentSubsets(OWLOntology ontology, OWLOntologyManager man) {
+        long start = System.currentTimeMillis();
+        Set<Explanation<OWLAxiom>> explanationSet = new HashSet<>();
+        OWLReasonerFactory rf = new ReasonerFactory();
+        Supplier<OWLOntologyManager> m = OWLManager::createOWLOntologyManager;
+        OWLDataFactory df = man.getOWLDataFactory();
+        InconsistentOntologyExplanationGeneratorFactory igf =
+                new InconsistentOntologyExplanationGeneratorFactory(rf, df, m,3*60*60*1000);
+        OWLReasoner reasoner = getReasoner(ontology);
+        ExplanationGenerator<OWLAxiom> generator = igf.createExplanationGenerator(ontology);
+        Boolean isCon = reasoner.isConsistent();
+        long end1 = System.currentTimeMillis();
+        System.out.println("CC Time takes " +
+                (end1 - start) + "ms");
+        if (!isCon) {
+            OWLAxiom ax = df.getOWLSubClassOfAxiom(df.getOWLThing(), df.getOWLNothing());
+            explanationSet = generator.getExplanations(ax, 50);
+            long end2 = System.currentTimeMillis();
+            System.out.println("GJ Time takes " +
+                    (end2 - start)/1000 + "s");
         }
-        return inconsistentTriples;
+        return explanationSet;
     }
 
     public OWLOntology classify (OWLOntology ontology, OWLOntologyManager man) {

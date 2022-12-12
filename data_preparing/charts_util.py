@@ -4,8 +4,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 OUT_FILE_PREFIX = "../outputs/figs/"
+plt.rcParams.update({
+    "text.usetex": True
+})
+
 
 def draw_stacked_plot(iters, xlabels, ylabel, width, bar_colors=[]):
+    plt.rcParams.update({
+        "text.usetex": True
+    })
     fig, ax = plt.subplots()
     last_iter = []
     rects = []
@@ -35,6 +42,9 @@ def draw_stacked_plot(iters, xlabels, ylabel, width, bar_colors=[]):
 
 
 def draw_spot_plot(iters, xlabels, ylabel, width, marker_colours):
+    plt.rcParams.update({
+        "text.usetex": True
+    })
     fig, ax = plt.subplots()
     ax.vlines(xlabels, 0, 1, linestyles='dotted')
     markers = []
@@ -99,8 +109,8 @@ def drawEL(iters, xlabels, xkeys, iter_num=3, span=0, with_legend=True, out_file
     colors = ['Green', 'Orange', 'Red']
     rects = []
 
-    def drawspot(subax, chart_data, y_label):
-        subax.vlines(xlabels, 0, 1, linestyles='dotted')
+    def drawspot(subax, chart_data, y_label, sub_xlabels):
+        subax.vlines(sub_xlabels, 0, 1, linestyles='dotted')
         for i in range(len(chart_data)):
             iter_data = chart_data[i]
             y_transform = numpy.transpose(iter_data)
@@ -109,7 +119,7 @@ def drawEL(iters, xlabels, xkeys, iter_num=3, span=0, with_legend=True, out_file
             tmp_ydata = []
             for ind, v in enumerate(ydata_list):
                 if v != 0:
-                    tmp_xlabels.append(xlabels[ind])
+                    tmp_xlabels.append(sub_xlabels[ind])
                     tmp_ydata.append(ydata_list[ind])
             subax.plot(tmp_xlabels, tmp_ydata, '^', color=colors[i])
         subax.set_ylabel(y_label, fontsize=8)
@@ -121,15 +131,15 @@ def drawEL(iters, xlabels, xkeys, iter_num=3, span=0, with_legend=True, out_file
         xspans = []
         if span > 0:
             for r in range(span - 1):
-                x = (len(xlabels) / span) * (r + 1) - 0.5
+                x = (len(sub_xlabels) / span) * (r + 1) - 0.5
                 xspans.append(x)
             subax.vlines(xspans, 0, 1, transform=subax.get_xaxis_transform(), colors='0.0', linewidths=0.75)
 
-    def drawbar(subax, chart_data, y_label):
+    def drawbar(subax, chart_data, y_label, sub_x_labels):
         last_iter = []
         for i in range(len(chart_data)):
             if len(last_iter) > 0:
-                rec = subax.bar(xlabels,
+                rec = subax.bar(sub_x_labels,
                                 [chart_data[i][x] - last_iter[x] if chart_data[i][x] != 0 else 0 for x in
                                  range(len(chart_data[i]))],
                                 label=f'iter{i}',
@@ -137,11 +147,11 @@ def drawEL(iters, xlabels, xkeys, iter_num=3, span=0, with_legend=True, out_file
                                 bottom=last_iter)
                 rects.append(rec)
             else:
-                rec = subax.bar(xlabels, chart_data[i], label=f'iter{i}', color=colors[i])
+                rec = subax.bar(sub_x_labels, chart_data[i], label=f'iter{i}', color=colors[i])
                 rects.append(rec)
             last_iter = chart_data[i]
         subax.set_ylabel(y_label, fontsize=8)
-        subax.set_xlim(-0.5, len(xlabels) - 0.5)
+        subax.set_xlim(-0.5, len(sub_x_labels) - 0.5)
         for tick in subax.get_xticklabels():
             tick.set_rotation(80)
             tick.set_fontsize(8)
@@ -150,14 +160,14 @@ def drawEL(iters, xlabels, xkeys, iter_num=3, span=0, with_legend=True, out_file
             xspans = []
         if span > 0:
             for r in range(span - 1):
-                x = (len(xlabels) / span) * (r + 1) - 0.5
+                x = (len(sub_x_labels) / span) * (r + 1) - 0.5
                 xspans.append(x)
             subax.vlines(xspans, 0, 1, transform=subax.get_xaxis_transform(), colors='0.0', linewidths=0.75)
 
-    drawspot(axs[0, 0], E_L_LT['f_cor'], '$f_{correctness}$')
-    drawbar(axs[0, 1], E_L_LT['f_cov'], '$f_{coverage}$')
-    drawspot(axs[1, 0], E_L_LT['f_con'], '$f_{consistency}$')
-    drawspot(axs[1, 1], E_L_LT['f_h'], '$f_h$')
+    drawspot(axs[0, 0], E_L_LT['f_cor'], '$f_{correctness}$', xlabels[0])
+    drawbar(axs[0, 1], E_L_LT['f_cov'], '$f_{coverage}$', xlabels[1])
+    drawspot(axs[1, 0], E_L_LT['f_con'], '$f_{consistency}$', xlabels[2])
+    drawspot(axs[1, 1], E_L_LT['f_h'], '$f_h$', xlabels[3])
     if with_legend:
         fig.legend(handles=rects,
                    labels=['iter1', 'iter2', 'iter3'],
@@ -168,54 +178,65 @@ def drawEL(iters, xlabels, xkeys, iter_num=3, span=0, with_legend=True, out_file
     fig.tight_layout()
     plt.subplots_adjust(top=0.92, left=0.1)
     if len(out_file):
-        plt.savefig(out_file)
+        plt.savefig(out_file, dpi=600)
     plt.show()
 
 
 def drawNELL():
     iters = read_results("../resources/sickle.xlsx", 'nell')
-    label1 = [r'$Base_{TransE}$', r'$E_{TransE}$', r"$L_{TransE}$", r"$L_{TransE, type}$",
-              r'$Base_{SimplE}$', r'$E_{SimplE}$', r"$L_{SimplE}$", r"$L_{SimplE, type}$",
-              r'$Base_{ComplEx}$', r'$E_{ComplEx}$', r"$L_{ComplEx}$", r"$L_{ComplEx, type}$"]
+    label1 = [r'$Base_{TransE}$', r'$E_{TransE}$', r"$L_{TransE}$", r"$\mathbf{L_{TransE, type}}$",
+              r'$Base_{SimplE}$', r'$E_{SimplE}$', r"$L_{SimplE}$", r"$\mathbf{L_{SimplE, type}}$",
+              r'$Base_{ComplEx}$', r'$E_{ComplEx}$', r"$L_{ComplEx}$", r"$\mathbf{L_{ComplEx, type}}$"]
     key1 = ['TransE', 'E_TransE', 'L_TransE', 'L_TransE,type',
             'SimplE', 'E_SimplE', 'L_SimplE', 'L_SimplE,type',
             'ComplEx', 'E_ComplEx', 'L_ComplEx', 'L_ComplEx,type']
-    drawEL(iters, label1, key1, span=3, out_file=OUT_FILE_PREFIX + "nell1.png")
+    drawEL(iters, [label1, label1, label1, label1], key1, span=3, out_file=OUT_FILE_PREFIX + "nell1.png")
 
-    label2 = ['M', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
+    label2_00 = [r'$\mathbf{M}$', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
+    label2_01 = ['M', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', r'$\mathbf{parallel}$']
+    label2_10 = [r'$\mathbf{M}$', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
+    label2_11 = ['M', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
     key2 = ['M', 'L_TransE,type', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'M,L,R (parallel)']
-    drawEL(iters, label2, key2, iter_num=3, span=0, out_file=OUT_FILE_PREFIX + "nell2.png")
+    drawEL(iters, [label2_00, label2_01, label2_10, label2_11], key2, iter_num=3, span=0, out_file=OUT_FILE_PREFIX + "nell2.png")
 
-    label3 = [r'$E_{TransE}$', '$E_{TransE,neg}$', r"$L_{TransE,type}$", r"$L_{TransE,type,neg}$",
-              r'$E_{SimplE}$', r'$E_{SimplE,neg}$', r"$L_{SimplE,type}$", r"$L_{SimplE, type,neg}$",
-              r'$E_{ComplEx}$', r'$E_{ComplEx,neg}$', r"$L_{ComplEx,type}$", r"$L_{ComplEx, type,neg}$"]
+    label3 = [r'$E_{TransE}$', '$E_{TransE,neg}$', r"$\mathbf{L_{TransE,type}}$", r"$\mathbf{L_{TransE,type,neg}}$",
+              r'$E_{SimplE}$', r'$E_{SimplE,neg}$', r"$\mathbf{L_{SimplE,type}}$", r"$\mathbf{L_{SimplE, type,neg}}$",
+              r'$E_{ComplEx}$', r'$E_{ComplEx,neg}$', r"$\mathbf{L_{ComplEx,type}}$", r"$\mathbf{L_{ComplEx, type,neg}}$"]
     key3 = ['E_TransE', 'E_TransE,neg', 'L_TransE,type', 'L_TransE,type,neg',
             'E_SimplE', 'E_SimplE,neg', 'L_SimplE,type', 'L_SimplE,type,neg',
             'E_ComplEx', 'E_ComplEx,neg', 'L_ComplEx,type', 'L_ComplEx,type,neg']
-    drawEL(iters, label3, key3, iter_num=1, span=3, with_legend=False, out_file=OUT_FILE_PREFIX + "nell3.png")
+    drawEL(iters, [label3, label3,label3, label3], key3, iter_num=1, span=3, with_legend=False, out_file=OUT_FILE_PREFIX + "nell3.png")
 
 
 def drawDBpedia():
     iters = read_results("../resources/sickle.xlsx", 'dbpedia')
-    label1 = [r'$Base_{TransE}$', r'$E_{TransE}$', r"$L_{TransE}$",
-              r'$Base_{SimplE}$', r'$E_{SimplE}$', r"$L_{SimplE}$",
+    label1 = [r'$Base_{TransE}$', r'$E_{TransE}$', r"$\mathbf{L_{TransE}}$",
+              r'$Base_{SimplE}$', r'$E_{SimplE}$', r"$\mathbf{L_{SimplE}}$",
               r'$Base_{ComplEx}$', r'$E_{ComplEx}$', r"$L_{ComplEx}$"]
+    label2 = [r'$Base_{TransE}$', r'$E_{TransE}$', r"$\mathbf{L_{TransE}}$",
+              r'$Base_{SimplE}$', r'$E_{SimplE}$', r"$\mathbf{L_{SimplE}}$",
+              r'$Base_{ComplEx}$', r'$E_{ComplEx}$', r"$\mathbf{L_{ComplEx}}$"]
     key1 = ['TransE', 'E_TransE', 'L_TransE',
             'SimplE', 'E_SimplE', 'L_SimplE',
             'ComplEx', 'E_ComplEx', 'L_ComplEx']
-    drawEL(iters, label1, key1, iter_num=2, span=3, out_file=OUT_FILE_PREFIX + "dbped1.png")
+    drawEL(iters, [label1, label2, label2, label2], key1, iter_num=2, span=3, out_file=OUT_FILE_PREFIX + "dbped1.png")
 
-    label2 = ['M', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
+    label200 = [r'$\mathbf{M}$', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
+    label201 = ['M', 'L', r'$\mathbf{R}$', r'$\mathbf{R-M-L}$', 'M-R-L', 'R-L-M', 'parallel']
+    label210 = ['M', 'L', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'parallel']
     key2 = ['M', 'L_TransE', 'R', 'R-M-L', 'M-R-L', 'R-L-M', 'M,L,R (parallel)']
-    drawEL(iters, label2, key2, iter_num=2, span=0, out_file=OUT_FILE_PREFIX + "dbped2.png")
+    drawEL(iters, [label200, label201, label210, label201], key2, iter_num=2, span=0, out_file=OUT_FILE_PREFIX + "dbped2.png")
 
-    label3 = [r'$E_{TransE}$', '$E_{TransE,neg}$', r"$L_{TransE}$", r"$L_{TransE,neg}$",
-              r'$E_{SimplE}$', r'$E_{SimplE,neg}$', r"$L_{SimplE}$", r"$L_{SimplE,neg}$",
+    label30 = [r'$E_{TransE}$', '$E_{TransE,neg}$', r"$L_{TransE}$", r"$\mathbf{L_{TransE,neg}}$",
+              r'$E_{SimplE}$', r'$E_{SimplE,neg}$', r"$L_{SimplE}$", r"$\mathbf{L_{SimplE,neg}}$",
               r'$E_{ComplEx}$', r'$E_{ComplEx,neg}$', r"$L_{ComplEx}$", r"$L_{ComplEx,neg}$"]
+    label31 = [r'$E_{TransE}$', '$E_{TransE,neg}$', r"$L_{TransE}$", r"$\mathbf{L_{TransE,neg}}$",
+              r'$E_{SimplE}$', r'$E_{SimplE,neg}$', r"$L_{SimplE}$", r"$\mathbf{L_{SimplE,neg}}$",
+              r'$E_{ComplEx}$', r'$E_{ComplEx,neg}$', r"$L_{ComplEx}$", r"$\mathbf{L_{ComplEx,neg}}$"]
     key3 = ['E_TransE', 'E_TransE,neg', 'L_TransE', 'L_TransE,neg',
             'E_SimplE', 'E_SimplE,neg', 'L_SimplE', 'L_SimplE,neg',
             'E_ComplEx', 'E_ComplEx,neg', 'L_ComplEx', 'L_ComplEx,neg']
-    drawEL(iters, label3, key3, iter_num=1, span=3, with_legend=False, out_file=OUT_FILE_PREFIX + "dbped3.png")
+    drawEL(iters, [label30, label30, label31, label31], key3, iter_num=1, span=3, with_legend=False, out_file=OUT_FILE_PREFIX + "dbped3.png")
 
 
 def drawTREAT():

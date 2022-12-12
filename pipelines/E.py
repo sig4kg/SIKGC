@@ -12,7 +12,7 @@ import pandas as pd
 from blp.producer import ex
 
 
-def run_E_method_without_ACC(work_dir, dataset, model, loop=3):
+def run_E_method_without_ACC(work_dir, dataset, model, loop=1):
     init_dir(work_dir)
     data_conf = DatasetConfig().get_config(dataset)
     blp_conf = BLPConfig().get_blp_config(rel_model=model,
@@ -81,6 +81,6 @@ if __name__ == "__main__":
     parser.add_argument('--model', type=str, default="transe")
     parser.add_argument('--dataset', type=str, default="TREAT")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--loop', type=int, default=2)
+    parser.add_argument('--loop', type=int, default=1)
     argss = parser.parse_args()
     run_E_method_without_ACC(argss.work_dir, argss.dataset, argss.model, loop=argss.loop)

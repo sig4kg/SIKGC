@@ -1,3 +1,4 @@
+import gc
 import os.path as osp
 
 from blp.extend_models import *
@@ -533,6 +534,8 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     rels = rels.to(device, non_blocking=True)
                     neg_idx = neg_idx.to(device, non_blocking=True)
                     loss = model(text_tok, text_mask, rels, neg_idx).mean()
+                del data
+
             else:
                 loss = model(*data).mean()
             optimizer.zero_grad()
@@ -547,6 +550,9 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                 _log.info(f'Epoch {epoch}/{max_epochs} '
                           f'[{step}/{len(train_loader)}]: {loss.item():.6f}')
                 _run.log_scalar('batch_loss', loss.item())
+
+            gc.collect()
+            torch.cuda.empty_cache()
 
         _run.log_scalar('train_loss', train_loss / len(train_loader), epoch)
 

@@ -1,4 +1,4 @@
-from pykeen.datasets import Nations
+from pykeen.datasets import Nations, CSKG
 from pykeen.datasets.conceptnet import ConceptNet
 import argparse
 from tqdm import tqdm
@@ -14,7 +14,7 @@ import torch
 
 
 def format_dataset(workdir):
-    dataset = ConceptNet()
+    dataset = CSKG()
     # dataset = Nations()
     train_and_test = torch.concat([dataset.training.mapped_triples, dataset.testing.mapped_triples], 0)
     dev = dataset.validation.mapped_triples

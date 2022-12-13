@@ -78,8 +78,8 @@ def run_E_method_without_ACC(work_dir, model, loop=2, lr=1e-3):
                      'regularizer': 0,
                      'lr': lr,
                      'max_epochs': 50,
-                     'batch_size': 512,
-                     'eval_batch_size': 512})
+                     'batch_size': 5120,
+                     'eval_batch_size': 1024})
     # train.tsv, dev.tsv
     train_df = format_dataset(dataset, work_dir)
 

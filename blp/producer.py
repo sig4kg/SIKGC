@@ -144,6 +144,8 @@ def eval_link_prediction(model, triples_loader, text_dataset, entities,
         batch_count += 1
         if int(0.2 * total) != 0 and (i + 1) % int(0.2 * total) == 0:
             _log.info(f'[{i + 1:,}/{total:,}]')
+        gc.collect()
+        torch.cuda.empty_cache()
 
     for hits_dict in (hits_at_k, hits_at_k_filt):
         for k in hits_dict:

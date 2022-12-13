@@ -74,7 +74,12 @@ def run_E_method_without_ACC(work_dir, model, loop=2, lr=1e-3):
                                           schema_aware=False,
                                           silver_eval=False,
                                           do_produce=True)
-    blp_conf.update({'work_dir': work_dir, 'regularizer': 0, 'lr': lr, 'max_epochs': 50})
+    blp_conf.update({'work_dir': work_dir,
+                     'regularizer': 0,
+                     'lr': lr,
+                     'max_epochs': 50,
+                     'batch_size': 512,
+                     'eval_batch_size': 512})
     # train.tsv, dev.tsv
     train_df = format_dataset(dataset, work_dir)
 

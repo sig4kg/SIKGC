@@ -95,7 +95,7 @@ class BLPConfig:
         else:
             print(f"{rel_model} is not supported., please use transe, complex or simple")
             return {}
-        tmp_conf.update({'dataset':dataset, 'inductive': inductive, 'schema_aware': schema_aware, 'silver_eval': silver_eval, "do_produce": do_produce})
+        tmp_conf.update({'dataset': dataset, 'inductive': inductive, 'schema_aware': schema_aware, 'silver_eval': silver_eval, "do_produce": do_produce})
 
         if not inductive:
             tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3, 'use_scheduler': False})

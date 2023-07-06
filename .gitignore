@@ -1,7 +1,11 @@
 **/outputs
 **/checkpoint
 **/release
-**/resources/**/*
+**/resources/NELL/
+**/resources/DBpedia-politics/
+**/resources/DBpediaP/
+**/resources/NELL-995/
+**/resources/*.xlsx
 **/resources/umls2
 **/resources/FB15K237
 **/java_owlapi/resources
@@ -16,9 +20,7 @@ java_owlapi/TBoxTREAT/dependency-reduced-pom.xml
 */**?run_*_t*.sh
 */**?run_*_d*.sh
 */**/Base.so
-
 /resources/DBpedia-politics.zip
-/resources/DBpedia-politics/
 /saved_models/
 /resources/NELL-patterns/
 /resources/TREAT/

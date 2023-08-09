@@ -14,9 +14,10 @@ TYPE_OF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
 WIKIPAGE_REDIRECTS = "http://dbpedia.org/ontology/wikiPageRedirects"
 COMMENT = "http://www.w3.org/2000/01/rdf-schema#comment"
 DISAMBIGUATE = "http://dbpedia.org/ontology/wikiPageDisambiguates"
-LOCALHOST = "localhost"
-DBPEDIA_GRAPH_PORT = 8890 if platform.system() == 'Linux' else 5002
-DBPEDIA_GRAPH_URL = f"http://{LOCALHOST}:{DBPEDIA_GRAPH_PORT}/sparql"
+# LOCALHOST = "localhost"
+# DBPEDIA_GRAPH_PORT = 8890 if platform.system() == 'Linux' else 5002
+# DBPEDIA_GRAPH_URL = f"http://{LOCALHOST}:{DBPEDIA_GRAPH_PORT}/sparql"
+DBPEDIA_GRAPH_URL = LOCALHOST = "https://dbpedia.org/sparql"
 
 
 def get_query_values(query_str):
@@ -90,50 +91,42 @@ def get_short_text(resource_uri):
     return text
 
 
-def query_rel_text(rel_file, work_dir):
+def query_rel_text(rels, work_dir):
     rel2shorttext_l = []
-    with open(rel_file) as f:
-        lines = f.readlines()
-        rel_lines = lines[1:]
-        for rel in tqdm(rel_lines):
-            rel = rel.split('\t')[0]
-            short_text = get_short_text(rel)
-            if len(short_text) == 0:
-                short_text = rel.split('/')[-1].replace('_', ' ')
-            rel2shorttext_l.append(f"{rel}\t{short_text}")
+    for rel in tqdm(rels):
+        rel = rel.split('\t')[0]
+        short_text = get_short_text(rel)
+        if len(short_text) == 0:
+            short_text = rel.split('/')[-1].replace('_', ' ')
+        rel2shorttext_l.append(f"{rel}\t{short_text}")
     save_and_append_results(rel2shorttext_l, work_dir + "relation2text.txt")
 
 
-def query_entity_text(entity_file, work_dir):
+def query_entity_text(entities, work_dir):
     no_long_text = []
     batch = 1000
     flush_num = batch
     ent2longtext_l = []
     ent2shorttext_l = []
-    with open(entity_file) as f:
-        lines = f.readlines()
-        count = int(lines[0].strip())
-        entity_lines = lines[1:]
-        with tqdm(total=len(entity_lines), desc=f"preparing dbpedia data...") as pbar:
-            for idx, l in enumerate(lines[1:]):
-                items = l.split('\t')
-                entity_iri = items[0]
-                long_text = get_long_text(entity_iri)
-                if len(long_text) == 0:
-                    no_long_text.append(entity_iri)
-                else:
-                    ent2longtext_l.append(f"{entity_iri}\t{long_text}")
-                short_text = get_short_text(entity_iri)
-                if len(short_text) == 0:
-                    short_text = entity_iri.split('/')[-1].replace('_', ' ')
-                ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
-                flush_num -= 1
-                pbar.update(1)
-                if flush_num == 0 or idx == count - 1:
-                    save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
-                    save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
-                    flush_num = batch
-                    ent2longtext_l = []
+    count = len(entities)
+    with tqdm(total=len(entities), desc=f"preparing dbpedia data...") as pbar:
+        for idx, entity_iri in enumerate(entities):
+            long_text = get_long_text(entity_iri)
+            if len(long_text) == 0:
+                no_long_text.append(entity_iri)
+            else:
+                ent2longtext_l.append(f"{entity_iri}\t{long_text}")
+            short_text = get_short_text(entity_iri)
+            if len(short_text) == 0:
+                short_text = entity_iri.split('/')[-1].replace('_', ' ')
+            ent2shorttext_l.append(f"{entity_iri}\t{short_text}")
+            flush_num -= 1
+            pbar.update(1)
+            if flush_num == 0 or idx == count - 1:
+                save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
+                save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
+                flush_num = batch
+                ent2longtext_l = []
     save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
     print("done")
 
@@ -229,25 +222,41 @@ def query_disambiguration_text(all_triples, all_no_longtext_ents, work_dir):
     print("done")
 
 
-def get_triples_entities(triple_file):
+def read_triples_entities_rels(triple_file, separator='\t'):
     entities = set()
+    rels = set()
     all_triples = []
     with open(triple_file) as f:
         lines = f.readlines()
         for l in lines:
-            items = l.strip().split("\t")
-            all_triples.append(items)
-            entities.add(items[0])
-            entities.add(items[2])
-    return all_triples, list(entities)
+            items = l.strip().split(separator)
+            all_triples.append(items[0:3])
+            entities.add(items[0].strip())
+            rels.add(items[1].strip())
+            entities.add(items[2].strip())
+    return all_triples, list(entities), list(rels)
 
 
-def generate_entity2type(triple_file, work_dir):
+def read_triples_entities_rels_nt(triple_file, separator='\t'):
+    entities = set()
+    rels = set()
+    all_triples = []
+    with open(triple_file) as f:
+        lines = f.readlines()
+        for l in lines:
+            items = l.strip().replace('<', '').replace('>', '').split(separator)
+            all_triples.append(items[0:3])
+            entities.add(items[0].strip())
+            rels.add(items[1].strip())
+            entities.add(items[2].strip())
+    return all_triples, list(entities), list(rels)
+
+
+def generate_entity2type(all_triples, entities, work_dir):
     no_class = []
     batch = 1000
     flush_num = batch
     ent2classes_l = []
-    all_triples, entities = get_triples_entities(triple_file)
     with tqdm(total=len(entities), desc=f"preparing dbpedia type data...") as pbar:
         for idx, ent in enumerate(entities):
             classes = get_classes(ent)
@@ -324,7 +333,7 @@ def fix_dbpedia_property_constraints():
     work_dir = "../outputs/fixdata/"
     context_resources = ContextResources(triples_path, class_and_op_file_path= class_and_op_file_path, work_dir=work_dir, create_id_file=False)
     abox_scanner_scheduler = AboxScannerScheduler.AboxScannerScheduler(tbox_patterns_path, context_resources=context_resources)
-    abox_scanner_scheduler.register_pattern([1, 2, 5,8,9,10,11,12,13], ['pos_domain', 'pos_range'] ) #, 5,8,9,10,11,12,13
+    abox_scanner_scheduler.register_pattern([1, 2, 5, 8, 9, 10, 11, 12, 13], ['pos_domain', 'pos_range'] ) #, 5,8,9,10,11,12,13
     valids, invalids = abox_scanner_scheduler.scan_rel_IJPs(work_dir='../outputs/test/')
     context_resources.hrt_int_df = valids
     exclude_type = "http://www.w3.org/2002/07/owl#Thing"

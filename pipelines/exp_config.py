@@ -104,6 +104,10 @@ class BLPConfig:
             tmp_conf.update({'batch_size': 1024, 'max_epochs': 100})
             if inductive:
                 tmp_conf.update({'lr': 1e-4, 'max_epochs': 80})
+        if dataset == "DB15K":
+            tmp_conf.update({'batch_size': 1024, 'max_epochs': 100})
+            if inductive:
+                tmp_conf.update({'lr': 1e-4, 'max_epochs': 80})
         elif dataset == "TREAT":
             tmp_conf.update({'lr': 1e-3, 'regularizer': 1e-2, 'max_epochs': 100, 'batch_size': 128})
             if inductive:
@@ -126,21 +130,21 @@ class DatasetConfig:
     def setTest(self):
         self.input_dir = "../resources/TEST/"
         self.tbox_patterns_dir = "../resources/NELL/tbox_patterns/"
-        self.e_max_epoch = 2
+        # self.e_max_epoch = 2
         self.exclude_rels = []
         self.schema_in_nt ='../resources/NELL/tbox.nt'
 
     def setNELL(self):
         self.input_dir = "../resources/NELL/"
         self.tbox_patterns_dir = "../resources/NELL/tbox_patterns/"
-        self.e_max_epoch = 500
+        # self.e_max_epoch = 500
         self.exclude_rels = []
         self.schema_in_nt ='../resources/NELL/tbox.nt'
 
     def setTREAT(self):
         self.input_dir = "../resources/TREAT/"
         self.tbox_patterns_dir = "../resources/TREAT/tbox_patterns/"
-        self.e_max_epoch = 500
+        # self.e_max_epoch = 500
         self.schema_in_nt='../resources/TREAT/tbox.nt'
         self.prefix = "http://treat.net/onto.owl#"
         self.exclude_rels = [self.prefix + "has_parameter",
@@ -154,7 +158,14 @@ class DatasetConfig:
     def setDBpedia(self):
         self.input_dir = "../resources/DBpedia-politics/"
         self.tbox_patterns_dir = "../resources/DBpedia-politics/tbox_patterns/"
-        self.e_max_epoch = 500
+        # self.e_max_epoch = 500
+        self.exclude_rels = []
+        self.schema_in_nt ='../resources/DBpedia-politics/tbox.nt'
+
+    def setDB15K(self):
+        self.input_dir = "../resources/DB15K/"
+        self.tbox_patterns_dir = "../resources/DB15K/tbox_patterns/"
+        # self.e_max_epoch = 500
         self.exclude_rels = []
         self.schema_in_nt ='../resources/DBpedia-politics/tbox.nt'
 
@@ -166,6 +177,8 @@ class DatasetConfig:
         elif dataset == "TEST":
             self.setTest()
         elif dataset == "DBpedia":
+            self.setDBpedia()
+        elif dataset == "DB15K":
             self.setDBpedia()
         else:
             print("unsupported dataset")

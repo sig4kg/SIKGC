@@ -9,6 +9,15 @@ import bz2
 
 DBPEDIA_GRAPH_URL = LOCALHOST = "https://dbpedia.org/sparql"
 
+
+def format_nt(triple_nt_file, work_dir):
+    all_triples, _, _ = dbpedia_dataset_preparing.read_triples_entities_rels_nt(triple_nt_file, ' ')
+    with open(work_dir + "abox_hrt_uri.txt", 'w') as f:
+        for item in all_triples:
+            f.write(f"{item[0]}\t{item[1]}\t{item[2]}\n")
+        print(work_dir + "abox_hrt_uri.txt" + " has been saved.")
+
+
 def get_types(triple_file, work_dir):
     all_triples, entities, rels = dbpedia_dataset_preparing.read_triples_entities_rels_nt(triple_file, ' ')
     dbpedia_dataset_preparing.generate_entity2type(all_triples, entities, work_dir)
@@ -152,9 +161,10 @@ def query_ent_wikiid(resource_uri):
 
 
 if __name__ == "__main__":
+    format_nt("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/")
     # get_types("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/")
     # get_dict_and_save("../resources/DB15K/DB15K_EntityTriples.txt")
-    get_rel_dict_and_save("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/rel2wikiid.pkl",  ' ')
+    # get_rel_dict_and_save("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/rel2wikiid.pkl",  ' ')
     # get_all_classes_relations("../resources/DB15K/entity2type.txt",
     #                           "../resources/DB15K/DB15K_EntityTriples.txt",
     #                           "../outputs/db15k/")

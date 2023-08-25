@@ -1,12 +1,13 @@
 import ReasonerUtils.KoncludeUtil;
 import ReasonerUtils.TrOWLUtil;
 import TBoxScanner.TBoxPatternGenerator;
+
 import java.io.File;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         String koncludeBinary = System.getProperty("koncludeBinary", "../Konclude/Binaries/Konclude");
-        String task = System.getProperty("task", "DL-lite");
+        String task = System.getProperty("task", "TBoxScanner");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox_dllite.nt");
 //        String schema_file = System.getProperty("schema", "../../resources/DBpedia-politics/tbox.nt");
@@ -14,16 +15,22 @@ public class Main {
 //        String schema_file = System.getProperty("schema", "../../resources/DBpediaP/dbpedia_2016-10.owl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL.ontology.ttl");
 //        String schema_file = System.getProperty("schema", "../../resources/NELL/tbox_abox.nt");
-        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
+//        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "output/abox.nt");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
-        String output_dir = System.getProperty("output_dir", "./output/tbox_patterns/");
+//        String schema_file = System.getProperty("schema", "../../resources/DB15K/tbox_org.nt");
+        String schema_file = System.getProperty("schema", "../../resources/DB15K/tbox_dllite.nt");
+        String output_dir = System.getProperty("output_dir", "../../resources/DB15K/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../. ./resources/TEST/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/");
 //        String output_dir = System.getProperty("output_dir", "output/");
-        String type_file = System.getProperty("types", "output/types.txt");
-        String rel_file = System.getProperty("rels", "output/properties.txt");
+//        String type_file = System.getProperty("types", "output/types.txt"); //to resize tbox
+//        String rel_file = System.getProperty("rels", "output/properties.txt"); //to resize tbox
+        String type_file = System.getProperty("types", "../../resources/DB15K/types.txt"); //to resize tbox
+        String rel_file = System.getProperty("rels", "../../resources/DB15K/properties.txt"); //to resize tbox
+
+
 //        String abox_file = System.getProperty("abox", "../../resources/treat/");
         System.out.println(task + "\t" + schema_file + "\t" + output_dir);
         java.net.URL url = Main.class.getProtectionDomain().getCodeSource()
@@ -82,27 +89,32 @@ public class Main {
                 TBoxConverter.toNT(ontologyFullPath, outputFullPath + "/" + fileName + ".nt");
                 break;
             case "DL-lite":
-                DLLite dlliteCvt= new DLLite(outputFullPath + "/");
+                DLLite dlliteCvt = new DLLite(outputFullPath + "/");
                 TrOWLUtil trOWLUtil2 = new TrOWLUtil(outputFullPath + "/");
                 dlliteCvt.owl2dllite(trOWLUtil2, ontologyFullPath);
                 break;
             case "Reduce":
-                DLLite dllite= new DLLite(outputFullPath + "/");
+                DLLite dllite = new DLLite(outputFullPath + "/");
                 dllite.owl2reduce(ontologyFullPath);
                 break;
             case "Consistency":
-                Materialize materialize4 = new Materialize( outputFullPath + "/");
+                Materialize materialize4 = new Materialize(outputFullPath + "/");
                 materialize4.checkConsistency(ontologyFullPath);
                 break;
             case "SubsetTBox":
                 TBoxConverter.getTBoxSubset(ontologyFullPath, outputFullPath + "/less_tbox.nt", type_file, rel_file);
+                break;
+            case "DBpedia2Wiki":
+                TBoxConverter.getEquavalentWikiID(ontologyFullPath,
+                        rootPath + rel_file,
+                        outputFullPath + "/rel2wikiid.txt");
                 break;
             default:
                 return;
         }
         long end = System.currentTimeMillis();
         System.out.println("Time takes " +
-                (end - start)/1000 + "s");
+                (end - start) / 1000 + "s");
     }
 
 }

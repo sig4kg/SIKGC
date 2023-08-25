@@ -111,11 +111,11 @@ def query_entity_text(entities, work_dir):
     count = len(entities)
     with tqdm(total=len(entities), desc=f"preparing dbpedia data...") as pbar:
         for idx, entity_iri in enumerate(entities):
-            long_text = get_long_text(entity_iri)
-            if len(long_text) == 0:
-                no_long_text.append(entity_iri)
-            else:
-                ent2longtext_l.append(f"{entity_iri}\t{long_text}")
+            # long_text = get_long_text(entity_iri)
+            # if len(long_text) == 0:
+            #     no_long_text.append(entity_iri)
+            # else:
+            #     ent2longtext_l.append(f"{entity_iri}\t{long_text}")
             short_text = get_short_text(entity_iri)
             if len(short_text) == 0:
                 short_text = entity_iri.split('/')[-1].replace('_', ' ')
@@ -123,11 +123,11 @@ def query_entity_text(entities, work_dir):
             flush_num -= 1
             pbar.update(1)
             if flush_num == 0 or idx == count - 1:
-                save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
+                # save_and_append_results(ent2longtext_l, work_dir + "entity2textlong.txt")
                 save_and_append_results(ent2shorttext_l, work_dir + "entity2text.txt")
                 flush_num = batch
-                ent2longtext_l = []
-    save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
+                # ent2longtext_l = []
+    # save_and_append_results(no_long_text, work_dir + "no_long_text.txt")
     print("done")
 
 
@@ -264,19 +264,20 @@ def generate_entity2type(all_triples, entities, work_dir):
             classes = [clz for clz in classes if "http://dbpedia.org/class/yago/" not in clz
                        and "http://www.ontologydesignpatterns.org/" not in clz and "http://www.wikidata.org/" not in clz]
 
-            if len(classes) == 0:
-                print("query_disambiguration_type...")
-                disamb, _ = query_disambiguration_type(all_triples, [ent])
-                if len(disamb) > 0:
-                    ent2classes_l.extend(disamb)
-                else:
-                    print("query_wiki_redirect_type...")
-                    redirect, _ = query_wiki_redirect_type([ent])
-                    if len(redirect) > 0:
-                        ent2classes_l.extend(redirect)
-                    else:
-                        no_class.append(ent)
-            else:
+            if len(classes) > 0:
+                # print("query_disambiguration_type...")
+                # disamb, _ = query_disambiguration_type(all_triples, [ent])
+                # if len(disamb) > 0:
+                #     ent2classes_l.extend(disamb)
+                # else:
+                #     print("query_wiki_redirect_type...")
+                #     redirect, _ = query_wiki_redirect_type([ent])
+                #     if len(redirect) > 0:
+                #         ent2classes_l.extend(redirect)
+                #     else:
+                #         no_class.append(ent)
+                # pass
+            # else:
                 ent2classes_l.append((ent, classes))
             flush_num -= 1
             pbar.update(1)

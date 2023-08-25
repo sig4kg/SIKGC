@@ -5,12 +5,10 @@ import org.semanticweb.owlapi.formats.NTriplesDocumentFormat;
 import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.reasoner.InferenceType;
-import org.semanticweb.owlapi.reasoner.NodeSet;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import org.semanticweb.owlapi.reasoner.*;
 import org.semanticweb.owlapi.util.*;
 import uk.ac.manchester.cs.jfact.JFactFactory;
+import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentObjectPropertiesAxiomImpl;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -45,6 +43,65 @@ public class TBoxConverter {
             throw e;
         }
     }
+
+
+    public static void getEquavalentWikiID(String in_tbox_file, String in_property_file, String out_file) throws IOException, OWLOntologyCreationException {
+        List<String> properties = new ArrayList<>();
+        try (Stream<String> lines1 = Files.lines(Paths.get(in_property_file))) {
+            lines1.forEach(x -> {
+                if (x.startsWith("http://")) {
+                    properties.add(x);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File initialFile = new File(in_tbox_file);
+        InputStream inputStream = new FileInputStream(initialFile);
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + in_tbox_file);
+        }
+        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(inputStream);
+
+        Configuration configuration = new Configuration();
+        configuration.ignoreUnsupportedDatatypes = true;
+        OWLDataFactory dataFactory = man.getOWLDataFactory();
+        Reasoner.ReasonerFactory rf = new Reasoner.ReasonerFactory();
+        OWLReasoner reasoner = rf.createReasoner(ont, configuration);
+        Map<String, List<String>> mapUri2Ids = new HashMap<>();
+        for (String rel_uri : properties) {
+            OWLObjectProperty p = dataFactory.getOWLObjectProperty(rel_uri);
+            Node<OWLObjectPropertyExpression> equ_ps = reasoner.getEquivalentObjectProperties(p);
+            List<String> eqps = new ArrayList<>();
+            for (OWLObjectPropertyExpression ep : equ_ps) {
+                String strp = ep.getNamedProperty().toString();
+                if (strp.contains("wikidata")) {
+                    String[] equURI = strp.split("/", -1);
+                    eqps.add(equURI[equURI.length -1]);
+                }
+            }
+            if (eqps.size() > 0) {
+                mapUri2Ids.put(rel_uri, eqps);
+            }
+        }
+        File f = new File(out_file);
+        FileWriter fw = new FileWriter(f);
+        PrintWriter pw = new PrintWriter(fw);
+        for (Map.Entry<String, List<String>> entry : mapUri2Ids.entrySet()) {
+            String dbpediaURI = entry.getKey();
+            List<String> wikiId = entry.getValue();
+            pw.print(dbpediaURI + "\t");
+            for(String wid: wikiId) {
+                pw.print(wid  + "\t");
+            }
+            pw.println();
+        }
+        pw.close();
+    }
+
 
     public static void getTBoxSubset(String in_tbox_file, String out_tbox_file, String subset_type_file, String subset_property_file)  throws Exception {
         List<String> toKeepClasses = new ArrayList<>();

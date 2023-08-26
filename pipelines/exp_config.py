@@ -179,7 +179,7 @@ class DatasetConfig:
         elif dataset == "DBpedia":
             self.setDBpedia()
         elif dataset == "DB15K":
-            self.setDBpedia()
+            self.setDB15K()
         else:
             print("unsupported dataset")
         return self

@@ -192,7 +192,7 @@ public class PatternDLLite2 extends BasePattern implements IPattern {
                         // ER1, ER2
                         ClassExpressionType cetD2 = D2.getClassExpressionType();
                         if (D2.isNamed()) {
-                            add2map(r1.toString(), D2.toString(), range_Pattern);
+                            add2map(r1.getInverseProperty().toString(), D2.toString(), range_Pattern);
                             continue;
                         }
                         if (cetD2.equals(ClassExpressionType.OBJECT_SOME_VALUES_FROM)) {

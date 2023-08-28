@@ -62,6 +62,7 @@ There are a few output files in outputs/treat_downstream/: \
 - sample_and_score.pt: train sampling file, with format h,r,t,s. 
 - valid_hrt.txt: triples that consistent with schema. 
 - invalid_hrt.txt: triples that consistent with schema. 
+The entities and relations in these files are indexed by abox_scanner/abox_utils.py. However, it can be translated to URI with minor changes in a pipeline.
 
 
 

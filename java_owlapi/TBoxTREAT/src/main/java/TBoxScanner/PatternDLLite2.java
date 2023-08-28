@@ -140,7 +140,7 @@ public class PatternDLLite2 extends BasePattern implements IPattern {
                                 continue;
                             }
                             if (r2.isObjectPropertyExpression() && r2.getInverseProperty().isNamed()) {
-                                add2map(D1.toString(), r2.toString(), C2ERInvs);
+                                add2map(D1.toString(), r2.getInverseProperty().toString(), C2ERInvs);
                             }
                         }
                     }
@@ -173,7 +173,7 @@ public class PatternDLLite2 extends BasePattern implements IPattern {
                                 continue;
                             }
                             if (r2.isObjectPropertyExpression() && r2.getInverseProperty().isNamed()) {
-                                add2map(r1.toString(), r2.toString(), e1r1e2_e3r2e1);
+                                add2map(r1.toString(), r2.getInverseProperty().toString(), e1r1e2_e3r2e1);
                             }
                         }
                     }
@@ -198,11 +198,11 @@ public class PatternDLLite2 extends BasePattern implements IPattern {
                         if (cetD2.equals(ClassExpressionType.OBJECT_SOME_VALUES_FROM)) {
                             OWLObjectPropertyExpression r2 = ((OWLObjectSomeValuesFromImpl) D2).getProperty();
                             if (r2.isNamed()) {
-                                add2map(r1.toString(), r2.toString(), e2r1e1_e1r2e3);
+                                add2map(r1.getInverseProperty().toString(), r2.toString(), e2r1e1_e1r2e3);
                                 continue;
                             }
                             if (r2.isObjectPropertyExpression() && r2.getInverseProperty().isNamed()) {
-                                add2map(r1.toString(), r2.toString(), e2r1e1_e3r2e1);
+                                add2map(r1.getInverseProperty().toString(), r2.getInverseProperty().toString(), e2r1e1_e3r2e1);
                             }
                         }
                     }

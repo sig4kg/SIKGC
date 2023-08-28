@@ -30,17 +30,17 @@ mvn clean install
 ```bash
 source setup.sh
 cd pipeline
-python experiments.py --dataset=NELL --work_dir="../outputs/proNELL/"  --produce=True --silver_eval=False --pred_type=False --pipeline=a_m_l --loops=2 --rel_model=complex --inductive=True --parallel=True --schema_aware_sampling=False 
+python experiments.py --dataset=DB15K --work_dir="../outputs/proDB15K/"  --produce=True --silver_eval=False --pred_type=False --pipeline=a_m_l --loops=2 --rel_model=complex --inductive=False --parallel=True --schema_aware_sampling=False 
 ```
 "a_m_l" means run [AnyBURL](https://web.informatik.uni-mannheim.de/AnyBURL/), materialization, [blp](https://github.com/dfdazac/blp) together. If you only run single method, just use option a, m or l.
---inductive=True would set blp to literal embeddings. --inductive=False would set blp to pure KG embedding. Please refer to [blp paper](https://arxiv.org/abs/2010.03496) for more information.
+--inductive=True would set blp to literal embedding. --inductive=False would set blp to pure KG embedding. Please refer to [blp paper](https://arxiv.org/abs/2010.03496) for more information.
 
 For type prediction:
 - Set --pred_type=True. This will run type prediction after the link prediction step.
 - Or run 
 ```bash
 cd module_utils
-python type_producer.py --dataset=NELL --work_dir="../outputs/proNELL/a_m_l/
+python type_producer.py --dataset=DB15K --work_dir="../outputs/proDB15K/a_m_l/
 ```
 6. For custom datasets:
 - Please refer to the required data format.

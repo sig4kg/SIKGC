@@ -1,11 +1,11 @@
 # SICKLE
 1. Data
-- Download DBpedia-politics.zip from here: 
+- We used three datasets: DBped-P, DB15K, and NELL. 
 - Unzip resources/NELL.zip to resources/NELL/
-- Unzip resources/DBpedia-politics.zip to resources/DBpedia-politics/
+- Unzip resources/DB15K.zip to resources/DB15K/
 
 Data format:
-- Triples: h, r and t, seperated by tab
+- Triples: filename abox_hrt_uri.txt, h, r and t, seperated by tab
 - Ontology: ontology in OWL, n-triples or ttl format, containing disjoint class, domain/range
 - The L-method need literals, please refer to resources/NELL for data formats.
 

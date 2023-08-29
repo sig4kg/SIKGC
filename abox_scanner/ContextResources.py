@@ -47,35 +47,39 @@ class ContextResources:
         type_df = pd.DataFrame(data=type_hrt, columns=['head', 'rel', 'tail'])
         return type_df
 
-    def type2nt(self) -> pd.DataFrame:
+    def type2nt(self):
         # get entity types
         rdf_type = []
         r = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
-        individual  = "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+        individual = "<http://www.w3.org/2002/07/owl#NamedIndividual>"
         for entid in self.entid2classids:
             h = self.id2ent[entid]
-            rdf_type.append([f"<{h}>", r, individual])
+            rdf_type.append(['<' + h + '>', r, individual])
             typeOfs = self.entid2classids[entid]
             for t in typeOfs:
                 if t in self.classid2class:
-                    rdf_type.append([f"<{h}>", r, f"<{self.classid2class[t]}>"])
-        df_types = pd.DataFrame(data=rdf_type, columns=['head', 'rel', 'tail'])
-        df_types['dot'] = '.'
-        return df_types
+                    rdf_type.append(['<' + h + '>', r, f'''<{self.classid2class[t]}>'''])
+        # df_types = pd.DataFrame(data=rdf_type, columns=['head', 'rel', 'tail']) # pandas to_csv cannot handle "" properly
+        # df_types['dot'] = '.'
+        return rdf_type
 
     def to_ntriples(self, work_dir, schema_in_nt=''):
         df = self.hrt_int_df.copy(deep=True)
         df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + self.id2ent[x] + '>')
         df[['rel']] = df[['rel']].applymap(lambda x: '<' + self.id2op[x] + '>')  # to int
         df['dot'] = '.'
-        df_types = self.type2nt()
+        list_types = self.type2nt()
         # create individual declaration
-        expanded_df = pd.concat([df_types, df])
+        # do not use pandas, it cannot handle "" properly
+        with open(work_dir + "type.nt", 'w') as f:
+            print(f"Saving to {work_dir}type.nt")
+            for line in list_types:
+                f.write(f'''{line[0]} {line[1]} {line[2]} .\n''')
         print(f"Saving to {work_dir}abox.nt")
-        expanded_df.to_csv(work_dir + "abox.nt",  header=False, index=False, sep=' ')
+        df.to_csv(work_dir + "abox.nt",  header=False, index=False, sep=' ')
         wait_until_file_is_saved(work_dir + "abox.nt", 180)
         if schema_in_nt != "":
-            os.system(f"cat {schema_in_nt} {work_dir}abox.nt > {work_dir}tbox_abox.nt")
+            os.system(f"cat {schema_in_nt} {work_dir}abox.nt {work_dir}type.nt> {work_dir}tbox_abox.nt")
 
     def type_ntriples(self, work_dir, schema_in_nt=''):
         df_types = self.type2nt()

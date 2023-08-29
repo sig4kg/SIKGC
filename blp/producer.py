@@ -44,7 +44,7 @@ def config():
     emb_batch_size = 512
     eval_batch_size = 64
     max_epochs = 2
-    checkpoint = None
+    checkpoint = False
     use_cached_text = True
     do_downstream_sample = False
     do_produce = True
@@ -519,71 +519,75 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     best_hit_at_k = {}
     early_stop_sign = 0
     checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
-    for epoch in range(1, max_epochs + 1):
-        train_loss = 0
-        for step, data in enumerate(train_loader):
-            if device != torch.device('cpu'):
-                if len(data) == 3:
-                    pos_pairs, rels, neg_idx = data[0], data[1], data[2]
-                    pos_pairs = pos_pairs.to(device, non_blocking=True)
-                    rels = rels.to(device, non_blocking=True)
-                    neg_idx = neg_idx.to(device, non_blocking=True)
-                    loss = model(pos_pairs, rels, neg_idx).mean()
-                elif len(data) == 4:
-                    text_tok, text_mask, rels, neg_idx = data[0], data[1], data[2], data[3]
-                    text_tok = text_tok.to(device, non_blocking=True)
-                    text_mask = text_mask.to(device, non_blocking=True)
-                    rels = rels.to(device, non_blocking=True)
-                    neg_idx = neg_idx.to(device, non_blocking=True)
-                    loss = model(text_tok, text_mask, rels, neg_idx).mean()
-                del data
-
-            else:
-                loss = model(*data).mean()
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            if use_scheduler:
-                scheduler.step()
-
-            train_loss += loss.item()
-
-            if step % int(0.05 * len(train_loader)) == 0:
-                _log.info(f'Epoch {epoch}/{max_epochs} '
-                          f'[{step}/{len(train_loader)}]: {loss.item():.6f}')
-                _run.log_scalar('batch_loss', loss.item())
-
-            gc.collect()
-            torch.cuda.empty_cache()
-
-        _run.log_scalar('train_loss', train_loss / len(train_loader), epoch)
-
-        _log.info('Evaluating on validation set')
-        val_mrr, hit_at_k, _ = eval_link_prediction(model, valid_loader, train_data,
-                                                    train_val_ent, epoch,
-                                                    emb_batch_size, prefix='valid')
-
-        # Keep checkpoint of best performing model (based on raw MRR)
-        if val_mrr > best_valid_mrr:
-            best_valid_mrr = val_mrr
-            best_hit_at_k = hit_at_k
-            early_stop_sign = 0
-            torch.save(model.state_dict(), checkpoint_file)
-        if val_mrr <= last_valid_mrr:
-            early_stop_sign += 1
-
-        if early_stop_sign >= 10:
-            break
-        last_valid_mrr = val_mrr
-
-    log_file_name = work_dir + "blp_eval.log"
-    log_str = f"-------blp training eval---------\nmrr: {best_valid_mrr}\n"
-    for k, value in best_hit_at_k.items():
-        log_str += f'hits@{k}: {value:.4f}\n'
-    save_to_file(log_str, log_file_name, mode='a')
-    # Evaluate with best performing checkpoint
-    if max_epochs > 0:
+    if checkpoint:
         model.load_state_dict(torch.load(checkpoint_file))
+    else:
+        # train
+        for epoch in range(1, max_epochs + 1):
+            train_loss = 0
+            for step, data in enumerate(train_loader):
+                if device != torch.device('cpu'):
+                    if len(data) == 3:
+                        pos_pairs, rels, neg_idx = data[0], data[1], data[2]
+                        pos_pairs = pos_pairs.to(device, non_blocking=True)
+                        rels = rels.to(device, non_blocking=True)
+                        neg_idx = neg_idx.to(device, non_blocking=True)
+                        loss = model(pos_pairs, rels, neg_idx).mean()
+                    elif len(data) == 4:
+                        text_tok, text_mask, rels, neg_idx = data[0], data[1], data[2], data[3]
+                        text_tok = text_tok.to(device, non_blocking=True)
+                        text_mask = text_mask.to(device, non_blocking=True)
+                        rels = rels.to(device, non_blocking=True)
+                        neg_idx = neg_idx.to(device, non_blocking=True)
+                        loss = model(text_tok, text_mask, rels, neg_idx).mean()
+                    del data
+
+                else:
+                    loss = model(*data).mean()
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+                if use_scheduler:
+                    scheduler.step()
+
+                train_loss += loss.item()
+
+                if step % int(0.05 * len(train_loader)) == 0:
+                    _log.info(f'Epoch {epoch}/{max_epochs} '
+                              f'[{step}/{len(train_loader)}]: {loss.item():.6f}')
+                    _run.log_scalar('batch_loss', loss.item())
+
+                gc.collect()
+                torch.cuda.empty_cache()
+
+            _run.log_scalar('train_loss', train_loss / len(train_loader), epoch)
+
+            _log.info('Evaluating on validation set')
+            val_mrr, hit_at_k, _ = eval_link_prediction(model, valid_loader, train_data,
+                                                        train_val_ent, epoch,
+                                                        emb_batch_size, prefix='valid')
+
+            # Keep checkpoint of best performing model (based on raw MRR)
+            if val_mrr > best_valid_mrr:
+                best_valid_mrr = val_mrr
+                best_hit_at_k = hit_at_k
+                early_stop_sign = 0
+                torch.save(model.state_dict(), checkpoint_file)
+            if val_mrr <= last_valid_mrr:
+                early_stop_sign += 1
+
+            if early_stop_sign >= 10:
+                break
+            last_valid_mrr = val_mrr
+
+        log_file_name = work_dir + "blp_eval.log"
+        log_str = f"-------blp training eval---------\nmrr: {best_valid_mrr}\n"
+        for k, value in best_hit_at_k.items():
+            log_str += f'hits@{k}: {value:.4f}\n'
+        save_to_file(log_str, log_file_name, mode='a')
+        # Evaluate with best performing checkpoint
+        if max_epochs > 0:
+            model.load_state_dict(torch.load(checkpoint_file))
 
     if do_downstream_sample:
         _log.info('get sample and score for Ricky...')

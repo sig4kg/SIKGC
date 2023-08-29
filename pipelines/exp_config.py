@@ -15,7 +15,7 @@ class BLPConfig:
         'emb_batch_size': 64,
         'eval_batch_size': 32,
         'max_epochs': 2,
-        'checkpoint': None,
+        'checkpoint': False,
         'use_cached_text': True
         }
         return conf
@@ -36,7 +36,7 @@ class BLPConfig:
             'emb_batch_size': 64,
             'eval_batch_size': 32,
             'max_epochs': 2,
-            'checkpoint': None,
+            'checkpoint': False,
             'use_cached_text': True
         }
         return conf
@@ -57,7 +57,7 @@ class BLPConfig:
             'emb_batch_size': 512,
             'eval_batch_size': 64,
             'max_epochs': 2,
-            'checkpoint': None,
+            'checkpoint': False,
             'use_cached_text': True
         }
         return conf
@@ -167,7 +167,7 @@ class DatasetConfig:
         self.tbox_patterns_dir = "../resources/DB15K/tbox_patterns/"
         # self.e_max_epoch = 500
         self.exclude_rels = []
-        self.schema_in_nt ='../resources/DBpedia-politics/tbox.nt'
+        self.schema_in_nt ='../resources/DB15K/tbox.nt'
 
     def get_config(self, dataset):
         if dataset == "NELL":

@@ -161,7 +161,7 @@ def query_ent_wikiid(resource_uri):
 
 
 if __name__ == "__main__":
-    format_nt("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/")
+    format_nt("../resources/DB15K/DB15K_EntityTriples.nt", "../resources/DB15K/")
     # get_types("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/")
     # get_dict_and_save("../resources/DB15K/DB15K_EntityTriples.txt")
     # get_rel_dict_and_save("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/rel2wikiid.pkl",  ' ')

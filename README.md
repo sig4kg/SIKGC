@@ -16,9 +16,8 @@ Data format:
 3. Preparing Konclude reasoner
 ```bash
 mkdir java_owlapi/Konclude
-cp resources/packages/Konclude-v0.7.0-1135-Linux-x64-GCC-Static-Qt5.12.10.zip java_owlapi/Konclude
-cd java_owlapi/Konclude 
-unzip Konclude-v0.7.0-1135-Linux-x64-GCC-Static-Qt5.12.10.zip 
+unzip resources/packages/Konclude-v0.7.0-1135-Linux-x64-GCC-Static-Qt5.12.10.zip -d java_owlapi
+mv java_owlapi/Konclude-v0.7.0-1135-Linux-x64-GCC-Static-Qt5.12.10 java_owlapi/Konclude 
 ```
 4. Preparing TBox scanner
 ```bash

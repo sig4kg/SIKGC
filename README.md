@@ -1,6 +1,6 @@
 # SICKLE
 1. Data
-- We used three datasets: DBped-P, DB15K, and NELL. 
+- We use three datasets: DBped-P, DB15K, and NELL. 
 - Unzip resources/NELL.zip to resources/NELL/
 - Unzip resources/DB15K.zip to resources/DB15K/
 
@@ -29,7 +29,7 @@ mvn clean install
 ```bash
 source setup.sh
 cd pipeline
-python experiments.py --dataset=DB15K --work_dir="../outputs/proDB15K/"  --produce=True --silver_eval=False --pred_type=False --pipeline=a_m_l --loops=2 --rel_model=complex --inductive=False --parallel=True --schema_aware_sampling=False 
+python experiments.py --dataset=DB15K --work_dir="../outputs/proDB15K/"  --produce=True --silver_eval=False --pred_type=False --pipeline=a_m_l --loops=1 --rel_model=complex --inductive=False --parallel=True --schema_aware_sampling=False 
 ```
 "a_m_l" means run [AnyBURL](https://web.informatik.uni-mannheim.de/AnyBURL/), materialization, [blp](https://github.com/dfdazac/blp) together. If you only run single method, just use option a, m or l.
 --inductive=True would set blp to literal embedding. --inductive=False would set blp to pure KG embedding. Please refer to [blp paper](https://arxiv.org/abs/2010.03496) for more information.

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from functools import reduce
-
+import os.path as osp
 import pandas as pd
 from abox_scanner.abox_utils import *
 
@@ -16,7 +16,8 @@ class PatternScanner(ABC):
 
 class ContextResources:
     def __init__(self, original_hrt_triple_file_path, class_and_op_file_path, work_dir):
-        init_dir(work_dir)
+        if len(work_dir) > 0:
+            init_dir(work_dir)
         self.class2id = class2id(class_and_op_file_path + 'AllClasses.txt')
         self.op2id = op2id(class_and_op_file_path + 'AllObjectProperties.txt')
         # h, r, t
@@ -31,6 +32,35 @@ class ContextResources:
         self.id2op = {self.op2id[key]: key for key in self.op2id}
         self.silver_rel = None
         self.silver_type = None
+        self.work_dir = work_dir
+        self.entid2text = dict()
+        self.relid2text = dict()
+
+    def load_id2literal(self):
+        file_path = osp.join(self.work_dir, 'entity2text.txt')
+        if not osp.exists(file_path):
+            return
+        with open(file_path) as f:
+            for line in f:
+                values = line.strip().split('\t')
+                entity = values[0]
+                text = values[1]
+                if entity not in self.ent2id:
+                    continue
+                ent_id = self.ent2id[entity]
+                self.entid2text.update({ent_id: text})
+        file_path = osp.join(self.work_dir, 'relation2text.txt')
+        if not osp.exists(file_path):
+            return
+        with open(file_path) as f:
+            for line in f:
+                values = line.strip().split('\t')
+                rel = values[0]
+                text = values[1]
+                if rel not in self.op2id:
+                    continue
+                rel_id = self.op2id[rel]
+                self.relid2text.update({rel_id: text})
 
     def get_type_count(self):
         self.type_count = reduce(lambda x,y: x + y, [len(v) for v in self.entid2classids.values()])

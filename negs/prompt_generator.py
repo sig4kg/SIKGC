@@ -10,7 +10,6 @@ from openai_multi_client import OpenAIMultiClient
 
 # Remember to set the OPENAI_API_KEY environment variable to your API key
 api = OpenAIMultiClient(endpoint="chats", data_template={"model": "gpt-3.5-turbo"})
-openai.api_key = "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"
 
 
 def make_requests(pred_hr, context_resource):
@@ -137,7 +136,7 @@ def unwrap_reply(reply, text2id):
 
 
 def rank_negs(prompt):
-    openai.api_key = "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"
+    openai.api_key = ""
     msgs = [{"role": 'user', "content": prompt}]
     assistant_reply = ""
     try:

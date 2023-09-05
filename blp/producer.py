@@ -50,6 +50,7 @@ def config():
     do_produce = True
     silver_eval = False
     schema_aware = False
+    pre_negs = False
     use_multi_epochs_loader = True
 
 
@@ -406,7 +407,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     use_scheduler, batch_size, emb_batch_size, eval_batch_size,
                     max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce, silver_eval,
                     _run: Run, _log: Logger,
-                    schema_aware, use_multi_epochs_loader):
+                    schema_aware, pre_negs, use_multi_epochs_loader):
     drop_stopwords = model in {'bert-bow', 'bert-dkrl',
                                'glove-bow', 'glove-dkrl'}
 
@@ -428,13 +429,14 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     inconsistent_triples_file = f'{work_dir}invalid_hrt.txt'
     if model == 'transductive':
         if schema_aware:
-            train_data = SchemaAwareGraphDataset(triples_file,
-                                                 inconsistent_triples_file,
+            train_data = SchemaAwareGraphDataset(triples_file=triples_file,
                                                  dataset=dataset,
-                                                 neg_samples=num_negatives,
+                                                 inconsistent_triples_file=inconsistent_triples_file,
                                                  write_maps_file=True,
                                                  num_devices=num_devices,
-                                                 schema_aware=schema_aware)
+                                                 num_negs=num_negatives,
+                                                 schema_aware=schema_aware,
+                                                 pre_negs=pre_negs)
         else:
             train_data = GraphDataset(triples_file, num_negatives,
                                       write_maps_file=True,
@@ -451,20 +453,20 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
             tokenizer = FastTextTokenizer()
         else:
             tokenizer = GloVeTokenizer('data/glove/glove.6B.300d-maps.pt')
-        if schema_aware:
-            train_data = SchemaAwareTextGraphDataset(triples_file,
-                                                     inconsistent_triples_file,
-                                                     dataset=dataset,
-                                                     neg_samples=num_negatives,
-                                                     max_len=max_len,
-                                                     tokenizer=tokenizer,
-                                                     drop_stopwords=drop_stopwords,
-                                                     write_maps_file=True,
-                                                     use_cached_text=use_cached_text,
-                                                     num_devices=num_devices,
-                                                     schema_aware=schema_aware)
-        else:
-            train_data = TextGraphDataset(triples_file, num_negatives,
+        # if schema_aware:
+        #     train_data = SchemaAwareTextGraphDataset(triples_file,
+        #                                              inconsistent_triples_file,
+        #                                              dataset=dataset,
+        #                                              neg_samples=num_negatives,
+        #                                              max_len=max_len,
+        #                                              tokenizer=tokenizer,
+        #                                              drop_stopwords=drop_stopwords,
+        #                                              write_maps_file=True,
+        #                                              use_cached_text=use_cached_text,
+        #                                              num_devices=num_devices,
+        #                                              schema_aware=schema_aware)
+        # else:
+        train_data = TextGraphDataset(triples_file, num_negatives,
                                           max_len, tokenizer, drop_stopwords,
                                           write_maps_file=True,
                                           use_cached_text=use_cached_text,
@@ -498,9 +500,9 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     # train_ent = torch.tensor(list(train_ent))
     train_val_ent = torch.tensor(list(train_val_ent))
     train_val_test_ent = torch.tensor(list(train_val_test_ent))
-
+    num_entities = len(train_val_test_ent)
     model = utils.get_model(model, dim, rel_model, loss_fn,
-                            len(train_val_test_ent), train_data.num_rels,
+                            num_entities, train_data.num_rels,
                             encoder_name, regularizer)
 
     if device != torch.device('cpu'):

@@ -73,6 +73,82 @@ def test_fasttext():
     print(t3)
 
 
+class LinkPredictionWithNegStrategy(nn.Module):
+    """A general link prediction model with a lookup table for relation
+    embeddings."""
+    def __init__(self, dim, rel_model, loss_fn, num_entities, num_relations, regularizer):
+        super().__init__()
+        self.dim = dim
+        self.normalize_embs = False
+        self.regularizer = regularizer
+        self.rel_dim = self.dim
+        self.rel_emb = nn.Embedding(num_relations, self.rel_dim)
+        self.embedding_range = calculate_rel_embedding_range(self.rel_emb.weight.data)
+        nn.init.xavier_uniform_(self.rel_emb.weight.data)
+        self.ent_emb = nn.Embedding(num_entities, dim)
+        nn.init.xavier_uniform_(self.ent_emb.weight.data)
+
+        if rel_model == 'transe':
+            self.score_fn = transe_score
+            self.normalize_embs = True
+        elif rel_model == 'distmult':
+            self.score_fn = distmult_score
+        elif rel_model == 'complex':
+            self.score_fn = complex_score
+        elif rel_model == 'simple':
+            self.score_fn = simple_score
+        # elif rel_model == 'rotate':
+        #     self.score_fn = lambda heads, tails, rels: rotate_score(heads, tails, rels, self.embedding_range)
+        else:
+            raise ValueError(f'Unknown relational model {rel_model}.')
+
+        if loss_fn == 'margin':
+            self.loss_fn = margin_loss
+        elif loss_fn == 'nll':
+            self.loss_fn = nll_loss
+        elif loss_fn == 'sigmoid':
+            self.loss_fn = sigmoid_loss
+        else:
+            raise ValueError(f'Unkown loss function {loss_fn}')
+
+    def encode(self, *args, **kwargs):
+        ent_emb = self._encode_entity(*args, **kwargs)
+        if self.normalize_embs:
+            ent_emb = F.normalize(ent_emb, dim=-1)
+
+        return ent_emb
+
+    def _encode_entity(self, entities):
+        return self.ent_emb(entities)
+
+    def forward(self, pos_pairs, rels, neg_idx):
+        embs = self.encode(pos_pairs)
+        return self.compute_loss(embs, rels, neg_idx)
+
+    def compute_loss(self, ent_embs, rels, neg_idx):
+        batch_size = ent_embs.shape[0]
+        # Scores for positive samples
+        try:
+            rels = self.rel_emb(rels)
+        except Exception:
+            print("stop")
+        heads, tails = torch.chunk(ent_embs, chunks=2, dim=1)
+        pos_scores = self.score_fn(heads, tails, rels)
+
+        if self.regularizer > 0:
+            reg_loss = self.regularizer * l2_regularization(heads, tails, rels)
+        else:
+            reg_loss = 0
+
+        # Scores for negative samples
+        # neg_embs = ent_embs.view(batch_size * 2, -1)[neg_idx]
+        neg_embs = self.ent_emb[neg_idx]
+        heads, tails = torch.chunk(neg_embs, chunks=2, dim=0)
+        neg_scores = self.score_fn(heads.squeeze(), tails.squeeze(), rels)
+        model_loss = self.loss_fn(pos_scores, neg_scores)
+        return model_loss + reg_loss
+
+
 if __name__ == '__main__':
     test_fasttext()
 

@@ -83,7 +83,7 @@ class BLPConfig:
         }
         return conf
 
-    def get_blp_config(self, rel_model, inductive, dataset, schema_aware, silver_eval, do_produce):
+    def get_blp_config(self, rel_model, inductive, dataset, schema_aware, pre_negs, silver_eval, do_produce):
         if rel_model == 'transe':
             tmp_conf = self.getTranse()
         elif rel_model == "complex":
@@ -95,10 +95,18 @@ class BLPConfig:
         else:
             print(f"{rel_model} is not supported., please use transe, complex or simple")
             return {}
-        tmp_conf.update({'dataset': dataset, 'inductive': inductive, 'schema_aware': schema_aware, 'silver_eval': silver_eval, "do_produce": do_produce})
+        tmp_conf.update({'dataset': dataset,
+                         'inductive': inductive,
+                         'schema_aware': schema_aware,
+                         'pre_negs': pre_negs,
+                         'silver_eval': silver_eval,
+                         "do_produce": do_produce})
 
         if not inductive:
-            tmp_conf.update({'model': 'transductive', 'regularizer': 1e-2, 'lr': 1e-3, 'use_scheduler': False})
+            tmp_conf.update({'model': 'transductive',
+                             'regularizer': 1e-2,
+                             'lr': 1e-3,
+                             'use_scheduler': False})
 
         if dataset == "DBpedia":
             tmp_conf.update({'batch_size': 1024, 'max_epochs': 100})

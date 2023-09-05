@@ -27,17 +27,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="DB15K")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="m")
+    parser.add_argument('--pipeline', type=str, default="l")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
     parser.add_argument("--inductive", type=str, default='False')
     parser.add_argument("--schema_in_nt", type=str, default='')
     parser.add_argument("--parallel", type=str, default='False')
-    parser.add_argument("--schema_aware_sampling", type=str, default='False')
+    parser.add_argument("--schema_aware_sampling", type=str, default='True')
+    parser.add_argument("--pre_negs", type=str, default='True')
     parser.add_argument("--reasoner", type=str, default='Konclude')
     parser.add_argument("--pred_type", type=str, default='False')
-    parser.add_argument("--silver_eval", type=str, default='True')
+    parser.add_argument("--silver_eval", type=str, default='False')
     parser.add_argument("--produce", type=str, default='False')
     args = parser.parse_args()
     if args.parallel:
@@ -49,6 +50,7 @@ if __name__ == "__main__":
                                           inductive=args.inductive == 'True',
                                           dataset=args.dataset,
                                           schema_aware=args.schema_aware_sampling == 'True',
+                                          pre_negs=args.pre_negs == "True",
                                           silver_eval=args.silver_eval == 'True',
                                           do_produce=args.produce == 'True')
     p_config = PipelineConfig().set_pipeline_config(dataset=args.dataset,

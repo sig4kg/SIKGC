@@ -204,5 +204,5 @@ def rank_negs(prompt):
 
 if __name__ == '__main__':
     # generate_neg_candidates_hr("../resources/DB15K/", "../outputs/DB15K/pred_negs_hr.txt", 11602)
-    generate_neg_candidates_tr("../resources/DB15K/", "../outputs/DB15K/pred_negs_tr.txt", 1045)
+    generate_neg_candidates_tr("../resources/DB15K/", "../outputs/DB15K/pred_negs_tr.txt", 7320)
     # multi_request_generate_neg_candidates("../resources/DB15K/", "../outputs/DB15K/pred_negs_multi.txt", 0)

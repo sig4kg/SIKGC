@@ -13,7 +13,7 @@ from transformers import BertTokenizer, get_linear_schedule_with_warmup
 import numpy as np
 from module_utils.file_util import *
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
-from extend_data import SchemaAwareGraphDataset, SchemaAwareTextGraphDataset, MultiEpochsDataLoader
+from extend_data import SchemaAwareGraphDataset, MultiEpochsDataLoader
 import models
 import utils
 import pandas as pd
@@ -453,19 +453,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
             tokenizer = FastTextTokenizer()
         else:
             tokenizer = GloVeTokenizer('data/glove/glove.6B.300d-maps.pt')
-        # if schema_aware:
-        #     train_data = SchemaAwareTextGraphDataset(triples_file,
-        #                                              inconsistent_triples_file,
-        #                                              dataset=dataset,
-        #                                              neg_samples=num_negatives,
-        #                                              max_len=max_len,
-        #                                              tokenizer=tokenizer,
-        #                                              drop_stopwords=drop_stopwords,
-        #                                              write_maps_file=True,
-        #                                              use_cached_text=use_cached_text,
-        #                                              num_devices=num_devices,
-        #                                              schema_aware=schema_aware)
-        # else:
         train_data = TextGraphDataset(triples_file, num_negatives,
                                           max_len, tokenizer, drop_stopwords,
                                           write_maps_file=True,
@@ -503,7 +490,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     num_entities = len(train_val_test_ent)
     model = utils.get_model(model, dim, rel_model, loss_fn,
                             num_entities, train_data.num_rels,
-                            encoder_name, regularizer)
+                            encoder_name, regularizer, schema_aware=schema_aware)
 
     if device != torch.device('cpu'):
         model = torch.nn.DataParallel(model).to(device)

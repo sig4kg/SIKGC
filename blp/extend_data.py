@@ -142,8 +142,6 @@ class NegSampler:
         if self.dynamic_negs:
             batch_rh2tid, batch_rt2hid = self._reasoning_for_neg_in_batch_entities(data_list, batch_entities)
         batch_entities_np = batch_entities.numpy()
-        # idx = torch.arange(self.num_entities).reshape(batch_size, 2)  # n rows, 2 columns
-        half_neg_num = int(self.num_negs / 2)
         # for each row, generate half_neg_num head neg samples and  half_neg_num tail neg samples
         # sample head
         # fill with inconsistent triples first, then fill the left with random entities
@@ -210,6 +208,10 @@ class NegSampler:
                         row_head_weights.scatter_(0, neg_h_ent_idx, row_h_tens)
             tail_weights.append(row_tail_weights)
             head_weights.append(row_head_weights)
+
+        idx = torch.arange(batch_size * 2).reshape(batch_size, 2)
+        # idx = torch.arange(batch_size, 2, self.num_entities) # n rows, 2 columns
+        half_neg_num = int(self.num_negs / 2)
         # sampling  tail
         tail_weights = torch.stack(tail_weights)
         random_t_idx = tail_weights.multinomial(half_neg_num,
@@ -220,24 +222,24 @@ class NegSampler:
         tail_batch_col_selector = torch.ones(batch_size * half_neg_num, dtype=torch.long)  # corrupt tail
         # Fill the array of negative samples with the sampled random entities
         # at the tail positions
-        neg_t_idx = idx.repeat((half_neg_num, 1))
+        neg_t_idx = idx.repeat((half_neg_num, 1)) # repeat rows
         neg_t_idx[tail_batch_row_selector, tail_batch_col_selector] = random_t_idx
         neg_t_idx = neg_t_idx.reshape(-1, batch_size, 2)
         neg_t_idx.transpose_(0, 1)
 
         # sampling head
         head_weights = torch.stack(head_weights)
-        random_h_idx = head_weights.multinomial(half_neg_num * repeats,
+        random_h_idx = head_weights.multinomial(half_neg_num,
                                                 replacement=True)
         random_h_idx = random_h_idx.t().flatten()
         # corrupt the first column
-        head_batch_row_selector = torch.arange(batch_size * half_neg_num * repeats)
-        head_batch_col_selector = torch.zeros(batch_size * half_neg_num * repeats, dtype=torch.long)  # corrupt tail
+        head_batch_row_selector = torch.arange(batch_size * half_neg_num)
+        head_batch_col_selector = torch.zeros(batch_size * half_neg_num, dtype=torch.long)  # corrupt head
         # Fill the array of negative samples with the sampled random entities
         # at the tail positions
-        neg_h_idx = idx.repeat((half_neg_num * repeats, 1))
+        neg_h_idx = idx.repeat((half_neg_num, 1))
         neg_h_idx[head_batch_row_selector, head_batch_col_selector] = random_h_idx
-        neg_h_idx = neg_h_idx.reshape(-1, batch_size * repeats, 2)
+        neg_h_idx = neg_h_idx.reshape(-1, batch_size, 2)
         neg_h_idx.transpose_(0, 1)
         neg_idx = torch.cat((neg_t_idx, neg_h_idx), 1)
         return neg_idx
@@ -324,85 +326,6 @@ class SchemaAwareGraphDataset(GraphDataset):
                                                                          batch_entities=batch_entities,
                                                                          batch_size=batch_size)
         return pos_pairs, rels, neg_idx
-
-
-class SchemaAwareTextGraphDataset(SchemaAwareGraphDataset):
-    """A dataset storing a graph, and textual descriptions of its entities.
-
-    Args:
-        triples_file: str, path to the file containing triples. This is a
-            text file where each line contains a triple of the form
-            'subject predicate object'
-        max_len: int, maximum number of tokens to read per description.
-        neg_samples: int, number of negative samples to get per triple
-        tokenizer: transformers.PreTrainedTokenizer or GloVeTokenizer, used
-            to tokenize the text.
-        drop_stopwords: bool, if set to True, punctuation and stopwords are
-            dropped from entity descriptions.
-        write_maps_file: bool, if set to True, dictionaries mapping
-            entities and relations to IDs are saved to disk (for reuse with
-            other datasets).
-        drop_stopwords: bool
-    """
-
-    def __init__(self, triples_file, inconsistent_triples_file, dataset, neg_samples, max_len, tokenizer,
-                 drop_stopwords, write_maps_file=False, use_cached_text=False,
-                 num_devices=1, schema_aware=False, dynamic_negs=False):
-        super().__init__(triples_file, inconsistent_triples_file, dataset, neg_samples, write_maps_file,
-                         num_devices, schema_aware=schema_aware)
-        maps = torch.load(self.maps_path)
-        ent_ids = maps['ent_ids']
-        num_entities = len(ent_ids)
-        self.dynamic_negs = dynamic_negs
-
-        if max_len is None:
-            max_len = tokenizer.max_len
-
-        cached_text_path = osp.join(self.directory, 'text_data.pt')
-        if use_cached_text:
-            if osp.exists(cached_text_path):
-                self.text_data = torch.load(cached_text_path)
-                logger = logging.getLogger()
-                logger.info(f'Loaded cached text data for'
-                            f' {self.text_data.shape[0]} entities,'
-                            f' and maximum length {self.text_data.shape[1]}.')
-            else:
-                raise LookupError(f'Cached text file not found at'
-                                  f' {cached_text_path}')
-        else:
-            self.text_data = read_entity_text(ent_ids, max_len,
-                                              text_directory=self.directory,
-                                              drop_stopwords=drop_stopwords,
-                                              tokenizer=tokenizer)
-
-    def get_entity_description(self, ent_ids):
-        """Get entity descriptions for a tensor of entity IDs."""
-        text_data = self.text_data[ent_ids]
-        text_end_idx = text_data.shape[-1] - 1
-
-        # Separate tokens from lengths
-        text_tok, text_len = text_data.split(text_end_idx, dim=-1)
-        max_batch_len = text_len.max()
-        # Truncate batch
-        text_tok = text_tok[..., :max_batch_len]
-        text_mask = (text_tok > 0).float()
-        return text_tok, text_mask, text_len
-
-    def collate_fn(self, data_list):
-        """Given a batch of triples, return it in the form of
-        entity descriptions, and the relation types between them.
-        Use as a collate_fn for a DataLoader.
-        """
-        batch_size = len(data_list) // self.num_devices
-        if batch_size <= 1:
-            raise ValueError('collate_text can only work with batch sizes'
-                             ' larger than 1.')
-
-        pos_pairs, rels = torch.stack(data_list).split(2, dim=1)
-        text_tok, text_mask, text_len = self.get_entity_description(pos_pairs)
-        batch_entities = pos_pairs.reshape(batch_size * 2)
-        neg_idx = None
-        return text_tok, text_mask, rels, neg_idx
 
 
 class MultiEpochsDataLoader(DataLoader):

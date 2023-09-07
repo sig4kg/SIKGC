@@ -78,12 +78,12 @@ class BLPConfig:
             'emb_batch_size': 512,
             'eval_batch_size': 64,
             'max_epochs': 2,
-            'checkpoint': None,
+            'checkpoint': False,
             'use_cached_text': True
         }
         return conf
 
-    def get_blp_config(self, rel_model, inductive, dataset, schema_aware, pre_negs, silver_eval, do_produce):
+    def get_blp_config(self, rel_model, inductive, dataset, schema_aware, pre_negs, silver_eval, do_produce, use_checkpoint):
         if rel_model == 'transe':
             tmp_conf = self.getTranse()
         elif rel_model == "complex":
@@ -100,6 +100,7 @@ class BLPConfig:
                          'schema_aware': schema_aware,
                          'pre_negs': pre_negs,
                          'silver_eval': silver_eval,
+                         'checkpoint': use_checkpoint,
                          "do_produce": do_produce})
 
         if not inductive:

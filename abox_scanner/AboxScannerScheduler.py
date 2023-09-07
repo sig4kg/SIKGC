@@ -165,18 +165,18 @@ class AboxScannerScheduler:
         df['correct'] = True
         if 'is_valid' in df.columns.values:
             df.update(df.query("is_valid==False")['correct'].apply(lambda x: False))
-        init_correct_num = len(df.query("correct==False").index)
+        init_incorrect_num = len(df.query("correct==False").index)
         for scanner in self._schema_correct_strategies:
             print("Scanning schema pattern: " + str(type(scanner)))
             scanner.scan_pattern_df_rel(df)
             incorrect_num = len(df.query("correct == False"))
-            print(f"{str(type(scanner))} identified incorrect triples count: {str(incorrect_num - init_correct_num)}")
-            init_correct_num = incorrect_num
+            print(f"{str(type(scanner))} identified incorrect triples count: {str(incorrect_num - init_incorrect_num)}")
+            init_incorrect_num = incorrect_num
         all_correct = df.query("correct==True")[['head', 'rel', 'tail']]
         all_incorrect = df.query("correct==False")[['head', 'rel', 'tail']]
         if len(all_correct.index) > 0:
             all_correct = all_correct.reset_index(drop=True).astype(int)
-        if len(all_incorrect) > 0:
+        if len(all_incorrect.index) > 0:
             all_incorrect = all_incorrect.reset_index(drop=True).astype(int)
         print(f"identified schema correct triples count: {str(len(all_correct.index))}")
         print(f"identified schema incorrect triples count: {str(len(all_incorrect.index))}")

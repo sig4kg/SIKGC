@@ -540,7 +540,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     scheduler.step()
 
                 train_loss += loss.item()
-
+                print(f"debug: train_loader length: {len(train_loader)} and times 0.05 = {int(0.05 * len(train_loader))}")
                 if step % int(0.05 * len(train_loader)) == 0:
                     _log.info(f'Epoch {epoch}/{max_epochs} '
                               f'[{step}/{len(train_loader)}]: {loss.item():.6f}')

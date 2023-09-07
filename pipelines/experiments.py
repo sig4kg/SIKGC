@@ -32,14 +32,15 @@ if __name__ == "__main__":
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
     parser.add_argument("--inductive", type=str, default='False')
-    parser.add_argument("--schema_in_nt", type=str, default='')
+    parser.add_argument("--schema_in_nt", type=str, default='tbox.nt')
     parser.add_argument("--parallel", type=str, default='False')
-    parser.add_argument("--schema_aware_sampling", type=str, default='True')
-    parser.add_argument("--pre_negs", type=str, default='True')
+    parser.add_argument("--schema_aware_sampling", type=str, default='False')
+    parser.add_argument("--pre_negs", type=str, default='False')
     parser.add_argument("--reasoner", type=str, default='Konclude')
     parser.add_argument("--pred_type", type=str, default='False')
-    parser.add_argument("--silver_eval", type=str, default='False')
+    parser.add_argument("--silver_eval", type=str, default='True')
     parser.add_argument("--produce", type=str, default='False')
+    parser.add_argument("--use_checkpoint", type=str, default='False')
     args = parser.parse_args()
     if args.parallel:
         torch.multiprocessing.set_start_method('spawn')
@@ -52,6 +53,7 @@ if __name__ == "__main__":
                                           schema_aware=args.schema_aware_sampling == 'True',
                                           pre_negs=args.pre_negs == "True",
                                           silver_eval=args.silver_eval == 'True',
+                                          use_checkpoint=args.use_checkpoint == 'True',
                                           do_produce=args.produce == 'True')
     p_config = PipelineConfig().set_pipeline_config(dataset=args.dataset,
                                                     loops=args.loops,

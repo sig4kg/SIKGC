@@ -137,6 +137,8 @@ def generate_neg_candidates_tr(input_dir, out_file, start_count=0):
         for idx, row in tqdm(pred_hr.iterrows()):
             if idx < start_count:
                 continue
+            if idx == pred_hr.count() - 1:
+                flush_count = 0
             h = row['head']
             r = row['rel']
             t = row['tail']

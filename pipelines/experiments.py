@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="DB15K")
     parser.add_argument('--work_dir', type=str, default="../outputs/test/")
-    parser.add_argument('--pipeline', type=str, default="l")
+    parser.add_argument('--pipeline', type=str, default="a")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="transe")
@@ -40,6 +40,7 @@ if __name__ == "__main__":
     parser.add_argument("--pred_type", type=str, default='False')
     parser.add_argument("--silver_eval", type=str, default='True')
     parser.add_argument("--produce", type=str, default='False')
+    parser.add_argument("--start_acc", type=str, default='True')
     parser.add_argument("--use_checkpoint", type=str, default='False')
     args = parser.parse_args()
     if args.parallel:
@@ -64,6 +65,7 @@ if __name__ == "__main__":
                                                     pipeline=args.pipeline,
                                                     use_gpu=args.use_gpu,
                                                     silver_eval=args.silver_eval == 'True',
+                                                    start_acc=args.start_acc == 'True',
                                                     produce=args.produce == 'True')
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
     producers(p_config)

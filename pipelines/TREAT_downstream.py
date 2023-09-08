@@ -18,9 +18,10 @@ def TREAT_for_downstream_task(work_dir):
                                                     parallel=False,
                                                     pipeline='l',
                                                     silver_eval=False,
+                                                    start_acc=False,
                                                     use_gpu=True)
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
-    context_resource, abox_scanner_scheduler = prepare_context(p_config, consistency_check=True)
+    context_resource, abox_scanner_scheduler = prepare_context(p_config)
 
     hrt_int_df_2_hrt_blp(context_resource, work_dir,
                          triples_only=False)  # generate all_triples.tsv, entities.txt, relations.txt\

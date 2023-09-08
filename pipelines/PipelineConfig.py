@@ -42,6 +42,7 @@ class PipelineConfig:
                             pipeline,
                             reasoner,
                             silver_eval,
+                            start_acc,
                             produce):
         self.work_dir = work_dir
         self.loops = loops
@@ -53,6 +54,7 @@ class PipelineConfig:
         self.pipeline = pipeline
         self.silver_eval = silver_eval
         self.produce = produce
+        self.start_acc=start_acc
         return self
 
     def __iter__(self):

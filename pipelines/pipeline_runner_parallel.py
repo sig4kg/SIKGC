@@ -17,7 +17,7 @@ class PipelineRunnerParallel(PipelineRunnerBase):
         self.block_names = get_block_names(self.pipeline_config.pipeline)
 
     def create_pipeline(self):
-        self.context_resource, self.abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True)
+        self.context_resource, self.abox_scanner_scheduler = prepare_context(self.pipeline_config)
         kwargs = {'context_resource': self.context_resource,
                   'abox_scanner_scheduler':  self.abox_scanner_scheduler,
                   'pipeline_config': self.pipeline_config,

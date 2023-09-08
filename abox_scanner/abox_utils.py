@@ -36,7 +36,7 @@ def hrt_original2int(hrt_triples, op2id: dict, class2id: dict):
             op2id.update({tri[1]: r_id})
             r_id += 1
         hrt_int.append([ent2id[tri[0]], op2id[tri[1]], ent2id[tri[2]]])
-    hrt_int_df = pd.DataFrame(data=hrt_int, columns=['head', 'rel', 'tail'])
+    hrt_int_df = pd.DataFrame(data=hrt_int, columns=['head', 'rel', 'tail']).drop_duplicates(keep='first')
     return ent2id, hrt_int_df
 
 

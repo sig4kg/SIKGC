@@ -11,7 +11,7 @@ class PipelineRunnerSeries(PipelineRunnerBase):
         self.pipeline_config = pipeline_config
 
     def create_pipeline(self):
-        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config, consistency_check=True)
+        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config)
         producer_blocks = []
         kwargs = {'context_resource': context_resource,
                   'abox_scanner_scheduler':  abox_scanner_scheduler,

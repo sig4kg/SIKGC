@@ -77,7 +77,19 @@ class ContextResources:
         type_df = pd.DataFrame(data=type_hrt, columns=['head', 'rel', 'tail'])
         return type_df
 
-    def type2nt(self):
+    def df2nt(self, hrt_df, work_dir):
+        rdf_nt = []
+        for idx, row in hrt_df.iterrows():
+            h = self.id2ent[row['head']]
+            r = self.id2op[row['rel']]
+            t = self.id2ent[row['tail']]
+            rdf_nt.append(['<' + h + '>', '<' + r + '>', '<' + t + '>'])
+        with open(work_dir + "abox.nt", 'w') as f:
+            print(f"Saving to {work_dir}abox.nt")
+            for line in rdf_nt:
+                f.write(f'''{line[0]} {line[1]} {line[2]} .\n''')
+
+    def type2nt(self, work_dir):
         # get entity types
         rdf_type = []
         r = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
@@ -89,33 +101,25 @@ class ContextResources:
             for t in typeOfs:
                 if t in self.classid2class:
                     rdf_type.append(['<' + h + '>', r, f'''<{self.classid2class[t]}>'''])
-        # df_types = pd.DataFrame(data=rdf_type, columns=['head', 'rel', 'tail']) # pandas to_csv cannot handle "" properly
-        # df_types['dot'] = '.'
+        with open(work_dir + "type.nt", 'w') as f:
+            print(f"Saving to {work_dir}type.nt")
+            for line in rdf_type:
+                f.write(f'''{line[0]} {line[1]} {line[2]} .\n''')
         return rdf_type
 
     def to_ntriples(self, work_dir, schema_in_nt=''):
-        df = self.hrt_int_df.copy(deep=True)
-        df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: '<' + self.id2ent[x] + '>')
-        df[['rel']] = df[['rel']].applymap(lambda x: '<' + self.id2op[x] + '>')  # to int
-        df['dot'] = '.'
-        list_types = self.type2nt()
-        # create individual declaration
-        # do not use pandas, it cannot handle "" properly
-        with open(work_dir + "type.nt", 'w') as f:
-            print(f"Saving to {work_dir}type.nt")
-            for line in list_types:
-                f.write(f'''{line[0]} {line[1]} {line[2]} .\n''')
-        print(f"Saving to {work_dir}abox.nt")
-        df.to_csv(work_dir + "abox.nt",  header=False, index=False, sep=' ')
+        self.df2nt(self.hrt_int_df, work_dir)
+        self.type2nt(work_dir)
         wait_until_file_is_saved(work_dir + "abox.nt", 180)
+        wait_until_file_is_saved(work_dir + "type.nt", 180)
         if schema_in_nt != "":
             os.system(f"cat {schema_in_nt} {work_dir}abox.nt {work_dir}type.nt> {work_dir}tbox_abox.nt")
 
-    def type_ntriples(self, work_dir, schema_in_nt=''):
-        df_types = self.type2nt()
-        # create individual declaration
-        print(f"Saving to {work_dir}type.nt")
-        df_types.to_csv(work_dir + "type.nt",  header=False, index=False, sep=' ')
-        wait_until_file_is_saved(work_dir + "type.nt", 180)
-        if schema_in_nt != "":
-            os.system(f"cat {schema_in_nt} {work_dir}type.nt > {work_dir}tbox_type.ttl")
+    # def type_ntriples(self, work_dir, schema_in_nt=''):
+    #     df_types = self.type2nt()
+    #     # create individual declaration
+    #     print(f"Saving to {work_dir}type.nt")
+    #     df_types.to_csv(work_dir + "type.nt",  header=False, index=False, sep=' ')
+    #     wait_until_file_is_saved(work_dir + "type.nt", 180)
+    #     if schema_in_nt != "":
+    #         os.system(f"cat {schema_in_nt} {work_dir}type.nt > {work_dir}tbox_type.ttl")

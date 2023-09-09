@@ -192,11 +192,11 @@ def convert_tbox(SU_chunks_dict_list, group2clz, work_dir):
                 text2Obj[sub].is_a.append(sup_class)
         AllDisjoint(disjoint_groups)
         # save TBox
-        onto.save(file = work_dir + "tbox.nt", format="ntriples")
-        with open(work_dir + 'ent2types.txt', 'w') as f:
-            for ent, clz in ent2types.items():
-                f.write(f"{ent}\t{';'.join(list(set(clz)))}\n")
-        with open(work_dir + 'entity2text.txt', 'w') as f:
+        onto.save(file = work_dir + "tbox1.nt", format="ntriples")
+        # with open(work_dir + 'ent2types.txt', 'w') as f:
+        #     for ent, clz in ent2types.items():
+        #         f.write(f"{ent}\t{';'.join(list(set(clz)))}\n")
+        with open(work_dir + 'entity2text1.txt', 'w') as f:
             for ent, text in ent_iri2text.items():
                 f.write(f"{ent}\t{text}\n")
         with open(work_dir + 'relation2text.txt', 'w') as f:
@@ -205,7 +205,7 @@ def convert_tbox(SU_chunks_dict_list, group2clz, work_dir):
         return text2Obj
 
 
-def convert_abox(text2Obj, SU_chunks_dict_list, work_dir):
+def convert_rel_assertions_tbox(text2Obj, SU_chunks_dict_list, work_dir):
     # add namedIndividual and relational assertions
     rel_triples = []
     for chunk_dict in SU_chunks_dict_list:
@@ -218,12 +218,20 @@ def convert_abox(text2Obj, SU_chunks_dict_list, work_dir):
                 h_ent = text2Obj[h].iri
                 t_ent = text2Obj[t].iri
                 rel_triples.append(f"<{h_ent}> <{rel_uri}> <{t_ent}> .\n")
-    with open(work_dir + 'abox.nt', 'w') as f:
+    with open(work_dir + 'tbox2.nt', 'w') as f:
         f.writelines(rel_triples)
+
+
+def convert_rel_assertions(rel_file, text2tbox_obj, text2entobj):
+    pass
+
+
+def convert_type_assertions(type_file, text2tbox_obj):
+    pass
 
 
 if __name__ == "__main__":
     gp2clz = read_groups("../resources/UMLS/SemGroups.txt")
     tmp_chunks = read_tbox_rrf("../resources/UMLS/SU")
     phrase2obj = convert_tbox(tmp_chunks, gp2clz, "../resources/UMLS/")
-    convert_abox(phrase2obj, tmp_chunks, "../resources/UMLS/")
+    convert_rel_assertions_tbox(phrase2obj, tmp_chunks, "../resources/UMLS/")

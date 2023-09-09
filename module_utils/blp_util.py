@@ -4,6 +4,7 @@ import os
 import os.path as osp
 from scripts.run_scripts import mk_dir
 from module_utils.sample_util import *
+import csv
 
 
 def read_hrts_blp_2_hrt_int_df(hrts_blp_file, context_resource: ContextResources):
@@ -14,21 +15,35 @@ def read_hrts_blp_2_hrt_int_df(hrts_blp_file, context_resource: ContextResources
     return df[['head', 'rel', 'tail']]
 
 
+def hrt_df2tsv(context_resource: ContextResources, hrt_df, hrt_blp_dir):
+    # pandas bug cannot handle "
+    blp_data = []
+    for idx, row in hrt_df.iterrows():
+        h = context_resource.id2ent[row['head']]
+        r = context_resource.id2op[row['rel']]
+        t = context_resource.id2ent[row['tail']]
+        blp_data.append([h, r, t])
+    with open(hrt_blp_dir + "all_triples.tsv", 'w') as f:
+        print(f"Saving to {hrt_blp_dir}all_triples.tsv")
+        for line in blp_data:
+            f.write(f'''{line[0]}\t{line[1]}\t{line[2]}\n''')
+
+
 def hrt_int_df_2_hrt_blp(context_resource: ContextResources, hrt_blp_dir, triples_only=False):
     df = context_resource.hrt_int_df.copy(deep=True)
-    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.id2ent[x])  # to uri
-    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.id2op[x])  # to int
-    df[['head', 'rel', 'tail']].to_csv(hrt_blp_dir + "all_triples.tsv", index=False, header=False, sep='\t')
+    hrt_df2tsv(context_resource, df, hrt_blp_dir)
     if not triples_only:
         all_valid_entities = pd.concat([df['head'], df['tail']]).drop_duplicates(keep='first')
         all_valid_rels = df['rel'].drop_duplicates(keep='first')
         with open(hrt_blp_dir + "entities.txt", encoding='utf-8', mode='w') as out_f:
             for item in list(all_valid_entities):
-                out_f.write(item + '\n')
+                if item in context_resource.id2ent:
+                    out_f.write(context_resource.id2ent[item] + '\n')
             out_f.close()
         with open(hrt_blp_dir + "relations.txt", encoding='utf-8', mode='w') as out_f:
             for item in list(all_valid_rels):
-                out_f.write(item + '\n')
+                if item in context_resource.id2op:
+                    out_f.write(context_resource.id2op[item] + '\n')
             out_f.close()
 
 
@@ -58,16 +73,16 @@ def split_data_blp(context_resource: ContextResources, inductive, work_dir, excl
     # save rel axioms to file
     train_name = "ind-train.tsv" if inductive else "train.tsv"
     dev_name = "ind-dev.tsv" if inductive else "dev.tsv"
-    to_text(df_rel_train).to_csv(osp.join(work_dir, train_name), header=False, index=False, sep='\t')
-    to_text(df_rel_dev).to_csv(osp.join(work_dir, dev_name), header=False, index=False, sep='\t')
+    to_text(df_rel_train).to_csv(osp.join(work_dir, train_name), header=False, index=False, sep='\t', quoting=csv.QUOTE_NONE)
+    to_text(df_rel_dev).to_csv(osp.join(work_dir, dev_name), header=False, index=False, sep='\t', quoting=csv.QUOTE_NONE)
     df_hr = df_rel_test.drop_duplicates(['head', 'rel'], keep='first')
     df_rt = df_rel_test.drop_duplicates(['rel', 'tail'], keep='first')
     if len(df_hr.index) > len(df_rt.index):
         df_hr = pd.concat([df_hr, df_rt, df_rt]).drop_duplicates(keep=False)
     else:
         df_rt = pd.concat([df_rt, df_hr, df_hr]).drop_duplicates(keep=False)
-    to_text(df_hr).to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t')
-    to_text(df_rt).to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t')
+    to_text(df_hr).to_csv(f'{work_dir}test_hr.tsv', header=False, index=False, sep='\t', quoting=csv.QUOTE_NONE)
+    to_text(df_rt).to_csv(f'{work_dir}test_rt.tsv', header=False, index=False, sep='\t', quoting=csv.QUOTE_NONE)
     wait_until_file_is_saved(f'{work_dir}test_hr.tsv')
     wait_until_file_is_saved(f'{work_dir}test_rt.tsv')
 

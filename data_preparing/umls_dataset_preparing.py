@@ -1,7 +1,7 @@
 import types
 import pandas as pd
 from owlready2 import *
-
+from tqdm import tqdm
 
 prefix = "http://umls.org/onto.owl"
 #
@@ -126,6 +126,8 @@ def convert_tbox(SU_chunks_dict_list, group2clz, work_dir):
                         invProperty = types.new_class(inv_ui, (ObjectProperty,))
                         r.inverse_property = invProperty
                         rel_iri2text.update({invProperty.iri: RIN})
+                        text2Obj.update({chunk_dict['RIN']: invProperty})
+                        id2Obj.update({inv_ui: invProperty})
                 if 'HL' in chunk_dict:
                     # subproperty
                     for hl in chunk_dict['HL']:
@@ -227,48 +229,55 @@ def convert_rel_assertions_tbox(text2Obj, SU_chunks_dict_list, work_dir):
         f.writelines(rel_triples)
 
 
-def convert_rel_assertions(rel_file, id2tbox_obj, work_dir):
-    pd_rel1 = pd.read_csv(rel_file, header=None, names=[i for i in range(14)], sep="|", error_bad_lines=False, engine="python")
-    pd_hrt_id = pd_rel1[[0,8,4]].drop_duplicates(keep='first')
+def convert_rel_assertions(rel_file, text2tbox_obj, work_dir):
     triples = []
-    for idx, row in pd_hrt_id:
-        h_id = row[0]
-        r_id = row[8]
-        t_id = row[4]
-        triples.append(f"<{prefix}/{h_id}> <{id2tbox_obj[r_id].iri}> {prefix}/{t_id}>")
-        with open(work_dir + 'abox.nt', 'w') as f:
-            f.writelines(triples)
+    with open(rel_file, 'r') as f:
+        for line in tqdm(f.readlines()):
+            row = line.strip().split('|')
+            h_id = row[0]
+            r_str = row[7]
+            t_id = row[4]
+            if not r_str == '' and r_str in text2tbox_obj:
+                triples.append(f"<{prefix}/{h_id}> <{text2tbox_obj[r_str].iri}> <{prefix}/{t_id}> .\n")
+    with open(work_dir + 'abox.nt', 'w') as f:
+        f.writelines(triples)
 
 
-def convert_cid2name(ent_file, work_dir):
-    pd_ent_and_names = pd.read_csv(ent_file, header=None, names=[i for i in range(18)], sep="|", error_bad_lines=False, engine="python")
-    pd_ent_names = pd_ent_and_names.query("1==ENG")[[0, 1, 14]].drop_duplicates(subset=[0], keep='first')
-    del pd_ent_and_names
+def convert_cid2name(ent_file):
     cid2name = dict()
-    for idx, row in pd_ent_names.iterrows():
-        cid = row[0]
-        name = row[14]
-        cid2name.update({cid: name})
-    with open(work_dir + "entity2text2.txt", 'w') as f:
-        for ent, text in cid2name.items():
-            f.write(f"{prefix}/{ent}\t{text}\n")
+    with open(ent_file, 'r') as f:
+        for line in tqdm(f.readlines()):
+            row= line.strip().split('|')
+            cid = row[0]
+            name = row[14]
+            if row[1] == 'ENG':
+                if cid not in cid2name:
+                    cid2name.update({cid: [name]})
+                else:
+                    cid2name[cid].append(name)
+    # with open(work_dir + "entity2text2.txt", 'w') as f:
+    #     for ent, text in cid2name.items():
+    #         f.write(f"{prefix}/{ent}\t{text}\n")
+    for cid, names in cid2name.items():
+        cid2name[cid] = list(set(names))
+    return cid2name
 
 
-def convert_type_assertions(type_file, id2tbox_obj, work_dir):
-    pd_ent_and_types = pd.read_csv(type_file, header=None, names=[i for i in range(6)], sep="\t", error_bad_lines=False, engine="python")
-    pd_ent_type = pd_ent_and_types[[0, 1]].groupby([0], group_keys=True, as_index=False).aggregate(lambda x: x.unique().tolist())
-    del pd_ent_and_types
+def convert_type_assertions(type_file, id2tbox_obj):
     cid2obj_iris = dict()
-    for idx, row in pd_ent_type:
-        cid = row[0]
-        tid = row[1]
-        if cid not in cid2obj_iris:
-            cid2obj_iris.update({cid: [id2tbox_obj[tid].iri]})
-        else:
-            cid2obj_iris[cid].append(id2tbox_obj[tid].iri)
-    with open(work_dir + "entity2type.txt", 'w') as f:
-        for ent, ts in cid2obj_iris.items():
-            f.write(f"{prefix}/{ent}\t{';'.join(ts)}\n")
+    with open(type_file, 'r') as f:
+        for line in tqdm(f.readlines()):
+            row= line.strip().split('|')
+            cid = row[0]
+            tid = row[1]
+            if cid not in cid2obj_iris:
+                cid2obj_iris.update({cid: [id2tbox_obj[tid].iri]})
+            else:
+                cid2obj_iris[cid].append(id2tbox_obj[tid].iri)
+    # with open(work_dir + "entity2type.txt", 'w') as f:
+    #     for ent, ts in cid2obj_iris.items():
+    #         f.write(f"{prefix}/{ent}\t{';'.join(ts)}\n")
+    return cid2obj_iris
 
 
 if __name__ == "__main__":
@@ -277,6 +286,6 @@ if __name__ == "__main__":
     tmp_chunks = read_tbox_rrf("../resources/UMLS/SU")
     phrase2obj, tid2obj = convert_tbox(tmp_chunks, gp2clz, wdir)
     convert_rel_assertions_tbox(phrase2obj, tmp_chunks, wdir)
-    convert_cid2name("../resources/UMLS/MRCONSO.RRF", wdir)
-    convert_type_assertions("../resources/UMLS/MRSTY.RRF", tid2obj, wdir)
-    convert_rel_assertions("../resources/UMLS/MRREL.RRF", tid2obj, wdir)
+    # convert_cid2name("../resources/UMLS/MRCONSO.RRF", wdir)
+    # convert_type_assertions("../resources/UMLS/MRSTY.RRF", tid2obj, wdir)
+    convert_rel_assertions("../resources/UMLS/MRREL.RRF", phrase2obj, wdir)

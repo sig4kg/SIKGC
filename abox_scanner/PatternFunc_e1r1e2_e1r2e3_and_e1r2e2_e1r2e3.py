@@ -15,19 +15,19 @@ class PatternFunc_e1r1e2_e1r2e3_and_e1r2e2_e1r2e3(PatternScanner):
         if len(self._pattern_dict) == 0:
             return
         use_gpu = False
-        if torch.cuda.is_available():
-            try:
-                import cudf
-                print("using cudf ...")
-                df = cudf.DataFrame.from_pandas(triples)
-                use_gpu = True
-            except :
-                print("using pandas ...")
-                print()
-                df = triples
-        else:
-            print("using pandas ...")
-            df = triples
+        # if torch.cuda.is_available():
+        #     try:
+        #         import cudf
+        #         print("using cudf ...")
+        #         df = cudf.DataFrame.from_pandas(triples)
+        #         use_gpu = True
+        #     except :
+        #         print("using pandas ...")
+        #         print()
+        #         df = triples
+        # else:
+        print("using pandas ...")
+        df = triples
         gp = df.query("is_valid == True").groupby('rel', group_keys=True, as_index=False)
         for g in tqdm(gp, desc="scanning pattern FunctionalProperty(r1), subPropertyOf(r1, r2)", disable=not log_process):
             r1 = g[0]

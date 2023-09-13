@@ -99,10 +99,10 @@ def convert_tbox(SU_chunks_dict_list, group2clz, work_dir):
         # for each class, we create an entity with same_name
         for chunk_dict in SU_chunks_dict_list:
             if 'RL' in chunk_dict:
-                newProperty = types.new_class(chunk_dict['UI'], (ObjectProperty,))
+                newProperty = types.new_class(chunk_dict['RL'], (ObjectProperty,))
                 rel_iri2text.update({newProperty.iri: chunk_dict['RL']})
                 text2Obj.update({chunk_dict['RL']: newProperty})
-                id2Obj.update({chunk_dict['UI']: newProperty})
+                id2Obj.update({chunk_dict['RL']: newProperty})
             elif 'STY' in chunk_dict:
                 class_name = chunk_dict['UI']
                 newClz = types.new_class(class_name, (Thing, ))
@@ -122,7 +122,7 @@ def convert_tbox(SU_chunks_dict_list, group2clz, work_dir):
                         inv_r = text2Obj[chunk_dict['RIN']]
                         r.inverse_property = inv_r
                     else:
-                        inv_ui = 'inv_' + chunk_dict['UI']
+                        inv_ui = chunk_dict['RIN']
                         invProperty = types.new_class(inv_ui, (ObjectProperty,))
                         r.inverse_property = invProperty
                         rel_iri2text.update({invProperty.iri: RIN})
@@ -158,8 +158,8 @@ def convert_tbox(SU_chunks_dict_list, group2clz, work_dir):
                         ht = h_t.split('|')
                         heads.append(ht[0])
                         tails.append(ht[1])
-                    domain = types.new_class(chunk_dict['UI'] + '_domain', (Thing, ))
-                    range = types.new_class(chunk_dict['UI'] + '_range', (Thing, ))
+                    domain = types.new_class(chunk_dict['RL'] + '_domain', (Thing, ))
+                    range = types.new_class(chunk_dict['RL'] + '_range', (Thing, ))
                     r.domain.append(domain)
                     r.range.append(range)
                     for h in heads:
@@ -197,18 +197,30 @@ def convert_tbox(SU_chunks_dict_list, group2clz, work_dir):
             text2Obj.update({sup: sup_class})
             for sub in subs:
                 text2Obj[sub].is_a.append(sup_class)
-        AllDisjoint(disjoint_groups)
+        AllDisjoint([onto.CHEM, onto.ORGA])
+        AllDisjoint([onto.DEVI, onto.ORGA])
+        AllDisjoint([onto.GENE, onto.ORGA])
+        AllDisjoint([onto.LIVB, onto.ORGA])
+        AllDisjoint([onto.PHEN, onto.ORGA])
+        AllDisjoint([onto.PHYS, onto.ORGA])
+        AllDisjoint([onto.ANAT, onto.ORGA])
+        AllDisjoint([onto.ANAT, onto.OCCU])
+        AllDisjoint([onto.DEVI, onto.DISO])
+        AllDisjoint([onto.DEVI, onto.GENE])
+        AllDisjoint([onto.DEVI, onto.LIVB])
+        AllDisjoint([onto.DEVI, onto.ANAT])
+        AllDisjoint([onto.ANAT, onto.OCCU])
         # save TBox
-        onto.save(file = work_dir + "tbox1.nt", format="ntriples")
+        onto.save(file = work_dir + "tbox.nt", format="ntriples")
         # with open(work_dir + 'ent2types.txt', 'w') as f:
         #     for ent, clz in ent2types.items():
         #         f.write(f"{ent}\t{';'.join(list(set(clz)))}\n")
-        with open(work_dir + 'entity2text1.txt', 'w') as f:
-            for ent, text in ent_iri2text.items():
-                f.write(f"{ent}\t{text}\n")
-        with open(work_dir + 'relation2text.txt', 'w') as f:
-            for rel, text in rel_iri2text.items():
-                f.write(f"{rel}\t{text}\n")
+        # with open(work_dir + 'entity2text1.txt', 'w') as f:
+        #     for ent, text in ent_iri2text.items():
+        #         f.write(f"{ent}\t{text}\n")
+        # with open(work_dir + 'relation2text.txt', 'w') as f:
+        #     for rel, text in rel_iri2text.items():
+        #         f.write(f"{rel}\t{text}\n")
         return text2Obj, id2Obj
 
 
@@ -279,13 +291,12 @@ def convert_type_assertions(type_file, id2tbox_obj):
     #         f.write(f"{prefix}/{ent}\t{';'.join(ts)}\n")
     return cid2obj_iris
 
-
 if __name__ == "__main__":
     wdir = "../resources/UMLS/"
-    gp2clz = read_groups("../resources/UMLS/SemGroups.txt")
-    tmp_chunks = read_tbox_rrf("../resources/UMLS/SU")
+    gp2clz = read_groups("../resources/UMLS_full/SemGroups.txt")
+    tmp_chunks = read_tbox_rrf("../resources/UMLS_full/SU")
     phrase2obj, tid2obj = convert_tbox(tmp_chunks, gp2clz, wdir)
     convert_rel_assertions_tbox(phrase2obj, tmp_chunks, wdir)
     # convert_cid2name("../resources/UMLS/MRCONSO.RRF", wdir)
     # convert_type_assertions("../resources/UMLS/MRSTY.RRF", tid2obj, wdir)
-    convert_rel_assertions("../resources/UMLS/MRREL.RRF", phrase2obj, wdir)
+    # convert_rel_assertions("../resources/UMLS_full/MRREL.RRF", phrase2obj, wdir)

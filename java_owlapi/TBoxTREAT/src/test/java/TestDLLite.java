@@ -1,6 +1,6 @@
 import ReasonerUtils.HermitUtil;
 import ReasonerUtils.TrOWLUtil;
-import TBoxScanner.PatternDLLite;
+import TBoxScanner.PatternDLLite2;
 import TBoxScanner.TBoxPatternGenerator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -102,7 +102,7 @@ public class TestDLLite {
         Map<String, OWLObject> map = new HashMap<>();
 //        OWLOntology infOnt1 = dlliteCvt.inferAdditionalClass(trOWLUtil2, ontology, map);
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
-        PatternDLLite pattern = new PatternDLLite();
+        PatternDLLite2 pattern = new PatternDLLite2();
         pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
         pattern.generateOPPattern();
     }
@@ -135,7 +135,7 @@ public class TestDLLite {
         Map<String, OWLObject> map = new HashMap<>();
 //        OWLOntology infOnt1 = dlliteCvt.inferAdditionalClass(trOWLUtil2, ontology, map);
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
-        PatternDLLite pattern = new PatternDLLite();
+        PatternDLLite2 pattern = new PatternDLLite2();
         pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
         pattern.generateFuncPattern();
     }
@@ -186,7 +186,7 @@ public class TestDLLite {
         manager.addAxiom(ontology, cc);
         Map<String, OWLObject> map = new HashMap<>();
         OWLOntology infOnt = dlliteCvt.ont2dllite(trOWLUtil2, ontology);
-        PatternDLLite pattern = new PatternDLLite();
+        PatternDLLite2 pattern = new PatternDLLite2();
         pattern.SetOWLAPIContext(infOnt, trOWLUtil2.getReasoner(infOnt), factory, "output/");
         pattern.generatePattern();
     }

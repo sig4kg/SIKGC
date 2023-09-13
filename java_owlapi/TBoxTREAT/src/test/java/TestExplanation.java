@@ -1,6 +1,5 @@
 import ReasonerUtils.HermitUtil;
 import ReasonerUtils.TrOWLUtil;
-import TBoxScanner.PatternDLLite;
 import TBoxScanner.TBoxPatternGenerator;
 import org.junit.Assert;
 import org.junit.Test;

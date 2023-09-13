@@ -34,7 +34,7 @@ if all([uri, database]):
 @ex.config
 def config():
     dataset = 'umls'
-    inductive = True
+    inductive = False
     dim = 128
     # model = 'blp'
     model = 'transductive'

@@ -152,7 +152,10 @@ def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_
         drop_duplicates(keep=False).reset_index(drop=True)
     print(f"Calculated new rel assertions from materialisation: {str(len(new_hrt_df.index))}")
 
-    df_rel_train, df_rel_test, _ = split_relation_triples(hrt_df=context_resource.hrt_int_df,
+    if file_util.does_file_exist(context_resource.work_dir + 'test.txt') and pipeline_config.dataset=='UMLS':
+        df_rel_train, df_rel_test = expand_original_splits_UMLS(context_resource)
+    else:
+        df_rel_train, df_rel_test, _ = split_relation_triples(hrt_df=context_resource.hrt_int_df,
                                                           exclude_rels=pipeline_config.exclude_rels,
                                                           produce=False)
     dict_type_train, dict_type_test, _ = split_type_triples(context_resource=context_resource,
@@ -166,6 +169,16 @@ def split_schema_aware_silver_data(context_resource: ContextResources, pipeline_
                'rel_train': df_rel_train,
                'type_train': dict_type_train}
     return splited
+
+
+def expand_original_splits_UMLS(context_resource: ContextResources):
+    prefix = "http://umls.org/onto.owl"
+    df = pd.read_csv(context_resource.work_dir + "test.txt", header=None, names=['head', 'rel', 'tail'], sep="\t")
+    df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.ent2id[prefix + '/' + x])  # to int
+    df[['rel']] = df[['rel']].applymap(lambda x: context_resource.op2id[prefix + '#' + x])  # t
+    test = df[['head', 'rel', 'tail']]
+    train = pd.concat([context_resource.hrt_int_df, test, test]).drop_duplicates(keep=False)
+    return train, test
 
 
 # this function split a portion of test data and extend with materialization data.

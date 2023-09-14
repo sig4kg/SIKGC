@@ -55,10 +55,19 @@ def save_dict_to_file(type_dict, file_name):
         f.write(content)
 
 
-def split_data_blp(context_resource: ContextResources, inductive, work_dir, exclude_rels=[]):
-    df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(hrt_df=context_resource.hrt_int_df,
+def split_data_blp(context_resource: ContextResources, inductive, work_dir, exclude_rels=[], produce=False):
+    if not produce and file_util.does_file_exist(context_resource.work_dir + "valid.txt"):
+        prefix = "http://umls.org/onto.owl"
+        df = pd.read_csv(context_resource.work_dir + "valid.txt", header=None, names=['head', 'rel', 'tail'], sep="\t")
+        df[['head', 'tail']] = df[['head', 'tail']].applymap(lambda x: context_resource.ent2id[prefix + '/' + x])  # to int
+        df[['rel']] = df[['rel']].applymap(lambda x: context_resource.op2id[prefix + '#' + x])  # t
+        df_rel_dev = df[['head', 'rel', 'tail']]
+        df_rel_train = pd.concat([context_resource.hrt_int_df, df_rel_dev, df_rel_dev]).drop_duplicates(keep=False)
+        df_rel_test = pd.DataFrame(data=[], columns=['head', 'rel', 'tail'])
+    else:
+        df_rel_train, df_rel_dev, df_rel_test = split_relation_triples(hrt_df=context_resource.hrt_int_df,
                                                                    exclude_rels=exclude_rels,
-                                                                   produce=True)
+                                                                   produce=produce)
     # if inductive:
     #     drop_entities(work_dir + "all_triples.tsv", train_size=1-rate, valid_size=rate, test_size=0,
     #                   seed=0)

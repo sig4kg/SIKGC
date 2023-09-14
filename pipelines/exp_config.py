@@ -146,7 +146,7 @@ class BLPConfig:
             if inductive:
                 tmp_conf.update({'model': 'fasttext', 'lr': 1e-5, 'max_epochs': 120, 'batch_size': 128})
         elif dataset == "UMLS":
-            tmp_conf.update({'lr': 1e-3, 'regularizer': 1e-2, 'max_epochs': 100, 'batch_size': 64})
+            tmp_conf.update({'lr': 0.05, 'regularizer': 0.005, 'max_epochs': 100, 'batch_size': 64, 'num_negatives': 16})
         elif dataset == "NELL":
             tmp_conf.update({'max_epochs': 100, 'batch_size': 1024})
             if inductive:

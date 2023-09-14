@@ -467,23 +467,28 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                 num_workers=NUM_WORKERS, drop_last=True)
     valid_data = GraphDataset(f'{work_dir}{prefix}dev.tsv')
     valid_loader = loader_class(valid_data, eval_batch_size, num_workers=NUM_WORKERS, pin_memory=True)
-    test_data_hr = GraphDataset(f'{work_dir}test_hr.tsv')
-    test_loader_hr = loader_class(test_data_hr, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
-    test_data_rt = GraphDataset(f'{work_dir}test_rt.tsv')
-    test_loader_rt = loader_class(test_data_rt, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
-
-    graph = nx.MultiDiGraph()
-    all_triples = torch.cat((train_data.triples,
+    if do_produce:
+        test_data_hr = GraphDataset(f'{work_dir}test_hr.tsv')
+        test_loader_hr = loader_class(test_data_hr, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
+        test_data_rt = GraphDataset(f'{work_dir}test_rt.tsv')
+        test_loader_rt = loader_class(test_data_rt, eval_batch_size, pin_memory=True, num_workers=NUM_WORKERS)
+        all_triples = torch.cat((train_data.triples,
                              valid_data.triples,
                              test_data_hr.triples,
                              test_data_rt.triples))
+        train_ent = set(train_data.entities.tolist())
+        train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
+        train_val_test_ent = set(test_data_hr.entities.tolist()).union(train_val_ent)
+        train_val_test_ent = set(test_data_rt.entities.tolist()).union(train_val_test_ent)
+    else:
+        all_triples = torch.cat((train_data.triples,
+                                 valid_data.triples))
+        train_ent = set(train_data.entities.tolist())
+        train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
+        train_val_test_ent = train_val_ent
+
+    graph = nx.MultiDiGraph()
     graph.add_weighted_edges_from(all_triples.tolist())
-
-    train_ent = set(train_data.entities.tolist())
-    train_val_ent = set(valid_data.entities.tolist()).union(train_ent)
-    train_val_test_ent = set(test_data_hr.entities.tolist()).union(train_val_ent)
-    train_val_test_ent = set(test_data_rt.entities.tolist()).union(train_val_test_ent)
-
     # train_ent = torch.tensor(list(train_ent))
     train_val_ent = torch.tensor(list(train_val_ent))
     train_val_test_ent = torch.tensor(list(train_val_test_ent))

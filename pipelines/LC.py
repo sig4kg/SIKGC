@@ -39,7 +39,7 @@ class LC(ProducerBlock):
                              triples_only=False)  # generate all_triples.tsv, entities.txt, relations.txt\
         wait_until_file_is_saved(work_dir + "all_triples.tsv")
         split_data_blp(context_resource, inductive=inductive, work_dir=work_dir,
-                       exclude_rels=config.exclude_rels)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
+                       exclude_rels=config.exclude_rels, produce=self.pipeline_config.produce)  # split all_triples.tsv to train.tsv, dev.tsv, takes time
 
         if self.pipeline_config.silver_eval:
             self.silver_eval_prepare()

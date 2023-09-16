@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("--inductive", type=str, default='False')
     parser.add_argument("--schema_in_nt", type=str, default='tbox.nt')
     parser.add_argument("--parallel", type=str, default='False')
-    parser.add_argument("--schema_aware_sampling", type=str, default='False')
+    parser.add_argument("--schema_aware_sampling", type=str, default='True')
     parser.add_argument("--pre_negs", type=str, default='False')
     parser.add_argument("--reasoner", type=str, default='Konclude')
     # parser.add_argument("--reasoner", type=str, default='TrOWL')

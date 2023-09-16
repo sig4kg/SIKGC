@@ -78,20 +78,21 @@ class LC(ProducerBlock):
         generate_silver_rel_eval_file(self.context_resource, work_dir)
 
     def schema_aware_sampling_prepare(self):
-        work_dir = self.work_dir + "L/"
-        config = self.pipeline_config
-        context_resource = self.context_resource
-        if not file_util.does_file_exist(self.work_dir + "invalid_hrt.txt") and config.silver_eval:
-            config.blp_config.update({'schema_aware': False, 'do_produce': True, 'silver_eval': False})
-            ex.run(config_updates=config.blp_config)
-            wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
-            pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv",
-                                                     context_resource).drop_duplicates(
-                keep='first').reset_index(drop=True)
-            to_scan_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df]).drop_duplicates(
-                keep="first").reset_index(
-                drop=True)
-            _, similar_inv = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
-                scan_rel_IJPs(work_dir=self.work_dir, save_result=True)
-            config.blp_config.update({'schema_aware': True, 'do_produce': config.produce, 'silver_eval': config.silver_eval})
+        pass
+        # work_dir = self.work_dir + "L/"
+        # config = self.pipeline_config
+        # context_resource = self.context_resource
+        # if not file_util.does_file_exist(self.work_dir + "invalid_hrt.txt") and config.silver_eval:
+        #     config.blp_config.update({'schema_aware': False, 'do_produce': True, 'silver_eval': False})
+        #     ex.run(config_updates=config.blp_config)
+        #     wait_until_file_is_saved(work_dir + "blp_new_triples.csv", 60 * 3)
+        #     pred_hrt_df = read_hrts_blp_2_hrt_int_df(work_dir + "blp_new_triples.csv",
+        #                                              context_resource).drop_duplicates(
+        #         keep='first').reset_index(drop=True)
+        #     to_scan_df = pd.concat([context_resource.hrt_int_df, pred_hrt_df]).drop_duplicates(
+        #         keep="first").reset_index(
+        #         drop=True)
+        #     _, similar_inv = self.abox_scanner_scheduler.set_triples_to_scan_int_df(to_scan_df). \
+        #         scan_rel_IJPs(work_dir=self.work_dir, save_result=True)
+        #     config.blp_config.update({'schema_aware': True, 'do_produce': config.produce, 'silver_eval': config.silver_eval})
 

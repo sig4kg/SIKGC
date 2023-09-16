@@ -187,7 +187,7 @@ def unwrap_reply(reply, text2id):
 
 
 def rank_negs(prompt):
-    openai.api_key = "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"
+    openai.api_key = ""
     msgs = [{"role": 'user', "content": prompt}]
     assistant_reply = ""
     try:
@@ -208,4 +208,4 @@ if __name__ == '__main__':
     # generate_neg_candidates_hr("../resources/DB15K/", "../outputs/DB15K/pred_negs_hr.txt", 0)
     # generate_neg_candidates_tr("../resources/DB15K/", "../outputs/DB15K/pred_negs_tr.txt", 7320)
     # multi_request_generate_neg_candidates("../resources/DB15K/", "../outputs/DB15K/pred_negs_multi.txt", 0)
-    generate_neg_candidates_hr("../resources/DBpedia-politics/", "../outputs/dbped/pred_negs_hr.txt", 0)
+    generate_neg_candidates_hr("../resources/DBpedia-politics/", "../outputs/dbped/pred_negs_hr.txt", 10327)

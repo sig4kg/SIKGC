@@ -100,8 +100,11 @@ class NegSampler:
         return df_to_dict(hrt_df)
 
     def _hrt_file2blp_dict(self, file):
-        invalid_hrt_df = file_util.read_hrt_2_hrt_int_df(file)
-        return self._context_hrt2blp_dict(invalid_hrt_df)
+        if file_util.does_file_exist(file):
+            invalid_hrt_df = file_util.read_hrt_2_hrt_int_df(file)
+            return self._context_hrt2blp_dict(invalid_hrt_df)
+        else:
+            return {}, {}
 
     def _pre_negs2blp_dict(self):
         rh2t = dict()

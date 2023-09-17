@@ -26,7 +26,7 @@ def producers(pipeline_config: PipelineConfig):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="DB15K")
-    parser.add_argument('--work_dir', type=str, default="../outputs/umls/")
+    parser.add_argument('--work_dir', type=str, default="../outputs/db15k/")
     parser.add_argument('--pipeline', type=str, default="l")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)

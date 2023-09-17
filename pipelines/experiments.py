@@ -25,8 +25,8 @@ def producers(pipeline_config: PipelineConfig):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
-    parser.add_argument('--dataset', type=str, default="DBpedia")
-    parser.add_argument('--work_dir', type=str, default="../outputs/dbped/")
+    parser.add_argument('--dataset', type=str, default="UMLS")
+    parser.add_argument('--work_dir', type=str, default="../outputs/umls/")
     parser.add_argument('--pipeline', type=str, default="l")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("--inductive", type=str, default='False')
     parser.add_argument("--schema_in_nt", type=str, default='tbox.nt')
     parser.add_argument("--parallel", type=str, default='False')
-    parser.add_argument("--schema_aware_sampling", type=str, default='True')
+    parser.add_argument("--schema_aware_sampling", type=str, default='False')
     parser.add_argument("--pre_negs", type=str, default='False')
     parser.add_argument("--reasoner", type=str, default='Konclude')
     # parser.add_argument("--reasoner", type=str, default='TrOWL')

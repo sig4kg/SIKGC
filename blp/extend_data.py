@@ -212,20 +212,21 @@ class NegSampler:
             tail_weights.append(row_tail_weights)
             head_weights.append(row_head_weights)
 
-        idx = torch.arange(batch_size * 2).reshape(batch_size, 2)
+        # idx = torch.arange(batch_size * 2).reshape(batch_size, 2)
+        pos_pairs, _ = torch.stack(data_list).split(2, dim=1)
         # idx = torch.arange(batch_size, 2, self.num_entities) # n rows, 2 columns
         half_neg_num = int(self.num_negs / 2)
         # sampling  tail
         tail_weights = torch.stack(tail_weights)
-        random_t_idx = tail_weights.multinomial(half_neg_num,
+        random_t_idx_0 = tail_weights.multinomial(half_neg_num,
                                                 replacement=True)
-        random_t_idx = random_t_idx.t().flatten()
+        random_t_idx = random_t_idx_0.t().flatten()
         # corrupt the second column
         tail_batch_row_selector = torch.arange(batch_size * half_neg_num)
         tail_batch_col_selector = torch.ones(batch_size * half_neg_num, dtype=torch.long)  # corrupt tail
         # Fill the array of negative samples with the sampled random entities
         # at the tail positions
-        neg_t_idx = idx.repeat((half_neg_num, 1)) # repeat rows
+        neg_t_idx = pos_pairs.repeat((half_neg_num, 1)) # repeat rows
         neg_t_idx[tail_batch_row_selector, tail_batch_col_selector] = random_t_idx
         neg_t_idx = neg_t_idx.reshape(-1, batch_size, 2)
         neg_t_idx.transpose_(0, 1)
@@ -240,7 +241,7 @@ class NegSampler:
         head_batch_col_selector = torch.zeros(batch_size * half_neg_num, dtype=torch.long)  # corrupt head
         # Fill the array of negative samples with the sampled random entities
         # at the tail positions
-        neg_h_idx = idx.repeat((half_neg_num, 1))
+        neg_h_idx = pos_pairs.repeat((half_neg_num, 1))
         neg_h_idx[head_batch_row_selector, head_batch_col_selector] = random_h_idx
         neg_h_idx = neg_h_idx.reshape(-1, batch_size, 2)
         neg_h_idx.transpose_(0, 1)

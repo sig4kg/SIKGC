@@ -5,7 +5,7 @@ import extend_models
 
 
 def get_model(model, dim, rel_model, loss_fn, num_entities, num_relations,
-              encoder_name, regularizer, schema_aware):
+              encoder_name, regularizer, schema_aware, bernoulli):
     if model == 'blp':
         return models.BertEmbeddingsLP(dim, rel_model, loss_fn, num_relations,
                                        encoder_name, regularizer)
@@ -21,14 +21,16 @@ def get_model(model, dim, rel_model, loss_fn, num_entities, num_relations,
     elif model == 'glove-dkrl':
         return models.DKRL(dim, rel_model, loss_fn, num_relations, regularizer,
                            embeddings='data/glove/glove.6B.300d.pt')
-    elif model == 'transductive' and not schema_aware:
-        return models.TransductiveLinkPrediction(dim, rel_model, loss_fn,
-                                                 num_entities, num_relations,
-                                                 regularizer)
-    elif model == 'transductive' and schema_aware:
-        return extend_models.LinkPredictionWithNegStrategy(dim, rel_model, loss_fn,
-                                                 num_entities, num_relations,
-                                                 regularizer)
+    elif model == 'transductive':
+        if schema_aware or bernoulli:
+            return extend_models.LinkPredictionWithNegStrategy(dim, rel_model, loss_fn,
+                                                   num_entities, num_relations,
+                                                   regularizer)
+        else:
+            return models.TransductiveLinkPrediction(dim, rel_model, loss_fn,
+                                                     num_entities, num_relations,
+                                                     regularizer)
+
     elif model == 'fasttext':
         return extend_models.FastTextEmbeddingLP(dim, rel_model, loss_fn, num_relations, regularizer)
     else:

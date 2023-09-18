@@ -1,5 +1,7 @@
 import copy
 import random
+
+from pykeen.sampling.basic_negative_sampler import random_replacement_
 from torch.utils.data import DataLoader
 import pandas as pd
 import numpy as np
@@ -21,6 +23,144 @@ def get_maps_context2blpid(context_resource: ContextResources, blp_ent2id, blp_r
     blp2context_entid = {context2blp_entid[key]: key for key in context2blp_entid}
     blp2context_relid = {context2blp_relid[key]: key for key in context2blp_relid}
     return context2blp_entid, blp2context_entid, context2blp_relid, blp2context_relid
+
+
+class BernoulliNegativeSampler():
+    r"""An implementation of the Bernoulli negative sampling approach proposed by [wang2014]_.
+
+    The probability of corrupting the head $h$ or tail $t$ in a relation $(h,r,t) \in \mathcal{K}$
+    is determined by global properties of the relation $r$:
+
+    - $r$ is *one-to-many* (e.g. *motherOf*): a higher probability is assigned to replace $h$
+    - $r$ is *many-to-one* (e.g. *bornIn*): a higher probability is assigned to replace $t$.
+
+    More precisely, for each relation $r \in \mathcal{R}$, the average number of tails per head
+    (``tph``) and heads per tail (``hpt``) are first computed.
+
+    Then, the head corruption probability $p_r$ is defined as $p_r = \frac{tph}{tph + hpt}$.
+    The tail corruption probability is defined as $1 - p_r = \frac{hpt}{tph + hpt}$.
+
+    For each triple $(h,r,t) \in \mathcal{K}$, the head is corrupted with probability $p_r$ and the tail is
+    corrupted with probability $1 - p_r$.
+
+    If ``filtered`` is set to ``True``, all proposed corrupted triples that also exist as
+    actual positive triples $(h,r,t) \in \mathcal{K}$ will be removed.
+    """
+
+    def __init__(
+            self,
+            all_triples,
+            num_entities,
+            num_rels,
+            num_negs
+    ) -> None:
+        """Initialize the bernoulli negative sampler with the given entities.
+
+        :param mapped_triples:
+            the positive training triples
+        :param kwargs:
+            Additional keyword based arguments passed to :class:`pykeen.sampling.NegativeSampler`.
+        """
+        # Preprocessing: Compute corruption probabilities
+        all_triples = all_triples
+        head_rel_uniq, tail_count = torch.unique(all_triples[:, :2], return_counts=True, dim=0)
+        rel_tail_uniq, head_count = torch.unique(all_triples[:, 1:], return_counts=True, dim=0)
+        self.num_relations = num_rels
+        self.num_entities = num_entities
+        self.num_negs = num_negs
+        self.corrupt_head_probability = torch.empty(
+            self.num_relations,
+        )
+
+        for r in range(self.num_relations):
+            # compute tph, i.e. the average number of tail entities per head
+            mask = head_rel_uniq[:, 1] == r
+            tph = tail_count[mask].float().mean()
+
+            # compute hpt, i.e. the average number of head entities per tail
+            mask = rel_tail_uniq[:, 0] == r
+            hpt = head_count[mask].float().mean()
+
+            # Set parameter for Bernoulli distribution
+            self.corrupt_head_probability[r] = tph / (tph + hpt)
+
+    # docstr-coverage: inherited
+    def corrupt_batch(self, data_list) -> torch.LongTensor:  # noqa: D102
+        positive_batch = torch.stack(data_list, 0)
+        batch_shape = positive_batch.shape[:-1]
+
+        # Decide whether to corrupt head or tail
+        head_corruption_probability = self.corrupt_head_probability[positive_batch[..., 2]].unsqueeze(dim=-1)
+        head_mask = torch.rand(
+            *batch_shape, self.num_negs, device=positive_batch.device
+        ) < head_corruption_probability.to(device=positive_batch.device)
+
+        # clone positive batch for corruption (.repeat_interleave creates a copy)
+        negative_batch = positive_batch.view(-1, 3).repeat_interleave(self.num_negs, dim=0)
+        # flatten mask
+        head_mask = head_mask.view(-1)
+
+        for index, mask in (
+                (0, head_mask),
+                # Tails are corrupted if heads are not corrupted
+                (1, ~head_mask),
+        ):
+            random_replacement_(
+                batch=negative_batch,
+                index=index,
+                selection=mask,
+                size=mask.sum(),
+                max_index=self.num_entities,
+            )
+
+        return negative_batch.view(*batch_shape, self.num_negs, 3)[:,:,:2]
+
+
+class BernoulliGraphDataset(GraphDataset):
+    """A Dataset storing the triples of a Knowledge Graph.
+
+    Args:
+        triples_file: str, path to the file containing triples. This is a
+            text file where each line contains a triple of the form
+            'subject predicate object'
+        inconsistent_triples_file: str, path to the file containing inconsistent triples. This is a
+            text file where each line contains a triple of the form
+            'subject predicate object', it is the output of approximate consistency checking module
+        write_maps_file: bool, if set to True, dictionaries mapping
+            entities and relations to IDs are saved to disk (for reuse with
+            other datasets).
+    """
+
+    def __init__(self, triples_file, write_maps_file=False, num_negs=16,
+                 num_devices=1):
+        """
+        :param triples_file:
+        :param inconsistent_triples_file:
+        :param neg_samples:
+        :param write_maps_file:
+        :param num_devices:
+        :param schema_aware:
+        """
+        super().__init__(triples_file, num_negs, write_maps_file, num_devices)
+        self.neg_sampler = BernoulliNegativeSampler(self.triples,
+                                                    num_negs=num_negs,
+                                                    num_entities=self.num_ents,
+                                                    num_rels=self.num_rels)
+
+    def __getitem__(self, index):
+        return self.triples[index]
+
+    def __len__(self):
+        return self.num_triples
+
+    def collate_fn(self, data_list):
+        """Given a batch of triples, return it together with a batch of
+        corrupted triples where either the subject or object are replaced
+        by a random entity. Use as a collate_fn for a DataLoader.
+        """
+        pos_pairs, rels = torch.stack(data_list).split(2, dim=1)
+        neg_idx = self.neg_sampler.corrupt_batch(data_list)
+        return pos_pairs, rels, neg_idx
 
 
 class NegSampler:
@@ -144,7 +284,7 @@ class NegSampler:
                                               batch_size):
         if self.dynamic_negs:
             batch_rh2tid, batch_rt2hid = self._reasoning_for_neg_in_batch_entities(data_list, batch_entities)
-        batch_entities_np = batch_entities.numpy()
+        # batch_entities_np = batch_entities.numpy()
         # for each row, generate half_neg_num head neg samples and  half_neg_num tail neg samples
         # sample head
         # fill with inconsistent triples first, then fill the left with random entities
@@ -361,6 +501,9 @@ class _RepeatSampler(object):
     def __iter__(self):
         while True:
             yield from iter(self.sampler)
+
+
+
 
 
 if __name__ == '__main__':

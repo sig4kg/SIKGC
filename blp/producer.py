@@ -13,7 +13,7 @@ from transformers import BertTokenizer, get_linear_schedule_with_warmup
 import numpy as np
 from module_utils.file_util import *
 from data import GraphDataset, TextGraphDataset, GloVeTokenizer
-from extend_data import SchemaAwareGraphDataset, MultiEpochsDataLoader
+from extend_data import SchemaAwareGraphDataset, MultiEpochsDataLoader, BernoulliGraphDataset
 import models
 import utils
 import pandas as pd
@@ -51,6 +51,7 @@ def config():
     silver_eval = False
     schema_aware = False
     pre_negs = False
+    bernoulli = True
     use_multi_epochs_loader = True
 
 
@@ -407,7 +408,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                     use_scheduler, batch_size, emb_batch_size, eval_batch_size,
                     max_epochs, checkpoint, use_cached_text, work_dir, do_downstream_sample, do_produce, silver_eval,
                     _run: Run, _log: Logger,
-                    schema_aware, pre_negs, use_multi_epochs_loader):
+                    schema_aware, pre_negs, bernoulli, use_multi_epochs_loader):
     drop_stopwords = model in {'bert-bow', 'bert-dkrl',
                                'glove-bow', 'glove-dkrl'}
 
@@ -437,6 +438,12 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                                                  num_negs=num_negatives,
                                                  schema_aware=schema_aware,
                                                  pre_negs=pre_negs)
+        elif bernoulli:
+            train_data = BernoulliGraphDataset(triples_file=triples_file,
+                                               write_maps_file=True,
+                                               num_devices=num_devices,
+                                               num_negs=num_negatives,
+                                               )
         else:
             train_data = GraphDataset(triples_file, num_negatives,
                                       write_maps_file=True,
@@ -495,7 +502,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     num_entities = len(train_val_test_ent)
     model = utils.get_model(model, dim, rel_model, loss_fn,
                             num_entities, train_data.num_rels,
-                            encoder_name, regularizer, schema_aware=schema_aware)
+                            encoder_name, regularizer, schema_aware=schema_aware, bernoulli=bernoulli)
 
     if device != torch.device('cpu'):
         model = torch.nn.DataParallel(model).to(device)

@@ -90,7 +90,7 @@ def prepare_context(pipeline_config: PipelineConfig, abox_file_hrt=""):
     # first round scan, get ready for training
     if pipeline_config.start_acc:
         if not file_util.does_file_exist(pipeline_config.work_dir + 'valid_hrt.txt'):
-            v, inv = abox_scanner_scheduler.scan_rel_IJPs(work_dir=work_dir, save_result=False)
+            v, inv = abox_scanner_scheduler.scan_rel_IJPs(work_dir=work_dir, save_result=True)
             # cor, incor = abox_scanner_scheduler.scan_schema_correct_patterns(work_dir=work_dir, save_result=True)
         else:
             v = file_util.read_hrt_2_hrt_int_df(pipeline_config.work_dir + 'valid_hrt.txt')

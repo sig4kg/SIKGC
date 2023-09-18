@@ -16,7 +16,8 @@ class BLPConfig:
             'eval_batch_size': 32,
             'max_epochs': 2,
             'checkpoint': False,
-            'use_cached_text': True
+            'use_cached_text': True,
+            'bernoulli': False
         }
         return conf
 
@@ -37,7 +38,8 @@ class BLPConfig:
             'eval_batch_size': 32,
             'max_epochs': 2,
             'checkpoint': False,
-            'use_cached_text': True
+            'use_cached_text': True,
+            'bernoulli': False
         }
         return conf
 
@@ -58,7 +60,8 @@ class BLPConfig:
             'eval_batch_size': 64,
             'max_epochs': 2,
             'checkpoint': False,
-            'use_cached_text': True
+            'use_cached_text': True,
+            'bernoulli': False
         }
         return conf
 
@@ -79,7 +82,8 @@ class BLPConfig:
             'eval_batch_size': 64,
             'max_epochs': 2,
             'checkpoint': False,
-            'use_cached_text': True
+            'use_cached_text': True,
+            'bernoulli': False
         }
         return conf
 
@@ -100,12 +104,13 @@ class BLPConfig:
             'eval_batch_size': 64,
             'max_epochs': 2,
             'checkpoint': False,
-            'use_cached_text': True
+            'use_cached_text': True,
+            'bernoulli': False
         }
         return conf
 
     def get_blp_config(self, rel_model, inductive, dataset, schema_aware, pre_negs, silver_eval, do_produce,
-                       use_checkpoint):
+                       use_checkpoint, bernoulli):
         if rel_model == 'transe':
             tmp_conf = self.getTranse()
         elif rel_model == "complex":
@@ -125,6 +130,7 @@ class BLPConfig:
                          'pre_negs': pre_negs,
                          'silver_eval': silver_eval,
                          'checkpoint': use_checkpoint,
+                         'bernoulli': bernoulli,
                          "do_produce": do_produce})
 
         if not inductive:
@@ -138,7 +144,7 @@ class BLPConfig:
             if inductive:
                 tmp_conf.update({'lr': 1e-4, 'max_epochs': 80})
         elif dataset == "DB15K":
-            tmp_conf.update({'lr': 0.005, 'batch_size': 1024, 'max_epochs': 150})
+            tmp_conf.update({'lr': 0.05, 'batch_size': 1024, 'max_epochs': 150})
             if inductive:
                 tmp_conf.update({'lr': 1e-4, 'max_epochs': 80})
         elif dataset == "TREAT":

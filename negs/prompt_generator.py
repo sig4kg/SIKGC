@@ -84,15 +84,19 @@ def generate_neg_candidates_hr(input_dir, out_file, start_count=0):
     flush_at = 10
     flush_count = flush_at
     count = 0
+    keys_df = true_df.groupby(['head', 'rel'], group_keys=True, as_index=False).aggregate(lambda x: x.unique().tolist())
     try:
-        for idx, row in tqdm(pred_hr.iterrows()):
+        for idx, row in tqdm(keys_df.iterrows()):
             if idx < start_count:
                 continue
             h = row['head']
             r = row['rel']
-            t = row['tail']
+            # t = row['tail']
+            pred_t = pred_hr.query("head==@h and rel==@r")['tail']
+            if len(pred_t.index) == 0:
+                continue
             if h in context_resource.entid2text and r in context_resource.relid2text:
-                pred_text = [context_resource.entid2text[p] for p in t if p in context_resource.entid2text]
+                pred_text = [context_resource.entid2text[p] for p in pred_t if p in context_resource.entid2text]
                 prompt_t_template = f'''Rank candidates among [{'; '.join(pred_text[:10])}] based on the relevance to the query <{context_resource.entid2text[h]}, {context_resource.relid2text[r]}, ?>, with a score range of [0-1] where 1 the true. list result only.'''
                 assistant_reply = rank_negs(prompt_t_template)
                 negs = unwrap_reply(assistant_reply, text2id)
@@ -208,4 +212,4 @@ if __name__ == '__main__':
     # generate_neg_candidates_hr("../resources/DB15K/", "../outputs/DB15K/pred_negs_hr.txt", 0)
     # generate_neg_candidates_tr("../resources/DB15K/", "../outputs/DB15K/pred_negs_tr.txt", 7320)
     # multi_request_generate_neg_candidates("../resources/DB15K/", "../outputs/DB15K/pred_negs_multi.txt", 0)
-    generate_neg_candidates_hr("../resources/DBpedia-politics/", "../outputs/dbped/pred_negs_hr.txt", 20730)
+    generate_neg_candidates_hr("../resources/DBpedia-politics/", "../outputs/dbped/pred_negs_hr.txt", 0)

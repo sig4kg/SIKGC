@@ -19,6 +19,7 @@ class PipelineConfig:
     pipeline = ""
     silver_eval = False
     produce = True
+    to_nt = False
 
     def set_blp_config(self, blp_config: {}):
         self.blp_config = blp_config
@@ -43,7 +44,8 @@ class PipelineConfig:
                             reasoner,
                             silver_eval,
                             start_acc,
-                            produce):
+                            produce,
+                            to_nt):
         self.work_dir = work_dir
         self.loops = loops
         self.dataset = dataset
@@ -55,6 +57,7 @@ class PipelineConfig:
         self.silver_eval = silver_eval
         self.produce = produce
         self.start_acc=start_acc
+        self.to_nt=to_nt
         return self
 
     def __iter__(self):

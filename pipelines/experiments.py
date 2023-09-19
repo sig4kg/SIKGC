@@ -27,23 +27,23 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="DB15K")
     parser.add_argument('--work_dir', type=str, default="../outputs/db15k/")
-    parser.add_argument('--pipeline', type=str, default="l")
+    parser.add_argument('--pipeline', type=str, default="a")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
-    parser.add_argument("--rel_model", type=str, default="complex")
+    parser.add_argument("--rel_model", type=str, default="complex", choices=['complex', 'transe', 'distmult', 'simple'])
     parser.add_argument("--inductive", type=str, default='False')
     parser.add_argument("--schema_in_nt", type=str, default='tbox.nt')
     parser.add_argument("--parallel", type=str, default='False')
-    parser.add_argument("--schema_aware_sampling", type=str, default='False')
-    parser.add_argument("--pre_negs", type=str, default='False')
-    parser.add_argument("--bernoulli", type=str, default='False')
-    parser.add_argument("--reasoner", type=str, default='Konclude')
-    # parser.add_argument("--reasoner", type=str, default='TrOWL')
+    parser.add_argument("--schema_aware_sampling", type=str, default='False', help="A schema-aware negative sampling strategy.")
+    parser.add_argument("--pre_negs", type=str, default='False', help="Use pre generated schema-consistent negatives, only active with schema_aware_sampling")
+    parser.add_argument("--bernoulli", type=str, default='False', help="Bernoulli distribution sampling, do not use with schema-aware sampling")
+    parser.add_argument("--reasoner", type=str, default='Konclude', choices=['Konclude', 'TrOWL'])
     parser.add_argument("--pred_type", type=str, default='False')
     parser.add_argument("--silver_eval", type=str, default='True')
-    parser.add_argument("--produce", type=str, default='False')
-    parser.add_argument("--start_acc", type=str, default='True')
+    parser.add_argument("--produce", type=str, default='True')
+    parser.add_argument("--start_acc", type=str, default='False', help="Whether exclude schema-inconsistent triples from original KG.")
     parser.add_argument("--use_checkpoint", type=str, default='False')
+    parser.add_argument("--to_nt", type=str, default='True', help="save expanded KG to nt file.")
 
     args = parser.parse_args()
     if args.parallel:
@@ -70,6 +70,7 @@ if __name__ == "__main__":
                                                     use_gpu=args.use_gpu,
                                                     silver_eval=args.silver_eval == 'True',
                                                     start_acc=args.start_acc == 'True',
-                                                    produce=args.produce == 'True')
+                                                    produce=args.produce == 'True',
+                                                    to_nt=args.to_nt=='True')
     p_config.set_blp_config(blp_conf).set_data_config(data_conf)
     producers(p_config)

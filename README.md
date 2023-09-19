@@ -6,9 +6,9 @@
 
 Data format:
 - Triples: filename abox_hrt_uri.txt, h, r and t, seperated by tab
-- Ontology: ontology in OWL, n-triples or ttl format, containing disjoint class, domain/range
+- Ontology: ontology in OWL2, n-triples format, containing at lease class hierarchy, disjoint class, domain/range etc. 
 - The L-method need literals, please refer to resources/NELL for data formats.
-
+- The ACC need entity2type.txt, please refer to resources/NELL for data formats.
 2. Dependencies
 - Install pytorch according to your cpu/gpu environment.
 - Install all packages in requirements.txt. Feel free to use conda, pyenv or others.
@@ -29,13 +29,13 @@ mvn clean install
 ```bash
 source setup.sh
 cd pipeline
-python experiments.py --dataset=DB15K --work_dir="../outputs/proDB15K/"  --produce=True --silver_eval=False --pred_type=False --pipeline=a_m_l --loops=1 --rel_model=complex --inductive=False --parallel=True --schema_aware_sampling=False 
+python experiments.py --dataset=DB15K --work_dir="../outputs/proDB15K/"  --produce=True --start_acc=True --silver_eval=True --pred_type=False --pipeline=a_m_l --loops=1 --rel_model=complex --inductive=False --parallel=True --schema_aware_sampling=False 
 ```
 "a_m_l" means run [AnyBURL](https://web.informatik.uni-mannheim.de/AnyBURL/), materialization, [blp](https://github.com/dfdazac/blp) together. If you only run single method, just use option a, m or l.
 --inductive=True would set blp to literal embedding. --inductive=False would set blp to pure KG embedding. Please refer to [blp paper](https://arxiv.org/abs/2010.03496) for more information.
 
 For type prediction:
-- Set --pred_type=True. This will run type prediction after the link prediction step.
+- Set --pred_type=True. This will run type prediction after the link prediction step. 
 - Or run 
 ```bash
 cd module_utils
@@ -49,7 +49,7 @@ scripts/tbox_Scanner.sh  schema_file work_dir
 ```
 ----------------------------------------------
 
-7. TREAT downsteam sampling (For my co-worker's project. You don't need this)
+7. TREAT downstream sampling (For my co-worker's project. You don't need this)
 
 ```bash
 source setup.sh

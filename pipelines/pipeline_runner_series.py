@@ -9,11 +9,12 @@ class PipelineRunnerSeries(PipelineRunnerBase):
     def __init__(self, pipeline_config: PipelineConfig, logger:logging.Logger):
         super().__init__(logger=logger)
         self.pipeline_config = pipeline_config
+        self.context_resource: ContextResources = None
 
     def create_pipeline(self):
-        context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config)
+        self.context_resource, abox_scanner_scheduler = prepare_context(self.pipeline_config)
         producer_blocks = []
-        kwargs = {'context_resource': context_resource,
+        kwargs = {'context_resource': self.context_resource,
                   'abox_scanner_scheduler':  abox_scanner_scheduler,
                   'pipeline_config': self.pipeline_config,
                   'logger': self.logger}
@@ -44,6 +45,9 @@ class PipelineRunnerSeries(PipelineRunnerBase):
             idx += 1
             if not self.pipeline_config.blp_config['inductive']:
                 self.pipeline_config.blp_config['lr'] = self.pipeline_config.blp_config['lr'] / 2
+        if self.pipeline_config.to_nt:
+            self.context_resource.df2nt(self.context_resource.hrt_int_df,
+                                        self.pipeline_config.work_dir + "expanded_abox.nt")
 
 
 def add_counts_one_round():

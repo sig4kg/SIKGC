@@ -20,4 +20,5 @@ protobuf
 pandas
 owlready2
 gensim >= 4.0.1
-lxml==4.6.3
+lxml
+pykeen

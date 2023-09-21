@@ -6,6 +6,9 @@ from tqdm import tqdm
 import numpy as np
 import bz2
 
+import file_util
+from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
+from abox_scanner.ContextResources import ContextResources
 
 DBPEDIA_GRAPH_URL = LOCALHOST = "https://dbpedia.org/sparql"
 
@@ -25,15 +28,25 @@ def get_types(triple_file, work_dir):
     # dbpedia_dataset_preparing.query_rel_text(rels, work_dir)
 
 
-# def get_ent_dict_and_save(triple_file, separator=' '):
-#     _, entities, _ = dbpedia_dataset_preparing.read_triples_entities_rels_nt(triple_file, separator)
-#     dbpedia2wikiid = dict()
-#     for ent in tqdm(entities):
-#         wiki_ids = query_ent_wikiid(ent)
-#         if len(wiki_ids) > 0:
-#             dbpedia2wikiid.update({ent: wiki_ids})
-#     with open('../resources/DB15K/ent2wikiid.pkl', 'wb') as f:
-#         pickle.dump(dbpedia2wikiid, f)
+def fix_types(input_dir, out_dir):
+    abox_file_path = input_dir + "abox_hrt_uri.txt"
+    tbox_patterns_dir = input_dir + "tbox_patterns/"
+    context_resource = ContextResources(abox_file_path, class_and_op_file_path=input_dir,
+                                        work_dir=input_dir)
+    abox_scanner_scheduler = AboxScannerScheduler(tbox_patterns_dir, context_resource)
+    abox_scanner_scheduler.register_patterns_all()
+    v, inv = abox_scanner_scheduler.scan_rel_IJPs(work_dir=input_dir, save_result=False)
+    context_resource.hrt_int_df = v
+    type_df = context_resource.type2hrt_int_df()
+    type_valids, _ = abox_scanner_scheduler.set_triples_to_scan_type_df(type_df).scan_type_IJPs(work_dir=input_dir, save_result=False)
+    groups = type_valids.groupby('head')
+    ent2types = []
+    for g in groups:
+        ent = context_resource.id2ent[g[0]]
+        ts = g[1]['tail'].tolist()
+        types_uris = [context_resource.classid2class[t] for t in ts]
+        ent2types.append(f"{ent}\t{';'.join(types_uris)}\n")
+    file_util.save_list_to_file(ent2types, out_dir + "fixed_entity2type.txt")
 
 
 def get_ent_dict_and_save2(triple_file, out_file, separator=' '):
@@ -161,7 +174,8 @@ def query_ent_wikiid(resource_uri):
 
 
 if __name__ == "__main__":
-    format_nt("../resources/DB15K/DB15K_EntityTriples.nt", "../resources/DB15K/")
+    fix_types("../resources/DB15K/", "../outputs/")
+    # format_nt("../resources/DB15K/DB15K_EntityTriples.nt", "../resources/DB15K/")
     # get_types("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/")
     # get_dict_and_save("../resources/DB15K/DB15K_EntityTriples.txt")
     # get_rel_dict_and_save("../resources/DB15K/DB15K_EntityTriples.txt", "../resources/DB15K/rel2wikiid.pkl",  ' ')

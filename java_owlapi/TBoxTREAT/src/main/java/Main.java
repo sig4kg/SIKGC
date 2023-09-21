@@ -18,9 +18,9 @@ public class Main {
 //        String schema_file = System.getProperty("schema", "../../resources/TREAT/tbox.nt");
 //        String schema_file = System.getProperty("schema", "output/abox.nt");
 //        String schema_file = System.getProperty("schema", "ontology_log_instance.nt");
-        String schema_file = System.getProperty("schema", "../../resources/UMLS/tbox_dllite.nt");
-//        String schema_file = System.getProperty("schema", "../../resources/DB15K/tbox_org.nt");
-        String output_dir = System.getProperty("output_dir", "../../resources/UMLS/tbox_patterns/");
+//        String schema_file = System.getProperty("schema", "../../resources/UMLS/tbox_dllite.nt");
+        String schema_file = System.getProperty("schema", "../../outputs/db15k/tbox_dllite.nt");
+        String output_dir = System.getProperty("output_dir", "../../outputs/db15k/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/UMLS/");
 //        String output_dir = System.getProperty("output_dir", "../. ./resources/TEST/tbox_patterns/");
 //        String output_dir = System.getProperty("output_dir", "../../resources/DBpedia-politics/tbox_patterns/");

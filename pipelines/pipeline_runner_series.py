@@ -47,7 +47,7 @@ class PipelineRunnerSeries(PipelineRunnerBase):
                 self.pipeline_config.blp_config['lr'] = self.pipeline_config.blp_config['lr'] / 2
         if self.pipeline_config.to_nt:
             self.context_resource.df2nt(self.context_resource.hrt_int_df,
-                                        self.pipeline_config.work_dir + "expanded_abox.nt")
+                                        self.pipeline_config.work_dir)
 
 
 def add_counts_one_round():

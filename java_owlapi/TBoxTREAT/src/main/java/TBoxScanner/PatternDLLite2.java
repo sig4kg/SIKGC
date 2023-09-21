@@ -182,6 +182,9 @@ public class PatternDLLite2 extends BasePattern implements IPattern {
             }
             // ER-
             if (r1.isObjectPropertyExpression() && r1.getInverseProperty().isNamed()) {
+                if (r1.getNamedProperty().toString().contains("industry")) {
+                    int tt = 0;
+                }
                 for (OWLClassExpression sup : sups) {
                     ClassExpressionType cetSup = sup.getClassExpressionType();
                     if (cetSup.equals(ClassExpressionType.OBJECT_COMPLEMENT_OF)) { // D1 subclassof \neg D2

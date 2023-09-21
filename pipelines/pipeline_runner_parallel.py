@@ -47,7 +47,7 @@ class PipelineRunnerParallel(PipelineRunnerBase):
             idx += 1
         if self.pipeline_config.to_nt:
             self.context_resource.df2nt(self.context_resource.hrt_int_df,
-                                    self.pipeline_config.work_dir + "expanded_abox.nt")
+                                    self.pipeline_config.work_dir)
 
     # collect results and update context
     def collect_results(self, score_function, loop_idx):

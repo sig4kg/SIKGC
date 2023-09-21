@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="experiment settings")
     parser.add_argument('--dataset', type=str, default="DB15K")
     parser.add_argument('--work_dir', type=str, default="../outputs/db15k/")
-    parser.add_argument('--pipeline', type=str, default="a")
+    parser.add_argument('--pipeline', type=str, default="a_l")
     parser.add_argument('--use_gpu', type=bool, default=False)
     parser.add_argument('--loops', type=int, default=1)
     parser.add_argument("--rel_model", type=str, default="complex", choices=['complex', 'transe', 'distmult', 'simple'])
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     parser.add_argument("--pred_type", type=str, default='False')
     parser.add_argument("--silver_eval", type=str, default='True')
     parser.add_argument("--produce", type=str, default='True')
-    parser.add_argument("--start_acc", type=str, default='False', help="Whether exclude schema-inconsistent triples from original KG.")
+    parser.add_argument("--start_acc", type=str, default='True', help="Whether exclude schema-inconsistent triples from original KG.")
     parser.add_argument("--use_checkpoint", type=str, default='False')
     parser.add_argument("--to_nt", type=str, default='True', help="save expanded KG to nt file.")
 

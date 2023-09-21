@@ -41,7 +41,7 @@ def evalACC(in_dir, work_dir, max):
     to_scan_df = pd.concat([context_res.hrt_int_df, random_df]).drop_duplicates(keep="first").reset_index(
         drop=True)
     context_res.hrt_to_scan_df = to_scan_df
-    _, inv = abox_scanner_scheduler.scan_rel_IJPs(work_dir="", save_result=False, log_process=True)
+    v, inv = abox_scanner_scheduler.scan_rel_IJPs(work_dir="", save_result=False, log_process=True)
     print(f"The time of ABox scanning is {datetime.datetime.now() - start_time}")
     print(f"inv count:{len(inv.index)}")
     inv = inv[['head', 'rel', 'tail']]

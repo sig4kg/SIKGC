@@ -15,7 +15,7 @@ class BLPConfig:
             'emb_batch_size': 64,
             'eval_batch_size': 32,
             'max_epochs': 2,
-            'checkpoint': False,
+            'checkpoint': "",
             'use_cached_text': True,
             'bernoulli': False
         }
@@ -37,7 +37,7 @@ class BLPConfig:
             'emb_batch_size': 64,
             'eval_batch_size': 32,
             'max_epochs': 2,
-            'checkpoint': False,
+            'checkpoint': "",
             'use_cached_text': True,
             'bernoulli': False
         }
@@ -59,7 +59,7 @@ class BLPConfig:
             'emb_batch_size': 512,
             'eval_batch_size': 64,
             'max_epochs': 2,
-            'checkpoint': False,
+            'checkpoint': "",
             'use_cached_text': True,
             'bernoulli': False
         }
@@ -81,7 +81,7 @@ class BLPConfig:
             'emb_batch_size': 512,
             'eval_batch_size': 64,
             'max_epochs': 2,
-            'checkpoint': False,
+            'checkpoint': "",
             'use_cached_text': True,
             'bernoulli': False
         }
@@ -103,7 +103,7 @@ class BLPConfig:
             'emb_batch_size': 512,
             'eval_batch_size': 64,
             'max_epochs': 2,
-            'checkpoint': False,
+            'checkpoint': "",
             'use_cached_text': True,
             'bernoulli': False
         }

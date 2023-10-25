@@ -44,7 +44,7 @@ def config():
     emb_batch_size = 512
     eval_batch_size = 64
     max_epochs = 2
-    checkpoint = False
+    checkpoint = ""
     use_cached_text = True
     do_downstream_sample = False
     do_produce = True
@@ -425,7 +425,7 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         _log.info(f'CUDA devices used: {num_devices}')
     else:
         num_devices = 1
-        _log.info('Training on CPU')
+        _log.info('Running on CPU')
 
     inconsistent_triples_file = f'{work_dir}invalid_hrt.txt'
     if model == 'transductive':
@@ -519,8 +519,12 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
     last_valid_mrr = 0.0
     best_hit_at_k = {}
     early_stop_sign = 0
-    checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
-    if checkpoint:
+    log_file_name = work_dir + "blp_eval.log"
+    if isinstance(checkpoint, str) and len(checkpoint) > 0:
+        checkpoint_file = checkpoint
+    else:
+        checkpoint_file = osp.join(work_dir, f'checkpoint.pt')
+    if isinstance(checkpoint, str) and len(checkpoint) > 0:
         model.load_state_dict(torch.load(checkpoint_file))
     else:
         # train
@@ -581,7 +585,6 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
                 break
             last_valid_mrr = val_mrr
 
-        log_file_name = work_dir + "blp_eval.log"
         log_str = f"-------blp training eval---------\nmrr: {best_valid_mrr}\n"
         for k, value in best_hit_at_k.items():
             log_str += f'hits@{k}: {value:.4f}\n'
@@ -611,13 +614,14 @@ def link_prediction(dataset, inductive, dim, model, rel_model, loss_fn,
         for k, value in hit_at_k.items():
             log_str += f'hits@{k}: {value:.4f}\n'
         log_str += f"mrr: {val_mrr}\n"
+        _log.info(log_str)
         save_to_file(log_str, log_file_name, mode='a')
         # Save final entity embeddings obtained with trained encoder
         torch.save(ent_emb, osp.join(work_dir, f'ent_emb.pt'))
         torch.save(train_val_test_ent, osp.join(work_dir, f'ents.pt'))
 
     if do_produce:
-        _log.info('Produce new triples...')
+        _log.info('Producing new triples...')
         produced_triples_with_scores, ent_emb = produce(model=model,
                                                         triples_loader_hr=test_loader_hr,
                                                         triples_loader_rt=test_loader_rt,

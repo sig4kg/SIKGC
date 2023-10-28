@@ -42,7 +42,7 @@ if __name__ == "__main__":
     parser.add_argument("--silver_eval", type=str, default='True')
     parser.add_argument("--produce", type=str, default='True')
     parser.add_argument("--start_acc", type=str, default='True', help="Whether exclude schema-inconsistent triples from original KG.")
-    parser.add_argument("--use_checkpoint", type=str, default='')
+    parser.add_argument("--use_checkpoint", type=str, default='../resources/DB15K_checkpoints/checkpoint_complex.pt')
     parser.add_argument("--to_nt", type=str, default='True', help="save expanded KG to nt file.")
 
     args = parser.parse_args()

@@ -144,7 +144,7 @@ class BLPConfig:
             if inductive:
                 tmp_conf.update({'lr': 1e-4, 'max_epochs': 80})
         elif dataset == "DB15K":
-            tmp_conf.update({'lr': 0.01, 'batch_size': 1024, 'max_epochs': 150, 'num_negatives':16})
+            tmp_conf.update({'lr': 0.01, 'batch_size': 1024, 'max_epochs': 150, 'num_negatives': 16})
             if inductive:
                 tmp_conf.update({'lr': 1e-4, 'max_epochs': 80})
         elif dataset == "TREAT":

@@ -9,6 +9,7 @@ import bz2
 import file_util
 from abox_scanner.AboxScannerScheduler import AboxScannerScheduler
 from abox_scanner.ContextResources import ContextResources
+from abox_scanner.abox_utils import read_original_hrt_triples_to_list
 
 DBPEDIA_GRAPH_URL = LOCALHOST = "https://dbpedia.org/sparql"
 
